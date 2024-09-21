@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Learn Git With Me",
   metadataBase: new URL("https://Learn-git-with-me.vercel.app/"),
   description:
-    "This comprehensive documentation with me, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.",
+    "Learn Git with me is a free and open-source platform to learn Git and GitHub. It is designed to be simple and easy to understand for beginners.",
 };
 
 export default function RootLayout({
