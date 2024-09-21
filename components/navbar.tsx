@@ -28,7 +28,7 @@ export const NAVLINKS = [
   },
   {
     title: "Community",
-    href: "https://github.com/spaciousejar/Learn-git-me/discussions",
+    href: "https://github.com/spaciousejar/learn-git-with-me/discussions",
     external: true,
   },
 ];
