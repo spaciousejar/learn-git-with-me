@@ -27,7 +27,7 @@ export default function Home() {
           href={`/docs${page_routes[0].href}`}
           className={buttonVariants({ className: "px-6", size: "lg" })}
         >
-          Get Stared
+          Get Started
         </Link>
         <Link
           href="#"
