@@ -20,11 +20,23 @@ export const ROUTES: EachRoute[] = [
       {
         title: "Installation",
         href: "/installation",
-        items: [
-          
-        ],
+       /* items: [
+          { title: "Windows", href: "/windows" },
+          { title: "Mac", href: "/mac" },
+          { title: "Linux", href: "/linux" },
+        ],*/
       },
+      
   ]
+},
+{ 
+  title: "Git Tutorial",
+  href: "/git-tutorial",
+  noLink: true,
+    items: [
+      { title: "Git Started", href: "/git-started" },
+    ]
+
 }
     
 ];

@@ -2,3 +2,75 @@
 title: Installation
 description:
 ---
+## Installing Git
+
+### On macOS
+
+1. **Using Homebrew**:
+    ```sh
+    brew install git
+    ```
+
+2. **Using Xcode Command Line Tools**:
+    ```sh
+    xcode-select --install
+    ```
+
+3. **Using MacPorts**:
+    ```sh
+    sudo port install git
+    ```
+
+### On Linux
+
+1. **Debian/Ubuntu**:
+    ```sh
+    sudo apt-get update
+    sudo apt-get install git
+    ```
+
+2. **Fedora**:
+    ```sh
+    sudo dnf install git
+    ```
+
+3. **Arch Linux**:
+    ```sh
+    sudo pacman -S git
+    ```
+
+4. **OpenSUSE**:
+    ```sh
+    sudo zypper install git
+    ```
+
+### On Windows
+
+1. **Using Git for Windows**:
+    - Download the installer from [git-scm.com](https://git-scm.com/download/win).
+    - Run the installer and follow the instructions.
+
+2. **Using Chocolatey**:
+    ```sh
+    choco install git
+    ```
+
+3. **Using Scoop**:
+    ```sh
+    scoop install git
+    ```
+
+### Verifying the Installation
+
+After installation, you can verify the installation by running:
+
+    ```sh
+    git -v
+    ```
+Or
+
+```sh
+git --version
+```
+
+If Git is installed, it should show something like `git version X.Y`.
