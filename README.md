@@ -1,38 +1,59 @@
-## Learn-git-with-me - Documentation with spacious
+## Learn-git-with-me 
 
 
-* This project is designed to help users learn and master Git, a distributed version control system.
-* It provides a series of tutorials, exercises, and practical examples to guide users through the 
-  fundamental and advanced concepts of Git. The project covers topics such as repository creation, 
-  branching, merging, conflict resolution, and collaboration workflows. By following along, users 
-  will gain hands-on experience and a deeper understanding of how to effectively use Git in their 
-  development workflows.
 
-## Learn More
+Learn Git with me is a free and open-source platform to learn Git and GitHub. It is designed to be simple and easy to understand for beginners.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+https://github.com/user-attachments/assets/e084586f-f2d4-4038-b99c-b558660d88c4
+
+## ⭐ Features
+
+### 🐭 Frameworks
+
+- **[Next.js](https://nextjs.org/)** - The React Framework for the Web (with **App Directory**)
+- **[NextAuth.js](https://next-auth.js.org/)** - Authentication for Next.js
+
+### 🐮 Platforms
+
+- **[Vercel](https://vercel.com/)** – Deploy your Next.js app with ease
+
+
+### 🐲 Global State Management
+
+- **[Zustand](https://zustand.surge.sh/)** – Small, fast and scalable state management for React
+
+### 🐒 UI
+
+- **[Tailwind CSS](https://tailwindcss.com/)** – Utility-first CSS framework for rapid UI development
+- **[Shadcn/ui](https://ui.shadcn.com/)** – Re-usable components built using Radix UI and Tailwind CSS
+- **[Framer Motion](https://framer.com/motion)** – Motion library for React to animate components with ease
+- **[next/font](https://nextjs.org/docs/basic-features/font-optimization)** – Optimize custom fonts and remove external network requests for improved performance
+
+### 🐴 Code Quality
+
+- **[TypeScript](https://www.typescriptlang.org/)** – Static type checker for end-to-end type safety
+- **[Prettier](https://prettier.io/)** – Opinionated code formatter for consistent code style
+- **[ESLint](https://eslint.org/)** – Pluggable linter for Next.js and TypeScript
+- **[Husky](https://typicode.github.io/husky)** – Git hooks made easy
+
+### 🐑 Performance
+
+- **[Vercel Analytics](https://vercel.com/analytics)** – Real-time performance metrics for your Next.js app
+- **[bun.sh](https://bun.sh/)** – npm alternative for faster and more reliable package management
+
+
+## 📦 Apps and Packages
+
+- `web`: The main Next.js application
+- `ui`: Shared UI components
+- `auth`: Authentication utilities
+- `email`: Email templates and utilities
+
+## 📜 License
+
+This project is licensed under the MIT License. For more information, see the [LICENSE](./LICENSE) file.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Features
-
-```plaintext
-Features
-├── MDX supported
-├── Nested pages support
-├── Blog section (New)
-├── Syntax highlighting
-├── Table of contents
-├── Pagination
-├── Search
-├── Code line highlight & code title
-├── Static site generation
-├── Custom components
-├── Light mode & dark mode
-├── Code Switcher
-├── Code copy
-└── Table of content observer highlight
-```
