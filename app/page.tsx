@@ -1,3 +1,5 @@
+import { BorderBeam } from "@/components/magicui/border-beam";
+import ShinyButton from "@/components/magicui/shiny-button";
 import { buttonVariants } from "@/components/ui/button";
 import { page_routes } from "@/lib/routes-config";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
@@ -5,7 +7,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex sm:min-h-[91vh] min-h-[88vh] flex-col items-center justify-center text-center px-2 py-8">
+    <><div className="flex sm:min-h-[91vh] min-h-[88vh] flex-col items-center justify-center text-center px-2 py-8">
       <Link
         href="https://github.com/spaciousejar/learn-git-with-me.git"
         target="_blank"
@@ -25,9 +27,8 @@ export default function Home() {
       <div className="flex flex-row items-center gap-5">
         <Link
           href={`/docs${page_routes[0].href}`}
-          className={buttonVariants({ className: "px-6", size: "lg" })}
         >
-          Get Started
+          <ShinyButton>Get Started</ShinyButton> 
         </Link>
         <Link
           href="#"
@@ -44,5 +45,18 @@ export default function Home() {
         <TerminalIcon className="w-4 h-4 mr-1" /> ~ git init
       </span>
     </div>
+    <div className="relative flex h-700 w-1200 flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+      
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+      className="size-full"
+      src="/demo.mp4"/>
+      <BorderBeam size={250} duration={12} delay={9}/>
+    </div>
+    
+    </>
   );
 }
