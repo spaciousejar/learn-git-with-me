@@ -35,6 +35,7 @@ export const ROUTES: EachRoute[] = [
   noLink: true,
     items: [
       { title: "Git Started", href: "/git-started" },
+      { title: "Git New File", href: "/git-new-file" },
     ]
 
 }

@@ -1,0 +1,43 @@
+# Git Adding New Files
+
+You just created your first local Git repo. But it is empty.
+
+So let's add some files, or create a new file using your favourite text editor. Then save or move it to the folder you just created.
+
+
+For this example, I am going to use a simple HTML file like this:
+
+### Example
+```bash
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Git File</title>
+</head>
+<body>
+    <h1>Hello, Git!</h1>
+    <p>This is my first file in my new Git repository.</p>
+</body>
+</html>
+```
+
+Save this file as `index.html` in the folder you created earlier.
+
+Now, let's add this file to the Git repository.
+
+### Steps to Add a New File to Git
+
+1. Open your terminal or command prompt.
+2. Navigate to the folder where your Git repository is located.
+3. Use the following command to add the new file to the staging area:
+
+```bash
+git add index.html
+```
+Then we check the Git status and see if it is a part of our repo:
+    
+```bash 
+git status
+```
