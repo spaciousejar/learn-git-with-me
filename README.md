@@ -2,7 +2,7 @@
 
 
 
-Learn Git with me is a free and open-source platform to learn Git and GitHub. It is designed to be simple and easy to understand for beginners.
+Learn Git with Me is a free, open-source platform for learning Git and GitHub. It is designed for beginners to be simple and easy to understand.
 
 
 
@@ -36,12 +36,12 @@ https://github.com/user-attachments/assets/e084586f-f2d4-4038-b99c-b558660d88c4
 - **[TypeScript](https://www.typescriptlang.org/)** – Static type checker for end-to-end type safety
 - **[Prettier](https://prettier.io/)** – Opinionated code formatter for consistent code style
 - **[ESLint](https://eslint.org/)** – Pluggable linter for Next.js and TypeScript
-- **[Husky](https://typicode.github.io/husky)** – Git hooks made easy
+
 
 ### 🐑 Performance
 
 - **[Vercel Analytics](https://vercel.com/analytics)** – Real-time performance metrics for your Next.js app
-- **[bun.sh](https://bun.sh/)** – npm alternative for faster and more reliable package management
+
 
 
 ## 📦 Apps and Packages
