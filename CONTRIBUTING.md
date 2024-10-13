@@ -7,7 +7,7 @@ Thank you for your interest in contributing to GitME! I appreciate your support 
 ### Fork and Clone the Repository
 
 1. **Fork this repository**  
-   Click [here]([https://github.com/spaciousejar/learn-git-with-me/fork) to fork the repository.
+   Click [here](https://github.com/spaciousejar/learn-git-with-me/fork) to fork the repository.
 
 2. **Clone your forked repository to your local machine**
 
