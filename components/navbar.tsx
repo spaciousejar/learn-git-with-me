@@ -4,6 +4,7 @@ import {
   TwitterIcon,
   HexagonIcon,
   MoveUpRightIcon,
+  GitBranch,
 } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -12,10 +13,11 @@ import Anchor from "./anchor";
 import { SheetLeftbar } from "./leftbar";
 import { page_routes } from "@/lib/routes-config";
 import { SheetClose } from "@/components/ui/sheet";
+import { LogoI } from "./git-me-logo-black";
 
 export const NAVLINKS = [
   {
-    title: "Documentation",
+    title: "Learn",
     href: `/docs${page_routes[0].href}`,
   },
   {
@@ -80,7 +82,8 @@ export function Navbar() {
 export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
-      <h2 className="text-md font-bold">Git With Me </h2>
+      <LogoI/>
+      <h2 className="text-md font-bold">GIT ME</h2>
     </Link>
   );
 }

@@ -45,7 +45,7 @@ Thank you for your interest in contributing to GitME! I appreciate your support 
 
 7. **Run the project**
    ```bash
-   npm dev
+   npm run dev
    ```
 
 
