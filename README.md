@@ -7,7 +7,7 @@ Learn Git with Me is a free, open-source platform for learning Git and GitHub.
   <a href="https://twitter.com/spaciousejar"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/spaciousejar"></a>
   <a href="[https://github.com/spaciousejar/learn-git-with-me/blob/main/LICENSE]"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </div>
-<video alt="Git ME" src="https://github.com/user-attachments/assets/e084586f-f2d4-4038-b99c-b558660d88c4" width="100%"></video>
+<video alt="Git ME" src="https://github.com/user-attachments/assets/ea2661ad-59dc-4427-87cd-ceb3b09f78c1" width="100%"></video>
 
 ## ⚡ Live Demo
 
@@ -33,7 +33,6 @@ See more to learn at <https://www.gitme.live/docs/getting-started/introduction>
 
 - **[Tailwind CSS](https://tailwindcss.com/)** – Utility-first CSS framework for rapid UI development
 - **[Shadcn/ui](https://ui.shadcn.com/)** – Re-usable components built using Radix UI and Tailwind CSS
-- **[Framer Motion](https://framer.com/motion)** – Motion library for React to animate components with ease
 - **[next/font](https://nextjs.org/docs/basic-features/font-optimization)** – Optimize custom fonts and remove external network requests for improved performance
 - **[MDX](https://mdxjs.com/docs)** – Markdown for the components
   
