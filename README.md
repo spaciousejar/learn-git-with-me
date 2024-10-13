@@ -35,11 +35,12 @@ See more to learn at <https://www.gitme.live/docs/getting-started/introduction>
 - **[Shadcn/ui](https://ui.shadcn.com/)** – Re-usable components built using Radix UI and Tailwind CSS
 - **[Framer Motion](https://framer.com/motion)** – Motion library for React to animate components with ease
 - **[next/font](https://nextjs.org/docs/basic-features/font-optimization)** – Optimize custom fonts and remove external network requests for improved performance
-
+- **[MDX](https://mdxjs.com/docs)** – Markdown for the components
+  
 ### 🐴 Code Quality
 
 - **[TypeScript](https://www.typescriptlang.org/)** – Static type checker for end-to-end type safety
-- **[Prettier](https://prettier.io/)** – Opinionated code formatter for consistent code style
+- **[Prettier](https://prettier.io/)** – Opinionated code formatted for consistent code style
 - **[ESLint](https://eslint.org/)** – Pluggable linter for Next.js and TypeScript
 
 
