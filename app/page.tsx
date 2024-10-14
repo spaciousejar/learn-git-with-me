@@ -1,3 +1,4 @@
+import { DownloadButton } from "@/components/animated-download-button";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { CoolMode } from "@/components/magicui/cool-mode";
 import ShinyButton from "@/components/magicui/shiny-button";
@@ -6,10 +7,11 @@ import { Video } from "@/components/ui/video";
 import { page_routes } from "@/lib/routes-config";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
+import { getstart } from "@/components/get-started";
 
 export default function Home() {
   return (
-    <><div className="flex sm:min-h-[91vh] min-h-[88vh] flex-col items-center justify-center text-center px-2 py-8">
+    <><div className="flex sm:min-h-[71vh] min-h-[68vh] flex-col items-center justify-center text-center px-2 py-8">
       <Link
         href="https://github.com/spaciousejar/learn-git-with-me.git"
         target="_blank"
@@ -32,13 +34,9 @@ export default function Home() {
         >
           <ShinyButton>Get Started</ShinyButton> 
         </Link>
-        <CoolMode>
-        <Link
-          href="#"
-        >
-         CHEATSHEET
-        </Link>
-        </CoolMode>
+         <getstart/>
+        
+        <DownloadButton/>
       </div>
       <span className="flex flex-row items-center gap-2 text-zinc-400 text-md mt-7 -mb-12 max-[800px]:mb-12">
         <TerminalIcon className="w-4 h-4 mr-1" /> ~ git init
