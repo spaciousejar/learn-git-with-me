@@ -20,7 +20,7 @@ export default function Copy({ content }: { content: string }) {
     <Button
       variant="secondary"
       className="border"
-      size="xs"
+      size="icon"
       onClick={handleCopy}
     >
       {isCopied ? (

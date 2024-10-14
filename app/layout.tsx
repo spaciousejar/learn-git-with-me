@@ -6,10 +6,11 @@ import { GeistMono } from "geist/font/mono";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "Learn Git With Me",
-  metadataBase: new URL("https://Learn-git-with-me.vercel.app/"),
+  metadataBase: new URL("https://gitme.live"),
   description:
     "Learn Git with me is a free and open-source platform to learn Git and GitHub. It is designed to be simple and easy to understand for beginners.",
 };
@@ -37,6 +38,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </ThemeProvider>
+        <Toaster />
         <Analytics />
       </body>
     </html>
