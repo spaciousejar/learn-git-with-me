@@ -7,7 +7,7 @@ import { Video } from "@/components/ui/video";
 import { page_routes } from "@/lib/routes-config";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
-import { getstart } from "@/components/get-started";
+import { GET } from "@/components/get-started";
 
 export default function Home() {
   return (
@@ -29,14 +29,13 @@ export default function Home() {
         beginners.
       </p>
       <div className="flex flex-row items-center gap-5">
-        <Link
-          href={`/docs${page_routes[0].href}`}
-        >
-          <ShinyButton>Get Started</ShinyButton> 
-        </Link>
-         <getstart/>
+       
+         
+         <GET/>
         
-        <DownloadButton/>
+         <DownloadButton/>
+        
+        
       </div>
       <span className="flex flex-row items-center gap-2 text-zinc-400 text-md mt-7 -mb-12 max-[800px]:mb-12">
         <TerminalIcon className="w-4 h-4 mr-1" /> ~ git init

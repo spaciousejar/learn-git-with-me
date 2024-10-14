@@ -8,6 +8,7 @@ export function DownloadButton() {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
+   
     
      <a
       className="flex"
@@ -24,7 +25,10 @@ export function DownloadButton() {
         }`} 
       />
       CHEATSHEET
+      
       </a>
+    
+      
     
   )
 }
