@@ -3,13 +3,15 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
+import { CoolMode } from "./magicui/cool-mode"
+import { toast } from "@/hooks/use-toast"
 
 export function DownloadButton() {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
    
-    
+    <CoolMode>
      <a
       className="flex"
       href="git-cheatsheet.pdf"
@@ -17,6 +19,14 @@ export function DownloadButton() {
       
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+
+      onClick={() => {
+        toast({
+          title: "Congratulations! 🎉",
+          description: "You have successfully downloaded the CHEATSHEET.",
+        })
+      }}
+
      >
       <span className="inset-0 opacity-20 rounded-md animate-pulse"></span>
       <Download 
@@ -27,6 +37,7 @@ export function DownloadButton() {
       CHEATSHEET
       
       </a>
+    </CoolMode>
     
       
     
