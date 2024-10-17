@@ -15,8 +15,10 @@ export const ROUTES: EachRoute[] = [
     noLink: true,
     items: [
 
-      { title: "Introduction", href: "/introduction" },
-     
+      { title: "Introduction",
+         href: "/introduction",
+        
+      },  
       {
         title: "Installation",
         href: "/installation",
@@ -30,12 +32,20 @@ export const ROUTES: EachRoute[] = [
   ]
 },
 { 
-  title: "Git Tutorial",
-  href: "/git-tutorial",
+  title: "Basic Concepts",
+  href: "/basic-concepts",
+noLink: true,
+  items: [
+    { title: "Why Use git", href: "/why-use-git" },
+  ]},
+{ 
+  title: "Essential Commands",
+  href: "/essential-commands",
   noLink: true,
     items: [
-      { title: "Git Started", href: "/git-started" },
-      { title: "Git New File", href: "/git-new-file" },
+      { title: "Initialize a Git repository", href: "/Initialize-Git-repository" },
+      { title: "Clone repository", href: "/git-clone" },
+
     ]
 
 }
