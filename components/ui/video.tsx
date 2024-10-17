@@ -14,7 +14,7 @@ export function Video() {
         className="hidden dark:block"
         animationStyle="from-center"
         videoSrc="/demo.mp4"
-        thumbnailSrc="docs.png"
+        thumbnailSrc="/docs.png"
         thumbnailAlt="Hero Video"
       />
     </div>
