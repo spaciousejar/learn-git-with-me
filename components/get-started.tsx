@@ -12,18 +12,15 @@ export function GET() {
   return (
     <Link
     href={`/docs${page_routes[0].href}`}
+    onClick={() => {
+      toast({
+        title: "Hey! Welcome to GIT ME.",
+        description: "The site is in its early stages.",
+      })
+    }}
   >
-    <Button
-      variant= "link"
-      onClick={() => {
-        toast({
-          title: "Hey! Welcome to GIT ME.",
-          description: "The site is in its early stages.",
-        })
-      }}
-    >
      <ShinyButton>Get Started</ShinyButton> 
-    </Button>
+    
   </Link>
   )
 }
