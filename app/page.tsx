@@ -1,13 +1,9 @@
 import { DownloadButton } from "@/components/animated-download-button";
+import { GET } from "@/components/get-started";
 import { BorderBeam } from "@/components/magicui/border-beam";
-import { CoolMode } from "@/components/magicui/cool-mode";
-import ShinyButton from "@/components/magicui/shiny-button";
-import { buttonVariants } from "@/components/ui/button";
 import { Video } from "@/components/ui/video";
-import { page_routes } from "@/lib/routes-config";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
-import { GET } from "@/components/get-started";
 
 export default function Home() {
   return (
@@ -29,13 +25,8 @@ export default function Home() {
         beginners.
       </p>
       <div className="flex flex-row items-center gap-5">
-       
-         
          <GET/>
-        
          <DownloadButton/>
-        
-        
       </div>
       <span className="flex flex-row items-center gap-2 text-zinc-400 text-md mt-7 -mb-12 max-[800px]:mb-12">
         <TerminalIcon className="w-4 h-4 mr-1" /> ~ git init
@@ -45,7 +36,6 @@ export default function Home() {
         <Video/>
           <BorderBeam size={250} duration={12} delay={9} />
     </div>
-    
     </>
   );
 }
