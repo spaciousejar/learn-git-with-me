@@ -13,8 +13,8 @@ export function GET() {
     href={`/docs${page_routes[0].href}`}
     onClick={() => {
       toast({
-        title: "Hey! Welcome to GIT ME. 🚀",
-        description: "The site is in its early stages. 🚧",
+        title: "Hey! Welcome",
+        description: "Let’s get started! 🌟",
       })
     }}
   >
