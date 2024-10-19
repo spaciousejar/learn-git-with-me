@@ -13,7 +13,7 @@ import Anchor from "./anchor";
 import { SheetLeftbar } from "./leftbar";
 import { page_routes } from "@/lib/routes-config";
 import { SheetClose } from "@/components/ui/sheet";
-import { LogoI } from "./git-me-logo-black";
+import { LogoI } from "./Logo";
 
 export const NAVLINKS = [
   {
