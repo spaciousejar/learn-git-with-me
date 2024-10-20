@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/contexts/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { GeistSans } from "geist/font/sans";
@@ -7,12 +6,53 @@ import { Footer } from "@/components/footer";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
+import type React from "react";
+import type { Metadata, Viewport } from "next";
+
+const APP_NAME = "Git Me";
+const APP_DEFAULT_TITLE = "Learn Git With Me";
+const APP_TITLE_TEMPLATE = "%s - Git Me";
+const APP_DESCRIPTION = "Learn Git with me is a free and open-source Ultimate Git Guide to learn Git and GitHub.";
 
 export const metadata: Metadata = {
-  title: "Learn Git With Me",
+  applicationName: APP_NAME,
   metadataBase: new URL("https://gitme.live"),
-  description:
-    "Learn Git with me is a free and open-source platform to learn Git and GitHub. It is designed to be simple and easy to understand for beginners.",
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({
