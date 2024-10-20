@@ -13,20 +13,9 @@
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "maskable"
-      },
-      {
-        "src": "/apple-touch-icon.png",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-      {
-        "src": "/favicon-48x48.png",
-        "type": "image/png",
-        "purpose": "maskable"
       }
-
     ],
-    "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+    "theme_color": "##09090b",
+  "background_color": "#09090b",
   "display": "standalone"
   }
