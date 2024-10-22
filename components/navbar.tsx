@@ -14,6 +14,7 @@ import { SheetLeftbar } from "./leftbar";
 import { page_routes } from "@/lib/routes-config";
 import { SheetClose } from "@/components/ui/sheet";
 import { LogoI } from "./Logo";
+import { Icons } from "./icons";
 
 export const NAVLINKS = [
   {
@@ -59,7 +60,7 @@ export function Navbar() {
                 href="https://github.com/spaciousejar/learn-git-with-me.git"
                 className={buttonVariants({ variant: "ghost", size: "icon" })}
               >
-                <GithubIcon className="h-[1.1rem] w-[1.1rem]" />
+                <Icons.gitHub className= "size-5" />
               </Link>
               <ModeToggle />
             </div>
