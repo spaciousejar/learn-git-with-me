@@ -37,11 +37,10 @@ export const ROUTES: EachRoute[] = [
 noLink: true,
   items: [
     { title: "Why Use git", href: "/why-use-git" },
+    {
+      title: "Tip to Master Git and GitHub", href: "/tips"},
   ]},
-{
-  title: "Tip to Master Git and GitHub",
-  href: "/Tips-to-Master-Git-&-Github",
-},
+
 { 
   title: "Essential Commands",
   href: "/essential-commands",
