@@ -23,12 +23,13 @@ import {
   User,
   X,
 } from "lucide-react";
+import NextImage from "next/image"
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
   logo: ({ className, ...props }: { className: string }) => (
-    <img src="/icon.png" alt="Magic UI" className={className} {...props} />
+    <NextImage src="/icon.png" alt="Magic UI" className={className} {...props} />
   ),
   close: X,
   spinner: Loader2,
