@@ -7,11 +7,12 @@ import { notFound } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
+
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params: { slug } }: PageProps) {
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
   const res = await getBlogForSlug(slug);
   if (!res) return null;
   const { frontmatter } = res;
@@ -27,7 +28,8 @@ export async function generateStaticParams() {
   return val.map((it) => ({ slug: it }));
 }
 
-export default async function BlogPage({ params: { slug } }: PageProps) {
+export default async function BlogPage({ params }: PageProps) {
+  const { slug } = await params;
   const res = await getBlogForSlug(slug);
   if (!res) notFound();
   return (
@@ -68,8 +70,6 @@ export default async function BlogPage({ params: { slug } }: PageProps) {
     </div>
   );
 }
-
-  
 
 function Authors({ authors }: { authors: Author[] }) {
   return (
