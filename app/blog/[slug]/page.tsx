@@ -9,7 +9,7 @@ import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 
 type PageProps = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
 export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   const res = await getBlogForSlug(slug);
   if (!res) notFound();
   return (
