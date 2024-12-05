@@ -8,6 +8,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import type React from "react";
 import type { Metadata, Viewport } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const APP_NAME = "Git Me";
 const APP_DEFAULT_TITLE = "Learn Git With Me";
@@ -86,6 +87,7 @@ export default function RootLayout({
           <Footer />
         </ThemeProvider>
         <Toaster />
+        <SpeedInsights/>
         <Analytics />
       </body>
     </html>
