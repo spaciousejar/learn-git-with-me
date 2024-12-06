@@ -1,5 +1,5 @@
 {
-  "name": "Learn-git-with-me",
+  "name": "learn-git-with-me",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -29,7 +29,6 @@
     "next": "^14.2.13",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.3.0",
-    "novel": "^0.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-player": "^2.16.0",
