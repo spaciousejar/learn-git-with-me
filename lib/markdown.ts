@@ -6,8 +6,9 @@ import rehypePrism from "rehype-prism-plus";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import rehypeCodeTitles from "rehype-code-titles";
-import { page_routes } from "./routes-config";
+import { page_routes, ROUTES } from "./routes-config";
 import { visit } from "unist-util-visit";
+import matter from "gray-matter";
 
 // custom components imports
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,6 +17,7 @@ import Note from "@/components/markdown/note";
 import { Stepper, StepperItem } from "@/components/markdown/stepper";
 import Image from "@/components/markdown/image";
 import Link from "@/components/markdown/link";
+import Outlet from "@/components/markdown/outlet";
 
 // add custom components
 const components = {
@@ -29,6 +31,7 @@ const components = {
   StepperItem,
   img: Image,
   a: Link,
+  Outlet,
 };
 
 // can be used for other pages like blogs, Guides etc
@@ -55,7 +58,7 @@ async function parseMdx<Frontmatter>(rawMdx: string) {
 
 // logic for docs
 
-type BaseMdxFrontmatter = {
+export type BaseMdxFrontmatter = {
   title: string;
   description: string;
 };
@@ -107,7 +110,43 @@ function getDocsContentPath(slug: string) {
   return path.join(process.cwd(), "/contents/docs/", `${slug}/index.mdx`);
 }
 
-// for copying the code
+function justGetFrontmatterFromMD<Frontmatter>(rawMd: string): Frontmatter {
+  return matter(rawMd).data as Frontmatter;
+}
+
+export async function getAllChilds(pathString: string) {
+  const items = pathString.split("/").filter((it) => it != "");
+  let page_routes_copy = ROUTES;
+
+  let prevHref = "";
+  for (const it of items) {
+    const found = page_routes_copy.find((innerIt) => innerIt.href == `/${it}`);
+    if (!found) break;
+    prevHref += found.href;
+    page_routes_copy = found.items ?? [];
+  }
+  if (!prevHref) return [];
+
+  return await Promise.all(
+    page_routes_copy.map(async (it) => {
+      const totalPath = path.join(
+        process.cwd(),
+        "/contents/docs/",
+        prevHref,
+        it.href,
+        "index.mdx",
+      );
+      const raw = await fs.readFile(totalPath, "utf-8");
+      return {
+        ...justGetFrontmatterFromMD<BaseMdxFrontmatter>(raw),
+        href: `/docs${prevHref}${it.href}`,
+      };
+    }),
+  );
+}
+
+// for copying the code in pre
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const preProcess = () => (tree: any) => {
   visit(tree, (node) => {
     if (node?.type === "element" && node?.tagName === "pre") {
@@ -118,11 +157,11 @@ const preProcess = () => (tree: any) => {
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const postProcess = () => (tree: any) => {
   visit(tree, "element", (node) => {
     if (node?.type === "element" && node?.tagName === "pre") {
       node.properties["raw"] = node.raw;
-      // console.log(node);
     }
   });
 };
@@ -149,23 +188,31 @@ export async function getAllBlogStaticPaths() {
     console.log(err);
   }
 }
-
 export async function getAllBlogs() {
   const blogFolder = path.join(process.cwd(), "/contents/blogs/");
   const files = await fs.readdir(blogFolder);
-  return await Promise.all(
+  const uncheckedRes = await Promise.all(
     files.map(async (file) => {
+      if (!file.endsWith(".mdx")) return undefined;
       const filepath = path.join(process.cwd(), `/contents/blogs/${file}`);
       const rawMdx = await fs.readFile(filepath, "utf-8");
       return {
-        ...(await parseMdx<BlogMdxFrontmatter>(rawMdx)),
+        ...justGetFrontmatterFromMD<BlogMdxFrontmatter>(rawMdx),
         slug: file.split(".")[0],
       };
-    })
+    }),
   );
+  return uncheckedRes.filter((it) => !!it) as (BlogMdxFrontmatter & {
+    slug: string;
+  })[];
 }
 
 export async function getBlogForSlug(slug: string) {
-  const blogs = await getAllBlogs();
-  return blogs.find((it) => it.slug == slug);
+  const blogFile = path.join(process.cwd(), "/contents/blogs/", `${slug}.mdx`);
+  try {
+    const rawMdx = await fs.readFile(blogFile, "utf-8");
+    return await parseMdx<BlogMdxFrontmatter>(rawMdx);
+  } catch {
+    return undefined;
+  }
 }
