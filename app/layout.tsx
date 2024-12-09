@@ -1,13 +1,14 @@
 import { ThemeProvider } from "@/components/contexts/theme-provider";
 import { Navbar } from "@/components/navbar";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import { Footer } from "@/components/footer";
 import { Analytics } from "@vercel/analytics/react"
-import "./globals.css";
+import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import type React from "react";
 import type { Metadata, Viewport } from "next";
+
 
 const APP_NAME = "Git Me";
 const APP_DEFAULT_TITLE = "Learn Git With Me";

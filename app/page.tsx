@@ -1,17 +1,15 @@
 import { DownloadButton } from "@/components/animated-download-button";
 import { GET } from "@/components/get-started";
-import { BorderBeam } from "@/components/magicui/border-beam";
-import { Video } from "@/components/ui/video";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <><div className="flex sm:min-h-[71vh] min-h-[68vh] flex-col items-center justify-center text-center px-2 py-8">
+    <><div className="flex sm:min-h-[80vh] min-h-[80vh] flex-col items-center justify-center text-center px-2 sm:py-8 py-10">
       <Link
         href="https://github.com/spaciousejar/learn-git-with-me.git"
         target="_blank"
-        className="mb-5 sm:text-lg flex items-center gap-2 underline underline-offset-4"
+        className="mb-5 sm:text-lg flex items-center gap-2 underline underline-offset-4 sm:-mt-12"
       >
         Follow along on GitHub{" "}
         <MoveUpRightIcon className="w-4 h-4 font-extrabold" />
@@ -32,10 +30,7 @@ export default function Home() {
         <TerminalIcon className="w-4 h-4 mr-1" /> ~ git init
       </span>
     </div>
-    <div className="relative flex flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-        <Video/>
-          <BorderBeam size={250} duration={12} delay={9} />
-    </div>
+    
     </>
   );
 }

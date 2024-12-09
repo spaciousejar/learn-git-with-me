@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
+import animate from "tailwindcss-animate";
 
 const config = {
   darkMode: ["class"],
@@ -14,7 +16,7 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1280px",
+        "2xl": "1300px",
       },
     },
     extend: {
@@ -71,31 +73,14 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "border-beam": {
-          "100%": {
-            "offset-distance": "100%",
-          },
-        },
-        "shine-pulse": {
-          "0%": {
-            "background-position": "0% 0%",
-          },
-          "50%": {
-            "background-position": "100% 100%",
-          },
-          to: {
-            "background-position": "0% 0%",
-          },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [animate, typography],
 } satisfies Config;
 
 export default config;

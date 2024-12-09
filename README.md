@@ -49,10 +49,6 @@ See more to learn at <https://www.gitme.live/docs/getting-started/introduction>
 
 
 
-## 📦 Apps and Packages
-
-- `web`: The main Next.js application
-- `UI`: Shared UI components
 
 
 ## Contributing

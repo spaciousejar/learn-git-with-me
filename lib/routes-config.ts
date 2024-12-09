@@ -73,34 +73,6 @@ noLink: true,
     ]
 
 },
-
-/*
-{
-  title: "Advanced Commands",
-  href: "/advanced-commands",
-  noLink: true,
-  items: [
-    { title: "Cherry-pick", href: "/git-cherry-pick" },
-    { title: "Rebase", href: "/git-rebase" },
-    { title: "Squash commits", href: "/git-squash" },
-    { title: "Interactive rebase", href: "/git-interactive-rebase" },
-    { title: "Submodules", href: "/git-submodules" },
-    { title: "Bisect", href: "/git-bisect" },
-    { title: "Reflog", href: "/git-reflog" },
-    { title: "Worktrees", href: "/git-worktrees" },
-    { title: "Hooks", href: "/git-hooks" },
-    { title: "Tags", href: "/git-tags" },
-    { title: "Stash", href: "/git-stash" },
-    { title: "Blame", href: "/git-blame" },
-    { title: "Stash changes", href: "/git-stash" },
-      
-    { title: "Undo changes", href: "/git-restore" },
-    { title: "Remove files", href: "/git-rm" },
-    { title: "Move files", href: "/git-mv" },
-   ]
-}
-*/
-    
 ];
 
 type Page = { title: string; href: string };

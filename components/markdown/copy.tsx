@@ -20,7 +20,7 @@ export default function Copy({ content }: { content: string }) {
     <Button
       variant="secondary"
       className="border"
-      size="xs"
+      size="sm" // Changed from "xs" to "sm"
       onClick={handleCopy}
     >
       {isCopied ? (
