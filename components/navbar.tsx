@@ -1,11 +1,5 @@
 import { ModeToggle } from "@/components/theme-toggle";
-import {
-  GithubIcon,
-  TwitterIcon,
-  HexagonIcon,
-  MoveUpRightIcon,
-  GitBranch,
-} from "lucide-react";
+import { MoveUpRightIcon } from "lucide-react"; // Removed unused icons
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import Search from "./search";

@@ -1,8 +1,12 @@
+@import url("./syntax.css");
+
+:root {
+  font-variant-ligatures: none;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url("../styles/syntax.css");
 
 @layer base {
   :root {
@@ -88,7 +92,8 @@ pre>code {
 }
 
 .code-line {
-  padding: 0.75px 18px;
+  padding: 0.75px 16px;
+  @apply border-l-2 border-transparent;
 }
 
 .line-number::before {
@@ -102,43 +107,14 @@ pre>code {
   text-align: right;
 }
 
-blockquote>p::before {
-  display: none;
-}
-
-
 .highlight-line {
-  @apply dark:bg-stone-900/95;
-  @apply bg-stone-200/90;
+  @apply bg-primary/5 border-l-2 border-primary/30;
 }
-
 
 .rehype-code-title {
-  @apply px-2;
-  @apply -mb-8;
-  @apply w-full;
-  @apply text-sm;
-  @apply pt-1;
-  @apply pb-5;
-  @apply font-normal;
-  @apply tracking-wider;
-  @apply font-medium;
-  font-family: var(--font-code) !important;
+  @apply px-2 -mb-8 w-full text-sm pb-5 font-medium mt-5 font-code;
 }
 
 .highlight-comp>code {
   background-color: transparent !important;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.1;
-  }
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

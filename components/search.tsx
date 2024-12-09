@@ -119,5 +119,5 @@ const paddingMap = {
   1: "pl-2",
   2: "pl-4",
   3: "pl-10",
-  // Add more levels if needed
+ 
 } as const;
