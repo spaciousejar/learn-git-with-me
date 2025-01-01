@@ -1,11 +1,10 @@
+"use client"; // Corrected "clien" to "client"
 import { ModeToggle } from "@/components/theme-toggle";
-import {
-  GithubIcon,
-  TwitterIcon,
-  HexagonIcon,
-  MoveUpRightIcon,
-  GitBranch,
-} from "lucide-react";
+import { MoveUpRightIcon } from "lucide-react";
+import { StarIcon } from "@heroicons/react/24/solid";
+import { cn } from "@/lib/utils";
+import NumberTicker from "./ui/number-ticker";
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import Search from "./search";
@@ -37,6 +36,22 @@ export const NAVLINKS = [
 ];
 
 export function Navbar() {
+  const [stars, setStars] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchStars = async () => {
+      try {
+        const response = await fetch('https://api.github.com/repos/spaciousejar/learn-git-with-me');
+        const data = await response.json();
+        setStars(data.stargazers_count);
+      } catch (error) {
+        console.error("Error fetching stars:", error);
+      }
+    };
+
+    fetchStars();
+  }, []);
+
   return (
     <nav className="w-full border-b h-16 sticky top-0 z-50 bg-background">
       <div className="max-w-[1300px] sm:px-0 px-3 mx-auto h-full flex items-center justify-between md:gap-2">
@@ -53,6 +68,29 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <Link
+            className={cn(
+              buttonVariants({
+                variant: "rainbow",
+              }),
+              "hidden md:inline-flex",
+            )}
+            target="_blank"
+            href="https://github.com/spaciousejar/learn-git-with-me"
+          >
+            <div className="flex items-center">
+              <Icons.gitHub className="size-4" />
+              <span className="ml-1 lg:hidden">Star</span>
+              <span className="ml-1 hidden lg:inline">Star on GitHub</span>{" "}
+            </div>
+            <div className="ml-2 flex items-center gap-1 text-sm md:flex">
+              <StarIcon className="size-4 text-gray-500 transition-all duration-200 group-hover:text-yellow-300" />
+              <NumberTicker
+                value={stars}
+                className="font-display font-medium text-black dark:text-white"
+              />
+            </div>
+          </Link>
           <div className="flex items-center gap-2">
             <Search />
             <div className="flex ml-2.5 sm:ml-0">
@@ -60,7 +98,7 @@ export function Navbar() {
                 href="https://github.com/spaciousejar/learn-git-with-me.git"
                 className={buttonVariants({ variant: "ghost", size: "icon" })}
               >
-                <Icons.gitHub className= "size-5" />
+                <Icons.gitHub className="size-5" />
               </Link>
               <ModeToggle />
             </div>
@@ -74,7 +112,7 @@ export function Navbar() {
 export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
-      <LogoI/>
+      <LogoI />
       <h2 className="text-md font-bold">GIT ME</h2>
     </Link>
   );
