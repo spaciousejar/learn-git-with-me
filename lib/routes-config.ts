@@ -38,7 +38,7 @@ noLink: true,
   items: [
     { title: "Why Use git", href: "/why-use-git" },
     {
-      title: "Tip to Master Git and GitHub", href: "/tips"},
+      title: "Tip to Master Git", href: "/tips"},
   ]},
 
 { 
