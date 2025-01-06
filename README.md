@@ -9,13 +9,11 @@ Learn Git with Me is a free, open-source platform for learning Git and GitHub.
 </div>
 <video alt="Git ME" src="https://github.com/user-attachments/assets/ea2661ad-59dc-4427-87cd-ceb3b09f78c1" width="100%"></video>
 
-## ⚡ Live Demo
+## ⚡ Live 
 
 Try it out for yourself!
 
-Demo Visit: <https://www.gitme.live>
-
-See more to learn at <https://www.gitme.live/docs/getting-started/introduction>
+Visit: <https://www.gitme.live>
 
 
 ## ⭐ Features
