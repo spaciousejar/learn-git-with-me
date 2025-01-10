@@ -7,11 +7,18 @@ import { notFound } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
+
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params: { slug } }: PageProps) {
+export async function generateMetadata(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const res = await getBlogForSlug(slug);
   if (!res) return null;
   const { frontmatter } = res;
@@ -27,9 +34,20 @@ export async function generateStaticParams() {
   return val.map((it) => ({ slug: it }));
 }
 
-export default async function BlogPage({ params: { slug } }: PageProps) {
+export default async function BlogPage(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const res = await getBlogForSlug(slug);
   if (!res) notFound();
+
+  if (!res) {
+    return null;
+  }
+
   return (
     <div className="lg:w-[60%] sm:[95%] md:[75%] mx-auto">
       <Link
@@ -60,16 +78,14 @@ export default async function BlogPage({ params: { slug } }: PageProps) {
             alt="cover"
             width={700}
             height={400}
-            className="w-full h-[400px] rounded-md border object-cover" />
+            className="w-full h-[400px] rounded-md border object-cover"
+          />
         </div>
         <Typography>{res.content}</Typography>
-          Share
       </div>
     </div>
   );
 }
-
-  
 
 function Authors({ authors }: { authors: Author[] }) {
   return (
