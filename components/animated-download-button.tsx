@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 import { toast } from "@/hooks/use-toast"
 
 export function DownloadButton() {
