@@ -7,20 +7,26 @@ import { getDocsForSlug } from "@/lib/markdown";
 import { Typography } from "@/components/typography";
 
 type PageProps = {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 };
 
-export default async function DocsPage({ params: { slug = [] } }: PageProps) {
+export default async function DocsPage(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    slug = []
+  } = params;
+
   const pathName = slug.join("/");
   const res = await getDocsForSlug(pathName);
 
   if (!res) notFound();
   return (
     <div className="flex items-start gap-10">
-      <div className="flex-[3] pt-10">
+      <div className="flex-[4.5] pt-10">
         <DocsBreadcrumb paths={slug} />
         <Typography>
-          <h1 className="text-3xl -mt-2">{res.frontmatter.title}</h1>
+          <h1 className="text-3xl !-mt-0.5">{res.frontmatter.title}</h1>
           <p className="-mt-4 text-muted-foreground text-[16.5px]">
             {res.frontmatter.description}
           </p>
@@ -33,7 +39,13 @@ export default async function DocsPage({ params: { slug = [] } }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params: { slug = [] } }: PageProps) {
+export async function generateMetadata(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    slug = []
+  } = params;
+
   const pathName = slug.join("/");
   const res = await getDocsForSlug(pathName);
   if (!res) return null;
