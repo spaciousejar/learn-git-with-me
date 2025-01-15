@@ -1112,22 +1112,21 @@ define(['exports'], (function (exports) { 'use strict';
       https://opensource.org/licenses/MIT.
     */
     /**
-     * Easily register a RegExp, string, or function with a caching
-     * strategy to a singleton Router instance.
-     *
-     * This method will generate a Route for you if needed and
-     * call {@link workbox-routing.Router#registerRoute}.
-     *
-     * @param {RegExp|string|workbox-routing.Route~matchCallback|workbox-routing.Route} capture
-     * If the capture param is a `Route`, all other arguments will be ignored.
-     * @param {workbox-routing~handlerCallback} [handler] A callback
-     * function that returns a Promise resulting in a Response. This parameter
-     * is required if `capture` is not a `Route` object.
-     * @param {string} [method='GET'] The HTTP method to match the Route
-     * against.
-     * @return {workbox-routing.Route} The generated `Route`.
-     *
-     * @memberof workbox-routing
+     * Registers a route with a caching strategy to the default Router instance.
+     * 
+     * @param {RegExp|string|Function|Route} capture - The route matcher. Can be a URL string, regular expression, match callback function, or existing Route object.
+     * @param {Function} [handler] - A callback function that returns a Promise resolving to a Response. Required unless `capture` is a Route.
+     * @param {string} [method='GET'] - The HTTP method to match against the route.
+     * @returns {Route} The generated or provided Route instance.
+     * @throws {WorkboxError} If the route type is unsupported or the capture parameter is invalid.
+     * 
+     * @example
+     * // Register a route for exact URL match
+     * registerRoute('/users', userCacheHandler);
+     * 
+     * @example
+     * // Register a route with regular expression
+     * registerRoute(/\/api\/.*/, networkFirstStrategy);
      */
     function registerRoute(capture, handler, method) {
       let route;
@@ -1262,12 +1261,15 @@ define(['exports'], (function (exports) { 'use strict';
       }
     };
 
-    /*
-      Copyright 2020 Google LLC
-      Use of this source code is governed by an MIT-style
-      license that can be found in the LICENSE file or at
-      https://opensource.org/licenses/MIT.
-    */
+    /**
+     * Removes specified query parameters from a given URL.
+     * @param {string} fullURL - The complete URL from which parameters will be stripped.
+     * @param {string[]} ignoreParams - An array of parameter names to remove from the URL.
+     * @returns {string} The URL with specified parameters removed.
+     * @example
+     * // Returns 'https://example.com/page'
+     * stripParams('https://example.com/page?token=abc&debug=true', ['token', 'debug'])
+     */
     function stripParams(fullURL, ignoreParams) {
       const strippedURL = new URL(fullURL);
       for (const param of ignoreParams) {
@@ -1276,16 +1278,18 @@ define(['exports'], (function (exports) { 'use strict';
       return strippedURL.href;
     }
     /**
-     * Matches an item in the cache, ignoring specific URL params. This is similar
-     * to the `ignoreSearch` option, but it allows you to ignore just specific
-     * params (while continuing to match on the others).
-     *
+     * Matches a cache entry while selectively ignoring specific URL parameters.
+     * 
      * @private
-     * @param {Cache} cache
-     * @param {Request} request
-     * @param {Object} matchOptions
-     * @param {Array<string>} ignoreParams
-     * @return {Promise<Response|undefined>}
+     * @param {Cache} cache - The cache object to search within.
+     * @param {Request} request - The original request to match against cache entries.
+     * @param {Array<string>} ignoreParams - List of URL parameters to ignore during matching.
+     * @param {Object} [matchOptions={}] - Additional options for cache matching.
+     * @returns {Promise<Response|undefined>} The matched cache response or undefined if no match found.
+     * @description
+     * This function provides a flexible cache matching strategy that allows selective parameter
+     * exclusion. It first attempts a direct match, and if that fails, it performs a more
+     * comprehensive search by stripping specified parameters from both the request and cache keys.
      */
     async function cacheMatchIgnoreParams(cache, request, ignoreParams, matchOptions) {
       const strippedRequestURL = stripParams(request.url, ignoreParams);
@@ -1354,11 +1358,13 @@ define(['exports'], (function (exports) { 'use strict';
       https://opensource.org/licenses/MIT.
     */
     /**
-     * Runs all of the callback functions, one at a time sequentially, in the order
-     * in which they were registered.
-     *
-     * @memberof workbox-core
+     * Executes registered quota error callbacks sequentially to clean up caches.
+     * 
+     * @async
      * @private
+     * @memberof workbox-core
+     * @description Runs all registered callbacks one at a time, logging the progress and completion of each callback.
+     * @returns {Promise<void>} A promise that resolves when all callbacks have been executed.
      */
     async function executeQuotaErrorCallbacks() {
       {
@@ -1382,24 +1388,19 @@ define(['exports'], (function (exports) { 'use strict';
       https://opensource.org/licenses/MIT.
     */
     /**
-     * Returns a promise that resolves and the passed number of milliseconds.
-     * This utility is an async/await-friendly version of `setTimeout`.
-     *
-     * @param {number} ms
-     * @return {Promise}
-     * @private
+     * Creates a promise that resolves after a specified delay.
+     * @param {number} ms - The number of milliseconds to wait before resolving the promise.
+     * @returns {Promise<void>} A promise that resolves after the specified delay.
      */
     function timeout(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    /*
-      Copyright 2020 Google LLC
-
-      Use of this source code is governed by an MIT-style
-      license that can be found in the LICENSE file or at
-      https://opensource.org/licenses/MIT.
-    */
+    /**
+     * Converts a URL string to a Request object or returns the input if it's already a Request.
+     * @param {string|Request} input - The input to convert to a Request object.
+     * @returns {Request} A Request object representing the input.
+     */
     function toRequest(input) {
       return typeof input === 'string' ? new Request(input) : input;
     }
@@ -2438,10 +2439,17 @@ define(['exports'], (function (exports) { 'use strict';
       https://opensource.org/licenses/MIT.
     */
     /**
-     * Claim any currently available clients once the service worker
-     * becomes active. This is normally used in conjunction with `skipWaiting()`.
-     *
+     * Claims all currently available browser clients for this service worker immediately upon activation.
+     * 
+     * @description This function ensures that the service worker takes control of all open pages/clients
+     * as soon as it becomes active, without waiting for them to be reloaded. It is typically used in
+     * conjunction with `skipWaiting()` to provide an immediate update to the service worker's functionality.
+     * 
      * @memberof workbox-core
+     * @example
+     * // In your service worker registration
+     * clientsClaim();
+     * skipWaiting();
      */
     function clientsClaim() {
       self.addEventListener('activate', () => self.clients.claim());
