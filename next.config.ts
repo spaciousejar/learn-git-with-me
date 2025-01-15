@@ -1,5 +1,4 @@
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants.js";
-
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = async (phase: string) => {
@@ -13,12 +12,25 @@ const nextConfig: NextConfig = async (phase: string) => {
         remotePatterns: [
           {
             protocol: "https",
-            hostname: "img.freepik.com/**",
+            hostname: "img.freepik.com",
+            pathname: "/**",
           },
         ],
       },
     });
   }
+    return {
+       reactStrictMode: true,
+       images: {
+         remotePatterns: [
+           {
+             protocol: "https",
+             hostname: "img.freepik.com/**",
+
+        },
+     ],
+   },
+  };
 };
 
 
