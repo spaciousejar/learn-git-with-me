@@ -7,7 +7,7 @@ Learn Git with Me is a free, open-source platform for learning Git and GitHub.
   <a href="https://twitter.com/spaciousejar"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/spaciousejar"></a>
   <a href="[https://github.com/spaciousejar/learn-git-with-me/blob/main/LICENSE]"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </div>
-<video alt="Git ME" src="https://github.com/user-attachments/assets/ea2661ad-59dc-4427-87cd-ceb3b09f78c1" width="100%"></video>
+<img alt="og" src="https://github.com/spaciousejar/learn-git-with-me/blob/main/public/og.png" width="100%"><img/>
 
 ## ⚡ Live 
 
