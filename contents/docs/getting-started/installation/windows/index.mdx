@@ -1,0 +1,43 @@
+---
+title: Windows
+description: Installation of Git on Windows.
+---
+
+
+#### Using Git for Windows
+    - Download the installer from [git-scm.com](https://git-scm.com/download/win).
+    - Run the installer and follow the instructions
+
+
+#### Using Chocolatey
+    ```sh
+    choco install git
+    ```
+    If you don't have Chocolatey installed, you can install it by running:
+    ```sh
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    ```
+
+#### Using Scoop
+    ```sh
+    scoop install git
+    ```
+    If you don't have Scoop installed, you can install it by running:
+
+    ```sh
+    iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+
+    ```
+#### Verifying the Installation
+
+After installation, you can verify the installation by running:
+
+    ```sh
+    git --version
+    ```
+Or
+    
+    ```sh
+    git -v
+    ```
+If Git is installed, it should show something like `git version X.Y`.

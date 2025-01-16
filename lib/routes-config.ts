@@ -19,11 +19,12 @@ export const ROUTES: EachRoute[] = [
       {
         title: "Installation",
         href: "/installation",
-        /* items: [
-          { title: "Windows", href: "/windows" },
-          { title: "Mac", href: "/mac" },
+         items: [
           { title: "Linux", href: "/linux" },
-        ],*/
+          { title: "MacOS", href: "/macOS" },
+          { title: "Windows", href: "/windows" },
+          {title: "Android", href: "/android"},
+        ],
       },
     ],
   },
