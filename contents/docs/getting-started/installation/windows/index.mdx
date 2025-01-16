@@ -4,9 +4,34 @@ description: Installation of Git on Windows.
 ---
 
 
-#### Using Git for Windows
+#### Install by Downloading the Installer
+
+<Stepper>
+<StepperItem title="Step 1: Download Git">
     - Download the installer from [git-scm.com](https://git-scm.com/download/win).
-    - Run the installer and follow the instructions
+</StepperItem>
+<StepperItem title="Step 2: Run the Installer">
+    Run the installer and follow the instructions
+
+      Choose whether to add Git to your PATH
+      Select your preferred editor
+      Choose the default branch name
+      Select line ending conversion preferences
+      Choose the terminal emulator
+</StepperItem>
+<StepperItem title="Step 3: Verify the Installation">
+    After installation, you can verify the installation by running:
+    ```sh
+    git --version
+    ```
+    Or
+    ```sh
+    git -v
+    ```
+    If Git is installed, it should show something like `git version X.Y`.
+</StepperItem>
+</Stepper>
+
 
 
 #### Using Chocolatey
@@ -15,8 +40,9 @@ description: Installation of Git on Windows.
     ```
     If you don't have Chocolatey installed, you can install it by running:
     ```sh
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     ```
+    For more information, visit the [Chocolatey installation guide](https://chocolatey.org/install).
 
 #### Using Scoop
     ```sh
@@ -28,16 +54,3 @@ description: Installation of Git on Windows.
     iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
 
     ```
-#### Verifying the Installation
-
-After installation, you can verify the installation by running:
-
-    ```sh
-    git --version
-    ```
-Or
-    
-    ```sh
-    git -v
-    ```
-If Git is installed, it should show something like `git version X.Y`.
