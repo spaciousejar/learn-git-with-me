@@ -32,7 +32,7 @@
     "next": "^14.2.22",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.3.0",
-    "react": "^18.3.1",
+    "react": "^19.0.0",
     "react-dom": "^18.3.1",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-code-titles": "^1.2.0",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22",
-    "@types/react": "^18",
+    "@types/react": "^19",
     "@types/react-dom": "^18",
     "@types/video-react": "^0.15.8",
     "autoprefixer": "^10.4.20",
