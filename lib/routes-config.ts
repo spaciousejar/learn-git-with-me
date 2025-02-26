@@ -78,7 +78,9 @@ export const ROUTES: EachRoute[] = [
     title: "File Management in Git",
     href: "/file-management-in-git",
     noLink: true,
-    items: [{ title: "The .gitignore File", href: "/the-gitignore-file" }],
+    items: [{ title: "The .gitignore File", href: "/the-gitignore-file" },
+            { title: "The .gitkeep File", href: "/the-gitkeep-file" },
+           ],
   },
 
 ];
