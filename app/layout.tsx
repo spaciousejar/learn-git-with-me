@@ -11,9 +11,9 @@ import type React from "react";
 import type { Metadata, Viewport } from "next"
 
 const APP_NAME = "Git Me";
-const APP_DEFAULT_TITLE = "Learn Git With Me";
+const APP_DEFAULT_TITLE = "Master Git: A Comprehensive Beginner's Guide";
 const APP_TITLE_TEMPLATE = "%s - Git Me";
-const APP_DESCRIPTION = "Learn Git with me is a free and open-source Ultimate Git Guide to learn Git and GitHub.";
+const APP_DESCRIPTION = "Master Git, the popular version control system, with our comprehensive beginner's guide. Learn Git and GitHub essentials step-by-step.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
+  keywords: ["master git", "git beginner's guide", "learn git and github"],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
