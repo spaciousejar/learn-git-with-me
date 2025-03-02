@@ -9,6 +9,7 @@ import rehypeCodeTitles from "rehype-code-titles";
 import { page_routes, ROUTES } from "./routes-config";
 import { visit } from "unist-util-visit";
 import matter from "gray-matter";
+import { getIconName, hasSupportedExtension } from "./utils";
 
 // custom components imports
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,6 +19,15 @@ import { Stepper, StepperItem } from "@/components/markdown/stepper";
 import Image from "@/components/markdown/image";
 import Link from "@/components/markdown/link";
 import Outlet from "@/components/markdown/outlet";
+import Files from "@/components/markdown/files";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 // add custom components
 const components = {
@@ -32,6 +42,13 @@ const components = {
   img: Image,
   a: Link,
   Outlet,
+  Files,
+  table: Table,
+  thead: TableHeader,
+  th: TableHead,
+  tr: TableRow,
+  tbody: TableBody,
+  t: TableCell,
 };
 
 // can be used for other pages like blogs, Guides etc
@@ -44,6 +61,7 @@ async function parseMdx<Frontmatter>(rawMdx: string) {
         rehypePlugins: [
           preProcess,
           rehypeCodeTitles,
+          rehypeCodeTitlesWithLogo,
           rehypePrism,
           rehypeSlug,
           rehypeAutolinkHeadings,
@@ -110,8 +128,14 @@ function getDocsContentPath(slug: string) {
   return path.join(process.cwd(), "/contents/docs/", `${slug}/index.mdx`);
 }
 
-function justGetFrontmatterFromMD<Frontmatter>(rawMd: string): Frontmatter {
-  return matter(rawMd).data as Frontmatter;
+function justGetFrontmatterFromMD<Frontmatter>(rawMd: string): Frontmatter | undefined {
+  try {
+    const { data } = matter(rawMd);
+    return data as Frontmatter;
+  } catch (err) {
+    console.error("Error parsing frontmatter:", err);
+    return undefined;
+  }
 }
 
 export async function getAllChilds(pathString: string) {
@@ -127,22 +151,32 @@ export async function getAllChilds(pathString: string) {
   }
   if (!prevHref) return [];
 
-  return await Promise.all(
+  const results = await Promise.all(
     page_routes_copy.map(async (it) => {
-      const totalPath = path.join(
-        process.cwd(),
-        "/contents/docs/",
-        prevHref,
-        it.href,
-        "index.mdx",
-      );
-      const raw = await fs.readFile(totalPath, "utf-8");
-      return {
-        ...justGetFrontmatterFromMD<BaseMdxFrontmatter>(raw),
-        href: `/docs${prevHref}${it.href}`,
-      };
+      try {
+        const totalPath = path.join(
+          process.cwd(),
+          "/contents/docs/",
+          prevHref,
+          it.href,
+          "index.mdx",
+        );
+        const raw = await fs.readFile(totalPath, "utf-8");
+        const frontmatter = justGetFrontmatterFromMD<BaseMdxFrontmatter>(raw);
+        if (!frontmatter) return undefined;
+        
+        return {
+          ...frontmatter,
+          href: `/docs${prevHref}${it.href}`,
+        };
+      } catch (err) {
+        console.error("Error processing file:", err);
+        return undefined;
+      }
     }),
   );
+
+  return results.filter((it): it is BaseMdxFrontmatter & { href: string } => !!it);
 }
 
 // for copying the code in pre
@@ -188,6 +222,7 @@ export async function getAllBlogStaticPaths() {
     console.log(err);
   }
 }
+
 export async function getAllBlogs() {
   const blogFolder = path.join(process.cwd(), "/contents/blogs/");
   const files = await fs.readdir(blogFolder);
@@ -196,15 +231,15 @@ export async function getAllBlogs() {
       if (!file.endsWith(".mdx")) return undefined;
       const filepath = path.join(process.cwd(), `/contents/blogs/${file}`);
       const rawMdx = await fs.readFile(filepath, "utf-8");
+      const frontmatter = justGetFrontmatterFromMD<BlogMdxFrontmatter>(rawMdx);
+      if (!frontmatter) return undefined;
       return {
-        ...justGetFrontmatterFromMD<BlogMdxFrontmatter>(rawMdx),
+        ...frontmatter,
         slug: file.split(".")[0],
       };
     }),
   );
-  return uncheckedRes.filter((it) => !!it) as (BlogMdxFrontmatter & {
-    slug: string;
-  })[];
+  return uncheckedRes.filter((it): it is BlogMdxFrontmatter & { slug: string } => !!it);
 }
 
 export async function getBlogForSlug(slug: string) {
@@ -215,4 +250,45 @@ export async function getBlogForSlug(slug: string) {
   } catch {
     return undefined;
   }
+}
+
+function rehypeCodeTitlesWithLogo() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (tree: any) => {
+    visit(tree, "element", (node) => {
+      if (
+        node?.tagName === "div" &&
+        node?.properties?.className?.includes("rehype-code-title")
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const titleTextNode = node.children.find((child: any) =>
+          child.type === "text"
+        );
+        if (!titleTextNode) return;
+
+        // Extract filename and language
+        const titleText = titleTextNode.value;
+        const match = hasSupportedExtension(titleText);
+        if (!match) return;
+
+        const splittedNames = titleText.split(".");
+        const ext = splittedNames[splittedNames.length - 1];
+        const iconClass = `devicon-${
+          getIconName(
+            ext,
+          )
+        }-plain text-[17px]`;
+
+        // Insert icon before title text
+        if (iconClass) {
+          node.children.unshift({
+            type: "element",
+            tagName: "i",
+            properties: { className: [iconClass, "code-icon"] },
+            children: [],
+          });
+        }
+      }
+    });
+  };
 }
