@@ -21,7 +21,7 @@ export default function Home() {
         Learn Git with me
       </h1>
       <p className="mb-8 sm:text-xl max-w-[800px] text-muted-foreground">
-        Learn Git with me is a free and open-source platform to learn Git and
+        a free and open-source platform to learn Git and
         GitHub. It is designed to be simple and easy to understand for
         beginners.
       </p>
