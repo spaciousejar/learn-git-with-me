@@ -18,11 +18,10 @@ export default function Home() {
         <MoveUpRightIcon className="w-4 h-4 font-extrabold" />
       </Link>
       <h1 className="text-3xl font-bold mb-4 sm:text-7xl">
-        Learn Git with me
+        Learn Git And GitHub
       </h1>
       <p className="mb-8 sm:text-xl max-w-[800px] text-muted-foreground">
-        a free and open-source platform to learn Git and
-        GitHub. It is designed to be simple and easy to understand for
+       It is designed to be simple and easy to understand for
         beginners.
       </p>
       <div className="flex flex-row items-center gap-5">
