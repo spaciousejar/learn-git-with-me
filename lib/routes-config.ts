@@ -11,9 +11,8 @@ export type EachRoute = {
 
 export const ROUTES: EachRoute[] = [
   {
-    title: "Getting Started",
-    href: "/getting-started",
-    noLink: true,
+    title: "Learn Basics",
+    href: "/learn-basics",
     items: [
       { title: "Introduction", href: "/introduction" },
       {
