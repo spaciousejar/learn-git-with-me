@@ -11,76 +11,72 @@ export type EachRoute = {
 
 export const ROUTES: EachRoute[] = [
   {
-    title: "Getting Started",
-    href: "/getting-started",
-    noLink: true,
+    title: "Learn Basics",
+    href: "/learn-basics",
     items: [
-      { title: "Introduction", href: "/introduction" },
       {
         title: "Installation",
         href: "/installation",
-         items: [
+        items: [
           { title: "Linux", href: "/linux" },
-          { title: "MacOS", href: "/macOS" },
+          { title: "MacOS", href: "/macOS" }, 
           { title: "Windows", href: "/windows" },
-          {title: "Android", href: "/android"},
+          { title: "Android", href: "/android" },
         ],
       },
     ],
   },
   {
     title: "Basic Concepts",
-    href: "/basic-concepts",
+    href: "/basic-concepts", 
     noLink: true,
     items: [
-      { title: "Why Use git", href: "/why-use-git" },
-      {
-        title: "Tip to Master Git",
-        href: "/tips",
-      },
+      { title: "Why Use Git", href: "/why-use-git" }, 
+      { title: "Tips to Master Git", href: "/tips" }, 
     ],
   },
-
   {
     title: "Essential Commands",
     href: "/essential-commands",
     noLink: true,
     items: [
       { title: "Configure Git", href: "/configure-git" },
-      { title: "Initialize Git", href: "/Initialize-Git-repository" },
-      { title: "Check status", href: "/git-status" },
-      { title: "Add files to staging", href: "/git-add" },
-      { title: "Commit changes", href: "/git-commit" },
-      { title: "Push changes", href: "/git-push" },
-      { title: "Pull changes", href: "/git-pull" },
-      { title: "Clone repository", href: "/git-clone" },
+      { title: "Initialize Repository", href: "/git-init" },
+      { title: "Check Status", href: "/git-status" },
+      { title: "Stage Changes", href: "/git-add" },
+      { title: "Commit Changes", href: "/git-commit" },
+      { title: "Push Changes", href: "/git-push" },
+      { title: "Pull Changes", href: "/git-pull" },
+      { title: "Clone Repository", href: "/git-clone" },
       {
-        title: "Branching",
-        href: "/branching",
+        title: "Branch Management", 
+        href: "/branches",
         noLink: true,
         items: [
-          { title: "Create branch", href: "/create-branch" },
-          { title: "List branches", href: "/git-branch" },
-          { title: "Switch branch", href: "/git-checkout" },
-          { title: "Merge branch", href: "/git-merge" },
-          { title: "Delete branch", href: "/delete-branch" },
+          { title: "Create Branch", href: "/create-branch" },
+          { title: "List Branches", href: "/git-branch" },
+          { title: "Switch Branches", href: "/git-checkout" },
+          { title: "Merge Branches", href: "/git-merge" },
+          { title: "Delete Branch", href: "/delete-branch" },
         ],
       },
-      { title: "View commit history", href: "/git-log" },
-      { title: "View changes", href: "/git-diff" },
-      { title: "Fetch changes", href: "/git-fetch" },
-      { title: "Remote repositories", href: "/git-remote" },
-      { title: "Reset changes", href: "/git-reset" },
-      { title: "Revert changes", href: "/git-revert" },
+      { title: "View History", href: "/git-log" }, 
+      { title: "View Changes", href: "/git-diff" },
+      { title: "Fetch Changes", href: "/git-fetch" },
+      { title: "Manage Remotes", href: "/git-remote" },
+      { title: "Reset Changes", href: "/git-reset" },
+      { title: "Revert Changes", href: "/git-revert" },
     ],
   },
   {
-    title: "File Management in Git",
-    href: "/file-management-in-git",
+    title: "File Management",
+    href: "/file-management",
     noLink: true,
-    items: [{ title: "The .gitignore File", href: "/the-gitignore-file" }],
+    items: [
+      { title: ".gitignore File", href: "/gitignore" },
+      { title: ".gitkeep File", href: "/gitkeep" },
+    ],
   },
-
 ];
 
 type Page = { title: string; href: string };

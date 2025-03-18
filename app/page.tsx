@@ -4,6 +4,7 @@ import { BorderBeam } from "@/components/magicui/border-beam";
 import { Video } from "@/components/ui/video";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
+import CanvasCursor from "@/components/CanvasCursor";
 
 export default function Home() {
   return (
@@ -17,15 +18,15 @@ export default function Home() {
         <MoveUpRightIcon className="w-4 h-4 font-extrabold" />
       </Link>
       <h1 className="text-3xl font-bold mb-4 sm:text-7xl">
-        Learn Git with me
+        Learn Git And GitHub
       </h1>
       <p className="mb-8 sm:text-xl max-w-[800px] text-muted-foreground">
-        Learn Git with me is a free and open-source platform to learn Git and
-        GitHub. It is designed to be simple and easy to understand for
+       It is designed to be simple and easy to understand for
         beginners.
       </p>
       <div className="flex flex-row items-center gap-5">
          <GET/>
+         <CanvasCursor />
          <DownloadButton/>
       </div>
       <span className="flex flex-row items-center gap-2 text-zinc-400 text-md mt-7 -mb-12 max-[800px]:mb-12">
