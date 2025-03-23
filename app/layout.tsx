@@ -11,13 +11,12 @@ import type React from "react";
 import type { Metadata, Viewport } from "next"
 
 const APP_NAME = "Git Me";
-const APP_DEFAULT_TITLE = "Learn Git and Github: Beginner's Guide to Version Control";
+const APP_DEFAULT_TITLE = "Learn Git and Github: Beginner's Guide.";
 const APP_TITLE_TEMPLATE = "%s - Git Me";
-const APP_DESCRIPTION = "Learn Git and GitHub, the popular version control systems.";
-
+const APP_DESCRIPTION = "-- It is designed to be simple and easy to understand for beginners.";
 export const metadata: Metadata = {
   applicationName: APP_NAME,
-  metadataBase: new URL("https://gitme.live"),
+  metadataBase: new URL("https://www.gitme.live"),
   title: {
     default: APP_DEFAULT_TITLE,
     template: APP_TITLE_TEMPLATE,
@@ -42,11 +41,10 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
+    url: "https://www.gitme.live",
     images: [
       {
         url: '/og.png',
-        width: 1344,
-        height: 766,
       },
     ],
   },
