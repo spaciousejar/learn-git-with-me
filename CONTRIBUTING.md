@@ -34,7 +34,7 @@ Thank you for your interest in contributing to GitME! Your support is greatly ap
    Install the necessary dependencies by running:
 
    ```bash
-   npm install
+   bun install
    ```
 
 6. **Create a `.env.local` file**  
@@ -48,7 +48,7 @@ Thank you for your interest in contributing to GitME! Your support is greatly ap
    Start the development server with:
 
    ```bash
-   npm run dev
+   bun run dev
    ```
 
 ## Editing Documentation and Commands
