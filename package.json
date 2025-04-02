@@ -47,7 +47,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22",
     "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react-dom": "^19",
     "@types/video-react": "^0.15.8",
     "autoprefixer": "^10.4.20",
     "eslint": "^9",
