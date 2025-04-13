@@ -17,5 +17,13 @@
     ],
     "theme_color": "##09090b",
   "background_color": "#09090b",
-  "display": "standalone"
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "start_url": "/",
+  "scope": "/",
+  "description": "Learn Git and Github",
+  "dir": "auto",
+  "lang": "en-US",
+  "prefer_related_applications": false,
+  "related_applications": []
   }
