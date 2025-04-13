@@ -1,0 +1,44 @@
+---
+title: Git Remote
+description: Learn about Git Remote in Git
+---
+
+## List remote repositories
+```sh
+git remote -v
+```
+This command lists the remote repositories that are associated with the local repository. The `-v` flag shows the URLs of the remote repositories.
+
+## Add a remote repository
+```sh
+git remote add remote_name remote_url
+```
+This command adds a new remote repository to the local repository. The `remote_name` is the name of the remote repository, and `remote_url` is the URL of the remote repository.
+
+## Remove a remote repository
+```sh
+git remote remove remote_name
+```
+This command removes the remote repository with the name `remote_name` from the local repository.
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs">Git Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials">Atlassian Git Tutorials</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/results?search_query=git+git-remote+tutorial">Video Tutorials</Link>
+</TabsContent>
+</Tabs>
+
+<Outlet path="3-git-branching/remote/git-remote" />

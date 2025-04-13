@@ -1,0 +1,37 @@
+---
+title: Delete Branch
+description: Learn about Delete Branch in Git
+---
+
+## Delete Branch
+```bash
+git branch -d branch_name
+```
+This command deletes the branch with the name `branch_name`. The branch must be fully merged into the current branch before it can be deleted. If the branch has unmerged changes, the command will fail. To force delete the branch, use the `-D` option instead of `-d`.
+
+```bash
+git branch -D branch_name
+```
+This command deletes the branch with the name `branch_name` even if it has unmerged changes. It is recommended to use this command with caution as it can result in data loss.
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs">Git Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials">Atlassian Git Tutorials</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/results?search_query=git+delete-branch+tutorial">Video Tutorials</Link>
+</TabsContent>
+</Tabs>
+
+<Outlet path="3-git-branching/basics/delete-branch" />
