@@ -1,0 +1,180 @@
+---
+title: GitHub Actions
+description: Learn how to automate workflows with GitHub Actions, a powerful CI/CD tool integrated directly into your GitHub repository.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Actions
+
+GitHub Actions is a powerful automation platform that allows you to build, test, and deploy your code directly from your GitHub repository. This feature enables continuous integration and continuous delivery (CI/CD) workflows and can automate virtually any software development process.
+
+## Understanding GitHub Actions
+
+<Tabs>
+  <TabItem label="Core Concepts">
+    - **Workflows**: Automated procedures defined in YAML files
+    - **Events**: Triggers that start workflows (push, PR, schedule, etc.)
+    - **Jobs**: Sets of steps that execute on the same runner
+    - **Steps**: Individual tasks that run commands or actions
+    - **Actions**: Reusable units of code for common tasks
+    - **Runners**: Servers that run your workflows
+  </TabItem>
+  <TabItem label="Key Features">
+    - Native integration with GitHub repositories
+    - Workflow automation for CI/CD
+    - Matrix builds across multiple platforms
+    - Reusable workflows and composite actions
+    - Secret management for secure automation
+    - Artifact storage for build outputs
+    - Rich marketplace of community actions
+  </TabItem>
+</Tabs>
+
+## Creating Your First Workflow
+
+Workflows are defined in YAML files stored in the `.github/workflows` directory of your repository.
+
+<Steps>
+  1. Create a `.github/workflows` directory in your repository
+  2. Add a new YAML file (e.g., `ci.yml`) with your workflow definition
+  3. Define the events that trigger the workflow
+  4. Configure the jobs and steps to run
+  5. Commit and push your workflow file
+</Steps>
+
+Here's a simple example of a workflow that runs tests on every push and pull request:
+
+```yaml
+name: Run Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test
+```
+
+<Aside type="tip">
+  GitHub provides starter workflow templates for common scenarios. Look for the "Actions" tab in your repository and click "New workflow" to browse available templates.
+</Aside>
+
+## Common GitHub Actions Use Cases
+
+<Tabs>
+  <TabItem label="Continuous Integration">
+    - Run automated tests on every push or PR
+    - Lint code for style and quality issues
+    - Check for security vulnerabilities
+    - Validate build process
+    - Generate test coverage reports
+  </TabItem>
+  <TabItem label="Continuous Deployment">
+    - Deploy web applications to hosting services
+    - Publish packages to registries (npm, PyPI, etc.)
+    - Create and publish Docker images
+    - Deploy to cloud services (AWS, Azure, GCP)
+    - Implement multi-environment deployments
+  </TabItem>
+  <TabItem label="Repository Automation">
+    - Label and triage issues automatically
+    - Generate changelogs for releases
+    - Schedule periodic maintenance tasks
+    - Send notifications to team communication tools
+    - Auto-merge dependabot PRs with passing tests
+  </TabItem>
+</Tabs>
+
+## Advanced GitHub Actions Features
+
+### Matrix Builds
+
+Run tests across multiple versions or environments:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm test
+```
+
+### Reusable Workflows
+
+Share common workflow patterns across repositories:
+
+```yaml
+# In .github/workflows/reusable.yml
+name: Reusable Workflow
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to ${{ inputs.environment }}
+        run: ./deploy.sh ${{ inputs.environment }}
+```
+
+<Aside type="caution">
+  Always use specific versions of actions (e.g., `actions/checkout@v3` instead of `actions/checkout@main`) to ensure workflow stability.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Actions Documentation" 
+    href="https://docs.github.com/en/actions"
+    description="Official documentation for GitHub Actions" 
+  />
+  <LinkCard 
+    title="GitHub Actions Marketplace" 
+    href="https://github.com/marketplace?type=actions"
+    description="Browse community-created actions for common tasks" 
+  />
+  <LinkCard 
+    title="GitHub Actions Tutorial" 
+    href="https://lab.github.com/githubtraining/github-actions:-hello-world"
+    description="Interactive GitHub Learning Lab course for GitHub Actions" 
+  />
+</CardGrid>

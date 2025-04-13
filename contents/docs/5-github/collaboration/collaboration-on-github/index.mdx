@@ -1,0 +1,147 @@
+---
+title: Collaboration on GitHub
+description: Learn how to effectively collaborate with others using GitHub's powerful collaboration features and workflows.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# Collaboration on GitHub
+
+GitHub enhances Git's collaboration capabilities with a suite of powerful features specifically designed to streamline teamwork and facilitate project management. This guide covers GitHub's key collaboration features and how to use them effectively.
+
+## GitHub's Collaboration Features
+
+<Tabs>
+  <TabItem label="Issues">
+    GitHub Issues provide a way to track tasks, enhancements, and bugs:
+    
+    - Customizable templates for bug reports, features, etc.
+    - Assignees for task ownership
+    - Labels for categorization
+    - Milestones for tracking progress toward goals
+    - Project boards integration
+    - Markdown support for rich formatting
+  </TabItem>
+  <TabItem label="Pull Requests">
+    Pull Requests (PRs) are the heart of GitHub collaboration:
+    
+    - Code review tools with inline comments
+    - Branch protection rules
+    - Status checks integration
+    - Draft PRs for work-in-progress changes
+    - Auto-linking to issues
+    - Required reviewers
+  </TabItem>
+  <TabItem label="Discussions">
+    GitHub Discussions provide a forum-like space for:
+    
+    - Q&A with accepted answers
+    - Announcements
+    - Community interactions
+    - General conversations outside of specific issues
+  </TabItem>
+  <TabItem label="Projects">
+    GitHub Projects offer flexible project management:
+    
+    - Kanban boards
+    - Customizable fields and views
+    - Automation through workflows
+    - Integration with issues and PRs
+  </TabItem>
+</Tabs>
+
+## Effective GitHub Collaboration Workflow
+
+<Steps>
+  1. **Create an Issue**: Document the task, bug, or feature request
+  2. **Discuss the approach**: Use comments to align on implementation
+  3. **Create a branch**: Make a dedicated branch for the work
+  4. **Implement changes**: Make commits on your branch
+  5. **Create a Pull Request**: Reference the issue in your PR
+  6. **Code Review**: Collaborate on improving the code
+  7. **Address feedback**: Make requested changes
+  8. **Merge**: Incorporate the changes into the main branch
+  9. **Close the issue**: Mark the task as complete
+</Steps>
+
+<Aside type="tip">
+  Use GitHub's "Fixes #123" or "Closes #123" syntax in PR descriptions or commit messages to automatically close referenced issues when the PR is merged.
+</Aside>
+
+## Collaboration Access Management
+
+GitHub provides granular permission controls to manage who can do what in your repository:
+
+<Tabs>
+  <TabItem label="Repository Roles">
+    - **Read**: View and clone the repository
+    - **Triage**: Manage issues and PRs without write access
+    - **Write**: Push to the repository and manage issues/PRs
+    - **Maintain**: Manage repository without access to sensitive actions
+    - **Admin**: Full control including sensitive actions
+  </TabItem>
+  <TabItem label="Branch Protection">
+    Critical settings for collaborative repositories:
+    
+    - Require pull request reviews before merging
+    - Require status checks to pass
+    - Require signed commits
+    - Restrict who can push to matching branches
+    - Enable force push restrictions
+  </TabItem>
+</Tabs>
+
+## Effective Code Review Practices on GitHub
+
+Code reviews are essential to maintaining quality and sharing knowledge:
+
+1. **Be specific**: Point to exact lines that need attention
+2. **Be constructive**: Suggest improvements, not just point out problems
+3. **Ask questions**: Use questions to understand intent rather than making assumptions
+4. **Praise good work**: Acknowledge well-written or clever code
+5. **Focus on the code**: Review the code, not the coder
+6. **Be timely**: Respond to review requests promptly
+
+<Aside type="caution">
+  Remember that GitHub comments support Markdown formatting, including code blocks, which makes it easier to suggest specific changes:
+  
+  ```suggestion
+  function betterImplementation() {
+    // Your suggested code
+  }
+  ```
+</Aside>
+
+## Collaboration Etiquette on GitHub
+
+- **Be respectful**: Maintain professionalism in all interactions
+- **Stay focused**: Keep comments relevant to the task at hand
+- **Follow the templates**: Use issue and PR templates if provided
+- **Document decisions**: Record important decisions in issues or PRs
+- **Update outdated discussions**: Link newer discussions to older ones
+- **Engage constructively**: Participate in discussions with a problem-solving mindset
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Docs: Working with Issues and Pull Requests" 
+    href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests"
+    description="Official documentation on GitHub collaboration features" 
+  />
+  <LinkCard 
+    title="Mastering GitHub" 
+    href="https://guides.github.com/activities/hello-world/"
+    description="GitHub's getting started guide for collaboration" 
+  />
+  <LinkCard 
+    title="Effective GitHub Collaboration Video" 
+    href="https://www.youtube.com/watch?v=HVsySz-h9r4"
+    description="Video tutorial on GitHub collaboration best practices" 
+  />
+</CardGrid>

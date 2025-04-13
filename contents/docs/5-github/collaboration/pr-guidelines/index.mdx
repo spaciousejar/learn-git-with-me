@@ -1,0 +1,121 @@
+---
+title: PR Guidelines
+description: Best practices for creating effective pull requests and contribution guidelines for your GitHub projects.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# Pull Request Guidelines
+
+Pull Requests (PRs) are essential for collaborative development on GitHub. Well-structured PR guidelines help maintain code quality, improve review efficiency, and ensure smooth project collaboration.
+
+## Effective PR Guidelines
+
+Establishing clear PR guidelines for your repository helps contributors understand expectations and streamlines the review process.
+
+<Tabs>
+  <TabItem label="PR Template Components">
+    - **Purpose/Description**: What does this PR accomplish?
+    - **Issue Reference**: Link to related issues
+    - **Changes Overview**: Summary of key changes
+    - **Testing Details**: How the changes were tested
+    - **Screenshots/Videos**: Visual evidence (if applicable)
+    - **Checklist**: Standards that should be met
+  </TabItem>
+  <TabItem label="Review Process">
+    - Define how many reviewers are required
+    - Set expectations for review response time
+    - Outline criteria for approving PRs
+    - Explain how to request changes effectively
+    - Document required status checks or tests
+  </TabItem>
+</Tabs>
+
+## Creating PR Templates
+
+A PR template ensures contributors provide all necessary information to reviewers.
+
+<Steps>
+  1. Create a `.github` directory in your repository's root
+  2. Create a `PULL_REQUEST_TEMPLATE.md` file inside this directory
+  3. Add your desired template content following markdown syntax
+  4. Commit and push the template to your repository
+</Steps>
+
+Here's a sample PR template:
+
+```markdown
+## Description
+<!-- Provide a brief description of the changes in this PR -->
+
+## Related Issue
+<!-- Link to the issue this PR resolves -->
+Fixes #(issue)
+
+## Type of change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Code refactoring
+- [ ] Other (please describe):
+
+## How Has This Been Tested?
+<!-- Describe the tests you ran -->
+
+## Screenshots (if applicable)
+<!-- Add screenshots to help explain your changes -->
+
+## Checklist
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+```
+
+<Aside type="caution">
+  Templates should be comprehensive but not overwhelming. Focus on information that truly helps reviewers understand and evaluate the changes.
+</Aside>
+
+## PR Size Best Practices
+
+<Tabs>
+  <TabItem label="Keep PRs Small">
+    - Aim for less than 500 lines of changes when possible
+    - Focus on a single logical change per PR
+    - Break large features into smaller, sequential PRs
+    - Consider using feature flags for incomplete functionality
+  </TabItem>
+  <TabItem label="Provide Context">
+    - Explain the reasoning behind implementation choices
+    - Link to design documents or discussions
+    - Highlight areas that may need special attention
+    - Provide context for non-obvious changes
+  </TabItem>
+</Tabs>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Docs: Creating a Pull Request Template" 
+    href="https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository"
+    description="Official GitHub guide for creating PR templates" 
+  />
+  <LinkCard 
+    title="Conventional Commits" 
+    href="https://www.conventionalcommits.org/"
+    description="A specification for adding human and machine-readable meaning to commit messages" 
+  />
+  <LinkCard 
+    title="PR Best Practices Video" 
+    href="https://www.youtube.com/watch?v=_sfzAOfY8uc"
+    description="Video walkthrough of pull request best practices" 
+  />
+</CardGrid>

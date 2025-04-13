@@ -1,0 +1,87 @@
+---
+title: GitHub Discussions
+description: Learn about GitHub Discussions, a collaborative communication feature that helps your community ask questions, share information, and have open-ended conversations.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Discussions
+
+GitHub Discussions provides a collaborative communication space for your community outside of your codebase. This feature allows project maintainers, contributors, and users to gather and have conversations about a project without tying them to specific issues or pull requests.
+
+## What are GitHub Discussions?
+
+GitHub Discussions are dedicated spaces for open-ended conversations related to your project. Unlike issues (which typically focus on specific bugs or features) or pull requests (which focus on code changes), Discussions provide a forum-like experience for:
+
+- General questions and answers
+- Sharing ideas and announcements
+- Community conversation and collaboration
+- Documentation and knowledge sharing
+
+<Tabs>
+  <TabItem label="Key Features">
+    - **Categories**: Organize discussions by topic
+    - **Pinnable discussions**: Highlight important conversations
+    - **Convertible to issues**: Turn discussions into actionable tasks
+    - **Searchable**: Find conversations easily
+    - **Markdown support**: Format text with rich formatting
+    - **Reactions**: Provide quick feedback without commenting
+  </TabItem>
+  <TabItem label="Best Practices">
+    - Create clear categories with descriptions
+    - Pin important discussions for visibility
+    - Set community guidelines for discussions
+    - Regularly engage with community questions
+    - Convert relevant discussions to issues when they need action
+    - Close resolved discussions to keep the space organized
+  </TabItem>
+</Tabs>
+
+## Setting Up GitHub Discussions
+
+<Steps>
+  1. Navigate to your repository on GitHub
+  2. Go to Settings > Features
+  3. Check the "Discussions" checkbox to enable the feature
+  4. Click on the "Discussions" tab in your repository
+  5. Create categories that align with your community needs
+</Steps>
+
+## Effective Discussion Categories
+
+A well-structured discussion board typically includes categories like:
+
+- **Announcements**: Important updates from maintainers
+- **Q&A**: Questions with accepted answers
+- **Ideas**: Suggestions for the project
+- **Show and Tell**: Community sharing their projects
+- **General**: Miscellaneous conversations
+
+<Aside type="tip">
+  The Q&A category has special functionality that allows marking answers as "solutions," making it easier for others to find answers to common questions.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="Official GitHub Documentation" 
+    href="https://docs.github.com/en/discussions"
+    description="Complete documentation on GitHub Discussions from GitHub" 
+  />
+  <LinkCard 
+    title="GitHub Blog: Introducing Discussions" 
+    href="https://github.blog/2020-05-06-new-from-satellite-2020-github-discussions-codespaces-securing-code-and-more/"
+    description="Original announcement post for GitHub Discussions" 
+  />
+  <LinkCard 
+    title="GitHub Discussions - Video Guide" 
+    href="https://www.youtube.com/watch?v=IpBw2SJkFyk"
+    description="Video tutorial on setting up and using GitHub Discussions" 
+  />
+</CardGrid>

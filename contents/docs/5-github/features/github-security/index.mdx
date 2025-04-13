@@ -1,0 +1,244 @@
+---
+title: GitHub Security
+description: Learn about GitHub's security features to protect your code, detect vulnerabilities, and implement secure development practices.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Security
+
+GitHub provides a comprehensive set of security features designed to help developers identify and fix vulnerabilities, enforce secure development practices, and protect their code. These tools integrate directly into your GitHub workflow, making security a natural part of your development process.
+
+## Security Features Overview
+
+<Tabs>
+  <TabItem label="Dependency Security">
+    - **Dependabot Alerts**: Notifications about vulnerable dependencies
+    - **Dependabot Updates**: Automatic pull requests to update dependencies
+    - **Dependency Graph**: Visualization of project dependencies
+    - **Dependency Review**: Review dependency changes in pull requests
+  </TabItem>
+  <TabItem label="Code Security">
+    - **Code Scanning**: Static analysis to find security issues
+    - **Secret Scanning**: Detection of leaked secrets
+    - **Security Advisories**: Create and publish security advisories
+    - **Security Policies**: Define security reporting guidelines
+  </TabItem>
+  <TabItem label="Access Control">
+    - **Branch Protection**: Enforce code review and status checks
+    - **Two-factor authentication**: Enhanced login security
+    - **SAML SSO**: Enterprise identity management
+    - **IP Allow Lists**: Restrict access by IP address
+    - **Security Keys**: Support for physical security keys
+  </TabItem>
+</Tabs>
+
+## Setting Up GitHub Security Features
+
+### Dependency Security
+
+<Steps>
+  1. Enable the Dependency Graph (enabled by default for public repositories)
+      - For private repositories: Repository Settings > Security & analysis > Enable Dependency graph
+      
+  2. Enable Dependabot alerts
+      - Go to Repository Settings > Security & analysis
+      - Click "Enable" next to Dependabot alerts
+      
+  3. Configure Dependabot security updates
+      - Go to Repository Settings > Security & analysis
+      - Click "Enable" next to Dependabot security updates
+      
+  4. For more control, create a `dependabot.yml` file in `.github` directory:
+  
+     ```yaml
+     version: 2
+     updates:
+       - package-ecosystem: "npm"
+         directory: "/"
+         schedule:
+           interval: "weekly"
+         open-pull-requests-limit: 10
+     ```
+</Steps>
+
+<Aside type="tip">
+  You can configure different update schedules for different package ecosystems in the same repository, allowing for ecosystem-specific update strategies.
+</Aside>
+
+### Code Scanning with CodeQL
+
+<Steps>
+  1. Go to your repository's Security tab
+  2. Select "Code scanning" from the menu
+  3. Click "Set up code scanning"
+  4. Choose "CodeQL Analysis"
+  5. Commit the workflow file to your repository
+</Steps>
+
+Example CodeQL workflow:
+
+```yaml
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript', 'python' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+```
+
+### Secret Scanning
+
+GitHub automatically scans public repositories for known secret formats. For private repositories:
+
+<Steps>
+  1. Go to Repository Settings > Security & analysis
+  2. Click "Enable" next to Secret scanning
+</Steps>
+
+<Aside type="caution">
+  If a secret is detected, GitHub notifies the service provider who issued the secret. They can then revoke the compromised secret, issue a new one, or contact you directly.
+</Aside>
+
+## Creating a Security Policy
+
+A security policy helps others know how to report security vulnerabilities:
+
+<Steps>
+  1. Go to your repository's Security tab
+  2. Click "Security policy"
+  3. Click "Start setup"
+  4. Edit the SECURITY.md template
+  5. Commit the file to your repository
+</Steps>
+
+Example security policy:
+
+```markdown
+# Security Policy
+
+## Supported Versions
+
+These versions are currently supported with security updates:
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 5.1.x   | :white_check_mark: |
+| 5.0.x   | :x:                |
+| 4.0.x   | :white_check_mark: |
+| < 4.0   | :x:                |
+
+## Reporting a Vulnerability
+
+To report a vulnerability:
+
+1. Go to the Security tab of this repository
+2. Click "Report a vulnerability"
+3. Fill out the form with details about the vulnerability
+
+We will respond within 48 hours and keep you updated on our progress.
+```
+
+## Security Best Practices for GitHub Repositories
+
+<Tabs>
+  <TabItem label="Branch Protection">
+    Configure branch protection rules:
+    
+    1. Go to repository Settings > Branches
+    2. Click "Add rule" next to Branch protection rules
+    3. Configure these recommended settings:
+       - Require pull request reviews before merging
+       - Require status checks to pass before merging
+       - Require signed commits
+       - Include administrators
+  </TabItem>
+  <TabItem label="Access Control">
+    - Regularly audit repository access
+    - Follow the principle of least privilege
+    - Use fine-grained personal access tokens
+    - Enable two-factor authentication for all contributors
+    - Review and prune inactive collaborators
+  </TabItem>
+  <TabItem label="Secure Development">
+    - Use a `.gitignore` file to prevent committing sensitive files
+    - Store secrets in GitHub Secrets, not in code
+    - Include security testing in CI/CD pipelines
+    - Review dependency license compliance
+    - Implement codeowners to enforce reviews by security experts
+  </TabItem>
+</Tabs>
+
+## Security Advisories
+
+When you discover a vulnerability in your project:
+
+<Steps>
+  1. Go to the Security tab of your repository
+  2. Click "Advisories"
+  3. Click "New draft security advisory"
+  4. Fill in details about the vulnerability
+  5. Work privately to fix the issue
+  6. Publish the advisory when ready
+</Steps>
+
+<Aside type="note">
+  Creating a security advisory automatically creates a temporary private fork where you can collaborate on fixing the vulnerability before disclosure.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Security Documentation" 
+    href="https://docs.github.com/en/code-security"
+    description="Official documentation for GitHub's security features" 
+  />
+  <LinkCard 
+    title="GitHub Security Lab" 
+    href="https://securitylab.github.com/"
+    description="Research and tools from GitHub's security experts" 
+  />
+  <LinkCard 
+    title="OWASP Top Ten" 
+    href="https://owasp.org/www-project-top-ten/"
+    description="The Open Web Application Security Project's top security risks" 
+  />
+</CardGrid>
