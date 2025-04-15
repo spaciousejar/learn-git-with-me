@@ -2,7 +2,6 @@ import { ThemeProvider } from "@/components/contexts/theme-provider";
 import "@/styles/globals.css";
 import { Navbar } from "@/components/navbar";
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
