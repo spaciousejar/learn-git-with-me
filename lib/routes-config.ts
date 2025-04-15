@@ -13,34 +13,10 @@ export const ROUTES: EachRoute[] = [
   title: "1. Getting Started",
   href: "/1-getting-started",
   items: [
-    {
-      title: "What is Git",
-      href: "/what-is-git",
-      items: [
-        { title: "Version Control Basics", href: "/what-is-version-control" },
-        { title: "Why Use Version Control", href: "/why-use-version-control" },
-        { title: "Git vs Other VCS", href: "/git-vs-other-vcs" },
-        { title: "What is a Repository", href: "/what-is-a-repository" },
-        { title: "Committing Changes", href: "/committing-changes" },
-      ],
-    },
-    {
-      title: "Basic Concepts",
-      href: "/concepts", 
-      items: [
-        { title: "Why Use Git", href: "/why-use-git" }, 
-        { title: "Tips to Master Git", href: "/tips" },
-        { title: "Learn the Basics", href: "/learn-the-basics" },
-      ],
-    },
-    {
-      title: "Installation",
-      href: "/installation",
-      items: [
-        { title: "Installing Git Locally", href: "/installing-git-locally" },
-        { title: "Installation and Setup", href: "/installation-and-setup" },
-      ],
-    },
+    {title: "What is Git", href: "/what-is-git"},
+    { title: "Version Control Basics", href: "/what-is-version-control" },
+    { title: "Why Use Version Control", href: "/why-use-version-control" },
+    { title: "Git vs Other VCS", href: "/git-vs-other-vcs" },
   ],
 },
 {
@@ -48,7 +24,7 @@ export const ROUTES: EachRoute[] = [
   href: "/2-git-basics",
   items: [
     {
-      title: "Installation and Setup",
+      title: "Installation",
       href: "/installation",
       items: [
         {title: "Linux", href: "/linux"},
@@ -78,6 +54,11 @@ export const ROUTES: EachRoute[] = [
         { title: "Viewing Commit History", href: "/viewing-commit-history" },
         { title: "Viewing Diffs", href: "/viewing-diffs" },
         { title: "Git Log Options", href: "/git-log-options" },
+        { title: "Git Commit --amend", href: "/git-commit---amend" },
+        { title: "Git Reset", href: "/git-reset" },
+        { title: "Git Revert", href: "/git-revert" },
+        { title: "Git Reflog", href: "/git-reflog" },
+        { title: "Git Checkout", href: "/git-checkout" },
       ],
     },
     {
