@@ -31,7 +31,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.487.0",
     "motion": "^12.7.3",
-    "next": "^14.2.22",
+    "next": "^15.3.0",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
