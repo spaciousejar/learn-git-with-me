@@ -1,4 +1,9 @@
 // .eslintrc.json
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "next/next/no-document-import-in-page": "off",
+    "next/next/no-img-element": "off",
+    "next/next/no-script-tags-in-head": "off"
+  }
 }

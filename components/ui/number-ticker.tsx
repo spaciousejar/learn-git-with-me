@@ -1,25 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring } from "framer-motion";
+import { useInView, useMotionValue, useSpring } from "motion/react";
+import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-export default function NumberTicker({
+interface NumberTickerProps extends ComponentPropsWithoutRef<"span"> {
+  value: number;
+  startValue?: number;
+  direction?: "up" | "down";
+  delay?: number;
+  decimalPlaces?: number;
+}
+
+export function NumberTicker({
   value,
+  startValue = 0,
   direction = "up",
   delay = 0,
   className,
   decimalPlaces = 0,
-}: {
-  value: number;
-  direction?: "up" | "down";
-  className?: string;
-  delay?: number; // delay in s
-  decimalPlaces?: number;
-}) {
+  ...props
+}: NumberTickerProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const motionValue = useMotionValue(direction === "down" ? value : 0);
+  const motionValue = useMotionValue(direction === "down" ? value : startValue);
   const springValue = useSpring(motionValue, {
     damping: 60,
     stiffness: 100,
@@ -27,11 +31,13 @@ export default function NumberTicker({
   const isInView = useInView(ref, { once: true, margin: "0px" });
 
   useEffect(() => {
-    isInView &&
-      setTimeout(() => {
-        motionValue.set(direction === "down" ? 0 : value);
+    if (isInView) {
+      const timer = setTimeout(() => {
+        motionValue.set(direction === "down" ? startValue : value);
       }, delay * 1000);
-  }, [motionValue, isInView, delay, value, direction]);
+      return () => clearTimeout(timer);
+    }
+  }, [motionValue, isInView, delay, value, direction, startValue]);
 
   useEffect(
     () =>
@@ -48,11 +54,14 @@ export default function NumberTicker({
 
   return (
     <span
+      ref={ref}
       className={cn(
-        "inline-block tabular-nums text-black dark:text-white tracking-wider",
+        "inline-block tabular-nums tracking-wider text-black dark:text-white",
         className,
       )}
-      ref={ref}
-    />
+      {...props}
+    >
+      {startValue}
+    </span>
   );
 }
