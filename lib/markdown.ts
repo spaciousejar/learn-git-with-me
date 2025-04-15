@@ -41,6 +41,7 @@ const components = {
   StepperItem,
   img: Image,
   a: Link,
+  Link, // Add explicit Link component mapping
   Outlet,
   Files,
   table: Table,

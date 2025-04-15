@@ -23,6 +23,7 @@
     "@radix-ui/react-toast": "^1.2.6",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
+    "caniuse-lite": "^1.0.30001713",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.10",
