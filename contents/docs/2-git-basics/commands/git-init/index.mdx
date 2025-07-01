@@ -3,9 +3,14 @@ title: Git Init
 description: Learn about Git Init in Git
 ---
 
-# git init
 
 The `git init` command creates a new Git repository. It can be used to convert an existing, unversioned project to a Git repository or initialize a new, empty repository. Most other Git commands are not available outside of an initialized repository, so this is usually the first command you'll run in a new project.
+
+```
+git init [<directory>]
+```
+- `<directory>`: The name of the directory to create. If not specified, the current directory is used.
+- `--bare`: Create a bare repository. A bare repository is a repository that does not have a working directory. It is used for sharing and collaboration, as it does not contain any files or directories.
 
 Visit the following resources to learn more:
 
@@ -32,4 +37,3 @@ Visit the following resources to learn more:
 </TabsContent>
 </Tabs>
 
-<Outlet path="2-git-basics/commands/git-init" />
