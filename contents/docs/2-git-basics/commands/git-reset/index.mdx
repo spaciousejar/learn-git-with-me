@@ -1,0 +1,92 @@
+---
+title: Git Reset
+description: Understanding git reset and its different modes
+---
+
+# Git Reset
+
+The `git reset` command is used to undo changes and move the HEAD pointer to a different commit.
+
+## Reset Modes
+
+### --soft
+Moves HEAD to the specified commit but keeps changes in the staging area.
+
+```bash
+git reset --soft HEAD~1
+```
+
+### --mixed (default)
+Moves HEAD and unstages changes, but keeps them in the working directory.
+
+```bash
+git reset HEAD~1
+git reset --mixed HEAD~1  # Same as above
+```
+
+### --hard
+Moves HEAD and discards all changes (staging area and working directory).
+
+```bash
+git reset --hard HEAD~1
+```
+
+⚠️ **Warning**: `--hard` permanently discards changes!
+
+## Common Use Cases
+
+### Unstage Files
+
+```bash
+# Unstage a specific file
+git reset HEAD file.txt
+
+# Unstage all files
+git reset HEAD
+```
+
+### Undo Last Commit
+
+```bash
+# Keep changes in working directory
+git reset HEAD~1
+
+# Discard all changes
+git reset --hard HEAD~1
+```
+
+### Reset to Specific Commit
+
+```bash
+git reset --hard abc1234
+```
+
+## Examples
+
+```bash
+# Undo last commit but keep changes
+git reset --soft HEAD~1
+
+# Unstage all staged files
+git reset
+
+# Reset to 3 commits ago, keeping changes
+git reset HEAD~3
+
+# Reset to specific commit and discard everything
+git reset --hard 9fceb02
+```
+
+## Recovery
+
+If you accidentally use `--hard`, you might be able to recover using:
+
+```bash
+git reflog
+git reset --hard HEAD@{1}
+```
+
+## Next Steps
+
+- Learn about [git revert](/docs/2-git-basics/commands/git-revert) for safer undoing
+- Explore [git reflog](/docs/2-git-basics/commands/git-reflog) for recovery

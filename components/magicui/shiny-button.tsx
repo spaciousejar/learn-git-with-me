@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, type AnimationProps } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ const animationProps = {
       mass: 0.5,
     },
   },
-} as AnimationProps;
+};
 interface ShinyButtonProps {
   children: React.ReactNode;
   className?: string;

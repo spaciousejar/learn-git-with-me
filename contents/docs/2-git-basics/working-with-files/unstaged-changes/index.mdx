@@ -1,0 +1,283 @@
+---
+title: Unstaged Changes
+description: Understanding unstaged changes in Git and how to manage them
+---
+
+# Unstaged Changes
+
+Unstaged changes are modifications to tracked files that haven't been added to the staging area yet.
+
+## What Are Unstaged Changes?
+
+When you modify files in your working directory, Git tracks these changes but doesn't automatically prepare them for commit. These modifications remain "unstaged" until you explicitly add them to the staging area.
+
+```
+Working Directory → Staging Area → Repository
+     (unstaged)      (staged)     (committed)
+```
+
+## Viewing Unstaged Changes
+
+### Check Status
+
+```bash
+git status
+```
+
+Unstaged changes appear in **red** under "Changes not staged for commit".
+
+### See Specific Changes
+
+```bash
+# Show unstaged changes
+git diff
+
+# Show changes for specific file
+git diff filename.txt
+
+# Show changes with more context
+git diff -U10
+```
+
+## Types of Unstaged Changes
+
+### Modified Files
+
+Files that exist in the repository but have been changed:
+
+```bash
+# Edit an existing file
+echo "new content" >> existing-file.txt
+
+# Check status
+git status
+```
+
+### Deleted Files
+
+Files that were tracked but have been deleted:
+
+```bash
+# Delete a tracked file
+rm tracked-file.txt
+
+# Check status - shows as deleted
+git status
+```
+
+### New Files
+
+Files that don't exist in the repository yet:
+
+```bash
+# Create a new file
+touch new-file.txt
+
+# Check status - shows as untracked
+git status
+```
+
+## Managing Unstaged Changes
+
+### Stage Changes
+
+```bash
+# Stage specific file
+git add filename.txt
+
+# Stage all changes
+git add .
+
+# Stage all modified files (not new ones)
+git add -u
+```
+
+### Discard Changes
+
+```bash
+# Discard changes to specific file
+git checkout -- filename.txt
+
+# Discard all unstaged changes (Git 2.23+)
+git restore .
+
+# Discard specific file (Git 2.23+)
+git restore filename.txt
+```
+
+### Stash Changes
+
+```bash
+# Temporarily save unstaged changes
+git stash
+
+# Apply stashed changes later
+git stash pop
+```
+
+## Working with Unstaged Changes
+
+### Partial Staging
+
+Stage only parts of a file:
+
+```bash
+# Interactive staging
+git add -p filename.txt
+
+# Interactive mode
+git add -i
+```
+
+### Comparing Changes
+
+```bash
+# Compare unstaged changes
+git diff
+
+# Compare with specific commit
+git diff HEAD~1
+
+# Compare specific file
+git diff HEAD -- filename.txt
+```
+
+## Common Scenarios
+
+### Reviewing Changes Before Staging
+
+```bash
+# See what you've changed
+git diff
+
+# Check which files are modified
+git status
+
+# Stage files you want to commit
+git add specific-file.txt
+```
+
+### Discarding Unwanted Changes
+
+```bash
+# Discard changes to one file
+git checkout -- unwanted-changes.txt
+
+# Discard all changes (be careful!)
+git checkout -- .
+```
+
+### Mixing Staged and Unstaged Changes
+
+You can have both staged and unstaged changes for the same file:
+
+```bash
+# Make changes and stage them
+echo "line 1" >> file.txt
+git add file.txt
+
+# Make more changes (these are unstaged)
+echo "line 2" >> file.txt
+
+# Now you have both staged and unstaged changes
+git status
+```
+
+## Best Practices
+
+### 1. Review Before Staging
+
+Always review your changes before staging:
+
+```bash
+git diff
+git status
+```
+
+### 2. Use Meaningful Commits
+
+Stage related changes together:
+
+```bash
+# Good: Related changes
+git add auth.js login.html
+git commit -m "Implement login feature"
+
+# Bad: Unrelated changes
+git add .
+git commit -m "Various changes"
+```
+
+### 3. Test Before Committing
+
+Make sure your changes work:
+
+```bash
+# Run tests with unstaged changes
+npm test
+
+# If tests pass, stage and commit
+git add .
+git commit -m "Add feature X"
+```
+
+## Troubleshooting
+
+### Changes Not Showing
+
+If `git diff` shows nothing but you know you made changes:
+
+1. File might already be staged: `git diff --staged`
+2. File might not be tracked: `git status`
+3. File might be ignored: `git status --ignored`
+
+### Accidentally Discarded Changes
+
+If you accidentally discarded changes:
+
+1. Check if you have a backup
+2. Look in your editor's recovery files
+3. Use `git reflog` if changes were committed before
+
+### Large Diffs
+
+For large changes, use tools to review:
+
+```bash
+# Use external diff tool
+git difftool
+
+# Show file names only
+git diff --name-only
+
+# Show summary statistics
+git diff --stat
+```
+
+## Git Status Output
+
+Understanding what Git tells you:
+
+```
+$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes)
+    modified:   file1.txt
+    deleted:    file2.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+    new-file.txt
+```
+
+- **Modified**: File exists and has changes
+- **Deleted**: File was removed from working directory
+- **Untracked**: New file not in repository
+
+## Next Steps
+
+- Learn about [staged changes](/docs/2-git-basics/working-with-files/staged-changes)
+- Understand [git add](/docs/2-git-basics/commands/git-add) command
+- Explore [git stash](/docs/4-git-advanced/tools/git-stash-basics) for temporary storage

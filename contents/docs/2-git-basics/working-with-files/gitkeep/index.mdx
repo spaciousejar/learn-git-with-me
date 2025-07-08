@@ -1,0 +1,216 @@
+---
+title: .gitkeep Files
+description: How to track empty directories in Git using .gitkeep
+---
+
+# .gitkeep Files
+
+Git doesn't track empty directories. The `.gitkeep` file is a convention used to force Git to track empty directories.
+
+## The Problem
+
+Git only tracks files, not directories. If you have an empty directory structure you want to preserve:
+
+```
+project/
+├── src/
+├── tests/
+├── docs/
+└── assets/
+    ├── images/  (empty)
+    ├── css/     (empty)
+    └── js/      (empty)
+```
+
+Git will ignore the empty `images/`, `css/`, and `js/` directories.
+
+## The Solution
+
+Add a `.gitkeep` file to empty directories:
+
+```bash
+touch assets/images/.gitkeep
+touch assets/css/.gitkeep
+touch assets/js/.gitkeep
+```
+
+## Creating .gitkeep Files
+
+### Single Directory
+
+```bash
+touch directory/.gitkeep
+```
+
+### Multiple Directories
+
+```bash
+# Create .gitkeep in multiple directories
+find . -type d -empty -exec touch {}/.gitkeep \;
+
+# Or manually
+mkdir -p logs temp cache
+touch logs/.gitkeep temp/.gitkeep cache/.gitkeep
+```
+
+## Why .gitkeep?
+
+- **Convention**: Widely recognized in the Git community
+- **Descriptive**: The name explains its purpose
+- **Empty**: Usually an empty file (no content needed)
+- **Hidden**: Starts with `.` so it's hidden by default
+
+## Alternative Names
+
+Some projects use different conventions:
+
+- `.keep`
+- `.gitignore` (with content)
+- `README.md`
+- `.placeholder`
+
+## Examples
+
+### Web Project Structure
+
+```
+project/
+├── src/
+│   ├── components/
+│   ├── styles/
+│   └── utils/
+├── public/
+│   ├── images/.gitkeep
+│   ├── css/.gitkeep
+│   └── js/.gitkeep
+└── tests/
+    ├── unit/.gitkeep
+    └── integration/.gitkeep
+```
+
+### Build Directory Structure
+
+```bash
+# Create build directories
+mkdir -p build/{debug,release,temp}
+
+# Add .gitkeep files
+touch build/debug/.gitkeep
+touch build/release/.gitkeep
+touch build/temp/.gitkeep
+```
+
+## Best Practices
+
+### 1. Add Early
+Create directory structure early in the project:
+
+```bash
+mkdir -p {src,tests,docs,assets/{images,css,js}}
+find . -type d -empty -exec touch {}/.gitkeep \;
+```
+
+### 2. Document Purpose
+Add content to .gitkeep explaining the directory:
+
+```
+# assets/images/.gitkeep
+This directory will contain image assets for the project.
+```
+
+### 3. Remove When Not Needed
+Once directories have real files, you can remove .gitkeep:
+
+```bash
+rm assets/images/.gitkeep  # when images are added
+```
+
+## Working with .gitkeep
+
+### List All .gitkeep Files
+
+```bash
+find . -name ".gitkeep"
+```
+
+### Remove All .gitkeep Files
+
+```bash
+find . -name ".gitkeep" -delete
+```
+
+### Create .gitkeep for All Empty Directories
+
+```bash
+find . -type d -empty -not -path "./.git*" -exec touch {}/.gitkeep \;
+```
+
+## Common Use Cases
+
+### 1. Log Directories
+
+```bash
+mkdir -p logs/{error,access,debug}
+touch logs/{error,access,debug}/.gitkeep
+```
+
+### 2. Upload Directories
+
+```bash
+mkdir -p uploads/{images,documents,temp}
+touch uploads/{images,documents,temp}/.gitkeep
+```
+
+### 3. Cache Directories
+
+```bash
+mkdir -p cache/{views,data,sessions}
+touch cache/{views,data,sessions}/.gitkeep
+```
+
+## .gitkeep vs .gitignore
+
+| Aspect | .gitkeep | .gitignore |
+|--------|----------|------------|
+| Purpose | Keep empty directories | Ignore files/directories |
+| Content | Usually empty | Contains ignore patterns |
+| Effect | Ensures directory is tracked | Prevents files from being tracked |
+
+## Automation
+
+### Script to Create Project Structure
+
+```bash
+#!/bin/bash
+# create-structure.sh
+
+directories=(
+    "src/components"
+    "src/utils"
+    "tests/unit"
+    "tests/integration"
+    "docs/api"
+    "assets/images"
+    "assets/styles"
+)
+
+for dir in "${directories[@]}"; do
+    mkdir -p "$dir"
+    touch "$dir/.gitkeep"
+    echo "Created $dir/.gitkeep"
+done
+```
+
+### Makefile Target
+
+```makefile
+setup-dirs:
+	mkdir -p logs temp cache uploads
+	touch logs/.gitkeep temp/.gitkeep cache/.gitkeep uploads/.gitkeep
+```
+
+## Next Steps
+
+- Learn about [.gitignore](/docs/2-git-basics/working-with-files/gitignore) for excluding files
+- Explore [staging area](/docs/2-git-basics/working-with-files/staging-area) concepts
+- Understand [working directory](/docs/2-git-basics/working-with-files/working-directory) structure

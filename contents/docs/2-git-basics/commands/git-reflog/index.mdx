@@ -1,0 +1,132 @@
+---
+title: Git Reflog
+description: Understanding and using git reflog for recovery
+---
+
+# Git Reflog
+
+The `git reflog` command shows a log of where HEAD has been, allowing you to recover lost commits and branches.
+
+## What is Reflog?
+
+Reflog (reference log) tracks all changes to the tip of branches and other references in your local repository. It's like a safety net for Git operations.
+
+## Basic Usage
+
+```bash
+# Show reflog for current branch
+git reflog
+
+# Show reflog for specific branch
+git reflog <branch-name>
+
+# Show reflog for HEAD
+git reflog HEAD
+```
+
+## Common Use Cases
+
+### Recovering Lost Commits
+
+If you accidentally reset or lose commits:
+
+```bash
+# Find the lost commit
+git reflog
+
+# Reset to the lost commit
+git reset --hard HEAD@{2}
+```
+
+### Recovering Deleted Branches
+
+```bash
+# Find the deleted branch's last commit
+git reflog
+
+# Recreate the branch
+git branch <branch-name> HEAD@{3}
+```
+
+### Undoing a Reset
+
+```bash
+# You did: git reset --hard HEAD~3
+# Find the previous state
+git reflog
+
+# Restore to before the reset
+git reset --hard HEAD@{1}
+```
+
+## Reading Reflog Output
+
+```
+abc1234 HEAD@{0}: commit: Add new feature
+def5678 HEAD@{1}: checkout: moving from main to feature
+9fceb02 HEAD@{2}: reset: moving to HEAD~1
+```
+
+- `abc1234`: Commit hash
+- `HEAD@{0}`: Reference (0 is most recent)
+- `commit: Add new feature`: Description of the action
+
+## Reflog Options
+
+### Limit Output
+
+```bash
+# Show last 10 entries
+git reflog -10
+
+# Show entries from last 2 weeks
+git reflog --since="2 weeks ago"
+```
+
+### Different Formats
+
+```bash
+# One line per entry
+git reflog --oneline
+
+# Show relative dates
+git reflog --relative-date
+```
+
+## Important Notes
+
+- Reflog is **local only** - not shared with remotes
+- Entries expire after 90 days by default
+- Unreachable entries expire after 30 days
+
+## Examples
+
+```bash
+# Basic reflog view
+git reflog
+
+# Find commits from yesterday
+git reflog --since="yesterday"
+
+# Recover a commit that was reset
+git reflog
+git reset --hard HEAD@{5}
+
+# Show reflog for specific file
+git log --follow -- path/to/file
+```
+
+## Configuration
+
+```bash
+# Change reflog expiry time
+git config gc.reflogExpire "1 year"
+
+# Disable reflog expiry
+git config gc.reflogExpire "never"
+```
+
+## Next Steps
+
+- Learn about [git reset](/docs/2-git-basics/commands/git-reset) for recovery techniques
+- Explore [git checkout](/docs/2-git-basics/commands/git-checkout) for branch switching

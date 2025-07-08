@@ -1,0 +1,322 @@
+---
+title: Adding and Updating Files
+description: How to add new files and update existing files in Git
+---
+
+# Adding and Updating Files
+
+Git tracks changes to files through explicit commands. You need to tell Git which files to include in your next commit.
+
+## Adding New Files
+
+### Single File
+
+```bash
+# Add a specific new file
+git add newfile.txt
+```
+
+### Multiple Files
+
+```bash
+# Add multiple specific files
+git add file1.txt file2.txt file3.txt
+
+# Add all files with a pattern
+git add *.js
+
+# Add all files in a directory
+git add src/
+```
+
+### All New Files
+
+```bash
+# Add all new and modified files
+git add .
+
+# Add all files in the repository
+git add -A
+```
+
+## Updating Existing Files
+
+### Track Changes
+
+When you modify existing files, Git detects the changes but doesn't automatically stage them:
+
+```bash
+# Edit an existing file
+echo "new content" >> existing-file.txt
+
+# Check status
+git status
+
+# Add the changes
+git add existing-file.txt
+```
+
+### Update All Modified Files
+
+```bash
+# Add all modified tracked files (not new files)
+git add -u
+
+# Add all files (new, modified, deleted)
+git add -A
+```
+
+## The git add Command Options
+
+### Basic Options
+
+| Option | Description |
+|--------|-------------|
+| `git add <file>` | Add specific file |
+| `git add .` | Add all files in current directory |
+| `git add -A` | Add all changes (new, modified, deleted) |
+| `git add -u` | Add only modified and deleted files |
+
+### Interactive Options
+
+| Option | Description |
+|--------|-------------|
+| `git add -i` | Interactive mode |
+| `git add -p` | Patch mode (partial staging) |
+| `git add -n` | Dry run (show what would be added) |
+
+## Interactive Adding
+
+### Interactive Mode
+
+```bash
+git add -i
+```
+
+This opens a menu where you can:
+1. Stage files
+2. Update files  
+3. Revert files
+4. Add untracked files
+5. Patch mode
+6. Diff
+7. Quit
+8. Help
+
+### Patch Mode
+
+```bash
+git add -p filename.txt
+```
+
+Stage parts of a file:
+- `y` - stage this hunk
+- `n` - don't stage this hunk  
+- `s` - split into smaller hunks
+- `e` - manually edit the hunk
+- `q` - quit
+- `?` - help
+
+## Workflow Examples
+
+### Adding a New Feature
+
+```bash
+# Create new files
+touch feature.js feature.css feature.html
+
+# Add them to staging
+git add feature.*
+
+# Commit the feature
+git commit -m "Add new feature files"
+```
+
+### Updating Existing Code
+
+```bash
+# Modify existing files
+echo "// Bug fix" >> app.js
+echo "/* Updated styles */" >> styles.css
+
+# Add all modified files
+git add -u
+
+# Commit the updates
+git commit -m "Fix bug in app.js and update styles"
+```
+
+### Selective Staging
+
+```bash
+# Make changes to multiple files
+echo "feature A" >> app.js
+echo "feature B" >> app.js  
+echo "bug fix" >> utils.js
+
+# Stage only the utils.js fix
+git add utils.js
+git commit -m "Fix critical bug in utils"
+
+# Stage the app.js changes later
+git add app.js
+git commit -m "Add features A and B"
+```
+
+## File States
+
+Understanding file states helps with adding/updating:
+
+```
+Untracked → Staged → Committed
+            ↑
+Modified → Staged → Committed
+```
+
+### Check File States
+
+```bash
+# See which files are in which state
+git status
+
+# See detailed information
+git status -s
+```
+
+Status codes:
+- `??` - Untracked
+- `A` - Added (staged)
+- `M` - Modified
+- `D` - Deleted
+- `MM` - Modified, staged, then modified again
+
+## Best Practices
+
+### 1. Review Before Adding
+
+```bash
+# Check what you're about to add
+git status
+git diff
+
+# Then add
+git add specific-file.txt
+```
+
+### 2. Add Related Changes Together
+
+```bash
+# Good: Related files
+git add auth.js auth.css auth.html
+git commit -m "Implement authentication"
+
+# Bad: Unrelated files  
+git add .
+git commit -m "Various changes"
+```
+
+### 3. Use Descriptive Commits
+
+```bash
+# Add specific changes for focused commits
+git add database.js
+git commit -m "Add user database connection"
+
+git add ui.css  
+git commit -m "Update button styles"
+```
+
+### 4. Test Before Adding
+
+```bash
+# Test your changes first
+npm test
+
+# If tests pass, add and commit
+git add .
+git commit -m "Add feature X with tests passing"
+```
+
+## Common Scenarios
+
+### Add All Except Certain Files
+
+```bash
+# Add everything except one file
+git add .
+git reset HEAD unwanted-file.txt
+
+# Or use .gitignore for permanent exclusion
+echo "unwanted-file.txt" >> .gitignore
+```
+
+### Add Part of a File
+
+```bash
+# Use patch mode to add only some changes
+git add -p large-file.js
+```
+
+### Undo Adding
+
+```bash
+# Unstage a file
+git reset HEAD filename.txt
+
+# Unstage all files
+git reset HEAD
+```
+
+## Tracking File Changes
+
+### See What's Changed
+
+```bash
+# See unstaged changes
+git diff
+
+# See staged changes  
+git diff --staged
+
+# See changes in specific file
+git diff filename.txt
+```
+
+### File History
+
+```bash
+# See commit history for a file
+git log -- filename.txt
+
+# See detailed changes over time
+git log -p -- filename.txt
+```
+
+## Advanced Adding
+
+### Add with Message
+
+```bash
+# Add and commit in one step (only for tracked files)
+git commit -am "Update existing files"
+```
+
+### Force Add Ignored Files
+
+```bash
+# Add a file that's in .gitignore
+git add -f ignored-file.txt
+```
+
+### Dry Run
+
+```bash
+# See what would be added without adding
+git add -n .
+```
+
+## Next Steps
+
+- Learn about [staging area](/docs/2-git-basics/working-with-files/staging-area) concepts
+- Understand [git commit](/docs/2-git-basics/commands/git-commit) to save changes
+- Explore [.gitignore](/docs/2-git-basics/working-with-files/gitignore) for excluding files

@@ -1,0 +1,252 @@
+---
+title: Staged Changes
+description: Understanding the Git staging area and staged changes
+---
+
+# Staged Changes
+
+Staged changes are modifications that have been marked for inclusion in the next commit using `git add`.
+
+## What Are Staged Changes?
+
+The staging area (also called the index) is a holding area where you prepare changes before committing them. It allows you to:
+
+- Select which changes to include in a commit
+- Review changes before committing
+- Create focused, logical commits
+
+## The Three States
+
+Git files exist in three states:
+
+1. **Modified**: Changed but not staged
+2. **Staged**: Modified and marked for commit
+3. **Committed**: Stored in the Git database
+
+```
+Working Directory → Staging Area → Repository
+     (modified)      (staged)     (committed)
+```
+
+## Staging Files
+
+### Stage Specific Files
+
+```bash
+# Stage a single file
+git add file.txt
+
+# Stage multiple files
+git add file1.txt file2.txt
+
+# Stage all files with specific extension
+git add *.js
+```
+
+### Stage All Changes
+
+```bash
+# Stage all modified and new files
+git add .
+
+# Stage all changes including deletions
+git add -A
+
+# Stage all tracked files
+git add -u
+```
+
+## Viewing Staged Changes
+
+### Check Status
+
+```bash
+git status
+```
+
+Output shows:
+- **Green**: Staged changes (ready to commit)
+- **Red**: Unstaged changes
+
+### See Staged Differences
+
+```bash
+# Show staged changes
+git diff --staged
+
+# Alternative command
+git diff --cached
+```
+
+## Unstaging Changes
+
+### Unstage Specific Files
+
+```bash
+git reset HEAD file.txt
+```
+
+### Unstage All Files
+
+```bash
+git reset HEAD
+```
+
+### Using Git Restore (Git 2.23+)
+
+```bash
+# Unstage specific file
+git restore --staged file.txt
+
+# Unstage all files
+git restore --staged .
+```
+
+## Partial Staging
+
+### Interactive Staging
+
+```bash
+git add -i
+```
+
+This opens an interactive menu for selective staging.
+
+### Patch Mode
+
+```bash
+git add -p file.txt
+```
+
+This allows you to stage parts of a file:
+- `y` - stage this hunk
+- `n` - don't stage this hunk
+- `s` - split hunk into smaller hunks
+- `q` - quit
+
+## Examples
+
+### Selective Staging Workflow
+
+```bash
+# Make changes to multiple files
+echo "new feature" >> feature.js
+echo "bug fix" >> bugfix.js
+echo "documentation" >> README.md
+
+# Stage only the feature
+git add feature.js
+
+# Check status
+git status
+
+# Commit the feature
+git commit -m "Add new feature"
+
+# Stage and commit bug fix separately
+git add bugfix.js
+git commit -m "Fix critical bug"
+```
+
+### Reviewing Before Commit
+
+```bash
+# Stage changes
+git add .
+
+# Review what will be committed
+git diff --staged
+
+# If changes look good, commit
+git commit -m "Your commit message"
+```
+
+## Best Practices
+
+### 1. Stage Related Changes Together
+
+```bash
+# Good: Stage related files together
+git add auth.js login.html auth.css
+git commit -m "Implement user authentication"
+```
+
+### 2. Review Before Committing
+
+```bash
+# Always review staged changes
+git diff --staged
+git status
+```
+
+### 3. Use Descriptive Commits
+
+Stage changes that belong to a single logical unit:
+
+```bash
+# Good: Focused commit
+git add user-validation.js
+git commit -m "Add email validation for user registration"
+
+# Bad: Mixed changes
+git add .
+git commit -m "Various fixes and features"
+```
+
+## Common Scenarios
+
+### Stage Only Part of a File
+
+```bash
+# Use patch mode to stage specific lines
+git add -p large-file.js
+```
+
+### Accidentally Staged Wrong File
+
+```bash
+# Unstage the file
+git reset HEAD wrong-file.txt
+
+# Or with git restore
+git restore --staged wrong-file.txt
+```
+
+### See What's Staged vs Unstaged
+
+```bash
+# See unstaged changes
+git diff
+
+# See staged changes
+git diff --staged
+
+# See both in one command
+git status -v
+```
+
+## Git Status Output
+
+Understanding the output:
+
+```
+$ git status
+On branch main
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+    modified:   staged-file.txt
+    new file:   new-staged-file.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+    modified:   unstaged-file.txt
+```
+
+- **"Changes to be committed"**: Staged changes
+- **"Changes not staged for commit"**: Modified but unstaged
+
+## Next Steps
+
+- Learn about [unstaged changes](/docs/2-git-basics/working-with-files/unstaged-changes)
+- Understand [git commit](/docs/2-git-basics/commands/git-commit)
+- Explore [git diff](/docs/2-git-basics/commands/git-diff) for viewing changes

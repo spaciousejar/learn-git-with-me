@@ -1,0 +1,228 @@
+---
+title: .gitignore Files
+description: How to use .gitignore to exclude files from Git tracking
+---
+
+# .gitignore Files
+
+The `.gitignore` file tells Git which files and directories to ignore in your repository.
+
+## Creating .gitignore
+
+Create a `.gitignore` file in your repository root:
+
+```bash
+touch .gitignore
+```
+
+## Basic Patterns
+
+### Ignore Specific Files
+
+```gitignore
+# Ignore specific file
+secret.txt
+
+# Ignore files with specific extension
+*.log
+*.tmp
+
+# Ignore all files in a directory
+build/
+node_modules/
+```
+
+### Pattern Rules
+
+```gitignore
+# Ignore all .txt files
+*.txt
+
+# But don't ignore important.txt
+!important.txt
+
+# Ignore files only in root directory
+/config.json
+
+# Ignore files in any config directory
+config/
+
+# Ignore all .log files in logs directory and subdirectories
+logs/**/*.log
+```
+
+## Common .gitignore Templates
+
+### Node.js
+
+```gitignore
+node_modules/
+npm-debug.log*
+.env
+dist/
+build/
+.nyc_output/
+coverage/
+```
+
+### Python
+
+```gitignore
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+```
+
+### Java
+
+```gitignore
+*.class
+*.jar
+*.war
+*.ear
+target/
+.classpath
+.project
+.settings/
+```
+
+### General
+
+```gitignore
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+```
+
+## Wildcards and Patterns
+
+| Pattern | Matches |
+|---------|---------|
+| `*` | Any file or directory |
+| `**` | Any directory (recursive) |
+| `?` | Single character |
+| `[abc]` | Any character in brackets |
+| `!pattern` | Negation (don't ignore) |
+
+## Examples
+
+```gitignore
+# Ignore all log files
+*.log
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore all files in temp directory
+temp/**
+
+# Ignore config files but not config.example
+config.*
+!config.example
+
+# Ignore all .txt files in docs directory
+docs/*.txt
+
+# Ignore all .pdf files anywhere in the project
+**/*.pdf
+```
+
+## Applying .gitignore to Existing Files
+
+If files are already tracked, you need to untrack them first:
+
+```bash
+# Remove file from tracking but keep locally
+git rm --cached file.txt
+
+# Remove directory from tracking
+git rm -r --cached directory/
+
+# Commit the changes
+git commit -m "Remove tracked files that should be ignored"
+```
+
+## Global .gitignore
+
+Create a global `.gitignore` for all your repositories:
+
+```bash
+# Create global gitignore
+git config --global core.excludesfile ~/.gitignore_global
+
+# Edit the file
+nano ~/.gitignore_global
+```
+
+## Checking .gitignore
+
+### See Which Files Are Ignored
+
+```bash
+git status --ignored
+```
+
+### Test .gitignore Patterns
+
+```bash
+git check-ignore -v file.txt
+```
+
+### Force Add Ignored Files
+
+```bash
+git add -f ignored-file.txt
+```
+
+## Best Practices
+
+1. **Add .gitignore early** in your project
+2. **Use templates** for common languages/frameworks
+3. **Don't ignore .gitignore** itself
+4. **Be specific** with patterns when possible
+5. **Document unusual patterns** with comments
+
+## Troubleshooting
+
+### File Still Tracked Despite .gitignore
+
+The file was tracked before adding to `.gitignore`:
+
+```bash
+git rm --cached file.txt
+git commit -m "Remove tracked file"
+```
+
+### .gitignore Not Working
+
+1. Check file is named exactly `.gitignore`
+2. Ensure no trailing spaces in patterns
+3. File might already be tracked
+4. Pattern might be incorrect
+
+## Next Steps
+
+- Learn about [.gitkeep](/docs/2-git-basics/working-with-files/gitkeep) for keeping empty directories
+- Explore [git attributes](/docs/2-git-basics/working-with-files/git-attributes) for file handling

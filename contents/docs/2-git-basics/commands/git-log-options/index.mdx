@@ -1,0 +1,50 @@
+---
+title: Git Log Options
+description: Common options and flags for the git log command
+---
+
+# Git Log Options
+
+The `git log` command comes with many useful options to customize the output and filter commits.
+
+## Common Options
+
+### Formatting Output
+
+- `--oneline` - Show each commit on a single line
+- `--graph` - Show a text-based graphical representation of the branch structure
+- `--decorate` - Show references (branches, tags) that point to commits
+- `--all` - Show commits from all branches
+
+### Limiting Output
+
+- `-n <number>` - Limit the number of commits shown
+- `--since=<date>` - Show commits after a specific date
+- `--until=<date>` - Show commits before a specific date
+- `--author=<pattern>` - Show commits by a specific author
+
+### File-specific Options
+
+- `--` `<file>` - Show commits that affected specific files
+- `--follow` - Follow renames when showing file history
+
+## Examples
+
+```bash
+# Show last 5 commits in oneline format
+git log --oneline -5
+
+# Show commit graph for all branches
+git log --graph --all --oneline
+
+# Show commits by specific author
+git log --author="John Doe"
+
+# Show commits in last week
+git log --since="1 week ago"
+```
+
+## Next Steps
+
+- Learn about [git diff](/docs/2-git-basics/commands/git-diff) to see changes
+- Explore [viewing commit history](/docs/2-git-basics/commands/viewing-commit-history)

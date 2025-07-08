@@ -1,0 +1,103 @@
+---
+title: Git Revert
+description: How to safely undo commits with git revert
+---
+
+# Git Revert
+
+The `git revert` command creates a new commit that undoes the changes from a previous commit. Unlike `git reset`, it doesn't alter history.
+
+## Why Use Revert?
+
+- **Safe**: Doesn't change existing history
+- **Collaborative**: Safe to use on shared branches
+- **Traceable**: Keeps a record of what was undone
+
+## Basic Usage
+
+### Revert a Single Commit
+
+```bash
+git revert <commit-hash>
+```
+
+This creates a new commit that undoes the changes from the specified commit.
+
+### Revert Multiple Commits
+
+```bash
+# Revert a range of commits
+git revert HEAD~3..HEAD
+
+# Revert multiple specific commits
+git revert abc1234 def5678
+```
+
+## Options
+
+### No-commit Mode
+
+```bash
+git revert --no-commit <commit-hash>
+```
+
+Stages the revert changes without automatically committing.
+
+### Edit Commit Message
+
+```bash
+git revert --edit <commit-hash>
+```
+
+Opens an editor to modify the revert commit message.
+
+## Examples
+
+```bash
+# Revert the last commit
+git revert HEAD
+
+# Revert a specific commit
+git revert 9fceb02
+
+# Revert without auto-committing
+git revert --no-commit HEAD~2
+
+# Revert a merge commit (specify parent)
+git revert -m 1 <merge-commit-hash>
+```
+
+## Reverting Merge Commits
+
+Merge commits have multiple parents. Specify which parent to revert to:
+
+```bash
+# Revert to the first parent (main branch)
+git revert -m 1 <merge-commit>
+
+# Revert to the second parent (feature branch)
+git revert -m 2 <merge-commit>
+```
+
+## Handling Conflicts
+
+If conflicts occur during revert:
+
+1. Resolve conflicts manually
+2. Stage the resolved files: `git add <file>`
+3. Complete the revert: `git revert --continue`
+
+Or abort the revert: `git revert --abort`
+
+## vs. Reset
+
+| Aspect | Revert | Reset |
+|--------|--------|-------|
+| History | Preserves | Alters |
+| Safety | Safe for shared repos | Dangerous for shared repos |
+| Traceability | Shows what was undone | No trace of undoing |
+
+## Next Steps
+
+- Learn about [git reset](/docs/2-git-basics/commands/git-reset) for comparison
+- Explore [handling conflicts](/docs/2-git-basics/commands/handling-conflicts)
