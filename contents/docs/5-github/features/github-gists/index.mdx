@@ -1,0 +1,257 @@
+---
+title: GitHub Gists
+description: Learn how to use GitHub Gists to share code snippets, notes, and small projects with others.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Gists
+
+GitHub Gists are a simple way to share code snippets, notes, and small projects with others. They provide lightweight version control, embedding capabilities, and easy sharing—all without having to create a full repository.
+
+## Understanding GitHub Gists
+
+<Tabs>
+  <TabItem label="Key Features">
+    - Version controlled snippets
+    - Support for multiple files
+    - Markdown rendering
+    - Public or secret sharing options
+    - Comments and discussions
+    - Forking capability
+    - Embeddable in websites
+    - Accessible via API
+  </TabItem>
+  <TabItem label="Use Cases">
+    - Sharing code snippets during discussions
+    - Saving useful configuration files
+    - Documenting terminal commands
+    - Creating quick prototypes
+    - Storing personal notes
+    - Hosting simple web pages
+    - Sharing syntax-highlighted code
+    - Creating interactive examples
+  </TabItem>
+</Tabs>
+
+## Creating a Gist
+
+<Steps>
+  1. Visit [gist.github.com](https://gist.github.com)
+  2. Sign in to your GitHub account
+  3. Add a description (optional but recommended)
+  4. Add a filename including the extension (e.g., `example.js`)
+  5. Paste or type your code/content
+  6. Choose whether to make the gist public or secret
+  7. Click "Create public gist" or "Create secret gist"
+</Steps>
+
+<Aside type="note">
+  **Public** gists are searchable and discoverable.
+  
+  **Secret** gists are accessible by URL but not searchable, providing a degree of privacy but not complete security.
+</Aside>
+
+## Managing Multiple Files in a Gist
+
+You can add multiple files to a single Gist:
+
+1. While creating or editing a Gist, click "Add file"
+2. Provide a filename with extension
+3. Add content to the new file
+4. Repeat as needed before saving
+
+Example use case: a web component with HTML, CSS, and JavaScript files:
+
+<Tabs>
+  <TabItem label="index.html">
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Custom Button Component</title>
+      <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+      <custom-button>Click Me</custom-button>
+      <script src="component.js"></script>
+    </body>
+    </html>
+    ```
+  </TabItem>
+  <TabItem label="styles.css">
+    ```css
+    custom-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #0366d6;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    custom-button:hover {
+      background-color: #0247a5;
+    }
+    ```
+  </TabItem>
+  <TabItem label="component.js">
+    ```javascript
+    class CustomButton extends HTMLElement {
+      constructor() {
+        super();
+        this.addEventListener('click', () => {
+          console.log('Button clicked!');
+        });
+      }
+    }
+    
+    customElements.define('custom-button', CustomButton);
+    ```
+  </TabItem>
+</Tabs>
+
+## Working with Gist Revisions
+
+Gists support version control similar to Git repositories:
+
+<Steps>
+  1. Open an existing Gist
+  2. Click "Edit" in the top-right corner
+  3. Make your changes
+  4. Click "Update public gist" or "Update secret gist"
+  5. To view revision history, click "Revisions" at the top of the Gist
+  6. Compare changes between versions
+</Steps>
+
+<Aside type="tip">
+  Each revision of a Gist has its own unique URL, allowing you to share specific versions.
+</Aside>
+
+## Embedding Gists
+
+Gists can be embedded in websites, blog posts, or documentation:
+
+<Steps>
+  1. Create or open a Gist
+  2. Look for the "Embed" button
+  3. Copy the provided `<script>` tag
+  4. Paste it into your HTML document
+</Steps>
+
+Example embed code:
+
+```html
+<script src="https://gist.github.com/username/gist_id.js"></script>
+```
+
+The embedded Gist will include proper syntax highlighting, line numbers, and even the Gist header with links back to the source.
+
+## Gist Interactions
+
+<Tabs>
+  <TabItem label="Commenting">
+    - Scroll to the bottom of any public Gist
+    - Use the comment box to add comments
+    - Markdown formatting is supported
+    - Code blocks can be included in comments
+    - Comments can be edited or deleted
+  </TabItem>
+  <TabItem label="Forking">
+    - Click the "Fork" button at the top of any Gist
+    - This creates a copy in your account
+    - Make changes to your fork
+    - Each fork tracks its parent
+    - Forks can be used to suggest improvements
+  </TabItem>
+  <TabItem label="Starring">
+    - Click the "Star" button to bookmark a Gist
+    - Starred Gists appear in your "Starred" section
+    - Stars also indicate popularity
+    - You can use stars to find your frequently used Gists
+  </TabItem>
+</Tabs>
+
+## Advanced Gist Features
+
+### Accessing Gists via API
+
+You can interact with Gists programmatically using the GitHub API:
+
+```javascript
+// Example: Creating a Gist via API
+fetch('https://api.github.com/gists', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'token YOUR_GITHUB_TOKEN',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    description: 'Example Gist created via API',
+    public: true,
+    files: {
+      'example.js': {
+        content: 'console.log("Hello from GitHub API!");'
+      }
+    }
+  })
+})
+.then(response => response.json())
+.then(data => console.log(data.html_url));
+```
+
+### Using Gists with GitHub CLI
+
+The GitHub CLI provides commands for working with Gists:
+
+```bash
+# Create a Gist
+gh gist create file.txt
+
+# Create a public Gist with description
+gh gist create --public --desc "My useful snippet" file.txt
+
+# Create a Gist from multiple files
+gh gist create file1.js file2.css
+
+# List your Gists
+gh gist list
+
+# View a specific Gist
+gh gist view GIST_ID
+
+# Clone a Gist locally
+gh gist clone GIST_ID
+```
+
+<Aside type="caution">
+  Be careful not to store sensitive information like passwords or API keys in public Gists. Even secret Gists are accessible to anyone with the URL.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Gists Documentation" 
+    href="https://docs.github.com/en/github/writing-on-github/creating-gists"
+    description="Official documentation on creating and working with Gists" 
+  />
+  <LinkCard 
+    title="GitHub Gist API" 
+    href="https://docs.github.com/en/rest/gists"
+    description="API documentation for programmatic Gist management" 
+  />
+  <LinkCard 
+    title="GitHub CLI Manual" 
+    href="https://cli.github.com/manual/gh_gist"
+    description="Documentation for Gist commands in the GitHub CLI" 
+  />
+</CardGrid>

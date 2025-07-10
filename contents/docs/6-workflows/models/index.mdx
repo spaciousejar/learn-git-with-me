@@ -1,0 +1,160 @@
+---
+title: Advanced Git Workflows
+description: Learn about advanced Git workflows and techniques for more complex development scenarios
+---
+
+
+
+
+As you become more comfortable with Git basics, you'll want to explore more advanced workflows that can help you manage complex development scenarios. This guide covers several advanced Git techniques that can improve your productivity and help you maintain a clean, organized repository.
+
+## Rebasing
+
+Git rebase is a powerful command that allows you to integrate changes from one branch into another. Unlike `git merge`, which creates a new commit to combine the histories of two branches, `git rebase` moves or applies commits from one branch on top of another, effectively re-writing the commit history.
+
+```bash
+# Basic rebasing syntax
+git rebase <base-branch>
+
+# Interactive rebasing for more control
+git rebase -i <base-branch>
+```
+
+### When to use rebase:
+
+- When you want to maintain a clean, linear project history
+- Before merging a feature branch into the main branch
+- When you need to incorporate the latest changes from the main branch into your feature branch
+
+### Interactive rebasing
+
+Interactive rebasing gives you more control over how commits are applied. You can:
+- Reorder commits
+- Edit commit messages
+- Combine multiple commits
+- Split commits
+- Remove commits entirely
+
+## Cherry-picking
+
+Cherry-picking allows you to select specific commits from one branch and apply them to another branch. This is useful when you only want to incorporate certain changes without merging entire branches.
+
+```bash
+git cherry-pick <commit-hash>
+```
+
+Cherry-picking is particularly useful when:
+- You need to apply a bug fix from one branch to another
+- You want to selectively include features from a development branch
+- You need to backport changes to an older release branch
+
+## Managing a clean Git history
+
+A clean Git history makes collaboration easier and helps with debugging and code reviews. Here are some techniques:
+
+### Squashing commits
+
+Squashing combines multiple commits into a single, cohesive commit:
+
+```bash
+# Using interactive rebase to squash commits
+git rebase -i HEAD~<number-of-commits>
+```
+
+### Amending commits
+
+If you need to make changes to your most recent commit:
+
+```bash
+# Make your changes, then:
+git add <files>
+git commit --amend
+```
+
+## Working with Git stash
+
+Git stash allows you to temporarily save uncommitted changes so you can work on something else and come back to them later:
+
+```bash
+# Save changes to the stash
+git stash save "description of changes"
+
+# List stashes
+git stash list
+
+# Apply the most recent stash
+git stash apply
+
+# Apply a specific stash
+git stash apply stash@{n}
+
+# Remove a stash after applying it
+git stash pop
+```
+
+## Advanced branching strategies
+
+### Git Flow
+
+Git Flow is a branching model that defines a strict branching structure designed around project releases:
+
+- **master**: Contains production code
+- **develop**: Main development branch
+- **feature/**: For new features
+- **release/**: For preparing releases
+- **hotfix/**: For urgent fixes to production
+
+### GitHub Flow
+
+A simpler alternative to Git Flow:
+
+1. Create a branch from `main`
+2. Add commits
+3. Open a pull request
+4. Review and discuss
+5. Deploy and test
+6. Merge to `main`
+
+### Trunk-Based Development
+
+A branching strategy where developers collaborate on code in a single branch called "trunk" (often `main` or `master`):
+
+1. Make small, frequent changes directly to the trunk
+2. Use feature flags to hide incomplete features
+3. Create short-lived feature branches when necessary
+
+## Handling conflicts
+
+Merge conflicts occur when Git can't automatically merge changes. Here's how to handle them:
+
+1. Run `git status` to see which files have conflicts
+2. Open the conflicted files and look for conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+3. Edit the files to resolve the conflicts
+4. Add the resolved files with `git add <file>`
+5. Complete the merge with `git commit`
+
+#### Free Resources
+
+<Tabs defaultValue="article">
+<TabsList>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+</TabsList>
+
+<TabsContent value="article">
+<Note type="note" title="article">
+- <Link href="https://git-scm.com/docs/git-rebase">Git - git-rebase Documentation</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase">Git Rebase Tutorial</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/cherry-pick">Git Cherry Pick Tutorial</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Git Flow Workflow</Link>
+</Note>
+</TabsContent>
+<TabsContent value="official">
+<Note type="note" title="official" >
+- <Link href="https://git-scm.com/docs/git-rebase">Git - git-rebase Documentation</Link>
+</Note>
+</TabsContent>
+</Tabs>
+
+<Outlet path="6-workflows/models" />

@@ -1,0 +1,213 @@
+---
+title: GitHub Releases
+description: Learn how to create and manage releases, distribute software, and provide release notes using GitHub Releases.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Releases
+
+GitHub Releases provide a way to package and distribute software, documentation, and other assets associated with specific points in your project's history. They are built on top of Git tags and allow you to share your work with your community in a more structured and user-friendly way.
+
+## Understanding GitHub Releases
+
+<Tabs>
+  <TabItem label="Key Concepts">
+    - **Releases**: Deployable snapshots of your project
+    - **Tags**: Git references that mark specific points in history
+    - **Assets**: Binary files attached to releases (installers, compiled code, etc.)
+    - **Release notes**: Documentation of changes and improvements
+    - **Draft releases**: Unpublished releases being prepared
+    - **Pre-releases**: Releases marked as non-production ready
+  </TabItem>
+  <TabItem label="Benefits">
+    - Provides a structured way to share software versions
+    - Allows attaching binary files that don't belong in Git
+    - Creates a changelog of project evolution
+    - Integrates with GitHub's notification system
+    - Enables users to easily find stable versions
+    - Supports semantic versioning
+  </TabItem>
+</Tabs>
+
+## Creating a GitHub Release
+
+<Steps>
+  1. Navigate to your repository on GitHub
+  2. Click on "Releases" in the right sidebar
+  3. Click "Create a new release" or "Draft a new release"
+  4. Choose an existing tag or create a new one
+  5. Add a release title and description
+  6. Optionally upload binary assets by dragging files
+  7. Choose whether the release is a draft or pre-release
+  8. Click "Publish release" when ready
+</Steps>
+
+<Aside type="tip">
+  You can use Markdown in release descriptions to format text, add headings, create lists, include images, and more. This is great for creating comprehensive release notes.
+</Aside>
+
+## Release Notes Best Practices
+
+Effective release notes help users understand what's changed and why they should update:
+
+<Tabs>
+  <TabItem label="Structure">
+    ```markdown
+    # Release v1.2.0
+    
+    ## What's New
+    - Added dark mode support
+    - Implemented new search functionality
+    
+    ## Improvements
+    - Improved loading speed by 30%
+    - Enhanced mobile responsiveness
+    
+    ## Bug Fixes
+    - Fixed login issue on Safari browsers
+    - Corrected timezone calculations
+    
+    ## Breaking Changes
+    - Deprecated legacy API endpoints
+    
+    ## Installation
+    [Installation instructions]
+    ```
+  </TabItem>
+  <TabItem label="Tips">
+    - Start with a summary of the release
+    - Categorize changes (features, improvements, fixes)
+    - Highlight breaking changes prominently
+    - Link to relevant issues and pull requests
+    - Include upgrade instructions if necessary
+    - Add screenshots for UI changes
+    - Credit contributors
+    - Use consistent formatting across releases
+  </TabItem>
+</Tabs>
+
+## Automating Releases with GitHub Actions
+
+You can automate the release process using GitHub Actions:
+
+```yaml
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build project
+        run: |
+          npm ci
+          npm run build
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/app.zip
+          asset_name: app.zip
+          asset_content_type: application/zip
+```
+
+<Aside type="note">
+  This workflow triggers when you push a new tag with a 'v' prefix, builds your project, creates a release for that tag, and uploads an asset.
+</Aside>
+
+## Working with Releases Programmatically
+
+You can interact with GitHub Releases using the GitHub API or the GitHub CLI:
+
+<Tabs>
+  <TabItem label="GitHub CLI">
+    ```bash
+    # List releases
+    gh release list
+    
+    # Create a release
+    gh release create v1.0.0 --title "Version 1.0.0" --notes "Release notes..."
+    
+    # Upload assets to a release
+    gh release upload v1.0.0 ./path/to/asset.zip
+    
+    # Download release assets
+    gh release download v1.0.0
+    ```
+  </TabItem>
+  <TabItem label="GitHub API">
+    ```bash
+    # List releases
+    curl -s https://api.github.com/repos/owner/repo/releases
+    
+    # Create a release
+    curl -X POST \
+      -H "Accept: application/vnd.github+json" \
+      -H "Authorization: Bearer $GITHUB_TOKEN" \
+      https://api.github.com/repos/owner/repo/releases \
+      -d '{"tag_name":"v1.0.0","name":"Version 1.0.0","body":"Release notes..."}'
+    ```
+  </TabItem>
+</Tabs>
+
+## Semantic Versioning
+
+GitHub Releases work well with semantic versioning (semver), a versioning scheme that communicates impact:
+
+```
+MAJOR.MINOR.PATCH
+```
+
+- **MAJOR**: Incompatible API changes
+- **MINOR**: Add functionality (backward-compatible)
+- **PATCH**: Bug fixes (backward-compatible)
+
+<Aside type="caution">
+  Choose version numbers carefully as they communicate your intent to users. Following semver helps users understand the impact of upgrading.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Releases Documentation" 
+    href="https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases"
+    description="Official documentation for GitHub Releases" 
+  />
+  <LinkCard 
+    title="Semantic Versioning Specification" 
+    href="https://semver.org/"
+    description="The full semantic versioning specification" 
+  />
+  <LinkCard 
+    title="Automating Releases with GitHub Actions" 
+    href="https://docs.github.com/en/actions/guides/releasing-packages-with-github-actions"
+    description="Guide to automating releases with Actions" 
+  />
+</CardGrid>

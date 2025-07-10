@@ -1,0 +1,136 @@
+---
+title: Pull Requests from Forks
+description: Learn how to contribute to projects by creating pull requests from forked repositories on GitHub.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# Creating Pull Requests from Forks
+
+Contributing to open-source projects often involves forking a repository and submitting changes through pull requests. This workflow is foundational to collaborative development on GitHub and enables contributions without direct write access to the original repository.
+
+## The Fork and PR Workflow
+
+<Tabs>
+  <TabItem label="Overview">
+    - **Fork**: Create a personal copy of someone else's project
+    - **Clone**: Download your fork to your local machine
+    - **Branch**: Create a new branch for your changes
+    - **Commit**: Make and commit your changes
+    - **Push**: Upload your changes to your fork
+    - **Pull Request**: Propose your changes to the original project
+  </TabItem>
+  <TabItem label="Benefits">
+    - Allows contributions without direct repository access
+    - Provides isolated environment to experiment
+    - Enables project maintainers to review changes before merging
+    - Creates a permanent record of contribution discussions
+    - Helps maintain quality control for projects
+  </TabItem>
+</Tabs>
+
+## Creating a Pull Request from a Fork
+
+<Steps>
+  1. Fork the repository by clicking the "Fork" button in the top-right of the repository page
+  2. Clone your fork to your local machine:
+     ```bash
+     git clone https://github.com/YOUR-USERNAME/REPOSITORY-NAME.git
+     ```
+  3. Set up the original repository as an "upstream" remote:
+     ```bash
+     git remote add upstream https://github.com/ORIGINAL-OWNER/REPOSITORY-NAME.git
+     ```
+  4. Create a new branch for your feature or bugfix:
+     ```bash
+     git checkout -b feature-branch-name
+     ```
+  5. Make your changes and commit them with descriptive messages
+  6. Push your branch to your fork:
+     ```bash
+     git push origin feature-branch-name
+     ```
+  7. Navigate to the original repository on GitHub
+  8. Click the "New pull request" button
+  9. Click "compare across forks" and select your fork and branch
+  10. Fill in the PR description and submit
+</Steps>
+
+<Aside type="tip">
+  Keeping your fork synchronized with the upstream repository is important. Regularly fetch and merge changes to avoid conflicts:
+  ```bash
+  git fetch upstream
+  git checkout main
+  git merge upstream/main
+  ```
+</Aside>
+
+## Common Challenges and Solutions
+
+<Tabs>
+  <TabItem label="Keeping Forks Updated">
+    To avoid out-of-date forks and potential merge conflicts:
+    
+    ```bash
+    # Update your local copy of the upstream repository
+    git fetch upstream
+    
+    # Checkout your main branch
+    git checkout main
+    
+    # Merge upstream changes
+    git merge upstream/main
+    
+    # Push changes to your fork
+    git push origin main
+    ```
+  </TabItem>
+  <TabItem label="Handling PR Feedback">
+    When reviewers request changes:
+    
+    1. Make the requested changes in your local branch
+    2. Commit the changes
+    3. Push to your fork
+    4. The PR will automatically update
+    
+    Use `git commit --amend` and `git push --force-with-lease` to clean up commits before final review, but only if you understand the implications.
+  </TabItem>
+</Tabs>
+
+## PR Etiquette for Forked Repositories
+
+- **Read Contribution Guidelines**: Most projects have a CONTRIBUTING.md file with specific requirements
+- **One Feature Per PR**: Keep pull requests focused on a single change
+- **Be Responsive**: Respond promptly to feedback and questions
+- **Test Thoroughly**: Ensure your changes work as expected
+- **Write Clear Descriptions**: Explain what your changes do and why they're needed
+- **Be Patient**: Maintainers may be busy; wait for feedback
+
+<Aside type="caution">
+  Never force-push to a branch that already has an open PR unless specifically requested by the maintainers, as it makes reviewing changes difficult.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Docs: Creating a Pull Request from a Fork" 
+    href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork"
+    description="Official GitHub documentation on creating PRs from forks" 
+  />
+  <LinkCard 
+    title="Atlassian: Using the Fork-and-Branch Git Workflow" 
+    href="https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow"
+    description="Detailed guide to the fork-and-branch workflow" 
+  />
+  <LinkCard 
+    title="Fork and Pull Request Workflow Video" 
+    href="https://www.youtube.com/watch?v=nT8KGYVurIU"
+    description="Video tutorial on the fork and PR process" 
+  />
+</CardGrid>

@@ -1,0 +1,29 @@
+---
+title: Pre-push Hooks
+description: Learn about pre-push hooks for validating commits before pushing
+---
+
+# Pre-push Hooks
+
+Pre-push hooks run before git push operations, allowing you to validate the commits being pushed.
+
+## Use Cases
+
+- Run full test suite
+- Check for forbidden files
+- Validate branch names
+- Ensure all commits are signed
+
+## Example Hook
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-push
+
+# Run tests before pushing
+npm test
+if [ $? -ne 0 ]; then
+    echo "Tests failed! Push aborted."
+    exit 1
+fi
+```

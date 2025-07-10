@@ -1,0 +1,118 @@
+---
+title: Git Worktree
+description: Learn how to work with multiple branches simultaneously using git worktree
+---
+
+# Git Worktree
+
+Git worktree allows you to have multiple working directories for the same repository, each checking out different branches.
+
+## Basic Commands
+
+```bash
+# Create new worktree
+git worktree add ../feature-branch feature-branch
+
+# List all worktrees
+git worktree list
+
+# Remove worktree
+git worktree remove ../feature-branch
+```
+
+## Common Use Cases
+
+### Work on Multiple Features
+```bash
+# Main directory for main branch
+cd project/
+
+# Create worktree for feature
+git worktree add ../project-feature feature-branch
+cd ../project-feature
+# Work on feature while main stays on main branch
+```
+
+### Bug Fixes While Developing
+```bash
+# Working on feature in main directory
+git worktree add ../hotfix hotfix-branch
+cd ../hotfix
+# Fix bug without switching branches in main directory
+```
+
+## Worktree Commands
+
+### Create Worktree
+```bash
+# Create with existing branch
+git worktree add ../path existing-branch
+
+# Create with new branch
+git worktree add -b new-branch ../path
+
+# Create from specific commit
+git worktree add ../path commit-hash
+```
+
+### Manage Worktrees
+```bash
+# List worktrees
+git worktree list
+
+# Show worktree info
+git worktree list --verbose
+
+# Remove worktree
+git worktree remove path
+
+# Prune stale worktrees
+git worktree prune
+```
+
+## Best Practices
+
+- Use descriptive directory names
+- Clean up unused worktrees regularly
+- Don't share worktree directories between users
+- Each worktree shares the same Git history
+
+## Example Workflow
+
+```bash
+# Main project directory
+cd my-project/
+
+# Create worktree for feature
+git worktree add ../my-project-auth feature/auth
+cd ../my-project-auth
+# Work on authentication feature
+
+# Create worktree for bug fix
+git worktree add ../my-project-hotfix hotfix/login-bug
+cd ../my-project-hotfix
+# Fix urgent bug
+
+# Back to main for regular development
+cd ../my-project/
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-worktree">Git Worktree Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/git-worktree">Atlassian - Git Worktree</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=cRunWRC8y_s">Git Worktree Tutorial</Link>
+</TabsContent>
+</Tabs>

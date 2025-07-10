@@ -1,0 +1,23 @@
+---
+title: Git Hooks Overview
+description: Learn about Git hooks for automating Git workflows
+---
+
+# Git Hooks Overview
+
+Git hooks are scripts that run automatically at specific points in the Git workflow.
+
+## Types of Hooks
+
+### Client-side Hooks
+- **pre-commit**: Before commit is created
+- **prepare-commit-msg**: Before commit message editor
+- **commit-msg**: Validate commit message
+- **post-commit**: After commit is created
+- **pre-push**: Before push operation
+
+### Server-side Hooks
+- **pre-receive**: Before refs are updated
+- **update**: For each ref being updated
+- **post-receive**: After refs are updated
+- **post-update**: After refs are updated (runs once)

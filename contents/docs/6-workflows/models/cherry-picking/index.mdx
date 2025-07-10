@@ -1,0 +1,135 @@
+---
+title: Cherry-Picking Commits
+description: Cherry-picking in Git allows you to apply a specific commit from one branch to another, without merging the entire branch. This is useful when you want to bring in a specific feature or fix from one branch to another without incorporating all the changes from the source branch.
+---
+
+
+
+
+
+## Basic Usage
+
+The basic syntax for cherry-picking is:
+
+```bash
+git cherry-pick <commit-hash>
+```
+
+This command takes the changes introduced by the specified commit and applies them to your current branch as a new commit.
+
+## When to Use Cherry-Pick
+
+Cherry-picking is particularly useful in the following scenarios:
+
+1. **Applying a bug fix to multiple branches**: When you've fixed a bug in one branch and need to apply the same fix to other branches.
+
+2. **Selectively including features**: When you want to include specific features from a development branch without merging everything.
+
+3. **Backporting changes**: When you need to apply a change from a newer version to an older, maintained version.
+
+4. **Recovering lost commits**: When commits have been accidentally removed from a branch and you want to reapply them.
+
+## Cherry-Pick Options
+
+Git cherry-pick comes with several useful options:
+
+- `-n` or `--no-commit`: Apply the changes without creating a commit
+- `-e` or `--edit`: Edit the commit message before committing
+- `-x`: Add a line "cherry picked from commit..." to the commit message
+- `-s` or `--signoff`: Add a Signed-off-by line to the commit message
+- `--continue`: Continue the cherry-pick operation after resolving conflicts
+- `--abort`: Cancel the operation and return to the pre-sequence state
+- `--quit`: Forget the current operation in progress
+
+## Cherry-Picking Multiple Commits
+
+You can cherry-pick a range of commits using the following syntax:
+
+```bash
+git cherry-pick <start-commit>..<end-commit>
+```
+
+Or for individual commits:
+
+```bash
+git cherry-pick <commit1> <commit2> <commit3>
+```
+
+## Handling Cherry-Pick Conflicts
+
+When cherry-picking, conflicts might occur if the same part of a file was modified in both the current branch and the commit being cherry-picked. When this happens:
+
+1. Git will pause the cherry-pick and show you which files have conflicts
+2. Edit the files to resolve the conflicts
+3. Add the resolved files with `git add <file>`
+4. Continue the cherry-pick with `git cherry-pick --continue`
+5. If you want to abort the cherry-pick, use `git cherry-pick --abort`
+
+## Examples
+
+### Cherry-picking a single commit
+
+```bash
+git cherry-pick abc123
+```
+
+### Cherry-picking without committing
+
+```bash
+git cherry-pick -n abc123
+# Make additional changes if needed
+git commit -m "Applied changes from abc123 with modifications"
+```
+
+### Cherry-picking a range of commits
+
+```bash
+git cherry-pick abc123..def456
+```
+
+## Best Practices
+
+1. **Use sparingly**: Cherry-picking can lead to duplicate commits and potential confusion. Use it when necessary, but prefer merging or rebasing for most cases.
+
+2. **Document cherry-picked commits**: Add a note in the commit message indicating that it's a cherry-pick and where it came from (the `-x` option helps with this).
+
+3. **Be aware of dependencies**: If the commit you're cherry-picking depends on other commits, you might need to cherry-pick those as well.
+
+4. **Test after cherry-picking**: Always verify that your code still works after cherry-picking, as the context might be different in the target branch.
+
+## Potential Issues
+
+### Duplicate commits
+
+Cherry-picking creates new commits with different hashes, which can lead to duplicate changes if you later merge the branches.
+
+### Missing context
+
+A cherry-picked commit might miss important context from previous commits, potentially causing unexpected behavior.
+
+### Merge conflicts
+
+Cherry-picking can often lead to merge conflicts, especially if the target branch has diverged significantly from the source branch.
+
+
+<Tabs defaultValue="article">
+<TabsList>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+</TabsList>
+###### Free Resources
+<TabsContent value="article">
+<Note type="note" title="article">
+- <Link href="https://git-scm.com/docs/git-cherry-pick">Git Cherry-Pick Documentation</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/cherry-pick">Git Cherry-Pick Tutorial</Link>
+- <Link href="https://youtu.be/i657Bg_HAWI">Git Cherry Pick - Tutorial Video</Link>
+</Note>
+</TabsContent>
+<TabsContent value="official">
+<Note type="note" title="official" >
+- <Link href="https://git-scm.com/docs/git-cherry-pick">Git Cherry-Pick Documentation</Link>
+</Note>
+</TabsContent>
+</Tabs>
+

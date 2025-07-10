@@ -1,0 +1,66 @@
+---
+title: Git Commit --amend
+description: How to modify the last commit with git commit --amend
+---
+
+# Git Commit --amend
+
+The `git commit --amend` command allows you to modify the most recent commit instead of creating a new one.
+
+## When to Use
+
+Use `git commit --amend` to:
+- Fix typos in the commit message
+- Add forgotten files to the last commit
+- Modify the content of the last commit
+
+## Basic Usage
+
+### Amending the Commit Message
+
+```bash
+git commit --amend -m "New commit message"
+```
+
+### Adding Files to the Last Commit
+
+```bash
+# Stage the forgotten files
+git add forgotten-file.txt
+
+# Amend the commit
+git commit --amend --no-edit
+```
+
+The `--no-edit` flag keeps the existing commit message.
+
+### Interactive Amending
+
+```bash
+git commit --amend
+```
+
+This opens your default editor to modify the commit message.
+
+## Important Notes
+
+⚠️ **Warning**: Only amend commits that haven't been pushed to a shared repository. Amending changes the commit hash, which can cause issues for other developers.
+
+## Examples
+
+```bash
+# Fix a typo in the last commit message
+git commit --amend -m "Fix typo in login function"
+
+# Add a file and amend without changing the message
+git add missing-file.js
+git commit --amend --no-edit
+
+# Open editor to modify the commit message
+git commit --amend
+```
+
+## Next Steps
+
+- Learn about [git reset](/docs/2-git-basics/commands/git-reset) for more commit modifications
+- Explore [rewriting history](/docs/4-git-advanced/rewriting-history) for advanced techniques

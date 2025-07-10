@@ -1,0 +1,130 @@
+---
+title: Git Reflog
+description: Learn how to recover lost commits using git reflog
+---
+
+# Git Reflog
+
+Git reflog records when the tips of branches and other references were updated in your local repository. It's your safety net for recovering lost commits.
+
+## Basic Usage
+
+```bash
+# Show reflog for current branch
+git reflog
+
+# Show reflog for specific branch
+git reflog feature-branch
+
+# Show all refs
+git reflog --all
+```
+
+## Understanding Reflog Output
+
+```bash
+# Example reflog output
+a1b2c3d HEAD@{0}: commit: Add user authentication
+b2c3d4e HEAD@{1}: checkout: moving from main to feature-branch
+c3d4e5f HEAD@{2}: reset: moving to HEAD~1
+d4e5f6g HEAD@{3}: commit: Fix login bug
+```
+
+## Recovery Scenarios
+
+### Recover Deleted Branch
+```bash
+# Find the commit before branch deletion
+git reflog
+
+# Recreate branch from reflog entry
+git checkout -b recovered-branch HEAD@{3}
+```
+
+### Undo Hard Reset
+```bash
+# Find the commit before reset
+git reflog
+
+# Reset back to that commit
+git reset --hard HEAD@{2}
+```
+
+### Recover Amended Commit
+```bash
+# Find original commit before amend
+git reflog
+
+# Create branch from original commit
+git branch recovery HEAD@{1}
+```
+
+## Common Recovery Commands
+
+### Reset to Previous State
+```bash
+# Reset to specific reflog entry
+git reset --hard HEAD@{5}
+
+# Reset keeping changes staged
+git reset --soft HEAD@{2}
+```
+
+### Cherry-pick Lost Commits
+```bash
+# Pick specific commit from reflog
+git cherry-pick HEAD@{4}
+```
+
+### Create Branch from Reflog
+```bash
+# Create branch from reflog entry
+git branch recovery-branch HEAD@{3}
+```
+
+## Reflog Options
+
+```bash
+# Show with dates
+git reflog --date=iso
+
+# Show specific number of entries
+git reflog -10
+
+# Show for specific time period
+git reflog --since="2 days ago"
+```
+
+## Best Practices
+
+- Check reflog before major operations
+- Reflog entries expire after 90 days by default
+- Each repository has its own reflog
+- Reflog is local-only, not shared with remotes
+
+## Limitations
+
+- Reflog doesn't track uncommitted changes
+- Only available in local repository
+- Entries eventually expire
+- Can't recover deleted files that were never committed
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-reflog">Git Reflog Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history/git-reflog">Atlassian - Git Reflog</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=Vxc9m_OVyo0">Git Reflog Tutorial</Link>
+</TabsContent>
+</Tabs>

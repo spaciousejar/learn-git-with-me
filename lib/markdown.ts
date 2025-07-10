@@ -20,6 +20,11 @@ import Image from "@/components/markdown/image";
 import Link from "@/components/markdown/link";
 import Outlet from "@/components/markdown/outlet";
 import Files from "@/components/markdown/files";
+import CardGrid from "@/components/markdown/card-grid";
+import LinkCard from "@/components/markdown/link-card";
+import Aside from "@/components/markdown/aside";
+import TabItem from "@/components/markdown/tab-item";
+import Steps from "@/components/markdown/steps";
 import {
   Table,
   TableBody,
@@ -35,21 +40,34 @@ const components = {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TabItem,
   pre: Pre,
   Note,
   Stepper,
   StepperItem,
+  Steps,
   img: Image,
   a: Link,
   Link, // Add explicit Link component mapping
   Outlet,
   Files,
+  CardGrid,
+  LinkCard,
+  Aside,
+  // Table components for JSX usage
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  // HTML element mappings
   table: Table,
   thead: TableHeader,
   th: TableHead,
   tr: TableRow,
   tbody: TableBody,
-  t: TableCell,
+  td: TableCell,
 };
 
 // can be used for other pages like blogs, Guides etc

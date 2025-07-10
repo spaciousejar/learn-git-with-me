@@ -1,0 +1,82 @@
+---
+title: "Linear vs Non-Linear Merge"
+description: "Understanding the difference between linear and non-linear merge in Git"
+---
+
+When it comes to **merging in Git**, the terms **linear** and **non-linear** refer to the structure of the commit history that results from the merge process.
+
+---
+
+### Linear Merging
+
+**Linear history** means the project history forms a single straight line—no branches sticking out. This is usually achieved by using:
+
+#### git rebase
+
+* It **re-applies** commits from your branch on top of another (like `main`), creating new commits.
+* This makes the history look like the feature was developed directly on top of the latest `main`.
+
+#### git merge --ff-only
+
+* Ensures a **fast-forward merge** (only if possible).
+* No new merge commit is created; the branch pointer just moves forward.
+
+####  Benefits
+
+* Clean, easy-to-follow history.
+* Useful in smaller teams or personal projects.
+
+####  Example
+
+```bash
+git checkout feature
+# work done on feature branch
+git fetch origin
+git rebase origin/main
+git checkout main
+git merge feature  # fast-forward
+```
+
+---
+
+###  Non-Linear Merging
+
+**Non-linear history** means the commit graph contains merge commits and branching paths—more like a tree.
+
+#### git merge (default)
+
+* Creates a **merge commit** when two branches diverged.
+* Preserves full history and context of parallel work.
+
+####  Benefits
+
+* Shows real collaboration and when branches were combined.
+* Important in large teams or open-source projects where preserving context matters.
+
+####  Example
+
+```bash
+git checkout main
+git merge feature
+# Creates a merge commit with both histories preserved
+```
+
+---
+
+###  Summary: Linear vs Non-Linear Merge
+
+| Aspect              | Linear Merge                   | Non-Linear Merge         |
+| ------------------- | ------------------------------ | ------------------------ |
+| Tools               | `rebase`, `merge --ff-only`    | `merge` (default)        |
+| Commit History      | Clean, straight line           | Branches, merge commits  |
+| Collaboration       | Less context                   | More context             |
+| Use Case            | Solo work, small teams         | Large teams, open source |
+| Conflict Resolution | Before merging (during rebase) | During the merge         |
+
+---
+
+###  Caution
+
+* **Rebasing public/shared branches** can rewrite history and cause confusion.
+* Always prefer **merge** over **rebase** for shared branches unless everyone agrees on rebase usage.
+

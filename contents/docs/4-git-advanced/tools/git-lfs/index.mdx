@@ -1,0 +1,112 @@
+---
+title: Git LFS
+description: Learn how to handle large files with Git Large File Storage
+---
+
+# Git LFS
+
+Git Large File Storage (LFS) replaces large files with text pointers inside Git, while storing the file contents on a remote server.
+
+## Installation
+
+```bash
+# Install Git LFS
+git lfs install
+
+# Initialize LFS in repository
+git lfs track "*.psd"
+git lfs track "*.zip"
+git lfs track "*.mp4"
+```
+
+## Basic Usage
+
+### Track File Types
+```bash
+# Track specific file types
+git lfs track "*.pdf"
+git lfs track "*.mov"
+git lfs track "images/*.jpg"
+
+# Track specific files
+git lfs track "large-dataset.csv"
+```
+
+### Working with LFS Files
+```bash
+# Add and commit as normal
+git add .gitattributes
+git add large-file.zip
+git commit -m "Add large file with LFS"
+git push origin main
+```
+
+## Common Commands
+
+### View LFS Status
+```bash
+# Show LFS files
+git lfs ls-files
+
+# Show tracking patterns
+git lfs track
+
+# Show LFS status
+git lfs status
+```
+
+### Download LFS Files
+```bash
+# Download all LFS files
+git lfs pull
+
+# Download specific LFS files
+git lfs pull --include="*.mp4"
+```
+
+## Best Practices
+
+- Track large binary files (>100MB)
+- Add `.gitattributes` to version control
+- Use meaningful file patterns
+- Document LFS usage in README
+
+## Common File Types for LFS
+
+```bash
+# Images and media
+git lfs track "*.jpg"
+git lfs track "*.png"
+git lfs track "*.mp4"
+git lfs track "*.mov"
+
+# Archives and packages
+git lfs track "*.zip"
+git lfs track "*.tar.gz"
+git lfs track "*.dmg"
+
+# Design files
+git lfs track "*.psd"
+git lfs track "*.ai"
+git lfs track "*.sketch"
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-lfs.github.io/">Git LFS Official Site</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/git-lfs">Atlassian - Git LFS</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=uLR1RNqJ1Mw">Git LFS Tutorial</Link>
+</TabsContent>
+</Tabs>

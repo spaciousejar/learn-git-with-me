@@ -1,0 +1,44 @@
+---
+title: Git Config
+description: Learn about Git Config in Git
+---
+
+
+The `git config` command is a convenience function that is used to set Git configuration values on a global or local project level. These configuration levels correspond to .gitconfig text files. Executing `git config` will modify a configuration text file.
+
+The most basic use case for `git config` is to invoke it with a configuration name, which will display the set value at that name. Configuration names are dot delimited strings composed of a 'section' and a 'key' based on their hierarchy. For example: `user.email`
+
+## Setting Up Git
+
+After installation, configure your Git identity:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+You can check your configuration with:
+
+```bash
+git config --list
+```
+
+#### Free Resources
+
+###### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-config">Git Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/setting-up-a-repository/git-config">Atlassian Git Tutorials</Link>
+- <Link href="https://docs.github.com/en/get-started/getting-started-with-git/setting-your-username-in-git">Setting your username in Git</Link>
+- <Link href="https://nulab.com/learn/software-development/git-tutorial/git-commands-settings/git-config-commands/">Git config commands | Git tutorial</Link>
+</TabsContent>
+</Tabs>

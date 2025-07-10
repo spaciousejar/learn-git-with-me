@@ -1,0 +1,122 @@
+---
+title: Git Collaboration
+description: Learn about collaboration workflows and strategies for effective teamwork using Git and GitHub.
+---
+
+
+# Git Collaboration Fundamentals
+
+Git was designed from the ground up as a tool for collaborative development. Understanding key collaboration workflows and strategies is essential for effective teamwork on software projects.
+
+## Common Git Collaboration Workflows
+
+<Tabs>
+  <TabItem label="Centralized Workflow">
+    A simple model where all developers work on the main branch:
+    
+    - Similar to traditional VCS like SVN
+    - All developers commit to the same branch
+    - Suitable for very small teams with minimal conflicts
+    - Limited parallel development
+  </TabItem>
+  <TabItem label="Feature Branch Workflow">
+    Developers create branches for each feature or bugfix:
+    
+    - Isolates new development from the main branch
+    - Enables parallel feature development
+    - Makes code review easier through pull requests
+    - Reduces risk to the main codebase
+  </TabItem>
+  <TabItem label="Gitflow Workflow">
+    A strict branching model with specific branch roles:
+    
+    - Uses `main` branch for production code
+    - Maintains a `develop` branch for ongoing development
+    - Creates `feature`, `release`, and `hotfix` branches as needed
+    - Follows strict merging rules between branches
+    - Well-suited for projects with scheduled releases
+  </TabItem>
+  <TabItem label="Forking Workflow">
+    Contributors fork the repository and work independently:
+    
+    - Each contributor has their own server-side repository
+    - Changes are integrated via pull requests
+    - Project maintainers control what gets merged
+    - Ideal for open-source projects with many contributors
+  </TabItem>
+</Tabs>
+
+## Effective Collaboration Practices
+
+### Commit Discipline
+
+<Steps>
+  1. Make small, focused commits that do one thing
+  2. Write clear commit messages that explain the "why" not just the "what"
+  3. Ensure code builds and passes tests before committing
+  4. Follow project commit message conventions
+</Steps>
+
+<Aside type="tip">
+  Use the "commit often, push when ready" approach to maintain a detailed history without disrupting others.
+</Aside>
+
+### Communication
+
+- Document decision-making in commit messages and PR descriptions
+- Use code comments to explain complex sections or why a specific approach was chosen
+- Keep discussions related to code within the relevant issue or PR
+- Clearly communicate breaking changes or major refactoring
+
+### Branch Management
+
+<Tabs>
+  <TabItem label="Branch Naming">
+    Use consistent, descriptive branch names:
+    
+    - `feature/add-login-page`
+    - `bugfix/fix-memory-leak`
+    - `docs/update-api-reference`
+    - `refactor/simplify-auth-logic`
+  </TabItem>
+  <TabItem label="Branch Lifetime">
+    - Keep branches short-lived when possible
+    - Regularly merge changes from the main branch to avoid drift
+    - Delete branches after they're merged
+    - Consider using tools like `git rerere` for recurring conflicts
+  </TabItem>
+</Tabs>
+
+## Conflict Resolution Strategies
+
+Merge conflicts are inevitable in collaborative projects. Handling them effectively is crucial:
+
+1. **Pull frequently** from the main branch to minimize conflicts
+2. **Understand the conflict** before resolving it
+3. **Communicate with teammates** involved in the conflicting code
+4. **Test thoroughly** after resolving conflicts
+5. **Use visual tools** like `git mergetool` for complex conflicts
+
+<Aside type="caution">
+  Never blindly accept or reject changes during conflict resolution without understanding the implications.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="Atlassian: Comparing Git Workflows" 
+    href="https://www.atlassian.com/git/tutorials/comparing-workflows"
+    description="Detailed breakdown of different Git collaboration workflows" 
+  />
+  <LinkCard 
+    title="GitHub Flow Guide" 
+    href="https://guides.github.com/introduction/flow/"
+    description="GitHub's recommended lightweight workflow" 
+  />
+  <LinkCard 
+    title="Learn Git Branching" 
+    href="https://learngitbranching.js.org/"
+    description="Interactive tutorial for understanding Git branching" 
+  />
+</CardGrid>

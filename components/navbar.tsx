@@ -25,6 +25,11 @@ export const NAVLINKS = [
     href: "/blog",
   },
   {
+    title: "Roadmap",
+    href: "https://roadmap.sh/git-github",
+    external: true,
+  },
+  {
     title: "Community",
     href: "https://app.daily.dev/squads/gitmelive",
     external: true,

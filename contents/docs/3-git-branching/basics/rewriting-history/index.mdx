@@ -1,0 +1,46 @@
+---
+title: Rewriting History
+description: Learn about Rewriting History in Git
+---
+
+# Rewriting History
+
+In certain situations, you might need to modify or remove commits from your Git repository's history. This can be achieved using various methods:
+
+- `git commit --amend`: Allows you to edit the most recent commit.
+- `git rebase`: Replaces one branch with another, preserving the commit history.
+- `git filter-branch`: Removes specific commits from a branch without altering the original branch.
+- `git push --force`: Updates the remote repository while respecting existing pull requests.
+
+Rewriting history in Git is typically necessary when:
+
+- Fixing mistakes: Correcting errors or typos in commit messages.
+- Removing sensitive data: Deleting confidential information from commits, like API keys or database credentials.
+- Simplifying complex histories: Reorganizing branches to improve clarity and reduce complexity.
+
+#### Free Resources
+
+- [@official@Git Tools - Rewriting History](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History)
+- [@article@Methods of Rewriting History in Git](https://www.atlassian.com/git/tutorials/rewriting-history)
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs">Git Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials">Atlassian Git Tutorials</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/results?search_query=git+rewriting-history+tutorial">Video Tutorials</Link>
+</TabsContent>
+</Tabs>
+
+<Outlet path="3-git-branching/basics/rewriting-history" />

@@ -1,0 +1,25 @@
+---
+title: Tagging Scripts
+description: Learn about scripts for creating Git tags
+---
+
+# Tagging Scripts
+
+Scripts for automating the process of creating Git tags.
+
+## Create Tag Script
+
+```bash
+#!/bin/bash
+# create-tag.sh
+
+VERSION=$1
+MESSAGE=$2
+
+if [ -z "$VERSION" ]; then
+    echo "Usage: $0 <version> [message]"
+    exit 1
+fi
+
+git tag -a "$VERSION" -m "${MESSAGE:-Release $VERSION}"
+```

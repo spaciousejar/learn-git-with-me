@@ -1,0 +1,289 @@
+---
+title: Git Flow
+description: Learn about Git Flow - a robust branching model for releases
+---
+
+# Git Flow
+
+Git Flow is a branching model that defines a strict branching model designed around project releases. It provides a robust framework for managing larger projects with scheduled releases.
+
+## Branch Types
+
+### Main Branches
+- **main/master**: Production-ready code
+- **develop**: Integration branch for features
+
+### Supporting Branches
+- **feature**: New feature development
+- **release**: Prepare new production releases
+- **hotfix**: Quick fixes for production issues
+
+## Git Flow Commands
+
+### Installation
+```bash
+# Install git-flow
+brew install git-flow-avh  # macOS
+sudo apt-get install git-flow  # Ubuntu
+
+# Initialize git flow in repository
+git flow init
+```
+
+### Feature Branches
+```bash
+# Start new feature
+git flow feature start user-authentication
+
+# Finish feature (merges to develop)
+git flow feature finish user-authentication
+
+# Publish feature for collaboration
+git flow feature publish user-authentication
+```
+
+### Release Branches
+```bash
+# Start new release
+git flow release start v1.2.0
+
+# Finish release (merges to main and develop)
+git flow release finish v1.2.0
+
+# Publish release
+git flow release publish v1.2.0
+```
+
+### Hotfix Branches
+```bash
+# Start hotfix from main
+git flow hotfix start security-patch
+
+# Finish hotfix (merges to main and develop)
+git flow hotfix finish security-patch
+```
+
+## Workflow Process
+
+### Feature Development
+```
+1. Create feature branch from develop
+   ├── git flow feature start new-feature
+   ├── Develop feature
+   ├── Test locally
+   └── git flow feature finish new-feature
+
+2. Feature merges to develop
+   ├── Automatic merge to develop
+   ├── Delete feature branch
+   └── Ready for next release
+```
+
+### Release Process
+```
+1. Create release branch from develop
+   ├── git flow release start v1.0.0
+   ├── Bug fixes only
+   ├── Update version numbers
+   └── Update documentation
+
+2. Finish release
+   ├── Merge to main (production)
+   ├── Tag release version
+   ├── Merge back to develop
+   └── Delete release branch
+```
+
+### Hotfix Process
+```
+1. Create hotfix from main
+   ├── git flow hotfix start critical-fix
+   ├── Fix critical issue
+   └── Test thoroughly
+
+2. Finish hotfix
+   ├── Merge to main
+   ├── Merge to develop
+   ├── Tag new version
+   └── Deploy immediately
+```
+
+## Manual Git Flow (Without Tools)
+
+### Feature Branch Workflow
+```bash
+# Start feature
+git checkout develop
+git pull origin develop
+git checkout -b feature/user-login
+
+# Develop feature
+git add .
+git commit -m "Add login functionality"
+git push origin feature/user-login
+
+# Finish feature
+git checkout develop
+git pull origin develop
+git merge --no-ff feature/user-login
+git push origin develop
+git branch -d feature/user-login
+```
+
+### Release Branch Workflow
+```bash
+# Start release
+git checkout develop
+git pull origin develop
+git checkout -b release/v1.2.0
+
+# Prepare release
+git commit -m "Bump version to 1.2.0"
+git push origin release/v1.2.0
+
+# Finish release
+git checkout main
+git merge --no-ff release/v1.2.0
+git tag v1.2.0
+git checkout develop
+git merge --no-ff release/v1.2.0
+git push origin main develop --tags
+git branch -d release/v1.2.0
+```
+
+## Branch Naming Conventions
+
+```bash
+# Feature branches
+feature/user-authentication
+feature/shopping-cart
+feature/payment-integration
+
+# Release branches
+release/v1.0.0
+release/v2.1.0
+release/v1.5.2
+
+# Hotfix branches
+hotfix/security-vulnerability
+hotfix/critical-bug-fix
+hotfix/performance-issue
+```
+
+## Advantages
+
+### Organized Structure
+- **Clear separation** of feature development and releases
+- **Parallel development** of multiple features
+- **Stable main branch** always ready for production
+
+### Release Management
+- **Planned releases** with dedicated release branches
+- **Version control** with proper tagging
+- **Hotfix support** without disrupting development
+
+### Team Collaboration
+- **Multiple developers** can work on different features
+- **Code isolation** prevents feature conflicts
+- **Clear workflow** everyone understands
+
+## Disadvantages
+
+### Complexity
+- **Steep learning curve** for new team members
+- **More branches** to manage and track
+- **Complex merging** scenarios possible
+
+### Overhead
+- **Additional steps** for simple changes
+- **Not ideal** for continuous deployment
+- **Slower** than simpler workflows like GitHub Flow
+
+## When to Use Git Flow
+
+### Good For:
+- **Scheduled releases** with specific versions
+- **Large teams** with multiple parallel features
+- **Enterprise software** with formal release cycles
+- **Products** requiring stable release versions
+
+### Consider Alternatives When:
+- **Continuous deployment** is preferred
+- **Small teams** with frequent releases
+- **Web applications** with rolling deployments
+- **Simple projects** with minimal complexity
+
+## Git Flow vs Other Workflows
+
+| Aspect | Git Flow | GitHub Flow | Trunk-based |
+|--------|----------|-------------|-------------|
+| Complexity | High | Low | Medium |
+| Branches | 5 types | 2 types | 1-2 types |
+| Releases | Planned | Continuous | Continuous |
+| Best for | Enterprise | Web apps | Large teams |
+
+## Configuration
+
+### Git Flow Init Options
+```bash
+# Custom branch names
+git flow init
+# Which branch should be used for bringing forth production releases?
+# - main
+# Which branch should be used for integration of the "next release"?
+# - develop
+# How to name your supporting branch prefixes?
+# Feature branches? [feature/]
+# Release branches? [release/]
+# Hotfix branches? [hotfix/]
+# Support branches? [support/]
+# Version tag prefix? [v]
+```
+
+### Example Complete Workflow
+```bash
+# 1. Initialize Git Flow
+git flow init
+
+# 2. Start feature development
+git flow feature start user-dashboard
+# ... develop feature ...
+git add .
+git commit -m "Add user dashboard"
+git flow feature finish user-dashboard
+
+# 3. Prepare release
+git flow release start v1.1.0
+# ... final testing and bug fixes ...
+git commit -m "Prepare v1.1.0 release"
+git flow release finish v1.1.0
+
+# 4. Handle emergency hotfix
+git flow hotfix start critical-security-fix
+# ... fix critical issue ...
+git commit -m "Fix security vulnerability"
+git flow hotfix finish critical-security-fix
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://nvie.com/posts/a-successful-git-branching-model/">Original Git Flow Model</Link>
+- <Link href="https://github.com/nvie/gitflow">Git Flow Tools</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Atlassian Git Flow Guide</Link>
+- <Link href="https://datasift.github.io/gitflow/IntroducingGitFlow.html">Introducing Git Flow</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=1SXpE08hvGs">Git Flow Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=aJnFGMclhU8">Git Flow Explained</Link>
+</TabsContent>
+</Tabs>

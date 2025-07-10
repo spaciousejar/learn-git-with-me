@@ -1,0 +1,126 @@
+---
+title: Git Stash
+description: Learn how to temporarily save changes with git stash
+---
+
+# Git Stash
+
+Git stash temporarily saves your uncommitted changes so you can work on something else, then come back and re-apply them later.
+
+## Basic Commands
+
+```bash
+# Save current changes to stash
+git stash
+
+# Apply most recent stash
+git stash pop
+
+# List all stashes
+git stash list
+
+# Apply specific stash
+git stash apply stash@{2}
+```
+
+## Common Use Cases
+
+### Switch Branches Quickly
+```bash
+# Working on feature, need to switch to main
+git stash
+git checkout main
+# Fix urgent bug
+git checkout feature-branch
+git stash pop
+```
+
+### Save Work in Progress
+```bash
+# Save incomplete work
+git stash save "Work in progress on login feature"
+
+# Continue later
+git stash apply
+```
+
+## Stash Commands
+
+### Save Stash
+```bash
+# Simple stash
+git stash
+
+# Stash with message
+git stash save "Description of changes"
+
+# Include untracked files
+git stash -u
+
+# Include ignored files
+git stash -a
+```
+
+### Apply Stash
+```bash
+# Apply and remove from stash list
+git stash pop
+
+# Apply but keep in stash list
+git stash apply
+
+# Apply specific stash
+git stash apply stash@{1}
+```
+
+### Manage Stashes
+```bash
+# List stashes
+git stash list
+
+# Show stash content
+git stash show stash@{0}
+
+# Delete specific stash
+git stash drop stash@{1}
+
+# Clear all stashes
+git stash clear
+```
+
+## Advanced Usage
+
+### Partial Stash
+```bash
+# Stash only staged changes
+git stash --staged
+
+# Interactive stash
+git stash -p
+```
+
+### Create Branch from Stash
+```bash
+# Create new branch with stashed changes
+git stash branch new-feature-branch stash@{1}
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-stash">Git Stash Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/saving-changes/git-stash">Atlassian - Git Stash</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=KLEDKgMmbBI">Git Stash Tutorial</Link>
+</TabsContent>
+</Tabs>

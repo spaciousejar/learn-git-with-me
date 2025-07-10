@@ -1,0 +1,143 @@
+---
+title: Submodules
+description: Learn how to manage external repositories with Git submodules
+---
+
+# Git Submodules
+
+Git submodules allow you to include external Git repositories as subdirectories in your project while keeping their histories separate.
+
+## Adding Submodules
+
+```bash
+# Add submodule
+git submodule add https://github.com/user/repo.git path/to/submodule
+
+# Add submodule with specific branch
+git submodule add -b main https://github.com/user/repo.git libs/external
+
+# Commit submodule addition
+git commit -m "Add external library as submodule"
+```
+
+## Working with Submodules
+
+### Clone Repository with Submodules
+```bash
+# Clone and initialize submodules
+git clone --recursive https://github.com/user/main-repo.git
+
+# Or after cloning
+git submodule update --init --recursive
+```
+
+### Update Submodules
+```bash
+# Update to latest commit
+git submodule update --remote
+
+# Update specific submodule
+git submodule update --remote path/to/submodule
+```
+
+## Common Commands
+
+### Initialize Submodules
+```bash
+# Initialize submodules after clone
+git submodule init
+
+# Update to recorded commit
+git submodule update
+
+# Combined init and update
+git submodule update --init
+```
+
+### Status and Info
+```bash
+# Show submodule status
+git submodule status
+
+# Show submodule summary
+git submodule summary
+
+# List submodules
+git submodule foreach 'echo $name'
+```
+
+## Managing Submodules
+
+### Remove Submodule
+```bash
+# Remove from .gitmodules
+git submodule deinit path/to/submodule
+
+# Remove from .git/config
+git rm path/to/submodule
+
+# Commit changes
+git commit -m "Remove submodule"
+```
+
+### Update Submodule to Specific Commit
+```bash
+# Enter submodule directory
+cd path/to/submodule
+
+# Checkout specific commit
+git checkout commit-hash
+
+# Return to main project
+cd ../..
+
+# Commit submodule update
+git add path/to/submodule
+git commit -m "Update submodule to specific version"
+```
+
+## Best Practices
+
+- Pin submodules to specific commits for stability
+- Document submodule purposes in README
+- Use relative URLs when possible
+- Regularly update submodules
+- Test after submodule updates
+
+## Common Issues
+
+### Submodule Not Updated
+```bash
+# Pull latest changes in main repo
+git pull
+
+# Update submodules to match
+git submodule update --recursive
+```
+
+### Detached HEAD in Submodule
+```bash
+# Create branch in submodule
+cd path/to/submodule
+git checkout -b feature-branch
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-submodule">Git Submodule Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/git-submodule">Atlassian - Git Submodules</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=gSlXo2iLBro">Git Submodules Tutorial</Link>
+</TabsContent>
+</Tabs>

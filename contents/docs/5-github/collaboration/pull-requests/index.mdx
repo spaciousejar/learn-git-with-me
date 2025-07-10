@@ -1,0 +1,284 @@
+---
+title: Pull Requests
+description: Learn how to create and manage pull requests on GitHub
+---
+
+# Pull Requests
+
+Pull requests (PRs) are a core feature of GitHub that allow you to propose changes to a repository and collaborate with others through code review.
+
+## What are Pull Requests?
+
+Pull requests let you tell others about changes you've pushed to a branch in a repository. Once opened, you can discuss and review potential changes with collaborators before merging them into the base branch.
+
+## Creating a Pull Request
+
+### From Your Branch
+```bash
+# Create and switch to new branch
+git checkout -b feature/new-feature
+
+# Make changes and commit
+git add .
+git commit -m "Add new feature"
+
+# Push branch to GitHub
+git push origin feature/new-feature
+```
+
+### Open PR on GitHub
+1. **Navigate to repository** on GitHub
+2. **Click "Compare & pull request"** (appears after pushing)
+3. **Choose base and compare branches**
+4. **Add title and description**
+5. **Request reviewers** (optional)
+6. **Add labels and assignees** (optional)
+7. **Create pull request**
+
+## PR Components
+
+### Title and Description
+```markdown
+# Good PR Title
+Add user authentication with JWT tokens
+
+# Good PR Description
+## Changes
+- Implement JWT token generation
+- Add login/logout endpoints
+- Include password hashing with bcrypt
+- Add authentication middleware
+
+## Testing
+- All existing tests pass
+- Added new tests for auth endpoints
+- Manual testing completed
+
+Closes #123
+```
+
+### PR Metadata
+- **Assignees**: Who's responsible for the PR
+- **Reviewers**: Who should review the code
+- **Labels**: Categorize the PR (bug, feature, etc.)
+- **Milestones**: Associate with project milestones
+- **Projects**: Link to project boards
+
+## Review Process
+
+### Requesting Reviews
+```bash
+# In PR description, mention reviewers
+@username please review this PR
+
+# Use GitHub's reviewer assignment
+# Select reviewers from dropdown
+```
+
+### Review Types
+- **Comment**: General feedback without approval
+- **Approve**: Accept the changes
+- **Request changes**: Require modifications before merge
+
+### Review Features
+- **Line comments**: Comment on specific lines
+- **Suggestion**: Propose code changes
+- **Batch comments**: Submit multiple comments together
+- **Resolve conversations**: Mark discussions as resolved
+
+## PR Workflow
+
+### Standard Workflow
+```
+1. Create feature branch
+   ├── Make changes
+   ├── Commit changes
+   └── Push to GitHub
+
+2. Open pull request
+   ├── Add description
+   ├── Request reviewers
+   └── Add metadata
+
+3. Code review
+   ├── Address feedback
+   ├── Make additional commits
+   └── Resolve conversations
+
+4. Merge pull request
+   ├── Squash and merge (recommended)
+   ├── Merge commit
+   └── Rebase and merge
+```
+
+## Merge Options
+
+### Squash and Merge
+```bash
+# Combines all commits into single commit
+# Keeps clean history
+# Default option for most teams
+```
+
+### Merge Commit
+```bash
+# Preserves individual commits
+# Creates merge commit
+# Shows branch history
+```
+
+### Rebase and Merge
+```bash
+# Applies commits individually
+# No merge commit
+# Linear history
+```
+
+## PR Best Practices
+
+### Good PR Guidelines
+- **Small, focused changes**: Easier to review
+- **Clear descriptions**: Explain what and why
+- **Link to issues**: Reference related issues
+- **Test thoroughly**: Ensure changes work
+- **Update documentation**: Keep docs current
+
+### PR Description Template
+```markdown
+## Summary
+Brief description of changes
+
+## Changes Made
+- [ ] Added feature X
+- [ ] Fixed bug Y
+- [ ] Updated documentation
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+
+## Screenshots (if applicable)
+[Add screenshots for UI changes]
+
+## Checklist
+- [ ] Code follows style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] Tests added/updated
+
+Closes #issue-number
+```
+
+## Managing PRs
+
+### Draft Pull Requests
+```bash
+# Create draft PR for work in progress
+# Mark as "ready for review" when complete
+# Useful for early feedback
+```
+
+### Converting to Draft
+1. Click "Convert to draft" in PR sidebar
+2. Make additional changes
+3. Mark "Ready for review" when complete
+
+### Closing PRs
+```bash
+# Close without merging
+# Useful for abandoned features
+# Can be reopened later if needed
+```
+
+## Automated Checks
+
+### Status Checks
+- **CI/CD pipelines**: Automated testing
+- **Code quality**: Linting, formatting
+- **Security scans**: Vulnerability detection
+- **Coverage reports**: Test coverage metrics
+
+### Branch Protection
+```bash
+# Require status checks to pass
+# Require reviews before merge
+# Restrict who can merge
+# Require up-to-date branches
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### Merge Conflicts
+```bash
+# Update your branch with main
+git checkout main
+git pull origin main
+git checkout feature-branch
+git merge main
+
+# Resolve conflicts and push
+git add .
+git commit -m "Resolve merge conflicts"
+git push origin feature-branch
+```
+
+#### Failed Checks
+```bash
+# Check CI/CD logs
+# Fix failing tests
+# Address linting issues
+# Push fixes to same branch
+```
+
+## Advanced Features
+
+### PR Templates
+Create `.github/pull_request_template.md`:
+```markdown
+## Description
+Brief description of changes
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Refactoring
+
+## Checklist
+- [ ] Tests added/updated
+- [ ] Documentation updated
+- [ ] Code reviewed
+```
+
+### Auto-merge
+```bash
+# Enable auto-merge when all checks pass
+# Requires admin permissions
+# Useful for dependency updates
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://docs.github.com/en/pull-requests">GitHub Pull Requests Documentation</Link>
+- <Link href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests">Reviewing Pull Requests</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/">How to Write Perfect Pull Requests</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/making-a-pull-request">Atlassian Pull Request Tutorial</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=8lGpZkjnkt4">Pull Requests Explained</Link>
+- <Link href="https://www.youtube.com/watch?v=For9VtrQx58">GitHub Pull Request Tutorial</Link>
+</TabsContent>
+</Tabs>

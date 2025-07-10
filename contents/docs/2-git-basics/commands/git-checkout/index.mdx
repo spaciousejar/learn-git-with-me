@@ -1,0 +1,148 @@
+---
+title: Git Checkout
+description: Switching branches and restoring files with git checkout
+---
+
+# Git Checkout
+
+The `git checkout` command is used to switch between branches and restore files from different commits.
+
+## Switching Branches
+
+### Switch to Existing Branch
+
+```bash
+git checkout <branch-name>
+```
+
+### Create and Switch to New Branch
+
+```bash
+git checkout -b <new-branch-name>
+```
+
+### Switch to Previous Branch
+
+```bash
+git checkout -
+```
+
+## Restoring Files
+
+### Restore File from HEAD
+
+```bash
+git checkout HEAD -- <file>
+```
+
+### Restore File from Specific Commit
+
+```bash
+git checkout <commit-hash> -- <file>
+```
+
+### Restore All Files
+
+```bash
+git checkout .
+```
+
+## Detached HEAD State
+
+When you checkout a specific commit (not a branch), you enter "detached HEAD" state:
+
+```bash
+git checkout 9fceb02
+```
+
+In this state:
+- You can look around and make experimental commits
+- Changes won't belong to any branch
+- To save changes, create a new branch:
+
+```bash
+git checkout -b new-feature
+```
+
+## Common Options
+
+### Checkout Remote Branch
+
+```bash
+# Create local branch tracking remote
+git checkout -b <branch> origin/<branch>
+
+# Simplified for matching names
+git checkout <branch>  # if remote branch exists
+```
+
+### Force Checkout
+
+```bash
+git checkout -f <branch>
+```
+
+⚠️ **Warning**: This discards local changes!
+
+## Examples
+
+```bash
+# Switch to main branch
+git checkout main
+
+# Create and switch to feature branch
+git checkout -b feature/login
+
+# Restore a deleted file from last commit
+git checkout HEAD -- deleted-file.txt
+
+# Checkout specific commit to explore
+git checkout abc1234
+
+# Return to branch from detached HEAD
+git checkout main
+
+# Switch to previous branch
+git checkout -
+```
+
+## vs. Git Switch
+
+Git 2.23+ introduced `git switch` for cleaner branch operations:
+
+| Task | Checkout | Switch |
+|------|----------|--------|
+| Switch branch | `git checkout main` | `git switch main` |
+| Create branch | `git checkout -b new` | `git switch -c new` |
+| Restore files | `git checkout -- file` | `git restore file` |
+
+## Troubleshooting
+
+### Cannot Switch Due to Changes
+
+```bash
+# Either commit changes
+git add .
+git commit -m "Save work"
+
+# Or stash them
+git stash
+git checkout <branch>
+git stash pop
+```
+
+### Branch Doesn't Exist
+
+```bash
+# List all branches
+git branch -a
+
+# Fetch latest from remote
+git fetch origin
+```
+
+## Next Steps
+
+- Learn about [git switch](/docs/3-git-branching/basics/switch-branches) (modern alternative)
+- Explore [git restore](/docs/2-git-basics/commands/git-restore) for file restoration
+- Understand [detached HEAD](/docs/3-git-branching/basics/detached-head)

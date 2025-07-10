@@ -1,0 +1,335 @@
+---
+title: Amending Commits
+description: Learn how to modify the most recent Git commit efficiently
+---
+
+# Amending Commits
+
+Amending commits is one of the most frequently used Git features for quickly correcting mistakes in your most recent commit. It allows you to modify the commit message, add forgotten files, or update the commit content without creating a new commit.
+
+## What is Commit Amending?
+
+Amending modifies the most recent commit by:
+- Changing the commit message
+- Adding or removing files from the commit
+- Updating the commit content
+- Combining staged changes with the last commit
+
+## Basic Amend Commands
+
+### Amend Commit Message Only
+```bash
+# Change only the commit message
+git commit --amend -m "New improved commit message"
+
+# Open editor to modify commit message
+git commit --amend
+```
+
+### Amend with Staged Changes
+```bash
+# Add forgotten files and amend
+git add forgotten-file.js
+git commit --amend --no-edit
+
+# Add changes and update message
+git add updated-file.js
+git commit --amend -m "Updated commit with additional changes"
+```
+
+### Interactive Amend
+```bash
+# Open editor for both message and staged changes
+git add .
+git commit --amend
+```
+
+## Common Amending Scenarios
+
+### 1. Fix Typos in Commit Messages
+```bash
+# Original commit with typo
+git commit -m "Fix user athentication bug"
+
+# Amend to fix typo
+git commit --amend -m "Fix user authentication bug"
+```
+
+### 2. Add Forgotten Files
+```bash
+# Made a commit but forgot to include a file
+git commit -m "Add user registration feature"
+
+# Add the forgotten file
+git add registration.test.js
+git commit --amend --no-edit
+```
+
+### 3. Update Code in Last Commit
+```bash
+# Commit initial implementation
+git commit -m "Implement password validation"
+
+# Realize you need to improve the implementation
+git add password-validator.js
+git commit --amend -m "Implement improved password validation"
+```
+
+### 4. Remove Files from Last Commit
+```bash
+# Accidentally committed debug files
+git commit -m "Add user dashboard"
+
+# Remove debug files from commit
+git reset HEAD~1
+git add dashboard.js  # Add only the files you want
+git commit -m "Add user dashboard"
+```
+
+## Advanced Amending Techniques
+
+### Amend Author Information
+```bash
+# Change author of last commit
+git commit --amend --author="New Author <new@email.com>"
+
+# Change author and message
+git commit --amend --author="John Doe <john@example.com>" -m "Updated commit"
+```
+
+### Amend with Date Changes
+```bash
+# Update commit date to current time
+git commit --amend --date="$(date)"
+
+# Set specific date
+git commit --amend --date="2023-12-01 10:00:00"
+```
+
+### Amend with Empty Commit
+```bash
+# Create empty commit (useful for triggering CI)
+git commit --allow-empty -m "Trigger CI build"
+
+# Amend to add content later
+git add files.js
+git commit --amend -m "Add feature and trigger CI"
+```
+
+## Best Practices for Amending
+
+### 1. Never Amend Public Commits
+```bash
+# ❌ DON'T amend commits that have been pushed to shared repos
+git push origin main
+git commit --amend  # This will cause problems for other developers
+
+# ✅ DO amend commits only on local/feature branches
+git checkout feature-branch
+git commit --amend  # Safe on feature branches before sharing
+```
+
+### 2. Review Changes Before Amending
+```bash
+# Review what you're about to amend
+git diff --staged
+git show HEAD
+
+# Then amend
+git commit --amend
+```
+
+### 3. Test After Amending
+```bash
+# Always test after amending
+git commit --amend
+npm test  # or your test command
+git push origin feature-branch
+```
+
+### 4. Use Meaningful Amend Messages
+```bash
+# ❌ Poor amend message
+git commit --amend -m "fix"
+
+# ✅ Good amend message
+git commit --amend -m "fix: resolve user authentication timeout issue"
+```
+
+## Amending Workflow Examples
+
+### Feature Development Workflow
+```bash
+# 1. Start working on feature
+git checkout -b feature/user-profile
+git add profile.js
+git commit -m "Add user profile component"
+
+# 2. Realize you forgot tests
+git add profile.test.js
+git commit --amend -m "Add user profile component with tests"
+
+# 3. Code review feedback - improve implementation
+git add profile.js
+git commit --amend -m "Add user profile component with tests and improved validation"
+
+# 4. Ready to push
+git push origin feature/user-profile
+```
+
+### Bug Fix Workflow
+```bash
+# 1. Fix bug
+git add bug-fix.js
+git commit -m "Fix login validation bug"
+
+# 2. Add regression test
+git add login.test.js
+git commit --amend -m "Fix login validation bug and add regression test"
+
+# 3. Update documentation
+git add README.md
+git commit --amend -m "Fix login validation bug, add test, and update docs"
+```
+
+## Recovery from Amend Mistakes
+
+### Using Reflog
+```bash
+# If you made a mistake amending
+git reflog
+# Find the commit before your amend (usually HEAD@{1})
+git reset --hard HEAD@{1}
+```
+
+### Creating Backup Before Amending
+```bash
+# Create backup branch before major amends
+git branch backup-before-amend
+git commit --amend -m "New message"
+
+# If something goes wrong, recover
+git reset --hard backup-before-amend
+```
+
+## Amending vs Other Git Commands
+
+### Amend vs Reset
+```bash
+# Amend: Modify last commit in place
+git commit --amend
+
+# Reset: Move to previous commit, optionally keeping changes
+git reset --soft HEAD~1  # Keep changes staged
+git reset --mixed HEAD~1  # Keep changes unstaged
+git reset --hard HEAD~1   # Discard changes
+```
+
+### Amend vs Revert
+```bash
+# Amend: Modify the commit (for unpublished commits)
+git commit --amend
+
+# Revert: Create new commit that undoes changes (for published commits)
+git revert HEAD
+```
+
+### Amend vs Interactive Rebase
+```bash
+# Amend: Quick fix for last commit only
+git commit --amend
+
+# Interactive Rebase: Modify multiple commits
+git rebase -i HEAD~3
+```
+
+## Useful Git Aliases for Amending
+
+```bash
+# Quick amend without editing message
+git config --global alias.amend "commit --amend --no-edit"
+
+# Amend with editor
+git config --global alias.amendd "commit --amend"
+
+# Add all and amend
+git config --global alias.amendall "!git add -A && git commit --amend --no-edit"
+
+# Review staged changes
+git config --global alias.staged "diff --staged"
+```
+
+## Troubleshooting Amending
+
+### Common Issues
+
+#### 1. Nothing to Amend
+```bash
+# Error: nothing to commit, working tree clean
+# Solution: Stage changes first
+git add files-to-change.js
+git commit --amend
+```
+
+#### 2. Amend Conflicts with Remote
+```bash
+# Error after force push needed
+# Solution: Use force-with-lease for safety
+git push --force-with-lease origin feature-branch
+```
+
+#### 3. Accidentally Amended Wrong Commit
+```bash
+# Use reflog to recover
+git reflog
+git reset --hard HEAD@{1}  # Go back to before amend
+```
+
+## Advanced Amending with Hooks
+
+### Pre-commit Hook for Amending
+```bash
+#!/bin/sh
+# .git/hooks/pre-commit
+# Ensure tests pass before allowing amend
+if [ "$GIT_EDITOR" = ":" ]; then
+    # This is likely an amend, run tests
+    npm test
+fi
+```
+
+### Commit Message Template for Amends
+```bash
+# Set up commit message template
+git config --global commit.template ~/.gitmessage
+
+# ~/.gitmessage content:
+# <type>: <description>
+# 
+# [optional body]
+# 
+# [optional footer]
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-commit">Git Commit Documentation</Link>
+- <Link href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">Git Book - Rewriting History</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history">Atlassian - Rewriting History</Link>
+- <Link href="https://thoughtbot.com/blog/git-interactive-rebase-squash-amend-rewriting-history">Interactive Rebase and Amending</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=q53umU5vMkk">Git Amend Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=RwvTrSm7zEY">Git Commit Amend Explained</Link>
+</TabsContent>
+</Tabs>

@@ -1,0 +1,188 @@
+---
+title: GitHub Projects
+description: Learn how to organize and track your work using GitHub Projects, a flexible project management tool integrated with GitHub repositories.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Projects
+
+GitHub Projects is a flexible project management tool that integrates directly with your GitHub issues and pull requests. It allows teams to plan, track, and manage their work efficiently while maintaining a close connection to their code repositories.
+
+## Understanding GitHub Projects
+
+<Tabs>
+  <TabItem label="Projects (Classic)">
+    The original project board implementation:
+    
+    - Simple kanban-style boards
+    - Basic automation for card movement
+    - Limited customization options
+    - Repository or organization level
+  </TabItem>
+  <TabItem label="Projects (New)">
+    The newer, more powerful implementation:
+    
+    - Spreadsheet and board views
+    - Custom fields for detailed tracking
+    - More advanced filtering and sorting
+    - Powerful automations and workflows
+    - Enhanced integration with GitHub issues
+    - Saved views for different perspectives
+  </TabItem>
+</Tabs>
+
+## Setting Up GitHub Projects
+
+<Steps>
+  1. Navigate to your profile, repository, or organization
+  2. Go to the "Projects" tab
+  3. Click "New project"
+  4. Select a template or start from scratch
+  5. Give your project a name and description
+  6. Customize views, fields, and workflows
+</Steps>
+
+<Aside type="tip">
+  For team collaboration, organization-level projects are recommended as they can span multiple repositories and provide centralized tracking.
+</Aside>
+
+## Key Features of GitHub Projects
+
+### Views
+
+GitHub Projects offers multiple ways to visualize your work:
+
+<Tabs>
+  <TabItem label="Table View">
+    - Spreadsheet-like interface
+    - See all fields at once
+    - Sort and group items
+    - Perform bulk actions
+  </TabItem>
+  <TabItem label="Board View">
+    - Kanban-style workflow visualization
+    - Drag and drop card management
+    - Group by any field (status, assignee, etc.)
+    - Visual progress tracking
+  </TabItem>
+  <TabItem label="Roadmap View">
+    - Timeline visualization
+    - Date-based planning
+    - View work across time periods
+    - Identify dependencies and overlaps
+  </TabItem>
+</Tabs>
+
+### Custom Fields
+
+Enhance your tracking capabilities with custom fields:
+
+- **Text fields**: Add context and details
+- **Number fields**: Track metrics, story points, etc.
+- **Date fields**: Set deadlines and milestones
+- **Single select fields**: Create custom statuses or categories
+- **Iteration fields**: Group work into sprints
+- **Labels**: Categorize and tag items
+
+### Workflows and Automation
+
+Streamline project management with automated workflows:
+
+```yaml
+# Example workflow
+name: Add issues to project
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/username/projects/1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+<Aside type="note">
+  Built-in workflow rules can automatically update fields, move items between statuses, or apply labels based on events without requiring GitHub Actions.
+</Aside>
+
+## Project Management Best Practices
+
+<Tabs>
+  <TabItem label="Agile/Scrum">
+    - Use iteration fields for sprints
+    - Set up statuses for "Backlog", "In Progress", "Review", and "Done"
+    - Use number fields for story points
+    - Create views filtered by current sprint
+    - Group by assignee to see workload distribution
+  </TabItem>
+  <TabItem label="Kanban">
+    - Focus on board view with status columns
+    - Limit work in progress (WIP)
+    - Create automations for card movement
+    - Use labels for prioritization
+    - Add note items for process policies
+  </TabItem>
+  <TabItem label="Feature Planning">
+    - Group issues by feature or epic
+    - Use roadmap view to plan release timelines
+    - Create custom fields for feature status
+    - Track dependencies between features
+    - Link to design documents or specifications
+  </TabItem>
+</Tabs>
+
+## Integration with GitHub Issues and PRs
+
+GitHub Projects provides seamless integration with issues and pull requests:
+
+- Issues and PRs can be added to projects directly
+- Status updates in projects can reflect in repositories
+- Converting project items to issues
+- Tracking PR status within project boards
+- Automatically closing items when PRs are merged
+
+<Aside type="caution">
+  When deleting items from a project, the linked issues and PRs are not affected. However, deleting an issue or PR will remove it from all projects it's part of.
+</Aside>
+
+## Project Insights and Reporting
+
+Track progress and generate insights from your projects:
+
+1. Use the built-in charts for burndown analysis
+2. Create custom views for reporting
+3. Export project data for external reporting
+4. Track velocity with iteration fields
+5. Visualize work distribution across team members
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Projects Documentation" 
+    href="https://docs.github.com/en/issues/planning-and-tracking-with-projects"
+    description="Official documentation for the new GitHub Projects" 
+  />
+  <LinkCard 
+    title="GitHub Project Templates" 
+    href="https://github.com/features/issues"
+    description="Learn about the available project templates" 
+  />
+  <LinkCard 
+    title="GitHub Advanced Project Management" 
+    href="https://resources.github.com/projects/project-management/"
+    description="Resources for advanced project management with GitHub" 
+  />
+</CardGrid>

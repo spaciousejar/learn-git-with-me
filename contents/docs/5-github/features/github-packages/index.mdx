@@ -1,0 +1,229 @@
+---
+title: GitHub Packages
+description: Learn how to use GitHub Packages to publish and consume packages in your GitHub workflows and projects.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Packages
+
+GitHub Packages is a package management service that allows you to host and manage packages alongside your code. It integrates seamlessly with GitHub features like Actions to provide a streamlined workflow for software development.
+
+## Understanding GitHub Packages
+
+<Tabs>
+  <TabItem label="Key Features">
+    - Host packages privately or publicly
+    - Integrate with GitHub Actions for CI/CD
+    - Manage packages alongside your code
+    - Control access using existing GitHub permissions
+    - Share packages across your organization
+    - View package usage and metrics
+    - Support for multiple package types
+  </TabItem>
+  <TabItem label="Supported Package Types">
+    GitHub Packages supports several package formats:
+    
+    - npm (JavaScript)
+    - Maven (Java, Kotlin, etc.)
+    - RubyGems (Ruby)
+    - NuGet (.NET)
+    - Docker (Container images)
+    - Gradle (Java, Kotlin, etc.)
+    - Composer (PHP)
+  </TabItem>
+</Tabs>
+
+## Getting Started with GitHub Packages
+
+<Steps>
+  1. Authenticate to GitHub Packages
+  2. Configure your package manager client
+  3. Publish your package
+  4. Install packages from GitHub Packages
+</Steps>
+
+## Authentication
+
+To use GitHub Packages, you need to authenticate:
+
+<Tabs>
+  <TabItem label="Using a Personal Access Token">
+    1. Go to your GitHub Settings > Developer settings > Personal access tokens
+    2. Generate a new token with the `write:packages` scope
+    3. Use this token to authenticate with your package manager
+    
+    ```bash
+    # For npm, create or edit .npmrc
+    //npm.pkg.github.com/:_authToken=YOUR_TOKEN
+    @YOUR_USERNAME:registry=https://npm.pkg.github.com
+    ```
+  </TabItem>
+  <TabItem label="Using GITHUB_TOKEN in Actions">
+    In GitHub Actions workflows, you can use the built-in `GITHUB_TOKEN`:
+    
+    ```yaml
+    jobs:
+      publish:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - uses: actions/setup-node@v3
+            with:
+              node-version: '16'
+              registry-url: 'https://npm.pkg.github.com'
+          - run: npm publish
+            env:
+              NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip">
+  Store your authentication tokens securely and never commit them to your repository. Use environment variables or secrets for tokens in CI/CD workflows.
+</Aside>
+
+## Publishing Packages to GitHub Packages
+
+### npm Packages
+
+<Steps>
+  1. Create or update your `.npmrc` file:
+     ```
+     @OWNER:registry=https://npm.pkg.github.com
+     ```
+  
+  2. Update your `package.json`:
+     ```json
+     {
+       "name": "@OWNER/PACKAGE-NAME",
+       "version": "1.0.0",
+       "repository": {
+         "type": "git",
+         "url": "git://github.com/OWNER/REPOSITORY.git"
+       }
+     }
+     ```
+  
+  3. Publish your package:
+     ```bash
+     npm publish
+     ```
+</Steps>
+
+### Docker Images
+
+<Steps>
+  1. Build your Docker image:
+     ```bash
+     docker build -t ghcr.io/OWNER/IMAGE_NAME:TAG .
+     ```
+  
+  2. Authenticate to the GitHub Container Registry:
+     ```bash
+     echo $GITHUB_PAT | docker login ghcr.io -u USERNAME --password-stdin
+     ```
+  
+  3. Push your image:
+     ```bash
+     docker push ghcr.io/OWNER/IMAGE_NAME:TAG
+     ```
+</Steps>
+
+## Installing Packages from GitHub Packages
+
+<Tabs>
+  <TabItem label="npm">
+    Update your `.npmrc` file:
+    ```
+    @OWNER:registry=https://npm.pkg.github.com
+    //npm.pkg.github.com/:_authToken=YOUR_TOKEN
+    ```
+    
+    Install the package:
+    ```bash
+    npm install @OWNER/PACKAGE-NAME
+    ```
+  </TabItem>
+  <TabItem label="Docker">
+    Authenticate to the registry:
+    ```bash
+    echo $GITHUB_PAT | docker login ghcr.io -u USERNAME --password-stdin
+    ```
+    
+    Pull the image:
+    ```bash
+    docker pull ghcr.io/OWNER/IMAGE_NAME:TAG
+    ```
+  </TabItem>
+</Tabs>
+
+## Managing Package Access and Visibility
+
+GitHub Packages inherits permissions from the repository it's published from:
+
+- **Public repositories**: Packages are public by default
+- **Private repositories**: Packages are private by default
+- **Organization repositories**: Members with package access can install packages
+
+To control package access:
+1. Go to your package on GitHub
+2. Click "Package settings"
+3. Under "Manage Actions access", configure your permissions
+4. Choose between "Private", "Public", or "Internal" visibility
+
+<Aside type="caution">
+  Once a package is made public, it cannot be made private again. You would need to delete the package and republish it.
+</Aside>
+
+## Integrating with GitHub Actions
+
+Automating package publishing with GitHub Actions:
+
+```yaml
+name: Publish Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          registry-url: 'https://npm.pkg.github.com'
+      - run: npm ci
+      - run: npm test
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Packages Documentation" 
+    href="https://docs.github.com/en/packages/learn-github-packages"
+    description="Official documentation for GitHub Packages" 
+  />
+  <LinkCard 
+    title="GitHub Container Registry Guide" 
+    href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry"
+    description="Working with the GitHub Container Registry" 
+  />
+  <LinkCard 
+    title="npm and GitHub Packages" 
+    href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry"
+    description="Working with the npm registry" 
+  />
+</CardGrid>

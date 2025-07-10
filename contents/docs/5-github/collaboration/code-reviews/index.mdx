@@ -1,0 +1,119 @@
+---
+title: Code Reviews
+description: Learn about conducting effective code reviews on GitHub
+---
+
+# Code Reviews on GitHub
+
+Code reviews are a critical part of collaborative development, helping maintain code quality, share knowledge, and catch bugs before they reach production.
+
+## What is a Code Review?
+
+A code review is the process of examining code changes before they are merged into the main codebase. On GitHub, this happens through Pull Requests (PRs).
+
+## Benefits of Code Reviews
+
+- **Quality assurance**: Catch bugs and issues early
+- **Knowledge sharing**: Team members learn from each other
+- **Code consistency**: Maintain coding standards across the team
+- **Documentation**: PRs serve as a record of why changes were made
+- **Security**: Identify potential security vulnerabilities
+
+## How to Conduct a Code Review
+
+<Steps>
+1. **Understand the context**: Read the PR description and related issues
+2. **Review the changes**: Look at the diff and understand what changed
+3. **Test the changes**: Pull the branch locally if needed
+4. **Provide feedback**: Leave comments on specific lines
+5. **Make a decision**: Approve, request changes, or comment
+6. **Follow up**: Ensure feedback is addressed
+</Steps>
+
+## Best Practices for Reviewers
+
+### What to Look For
+- **Correctness**: Does the code do what it's supposed to do?
+- **Clarity**: Is the code easy to understand?
+- **Performance**: Are there any performance issues?
+- **Security**: Are there any security vulnerabilities?
+- **Testing**: Are there adequate tests?
+- **Documentation**: Is the code properly documented?
+
+### How to Give Feedback
+- **Be specific**: Point to exact lines that need attention
+- **Be constructive**: Suggest improvements, not just problems
+- **Ask questions**: Use questions to understand intent
+- **Praise good work**: Acknowledge well-written code
+- **Focus on the code**: Review the code, not the coder
+
+<Aside type="tip">
+Use GitHub's suggestion feature to propose specific code changes that can be applied directly from the review.
+</Aside>
+
+## Best Practices for Authors
+
+### Before Requesting Review
+- **Self-review first**: Review your own changes before submitting
+- **Write clear descriptions**: Explain what changes were made and why
+- **Keep PRs focused**: Make one logical change per PR
+- **Add tests**: Include appropriate test coverage
+- **Update documentation**: Update docs if needed
+
+### During Review
+- **Respond promptly**: Address feedback in a timely manner
+- **Ask for clarification**: If feedback is unclear, ask questions
+- **Be open to feedback**: Consider suggestions objectively
+- **Explain decisions**: If you disagree with feedback, explain why
+
+## Review Types on GitHub
+
+### Approval States
+- **Approve**: The changes look good and can be merged
+- **Request Changes**: The PR needs modifications before merging
+- **Comment**: Provide feedback without explicit approval/rejection
+
+### Review Tools
+- **Line comments**: Comment on specific lines of code
+- **General comments**: Overall feedback on the PR
+- **Suggestions**: Propose specific code changes
+- **File comments**: Comments that apply to entire files
+
+## Setting Up Review Requirements
+
+You can configure repositories to require reviews:
+
+1. Go to repository Settings
+2. Navigate to Branches
+3. Add a branch protection rule
+4. Require pull request reviews before merging
+5. Set the number of required reviewers
+
+## Common Code Review Patterns
+
+### The Nitpick
+Focus on style and minor issues. Use sparingly and consider automation instead.
+
+### The Teaching Moment
+Use reviews to share knowledge and explain better approaches.
+
+### The Safety Check
+Focus on security, performance, and correctness issues.
+
+### The Architecture Review
+Discuss design decisions and architectural patterns.
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Docs: About Pull Request Reviews" 
+    href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-request-reviews"
+    description="Official documentation on GitHub code reviews" 
+  />
+  <LinkCard 
+    title="Best Practices for Code Review" 
+    href="https://github.com/google/eng-practices/blob/master/review/README.md"
+    description="Google's engineering practices for code review" 
+  />
+</CardGrid>

@@ -1,0 +1,29 @@
+---
+title: Custom Domains
+description: Learn about setting up custom domains for GitHub Pages
+---
+
+# Custom Domains with GitHub Pages
+
+GitHub Pages allows you to use a custom domain name for your site instead of the default `username.github.io` URL.
+
+## Setting Up a Custom Domain
+
+<Steps>
+1. **Purchase a domain**: Get a domain from a registrar
+2. **Configure DNS**: Set up DNS records
+3. **Add domain to GitHub**: Configure in repository settings
+4. **Verify domain**: Confirm ownership
+</Steps>
+
+## DNS Configuration
+
+### For a subdomain (www.example.com)
+Create a CNAME record pointing to your GitHub Pages URL.
+
+### For an apex domain (example.com)
+Create A records pointing to GitHub's IP addresses.
+
+<Aside type="tip">
+GitHub recommends using a subdomain (www) for better performance and reliability.
+</Aside>

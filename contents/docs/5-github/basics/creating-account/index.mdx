@@ -1,0 +1,169 @@
+---
+title: Creating Account
+description: Learn how to create and set up your GitHub account
+---
+
+# Creating a GitHub Account
+
+To get started with GitHub, you'll need to create a free personal account on GitHub.com and verify your email address. Your personal account is your identity on GitHub.com and has a username and profile.
+
+## Sign Up Process
+
+### Step-by-Step Account Creation
+1. **Visit GitHub**: Go to [github.com](https://github.com)
+2. **Click Sign up**: Click the "Sign up" button
+3. **Enter username**: Choose a unique username
+4. **Provide email**: Enter your email address
+5. **Create password**: Use a strong password
+6. **Verify account**: Complete the verification puzzle
+7. **Choose plan**: Select free or paid plan
+8. **Verify email**: Check email for verification link
+
+### Username Guidelines
+- Use only letters, numbers, and hyphens
+- Cannot start or end with hyphens
+- Must be unique across GitHub
+- Choose something professional and memorable
+
+## Account Types
+
+### Free Personal Account
+- Unlimited public repositories
+- Unlimited private repositories
+- GitHub Actions (2,000 minutes/month)
+- GitHub Packages (500MB storage)
+- Community support
+
+### GitHub Pro ($4/month)
+- All free features
+- GitHub Actions (3,000 minutes/month)
+- GitHub Packages (2GB storage)
+- Advanced insights
+- Multiple assignees and reviewers
+
+## Initial Configuration
+
+### Email Settings
+```bash
+# Set primary email
+# Add backup emails
+# Configure email privacy
+# Set notification preferences
+```
+
+### Security Setup
+```bash
+# Enable two-factor authentication (recommended)
+# Add SSH keys
+# Create personal access tokens
+# Configure commit signing
+```
+
+## Profile Setup
+
+### Basic Information
+- **Profile photo**: Upload a clear, professional image
+- **Name**: Your real name or professional handle
+- **Bio**: Brief description of your work or interests
+- **Location**: Your city/country (optional)
+- **Website**: Personal or company website
+- **Social links**: Twitter, LinkedIn, etc.
+
+### Profile README
+Create a special repository with your username to display a README on your profile:
+
+```markdown
+# Hi there 👋
+
+## About Me
+- 🔭 I'm currently working on ...
+- 🌱 I'm currently learning ...
+- 👯 I'm looking to collaborate on ...
+- 💬 Ask me about ...
+- 📫 How to reach me: ...
+```
+
+## Connect Git to GitHub
+
+### Configure Git
+```bash
+# Set your name
+git config --global user.name "Your Name"
+
+# Set your email
+git config --global user.email "your.email@example.com"
+
+# Verify settings
+git config --global --list
+```
+
+### SSH Key Setup
+```bash
+# Generate SSH key
+ssh-keygen -t ed25519 -C "your.email@example.com"
+
+# Add to SSH agent
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+# Copy public key to clipboard
+cat ~/.ssh/id_ed25519.pub
+# Then add to GitHub Settings > SSH Keys
+```
+
+## First Repository
+
+### Create Your First Repo
+1. Click "New" repository button
+2. Choose a descriptive name
+3. Add a description
+4. Select public or private
+5. Initialize with README
+6. Choose appropriate .gitignore
+7. Select a license
+
+### Clone and Start Working
+```bash
+# Clone via HTTPS
+git clone https://github.com/username/repo.git
+
+# Clone via SSH (after SSH key setup)
+git clone git@github.com:username/repo.git
+```
+
+## Best Practices
+
+### Security
+- ✅ Enable two-factor authentication
+- ✅ Use strong, unique passwords
+- ✅ Keep SSH keys secure
+- ✅ Regularly review authorized apps
+
+### Profile Optimization
+- ✅ Use a professional profile photo
+- ✅ Write a clear bio
+- ✅ Pin your best repositories
+- ✅ Keep profile README updated
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://docs.github.com/en/get-started/signing-up-for-github">GitHub Sign Up Guide</Link>
+- <Link href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh">SSH Key Setup</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://github.blog/2020-07-02-how-to-create-a-profile-readme/">Creating Profile README</Link>
+- <Link href="https://docs.github.com/en/get-started/getting-started-with-git">Getting Started with Git</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=QUtk-Uuq9nE">GitHub Account Setup Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=8Dd7KRpKeaE">Git and GitHub Setup</Link>
+</TabsContent>
+</Tabs>

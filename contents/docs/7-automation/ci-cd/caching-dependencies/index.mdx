@@ -1,0 +1,331 @@
+---
+title: Caching Dependencies
+description: Learn how to cache dependencies in GitHub Actions for faster builds
+---
+
+# Caching Dependencies
+
+Caching dependencies in GitHub Actions significantly reduces build times by storing and reusing downloaded packages and compiled artifacts between workflow runs.
+
+## Why Cache Dependencies?
+
+### Benefits
+- **Faster builds**: Skip downloading dependencies
+- **Reduced bandwidth**: Less network usage
+- **Lower costs**: Fewer billable minutes
+- **More reliable**: Less dependent on external services
+
+### What to Cache
+- **Package managers**: npm, pip, Maven, Gradle
+- **Build artifacts**: Compiled code, generated files
+- **Tools**: Downloaded binaries, SDKs
+- **Data**: Test fixtures, datasets
+
+## Basic Caching
+
+### Cache Action
+```yaml
+name: CI
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      
+      - name: Install dependencies
+        run: npm ci
+```
+
+### Cache Keys
+```yaml
+# Include OS in key
+key: ${{ runner.os }}-deps-${{ hashFiles('package.json') }}
+
+# Include multiple files
+key: deps-${{ hashFiles('package.json', 'yarn.lock') }}
+
+# Include branch name
+key: ${{ runner.os }}-${{ github.ref }}-${{ hashFiles('**/pom.xml') }}
+```
+
+## Language-Specific Caching
+
+### Node.js / npm
+```yaml
+- name: Cache npm dependencies
+  uses: actions/cache@v3
+  with:
+    path: ~/.npm
+    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-node-
+
+- name: Install dependencies
+  run: npm ci
+```
+
+### Python / pip
+```yaml
+- name: Cache pip dependencies
+  uses: actions/cache@v3
+  with:
+    path: ~/.cache/pip
+    key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+    restore-keys: |
+      ${{ runner.os }}-pip-
+
+- name: Install dependencies
+  run: pip install -r requirements.txt
+```
+
+### Java / Maven
+```yaml
+- name: Cache Maven dependencies
+  uses: actions/cache@v3
+  with:
+    path: ~/.m2
+    key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    restore-keys: |
+      ${{ runner.os }}-m2-
+
+- name: Build with Maven
+  run: mvn clean compile
+```
+
+### Ruby / Bundler
+```yaml
+- name: Cache gem dependencies
+  uses: actions/cache@v3
+  with:
+    path: vendor/bundle
+    key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+    restore-keys: |
+      ${{ runner.os }}-gems-
+
+- name: Install dependencies
+  run: |
+    bundle config path vendor/bundle
+    bundle install --jobs 4 --retry 3
+```
+
+## Advanced Caching Strategies
+
+### Multiple Cache Paths
+```yaml
+- name: Cache multiple paths
+  uses: actions/cache@v3
+  with:
+    path: |
+      ~/.npm
+      ~/.cache
+      node_modules
+    key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}
+```
+
+### Conditional Caching
+```yaml
+- name: Cache only on main branch
+  if: github.ref == 'refs/heads/main'
+  uses: actions/cache@v3
+  with:
+    path: ~/.npm
+    key: main-${{ hashFiles('package-lock.json') }}
+```
+
+### Build Artifact Caching
+```yaml
+- name: Cache build artifacts
+  uses: actions/cache@v3
+  with:
+    path: |
+      dist/
+      build/
+    key: build-${{ github.sha }}
+    restore-keys: |
+      build-${{ github.ref }}-
+      build-
+```
+
+## Cache Management
+
+### Cache Limits
+- **Total cache size**: 10GB per repository
+- **Individual cache**: 5GB maximum
+- **Retention**: 7 days if not accessed
+
+### Cache Cleanup
+```yaml
+# Automatic cleanup when limits exceeded
+# Least recently used caches removed first
+
+# Manual cache management
+- name: Clear cache (manual trigger)
+  if: github.event.inputs.clear_cache == 'true'
+  run: |
+    echo "Cache will be rebuilt"
+```
+
+## Setup Actions with Caching
+
+### Node.js Setup with Cache
+```yaml
+- name: Setup Node.js
+  uses: actions/setup-node@v3
+  with:
+    node-version: '18'
+    cache: 'npm'  # Built-in caching
+```
+
+### Python Setup with Cache
+```yaml
+- name: Setup Python
+  uses: actions/setup-python@v4
+  with:
+    python-version: '3.9'
+    cache: 'pip'  # Built-in caching
+```
+
+### Java Setup with Cache
+```yaml
+- name: Setup Java
+  uses: actions/setup-java@v3
+  with:
+    java-version: '11'
+    distribution: 'temurin'
+    cache: 'maven'  # Built-in caching
+```
+
+## Best Practices
+
+### Cache Key Strategy
+```yaml
+# Good: Specific and unique
+key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+# Bad: Too generic
+key: dependencies
+
+# Good: Hierarchical restore keys
+restore-keys: |
+  ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+  ${{ runner.os }}-node-
+  ${{ runner.os }}-
+```
+
+### Cache Validation
+```yaml
+- name: Validate cache
+  run: |
+    if [ -d "node_modules" ]; then
+      echo "Cache hit: node_modules exists"
+    else
+      echo "Cache miss: installing dependencies"
+    fi
+```
+
+### Cache Warming
+```yaml
+# Separate job to warm cache
+cache-warmup:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v3
+    - name: Warm cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: warmup-${{ hashFiles('package-lock.json') }}
+    - run: npm ci
+```
+
+## Troubleshooting
+
+### Cache Miss Issues
+```yaml
+- name: Debug cache
+  run: |
+    echo "Cache key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}"
+    echo "Files used for hash:"
+    find . -name "package-lock.json" -type f
+```
+
+### Cache Size Optimization
+```yaml
+# Clean unnecessary files before caching
+- name: Clean cache
+  run: |
+    npm prune
+    rm -rf node_modules/.cache
+```
+
+## Complete Example
+
+```yaml
+name: Build and Test
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            dist/
+            .next/cache
+          key: build-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            build-${{ runner.os }}-
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Run tests
+        run: npm test
+```
+
+#### Free Resources
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows">GitHub Actions Caching</Link>
+- <Link href="https://github.com/actions/cache">Cache Action Repository</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://github.blog/2019-11-04-github-actions-for-open-source-applications/">Caching Best Practices</Link>
+- <Link href="https://www.voorhoede.nl/en/blog/super-fast-npm-install-on-github-actions/">Fast npm Install</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=c3jKIXpzoHQ">GitHub Actions Caching Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=TLB5MY9BBa4">Advanced Caching Strategies</Link>
+</TabsContent>
+</Tabs>

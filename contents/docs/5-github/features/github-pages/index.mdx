@@ -1,0 +1,167 @@
+---
+title: GitHub Pages
+description: Learn how to host and deploy static websites directly from your GitHub repositories using GitHub Pages.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+# GitHub Pages
+
+GitHub Pages is a static site hosting service that takes HTML, CSS, and JavaScript files directly from a repository on GitHub, optionally runs the files through a build process, and publishes a website. It's a powerful way to showcase projects, documentation, or personal websites directly from your GitHub repositories.
+
+## Getting Started with GitHub Pages
+
+<Tabs>
+  <TabItem label="Key Features">
+    - Free hosting for static websites
+    - Direct deployment from GitHub repositories
+    - Automatic builds for Jekyll sites
+    - Support for custom domains
+    - HTTPS encryption included
+    - Versioning through Git
+  </TabItem>
+  <TabItem label="Site Types">
+    GitHub Pages supports three types of sites:
+    
+    - **Project sites**: Hosted from a specific repository
+    - **User sites**: Named `username.github.io`, showcases user content
+    - **Organization sites**: Named `organization.github.io`, represents an organization
+  </TabItem>
+</Tabs>
+
+## Setting Up GitHub Pages
+
+<Steps>
+  1. Create or navigate to your GitHub repository
+  2. Go to repository Settings
+  3. Scroll down to the "GitHub Pages" section
+  4. Select a source branch (usually `main` or `gh-pages`)
+  5. Choose a publishing folder (root `/` or `/docs`)
+  6. Click "Save"
+  7. Wait for your site to be published (URL will be displayed when ready)
+</Steps>
+
+<Aside type="tip">
+  For project sites, GitHub Pages is available in public repositories for free, and in private repositories if you have GitHub Pro or a team/organization plan.
+</Aside>
+
+## Directory Structure
+
+The content of your GitHub Pages site depends on how you configure it:
+
+```
+repository/
+├── .github/         # GitHub-specific files
+├── docs/            # If publishing from /docs
+│   ├── index.html   # Main page
+│   ├── css/         # Stylesheets
+│   └── js/          # JavaScript files
+├── index.html       # If publishing from root
+└── README.md        # Repository information
+```
+
+## Working with Themes
+
+GitHub Pages provides built-in themes for quick setup:
+
+<Steps>
+  1. Go to repository Settings
+  2. Scroll to the "GitHub Pages" section
+  3. Click "Choose a theme"
+  4. Select your preferred theme
+  5. Commit the changes
+</Steps>
+
+<Aside type="note">
+  When you select a theme, GitHub creates a `_config.yml` file in your repository with the theme configuration.
+</Aside>
+
+## Using Jekyll with GitHub Pages
+
+GitHub Pages has built-in support for Jekyll, a static site generator:
+
+<Tabs>
+  <TabItem label="Jekyll Benefits">
+    - Automatic builds on GitHub
+    - Templating and layouts
+    - Blog-aware features
+    - Front matter for metadata
+    - Markdown support
+  </TabItem>
+  <TabItem label="Jekyll Structure">
+    ```
+    repository/
+    ├── _config.yml           # Site configuration
+    ├── _layouts/             # Page templates
+    │   └── default.html      # Default layout
+    ├── _posts/               # Blog posts
+    │   └── 2023-01-01-post.md
+    ├── _data/                # Data files
+    ├── _includes/            # Reusable components
+    ├── _sass/                # SCSS partials
+    ├── assets/               # Static assets
+    └── index.md              # Home page
+    ```
+  </TabItem>
+</Tabs>
+
+## Advanced GitHub Pages Features
+
+### Custom Domains
+
+<Steps>
+  1. Purchase a domain from a domain registrar
+  2. Go to your repository's Settings
+  3. In the "GitHub Pages" section, enter your custom domain
+  4. Configure your domain's DNS settings:
+     - For apex domains: Create A records pointing to GitHub's IP addresses
+     - For subdomains: Create a CNAME record pointing to `username.github.io`
+  5. Create a `CNAME` file in your repository with your domain name
+</Steps>
+
+### Secure Your Site with HTTPS
+
+GitHub Pages automatically secures custom domains with HTTPS:
+
+1. Ensure your DNS is correctly configured
+2. Check the "Enforce HTTPS" option in your GitHub Pages settings
+3. Wait for the certificate to be provisioned (can take up to 24 hours)
+
+<Aside type="caution">
+  If your site uses custom plugins or build processes not supported by GitHub Pages, consider using GitHub Actions for more advanced deployment workflows.
+</Aside>
+
+## Troubleshooting GitHub Pages
+
+Common issues and solutions:
+
+- **404 errors**: Check if your repository is public and pages are enabled
+- **CSS not loading**: Ensure paths are relative or use the `{{ site.baseurl }}` prefix
+- **Build failures**: Review build logs in the Actions tab
+- **Custom domain not working**: Verify DNS settings and CNAME file
+- **Content not updating**: Check if you've pushed to the correct branch
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Pages Documentation" 
+    href="https://docs.github.com/en/pages"
+    description="Official GitHub Pages documentation" 
+  />
+  <LinkCard 
+    title="Jekyll Documentation" 
+    href="https://jekyllrb.com/docs/"
+    description="Learn how to use Jekyll with GitHub Pages" 
+  />
+  <LinkCard 
+    title="GitHub Pages Examples" 
+    href="https://github.com/collections/github-pages-examples"
+    description="Collection of example sites built with GitHub Pages" 
+  />
+</CardGrid>
