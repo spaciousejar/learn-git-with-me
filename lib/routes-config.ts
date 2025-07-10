@@ -12,6 +12,7 @@ export const ROUTES: EachRoute[] = [
 {
   title: "1. Getting Started",
   href: "/1-getting-started",
+
   items: [
     {title: "What is Git", href: "/what-is-git"},
     { title: "Version Control Basics", href: "/what-is-version-control" },
@@ -22,6 +23,7 @@ export const ROUTES: EachRoute[] = [
 {
   title: "2. Git Basics",
   href: "/2-git-basics",
+  noLink: true,
   items: [
     {
       title: "Installation",
@@ -80,6 +82,7 @@ export const ROUTES: EachRoute[] = [
 {
   title: "3. Git Branching",
   href: "/3-git-branching",
+  noLink: true,
   items: [
     {
       title: "Branch Basics", 
@@ -127,6 +130,7 @@ export const ROUTES: EachRoute[] = [
 {
   title: "4. Advanced Git",
   href: "/4-git-advanced",
+  noLink: true,
   items: [
     {
       title: "Rewriting History",
@@ -176,6 +180,7 @@ export const ROUTES: EachRoute[] = [
 {
   title: "5. GitHub",
   href: "/5-github",
+  noLink: true,
   items: [
     {
       title: "GitHub Basics",
@@ -266,6 +271,7 @@ export const ROUTES: EachRoute[] = [
 {
   title: "6. Workflows",
   href: "/6-workflows",
+  noLink: true,
   items: [
     {
       title: "Workflow Models",
@@ -310,6 +316,7 @@ export const ROUTES: EachRoute[] = [
 {
   title: "7. Automation",
   href: "/7-automation",
+  noLink: true,
   items: [
     {
       title: "CI/CD",
