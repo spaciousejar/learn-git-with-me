@@ -1,0 +1,124 @@
+---
+title: Collaborators
+description: Learn about managing collaborators on GitHub repositories
+---
+
+# Repository Collaborators
+
+Collaborators are users who have been granted specific access to a repository. They can contribute code, manage issues, and perform various actions based on their permission level.
+
+## Types of Repository Access
+
+GitHub provides different levels of access for collaborators:
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Permission Level</TableHead>
+      <TableHead>Description</TableHead>
+      <TableHead>What They Can Do</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>**Read**</TableCell>
+      <TableCell>View and clone repository</TableCell>
+      <TableCell>Download code, view issues and PRs</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>**Triage**</TableCell>
+      <TableCell>Manage issues and PRs</TableCell>
+      <TableCell>Apply labels, assign issues, close PRs</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>**Write**</TableCell>
+      <TableCell>Push to repository</TableCell>
+      <TableCell>Create branches, push commits, merge PRs</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>**Maintain**</TableCell>
+      <TableCell>Manage repository</TableCell>
+      <TableCell>Manage settings, collaborators (limited)</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>**Admin**</TableCell>
+      <TableCell>Full repository control</TableCell>
+      <TableCell>All permissions including sensitive actions</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Adding Collaborators
+
+<Steps>
+1. **Navigate to repository**: Go to your GitHub repository
+2. **Access settings**: Click the "Settings" tab
+3. **Manage access**: Click "Manage access" in the left sidebar
+4. **Invite collaborator**: Click "Invite a collaborator"
+5. **Enter username**: Type the GitHub username or email
+6. **Set permissions**: Choose the appropriate access level
+7. **Send invitation**: Click "Add [username] to this repository"
+</Steps>
+
+## Best Practices for Managing Collaborators
+
+### Permission Management
+- **Principle of least privilege**: Give users only the access they need
+- **Regular reviews**: Periodically review and update collaborator permissions
+- **Remove inactive users**: Remove collaborators who no longer need access
+
+### Team Organization
+- **Use organizations**: For larger projects, use GitHub Organizations
+- **Create teams**: Group collaborators with similar roles
+- **Document roles**: Clearly define what each permission level means for your project
+
+<Aside type="caution">
+Admin permissions should be granted sparingly as they include the ability to delete the repository and manage sensitive settings.
+</Aside>
+
+## Working with External Collaborators
+
+### Fork and Pull Model
+For open source projects or when working with external contributors:
+
+1. Contributors fork your repository
+2. They make changes in their fork
+3. They submit a pull request
+4. You review and merge their changes
+
+### Direct Collaboration
+For trusted team members:
+
+1. Add them as collaborators
+2. They can work directly on branches
+3. Use pull requests for code review
+4. Maintain branch protection rules
+
+## Collaboration Tools
+
+### Branch Protection Rules
+- Require pull request reviews
+- Require status checks
+- Restrict who can push to protected branches
+- Require signed commits
+
+### Code Review Process
+- Use pull request templates
+- Establish review requirements
+- Set up automated checks
+- Document review guidelines
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Docs: Managing Access" 
+    href="https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/managing-access-to-your-personal-repositories"
+    description="Official guide to managing repository access" 
+  />
+  <LinkCard 
+    title="Permission Levels Reference" 
+    href="https://docs.github.com/en/organizations/managing-access-to-your-organizations-repositories/repository-permission-levels-for-an-organization"
+    description="Detailed breakdown of GitHub permission levels" 
+  />
+</CardGrid>

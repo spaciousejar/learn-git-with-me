@@ -1,0 +1,404 @@
+---
+title: Clean Git History
+description: Learn best practices for maintaining clean and meaningful Git history
+---
+
+# Clean Git History
+
+Maintaining a clean Git history is crucial for project readability, debugging, and collaboration. A well-maintained history tells the story of your project's development in a clear, logical manner.
+
+## What is Clean Git History?
+
+Clean Git history characteristics:
+- **Logical commits**: Each commit represents a single, complete change
+- **Clear messages**: Descriptive commit messages that explain the "why"
+- **Linear progression**: Easy to follow development flow
+- **No noise**: Absence of "work in progress" or debug commits
+- **Consistent format**: Standardized commit message format
+
+## Principles of Clean History
+
+### 1. Atomic Commits
+Each commit should represent one logical change:
+
+```bash
+# ❌ Bad: Multiple unrelated changes
+git add file1.js file2.css README.md
+git commit -m "Update files"
+
+# ✅ Good: Separate logical changes
+git add file1.js
+git commit -m "feat: add user authentication"
+
+git add file2.css
+git commit -m "style: update login form styling"
+
+git add README.md
+git commit -m "docs: update installation instructions"
+```
+
+### 2. Descriptive Commit Messages
+Write messages that explain the "why", not just the "what":
+
+```bash
+# ❌ Bad: Unclear messages
+git commit -m "fix bug"
+git commit -m "update code"
+git commit -m "changes"
+
+# ✅ Good: Descriptive messages
+git commit -m "fix: resolve user session timeout issue"
+git commit -m "refactor: extract validation logic to separate module"
+git commit -m "feat: add email notification for password reset"
+```
+
+### 3. Consistent Format
+Use a consistent commit message format:
+
+```bash
+# Conventional Commits format
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+
+# Examples:
+feat: add user registration endpoint
+fix(auth): resolve JWT token expiration bug
+docs: update API documentation for v2.0
+style: format code according to ESLint rules
+```
+
+## Commit Message Conventions
+
+### Common Types
+- **feat**: New feature
+- **fix**: Bug fix
+- **docs**: Documentation changes
+- **style**: Code style changes (formatting, etc.)
+- **refactor**: Code refactoring
+- **test**: Adding or updating tests
+- **chore**: Maintenance tasks
+
+### Format Examples
+```bash
+# Feature with scope
+feat(auth): implement OAuth2 integration
+
+# Bug fix with detailed description
+fix: resolve memory leak in image processing
+
+Memory usage was increasing over time due to unreleased
+image buffers in the processing pipeline.
+
+Closes #123
+
+# Breaking change
+feat!: change API response format
+
+BREAKING CHANGE: The API now returns data in a different format.
+Update your client code to handle the new structure.
+```
+
+## Techniques for Clean History
+
+### 1. Interactive Rebase
+Clean up commits before sharing:
+
+```bash
+# Rebase last 5 commits interactively
+git rebase -i HEAD~5
+
+# Example rebase session
+pick 1234567 feat: add user model
+squash 2345678 fix: typo in user model
+pick 3456789 feat: add user controller
+fixup 4567890 remove debug prints
+reword 5678901 add user tests
+```
+
+### 2. Squash Commits
+Combine related commits:
+
+```bash
+# Before squashing
+git log --oneline
+a1b2c3d Add login form HTML
+b2c3d4e Add login form CSS
+c3d4e5f Add login form validation
+d4e5f6g Fix validation bug
+e5f6g7h Add tests for login form
+
+# After squashing
+git rebase -i HEAD~5
+# Result: One commit "feat: implement user login form"
+```
+
+### 3. Amend Commits
+Fix the most recent commit:
+
+```bash
+# Add forgotten file to last commit
+git add forgotten-file.js
+git commit --amend --no-edit
+
+# Update commit message
+git commit --amend -m "feat: add complete user authentication system"
+```
+
+### 4. Cherry-Pick Important Changes
+Apply specific commits to other branches:
+
+```bash
+# Apply bug fix to multiple branches
+git checkout release-branch
+git cherry-pick <bug-fix-commit>
+
+git checkout main
+git cherry-pick <bug-fix-commit>
+```
+
+## Workflow for Clean History
+
+### Feature Development Workflow
+```bash
+# 1. Create feature branch
+git checkout -b feature/user-profile
+
+# 2. Develop with frequent commits
+git commit -m "wip: start user profile component"
+git commit -m "add profile form fields"
+git commit -m "fix form validation"
+git commit -m "add profile image upload"
+git commit -m "fix upload bug"
+git commit -m "add tests"
+git commit -m "fix test failures"
+
+# 3. Clean up history before merging
+git rebase -i HEAD~7
+
+# Interactive rebase result:
+pick a1b2c3d feat: implement user profile component
+pick b2c3d4e feat: add profile image upload functionality
+pick c3d4e5f test: add comprehensive profile component tests
+
+# 4. Merge clean feature
+git checkout main
+git merge feature/user-profile
+```
+
+### Hotfix Workflow
+```bash
+# 1. Create hotfix branch from main
+git checkout main
+git checkout -b hotfix/security-patch
+
+# 2. Make focused fix
+git commit -m "fix: patch security vulnerability in auth module"
+
+# 3. Test and verify
+git commit -m "test: add regression test for security fix"
+
+# 4. Merge without squashing (preserve fix context)
+git checkout main
+git merge hotfix/security-patch
+
+# 5. Cherry-pick to other branches if needed
+git checkout develop
+git cherry-pick <security-fix-commit>
+```
+
+## Best Practices by Project Phase
+
+### Development Phase
+- **Commit frequently**: Save work often with descriptive messages
+- **Use WIP commits**: Mark work-in-progress commits clearly
+- **Branch for features**: Isolate feature development
+- **Regular cleanup**: Clean up history before code reviews
+
+```bash
+# Development commits
+git commit -m "wip: initial user auth implementation"
+git commit -m "wip: add password validation"
+git commit -m "feat: complete user authentication system"
+```
+
+### Pre-Merge Phase
+- **Interactive rebase**: Clean up development commits
+- **Squash related changes**: Combine commits that belong together
+- **Write clear messages**: Update commit messages for clarity
+- **Test after cleanup**: Ensure code still works after history changes
+
+```bash
+# Clean up before merge
+git rebase -i HEAD~10
+# Squash WIP commits, fix commit messages
+git push --force-with-lease origin feature-branch
+```
+
+### Release Phase
+- **Tag releases**: Mark important milestones
+- **Linear history**: Maintain clear progression
+- **Release notes**: Use clean history for changelog generation
+- **Archive branches**: Clean up merged feature branches
+
+```bash
+# Tag release with clean history
+git tag -a v1.2.0 -m "Release version 1.2.0"
+git push origin v1.2.0
+```
+
+## Tools for Clean History
+
+### Git Aliases
+```bash
+# Useful aliases for clean history
+git config --global alias.lg "log --oneline --graph --decorate"
+git config --global alias.cleanup "rebase -i HEAD~10"
+git config --global alias.amend "commit --amend --no-edit"
+git config --global alias.squash "rebase -i HEAD~"
+```
+
+### Git Hooks
+```bash
+# Pre-commit hook for commit message format
+#!/bin/sh
+commit_regex='^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .{1,50}'
+
+if ! grep -qE "$commit_regex" "$1"; then
+    echo "Invalid commit message format!"
+    echo "Use: type(scope): description"
+    exit 1
+fi
+```
+
+### Conventional Commits Tools
+```bash
+# Commitizen for standardized commits
+npm install -g commitizen
+npm install -g cz-conventional-changelog
+
+# Use with git cz instead of git commit
+git cz
+```
+
+## Common Anti-Patterns
+
+### Avoid These Practices
+```bash
+# ❌ Meaningless commit messages
+git commit -m "fix"
+git commit -m "update"
+git commit -m "changes"
+git commit -m "asdf"
+
+# ❌ Giant commits
+git add .
+git commit -m "implement entire feature"
+
+# ❌ Debug commits in production
+git commit -m "add console.log for debugging"
+git commit -m "remove debug code"
+
+# ❌ Rewriting public history
+git push --force origin main  # DANGEROUS!
+```
+
+### Better Alternatives
+```bash
+# ✅ Clear, descriptive messages
+git commit -m "fix: resolve user authentication timeout issue"
+git commit -m "refactor: extract email validation to utility function"
+git commit -m "feat: add user profile image upload functionality"
+
+# ✅ Atomic commits
+git add auth.js
+git commit -m "feat: implement JWT token generation"
+git add auth.test.js
+git commit -m "test: add JWT token generation tests"
+
+# ✅ Clean debug workflow
+# Keep debug commits in feature branch
+# Remove them before merging to main
+git rebase -i HEAD~5  # Remove debug commits
+```
+
+## History Inspection Commands
+
+### Analyzing History
+```bash
+# View commit history
+git log --oneline --graph
+git log --stat
+git log -p  # Show patches
+
+# Find specific commits
+git log --grep="bug fix"
+git log --author="John Doe"
+git log --since="2 weeks ago"
+
+# View file history
+git log --follow filename.js
+git blame filename.js
+```
+
+### History Metrics
+```bash
+# Commit frequency
+git shortlog -sn
+git log --format="%ai %s" | head -20
+
+# File change frequency
+git log --format=format: --name-only | egrep -v '^$' | sort | uniq -c | sort -rg | head -10
+
+# Author statistics
+git shortlog -sn --all
+```
+
+## Recovery and Safety
+
+### Backup Strategies
+```bash
+# Create backup before major history changes
+git branch backup-before-cleanup
+
+# Use reflog to find lost commits
+git reflog
+git cherry-pick <lost-commit>
+
+# Create repository backup
+git clone --mirror original-repo backup-repo.git
+```
+
+### Safe Force Push
+```bash
+# Use --force-with-lease for safer force push
+git push --force-with-lease origin feature-branch
+
+# Verify history before force push
+git log --oneline origin/feature-branch..HEAD
+```
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">Git Book - Rewriting History</Link>
+- <Link href="https://www.conventionalcommits.org/">Conventional Commits Specification</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history">Atlassian - Rewriting History</Link>
+- <Link href="https://chris.beams.io/posts/git-commit/">How to Write a Git Commit Message</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=ElRzTuYln0M">Git Clean History Best Practices</Link>
+- <Link href="https://www.youtube.com/watch?v=RwvTrSm7zEY">Advanced Git History Management</Link>
+</TabsContent>
+</Tabs>

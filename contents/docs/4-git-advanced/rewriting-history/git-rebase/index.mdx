@@ -1,0 +1,262 @@
+---
+title: Git Rebase
+description: Learn about Git Rebase for rewriting commit history
+---
+
+# Git Rebase
+
+Git rebase is a powerful command that allows you to integrate changes from one branch into another by moving or combining commits. Unlike merge, which creates a new commit to join two branches, rebase rewrites the commit history by applying commits from one branch onto another.
+
+## Basic Rebase
+
+### Simple Rebase
+```bash
+git rebase <base-branch>
+```
+
+This command takes the commits from your current branch and applies them on top of the specified base branch.
+
+### Example Workflow
+```bash
+# Switch to feature branch
+git checkout feature-branch
+
+# Rebase onto main
+git rebase main
+```
+
+## Interactive Rebase
+
+Interactive rebase is the most powerful form of rebasing, allowing you to modify commits during the rebase process.
+
+### Starting Interactive Rebase
+```bash
+# Rebase the last 3 commits interactively
+git rebase -i HEAD~3
+
+# Rebase from a specific commit
+git rebase -i <commit-hash>
+
+# Rebase from another branch
+git rebase -i main
+```
+
+### Interactive Rebase Commands
+
+When you start an interactive rebase, Git opens an editor with a list of commits and available commands:
+
+- **pick (p)**: Use the commit as-is
+- **reword (r)**: Use the commit but edit the commit message
+- **edit (e)**: Use the commit but stop for amending
+- **squash (s)**: Combine this commit with the previous one
+- **fixup (f)**: Like squash but discard the commit message
+- **drop (d)**: Remove the commit entirely
+
+### Example Interactive Rebase
+```bash
+pick 1234567 Add user authentication
+squash 2345678 Fix typo in auth
+reword 3456789 Implement user dashboard
+drop 4567890 Debug print statements
+```
+
+## Rebase Options
+
+### Preserve Merge Commits
+```bash
+git rebase --preserve-merges <base-branch>
+```
+
+### Rebase with Strategy
+```bash
+# Use specific merge strategy
+git rebase -X theirs <base-branch>
+git rebase -X ours <base-branch>
+```
+
+### Continue, Skip, or Abort
+```bash
+# Continue after resolving conflicts
+git rebase --continue
+
+# Skip current commit
+git rebase --skip
+
+# Abort and return to original state
+git rebase --abort
+```
+
+## Handling Conflicts
+
+When conflicts occur during rebase:
+
+1. **Resolve conflicts** in affected files
+2. **Stage the resolved files**:
+   ```bash
+   git add <resolved-files>
+   ```
+3. **Continue the rebase**:
+   ```bash
+   git rebase --continue
+   ```
+
+## Rebase vs Merge
+
+### When to Use Rebase
+- Cleaning up feature branch history before merging
+- Maintaining a linear project history
+- Applying patches or small fixes
+- Preparing commits for code review
+
+### When to Use Merge
+- Preserving branch context and history
+- Working with shared/public branches
+- When you want to maintain the original branching structure
+
+## Advanced Rebase Techniques
+
+### Rebase Onto
+```bash
+# Rebase feature branch onto main, starting from develop
+git rebase --onto main develop feature-branch
+```
+
+### Autosquash
+```bash
+# Create fixup commit
+git commit --fixup <commit-hash>
+
+# Automatically squash fixup commits
+git rebase -i --autosquash HEAD~5
+```
+
+### Rebase with Exec
+```bash
+# Run tests after each commit during rebase
+git rebase -i --exec "npm test" HEAD~5
+```
+
+## Best Practices
+
+### 1. Never Rebase Public History
+```bash
+# ❌ Don't do this on shared branches
+git rebase -i main  # if main is shared
+
+# ✅ Do this on feature branches
+git checkout feature-branch
+git rebase main
+```
+
+### 2. Clean Up Before Sharing
+```bash
+# Clean up your feature branch before pushing
+git rebase -i HEAD~5
+git push origin feature-branch
+```
+
+### 3. Use Descriptive Commit Messages
+```bash
+# During rebase, improve commit messages
+reword 1234567 feat: add user authentication with JWT tokens
+squash 2345678 fix: resolve authentication edge case
+```
+
+### 4. Test After Rebasing
+```bash
+# Always test after rebasing
+git rebase main
+npm test  # or your test command
+```
+
+## Common Rebase Scenarios
+
+### 1. Update Feature Branch
+```bash
+# Keep feature branch up to date with main
+git checkout feature-branch
+git rebase main
+```
+
+### 2. Clean Up Commits
+```bash
+# Squash multiple commits into one
+git rebase -i HEAD~3
+# Change 'pick' to 'squash' for commits to combine
+```
+
+### 3. Edit Commit Messages
+```bash
+# Fix typos in commit messages
+git rebase -i HEAD~2
+# Change 'pick' to 'reword' for commits to edit
+```
+
+### 4. Remove Commits
+```bash
+# Remove unwanted commits
+git rebase -i HEAD~5
+# Change 'pick' to 'drop' for commits to remove
+```
+
+## Troubleshooting
+
+### Recovering from Failed Rebase
+```bash
+# Check reflog for previous state
+git reflog
+
+# Reset to previous state
+git reset --hard HEAD@{2}
+```
+
+### Fixing Detached HEAD
+```bash
+# Create new branch from current state
+git checkout -b recovery-branch
+
+# Or reset to known good state
+git checkout main
+```
+
+## Rebase Workflow Example
+
+```bash
+# 1. Start with feature branch
+git checkout feature-branch
+
+# 2. Interactive rebase to clean up
+git rebase -i HEAD~5
+
+# 3. Rebase onto latest main
+git rebase main
+
+# 4. Force push (since history changed)
+git push --force-with-lease origin feature-branch
+
+# 5. Create pull request
+# Now your PR has clean, linear history
+```
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-rebase">Git Rebase Documentation</Link>
+- <Link href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing">Git Book - Rebasing</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase">Atlassian - Git Rebase</Link>
+- <Link href="https://thoughtbot.com/blog/git-interactive-rebase-squash-amend-rewriting-history">Interactive Rebase Guide</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=f1wnYdLEpgI">Git Rebase Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=qsTthZi23VE">Interactive Rebase Explained</Link>
+</TabsContent>
+</Tabs>

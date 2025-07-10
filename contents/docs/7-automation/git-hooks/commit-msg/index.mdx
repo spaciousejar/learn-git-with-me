@@ -1,0 +1,30 @@
+---
+title: Commit Message Hooks
+description: Learn about commit-msg hooks for validating commit messages
+---
+
+# Commit Message Hooks
+
+The commit-msg hook validates commit messages before they are saved, ensuring consistent message format and quality.
+
+## Use Cases
+
+- Enforce commit message format
+- Check for required elements (issue numbers, etc.)
+- Validate message length
+- Ensure proper capitalization
+
+## Example Hook
+
+```bash
+#!/bin/bash
+# .git/hooks/commit-msg
+
+commit_regex='^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .{1,50}'
+
+if ! grep -qE "$commit_regex" "$1"; then
+    echo "Invalid commit message format!"
+    echo "Format: type(scope): description"
+    exit 1
+fi
+```

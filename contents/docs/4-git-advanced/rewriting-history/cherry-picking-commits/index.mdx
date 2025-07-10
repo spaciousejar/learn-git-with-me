@@ -1,0 +1,299 @@
+---
+title: Cherry-Picking Commits
+description: Learn how to selectively apply commits from one branch to another
+---
+
+# Cherry-Picking Commits
+
+Cherry-picking is a Git technique that allows you to apply specific commits from one branch to another without merging the entire branch. This is useful when you need to selectively apply bug fixes, features, or other changes.
+
+## Basic Cherry-Pick
+
+### Single Commit
+```bash
+git cherry-pick <commit-hash>
+```
+
+### Multiple Commits
+```bash
+# Cherry-pick multiple commits
+git cherry-pick <commit1> <commit2> <commit3>
+
+# Cherry-pick a range of commits
+git cherry-pick <start-commit>..<end-commit>
+```
+
+## Cherry-Pick Options
+
+### Cherry-Pick Without Committing
+```bash
+# Apply changes but don't commit
+git cherry-pick -n <commit-hash>
+git cherry-pick --no-commit <commit-hash>
+```
+
+### Cherry-Pick with Edit
+```bash
+# Edit the commit message during cherry-pick
+git cherry-pick -e <commit-hash>
+git cherry-pick --edit <commit-hash>
+```
+
+### Cherry-Pick with Signoff
+```bash
+# Add "Signed-off-by" line
+git cherry-pick -s <commit-hash>
+git cherry-pick --signoff <commit-hash>
+```
+
+## Handling Cherry-Pick Conflicts
+
+When conflicts occur during cherry-picking:
+
+1. **Resolve conflicts** in affected files
+2. **Stage the resolved files**:
+   ```bash
+   git add <resolved-files>
+   ```
+3. **Continue the cherry-pick**:
+   ```bash
+   git cherry-pick --continue
+   ```
+
+### Cherry-Pick Control Commands
+```bash
+# Continue after resolving conflicts
+git cherry-pick --continue
+
+# Skip current commit
+git cherry-pick --skip
+
+# Abort and return to original state
+git cherry-pick --abort
+```
+
+## Common Cherry-Pick Scenarios
+
+### 1. Bug Fix from Main to Feature Branch
+```bash
+# You're on feature-branch and want a bug fix from main
+git checkout feature-branch
+git cherry-pick <bug-fix-commit-hash>
+```
+
+### 2. Feature from One Branch to Another
+```bash
+# Apply a specific feature commit
+git checkout target-branch
+git cherry-pick <feature-commit-hash>
+```
+
+### 3. Multiple Related Commits
+```bash
+# Cherry-pick a series of commits
+git cherry-pick commit1^..commit3
+```
+
+### 4. Cherry-Pick from Remote Branch
+```bash
+# Fetch latest changes
+git fetch origin
+
+# Cherry-pick from remote branch
+git cherry-pick origin/feature-branch~2
+```
+
+## Advanced Cherry-Pick Techniques
+
+### Cherry-Pick with Merge Strategy
+```bash
+# Use specific merge strategy
+git cherry-pick -X theirs <commit-hash>
+git cherry-pick -X ours <commit-hash>
+```
+
+### Cherry-Pick and Modify
+```bash
+# Cherry-pick without committing, then modify
+git cherry-pick -n <commit-hash>
+# Make additional changes
+git add .
+git commit -m "Modified cherry-picked commit"
+```
+
+### Cherry-Pick Multiple Commits Interactively
+```bash
+# Use rebase to cherry-pick and modify multiple commits
+git rebase -i --onto target-branch source-branch~3 source-branch
+```
+
+## Cherry-Pick Best Practices
+
+### 1. Use Descriptive Commit Messages
+```bash
+# When cherry-picking, consider updating the message
+git cherry-pick -e <commit-hash>
+# Add context about the cherry-pick
+```
+
+### 2. Reference Original Commit
+```bash
+# Good commit message after cherry-pick
+git commit -m "Fix user authentication bug
+
+Cherry-picked from commit abc123 on main branch.
+Fixes issue with JWT token validation."
+```
+
+### 3. Test After Cherry-Picking
+```bash
+# Always test after cherry-picking
+git cherry-pick <commit-hash>
+npm test  # or your test command
+```
+
+### 4. Document Cherry-Picks
+Keep track of cherry-picked commits to avoid confusion:
+```bash
+# Use git notes to document cherry-picks
+git notes add -m "Cherry-picked to feature-branch" <commit-hash>
+```
+
+## Cherry-Pick vs Other Methods
+
+### Cherry-Pick vs Merge
+- **Cherry-pick**: Selective application of specific commits
+- **Merge**: Combines entire branch histories
+- **Use cherry-pick when**: You need only specific changes
+- **Use merge when**: You want all changes from a branch
+
+### Cherry-Pick vs Rebase
+- **Cherry-pick**: Copies commits to current branch
+- **Rebase**: Moves commits to new base
+- **Use cherry-pick when**: Applying changes across different branches
+- **Use rebase when**: Reorganizing commits on the same branch
+
+## Common Cherry-Pick Workflows
+
+### Hotfix Workflow
+```bash
+# 1. Create hotfix from main
+git checkout main
+git checkout -b hotfix/critical-bug
+
+# 2. Fix the bug and commit
+git commit -m "Fix critical security vulnerability"
+
+# 3. Merge hotfix to main
+git checkout main
+git merge hotfix/critical-bug
+
+# 4. Cherry-pick fix to development branches
+git checkout develop
+git cherry-pick <hotfix-commit>
+
+git checkout feature-branch
+git cherry-pick <hotfix-commit>
+```
+
+### Feature Port Workflow
+```bash
+# 1. Develop feature on feature branch
+git checkout feature-branch
+git commit -m "Add new dashboard widget"
+
+# 2. Port feature to another branch
+git checkout other-branch
+git cherry-pick <feature-commit>
+
+# 3. Adapt for different context if needed
+git cherry-pick -n <feature-commit>
+# Make necessary adjustments
+git commit -m "Add dashboard widget (adapted for branch context)"
+```
+
+## Troubleshooting Cherry-Pick
+
+### Empty Cherry-Pick
+```bash
+# When cherry-pick results in no changes
+git cherry-pick --allow-empty <commit-hash>
+```
+
+### Cherry-Pick Merge Commits
+```bash
+# Cherry-pick a merge commit (specify mainline)
+git cherry-pick -m 1 <merge-commit-hash>
+```
+
+### Finding Commits to Cherry-Pick
+```bash
+# View commits in another branch
+git log --oneline other-branch
+
+# View commits not in current branch
+git log --oneline other-branch ^HEAD
+
+# Use gitk for visual selection
+gitk --all
+```
+
+### Undoing Cherry-Pick
+```bash
+# If cherry-pick hasn't been pushed yet
+git reset --hard HEAD~1
+
+# If you need to revert a pushed cherry-pick
+git revert <cherry-picked-commit-hash>
+```
+
+## Cherry-Pick Examples
+
+### Example 1: Bug Fix
+```bash
+# Bug found in main, fix needed in feature branch
+git checkout main
+git log --oneline  # Find the bug fix commit
+
+git checkout feature-branch
+git cherry-pick a1b2c3d  # Apply the fix
+```
+
+### Example 2: Multiple Commits
+```bash
+# Cherry-pick last 3 commits from develop
+git checkout feature-branch
+git cherry-pick develop~2..develop
+```
+
+### Example 3: Selective Feature
+```bash
+# Cherry-pick only the core feature, not the tests
+git cherry-pick -n feature-commit
+# Remove test files
+git reset HEAD test/
+git commit -m "Add core feature (without tests)"
+```
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-cherry-pick">Git Cherry-Pick Documentation</Link>
+- <Link href="https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands-Patching">Git Book - Patching</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/cherry-pick">Atlassian - Git Cherry-Pick</Link>
+- <Link href="https://www.freecodecamp.org/news/git-cherry-pick-explained/">FreeCodeCamp - Cherry-Pick Explained</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=wIY824wWpu4">Git Cherry-Pick Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=AHtUiJdaKE4">When to Use Cherry-Pick</Link>
+</TabsContent>
+</Tabs>

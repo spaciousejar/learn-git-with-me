@@ -1,0 +1,120 @@
+---
+title: Overview
+description: Learn about Git history rewriting fundamentals and concepts
+---
+
+# Git History Rewriting Overview
+
+Git history rewriting is a powerful set of techniques that allows you to modify your project's commit history. This capability is essential for maintaining a clean, meaningful commit history that tells a clear story of your project's development.
+
+## What is History Rewriting?
+
+History rewriting involves changing commits that have already been made. This can include:
+- Modifying commit messages
+- Combining multiple commits into one
+- Splitting a single commit into multiple commits
+- Removing commits entirely
+- Reordering commits
+- Editing the content of commits
+
+## Why Rewrite History?
+
+### Clean Project History
+- Remove experimental or debugging commits
+- Fix typos in commit messages
+- Combine related changes into logical commits
+- Remove sensitive information accidentally committed
+
+### Better Collaboration
+- Present a clear, logical progression of changes
+- Make code reviews more effective
+- Simplify troubleshooting and debugging
+- Create meaningful release notes
+
+### Professional Standards
+- Maintain consistent commit message formats
+- Follow team conventions and standards
+- Prepare clean feature branches for merging
+
+## Common History Rewriting Tools
+
+### Interactive Rebase (`git rebase -i`)
+The most powerful tool for history rewriting, allowing you to:
+- Edit commit messages
+- Reorder commits
+- Squash commits together
+- Split commits
+- Remove commits
+
+### Amend (`git commit --amend`)
+Quick way to modify the most recent commit:
+- Change the commit message
+- Add forgotten files
+- Remove files that shouldn't be included
+
+### Filter Branch (`git filter-branch`)
+Advanced tool for rewriting entire repository history:
+- Remove files from all commits
+- Change author information
+- Modify directory structure
+
+### Cherry Pick (`git cherry-pick`)
+Apply specific commits from other branches:
+- Selectively apply bug fixes
+- Port features between branches
+- Recover commits from deleted branches
+
+## Important Warnings
+
+### Never Rewrite Public History
+- Only rewrite commits that haven't been pushed to shared repositories
+- Rewriting published history can break other developers' work
+- Use `git push --force` with extreme caution
+
+### Backup Before Rewriting
+- Create backup branches before major history changes
+- Use `git reflog` to recover lost commits
+- Test changes in a separate repository first
+
+### Team Communication
+- Coordinate with team members before rewriting shared history
+- Establish team policies for history rewriting
+- Document any necessary force pushes
+
+## Best Practices
+
+1. **Work on Feature Branches**: Rewrite history on feature branches before merging
+2. **Atomic Commits**: Each commit should represent a single logical change
+3. **Meaningful Messages**: Write clear, descriptive commit messages
+4. **Regular Cleanup**: Clean up history regularly, not just before releases
+5. **Review Changes**: Always review rewritten history before pushing
+
+## When NOT to Rewrite History
+
+- On the main/master branch of shared repositories
+- After commits have been merged into main branches
+- When working on public/open-source projects without maintainer permissions
+- If you're unsure about the impact on team members
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">Git Tools - Rewriting History</Link>
+- <Link href="https://git-scm.com/docs/git-rebase">Git Rebase Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history">Atlassian - Rewriting History</Link>
+- <Link href="https://thoughtbot.com/blog/git-interactive-rebase-squash-amend-rewriting-history">Interactive Rebase Guide</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=qsTthZi23VE">Git Rebase Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=f1wnYdLEpgI">Git History Rewriting Best Practices</Link>
+</TabsContent>
+</Tabs>

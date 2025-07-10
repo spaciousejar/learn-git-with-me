@@ -1,0 +1,138 @@
+---
+title: Git Patch
+description: Learn how to create and apply patches with Git
+---
+
+# Git Patch
+
+Git patches allow you to share changes as files without using a remote repository. Useful for code reviews, contributions, and offline sharing.
+
+## Creating Patches
+
+### From Commits
+```bash
+# Create patch from last commit
+git format-patch -1 HEAD
+
+# Create patch from last 3 commits
+git format-patch -3 HEAD
+
+# Create patch from specific commit
+git format-patch commit-hash -1
+```
+
+### From Differences
+```bash
+# Create patch from unstaged changes
+git diff > changes.patch
+
+# Create patch from staged changes
+git diff --staged > staged.patch
+
+# Create patch between branches
+git diff main..feature-branch > feature.patch
+```
+
+## Applying Patches
+
+### Apply with git apply
+```bash
+# Apply patch file
+git apply changes.patch
+
+# Check if patch can be applied
+git apply --check changes.patch
+
+# Apply with statistics
+git apply --stat changes.patch
+```
+
+### Apply with git am
+```bash
+# Apply patch with commit message
+git am 0001-feature-patch.patch
+
+# Apply multiple patches
+git am *.patch
+```
+
+## Common Use Cases
+
+### Contributing to Projects
+```bash
+# Create patch for contribution
+git format-patch -1 HEAD --stdout > my-contribution.patch
+
+# Send patch file to maintainer
+```
+
+### Code Reviews
+```bash
+# Create patch for review
+git format-patch main..feature-branch
+
+# Reviewer applies patches to test
+git am *.patch
+```
+
+### Offline Sharing
+```bash
+# Create patches for offline sharing
+git format-patch -o patches/ HEAD~5..HEAD
+
+# Share patches via email/file transfer
+```
+
+## Patch Options
+
+### Format Patch Options
+```bash
+# Include cover letter
+git format-patch --cover-letter -3 HEAD
+
+# Custom output directory
+git format-patch -o patches/ -1 HEAD
+
+# Add signature
+git format-patch --signature="Your Name" -1 HEAD
+```
+
+### Apply Options
+```bash
+# Apply but don't commit
+git apply --index patch.patch
+
+# Reverse apply (undo)
+git apply --reverse patch.patch
+
+# Apply with 3-way merge
+git am --3way patch.patch
+```
+
+## Best Practices
+
+- Include descriptive commit messages
+- Test patches before sharing
+- Use format-patch for complete commits
+- Use diff for simple changes
+- Include documentation with patches
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-format-patch">Git Format-Patch Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/git-patch">Atlassian - Git Patch</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=2EzKxOp7mmo">Git Patch Tutorial</Link>
+</TabsContent>
+</Tabs>

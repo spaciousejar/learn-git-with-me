@@ -1,0 +1,23 @@
+---
+title: Checkout Tags Scripts
+description: Learn about scripts for checking out Git tags
+---
+
+# Checkout Tags Scripts
+
+Scripts for automating the process of checking out specific Git tags.
+
+## Basic Checkout Script
+
+```bash
+#!/bin/bash
+# checkout-tag.sh
+
+TAG=$1
+if [ -z "$TAG" ]; then
+    echo "Usage: $0 <tag>"
+    exit 1
+fi
+
+git checkout "tags/$TAG"
+```

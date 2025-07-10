@@ -1,11 +1,227 @@
 ---
-title: Github Flow
-description: Learn about Github Flow in Git
+title: GitHub Flow
+description: Learn about GitHub Flow - a simple, branch-based workflow
 ---
+
+# GitHub Flow
+
+GitHub Flow is a lightweight, branch-based workflow that supports teams and projects where deployments are made regularly. It's perfect for teams that deploy frequently and want a simple workflow.
+
+## Core Principles
+
+1. **Main branch is always deployable**
+2. **Create branches for new features**
+3. **Open pull requests early**
+4. **Deploy after code review**
+5. **Merge after deployment**
+
+## Workflow Steps
+
+### 1. Create a Branch
+```bash
+# Create and switch to new branch
+git checkout -b feature/user-authentication
+
+# Push branch to GitHub
+git push -u origin feature/user-authentication
+```
+
+### 2. Add Commits
+```bash
+# Make changes and commit
+git add .
+git commit -m "Add login form component"
+git push origin feature/user-authentication
+
+# Continue with more commits
+git commit -m "Add password validation"
+git push origin feature/user-authentication
+```
+
+### 3. Open Pull Request
+- **Create PR** as soon as you have something to discuss
+- **Add description** explaining changes
+- **Request reviews** from team members
+- **Use draft PRs** for work in progress
+
+### 4. Discuss and Review Code
+```markdown
+# PR Review Process
+1. Code review by team members
+2. Automated tests run
+3. Address feedback
+4. Update code based on comments
+5. Get approval from reviewers
+```
+
+### 5. Deploy
+```bash
+# Deploy feature branch to staging/production
+# Test in live environment
+# Verify everything works correctly
+```
+
+### 6. Merge
+```bash
+# After successful deployment and testing
+# Merge PR to main branch
+# Delete feature branch
+git branch -d feature/user-authentication
+```
+
+## Branch Strategy
+
+### Main Branch
+- **Always stable** and deployable
+- **Protected** with branch protection rules
+- **All features** merge here
+- **Automatically deployed** to production
+
+### Feature Branches
+```bash
+# Naming conventions
+feature/user-login
+feature/shopping-cart
+bugfix/login-validation
+hotfix/security-patch
+```
+
+## Best Practices
+
+### Branch Naming
+```bash
+# Good branch names
+feature/add-payment-processing
+bugfix/fix-user-registration
+hotfix/security-vulnerability
+refactor/update-api-endpoints
+```
+
+### Commit Messages
+```bash
+# Follow conventional commits
+feat: add user authentication
+fix: resolve login validation issue
+docs: update API documentation
+refactor: improve error handling
+```
+
+### Pull Request Guidelines
+```markdown
+# Good PR Description
+## What
+Add user authentication system
+
+## Why
+Users need to log in to access protected features
+
+## How
+- JWT token implementation
+- Password hashing with bcrypt
+- Login/logout endpoints
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+
+Closes #123
+```
+
+## Deployment Strategy
+
+### Continuous Deployment
+```yaml
+# Example GitHub Actions workflow
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to production
+        run: ./deploy.sh
+```
+
+### Feature Branch Deployment
+```bash
+# Deploy feature branch for testing
+git push origin feature/new-feature
+# Automatic deployment to staging environment
+# Test and verify changes
+# Merge to main for production deployment
+```
+
+## Advantages
+
+### Simplicity
+- **Easy to understand** and implement
+- **Minimal overhead** compared to complex workflows
+- **Fast iteration** and deployment cycles
+
+### Flexibility
+- **Adapt to team size** and project needs
+- **Scale** from small to large teams
+- **Works well** with CI/CD pipelines
+
+### Collaboration
+- **Early feedback** through pull requests
+- **Code review** built into workflow
+- **Knowledge sharing** across team
+
+## When to Use GitHub Flow
+
+### Good For:
+- **Web applications** with frequent deployments
+- **Teams** that want simple workflows
+- **Projects** with continuous delivery
+- **Startups** and agile development
+
+### Consider Alternatives When:
+- **Multiple versions** need maintenance
+- **Complex release cycles** required
+- **Large enterprise** environments
+- **Strict regulatory** requirements
+
+## Comparison with Git Flow
+
+| Aspect | GitHub Flow | Git Flow |
+|--------|-------------|----------|
+| Complexity | Simple | Complex |
+| Branches | main + feature | main + develop + feature + release + hotfix |
+| Deployment | Continuous | Planned releases |
+| Best for | Web apps | Software releases |
+
+## Example Workflow
+
+```bash
+# 1. Start from main
+git checkout main
+git pull origin main
+
+# 2. Create feature branch
+git checkout -b feature/add-user-profile
+
+# 3. Develop feature
+git add .
+git commit -m "feat: add user profile component"
+git push origin feature/add-user-profile
+
+# 4. Open pull request on GitHub
+# 5. Code review and discussion
+# 6. Deploy to staging for testing
+# 7. Merge to main
+# 8. Automatic production deployment
+# 9. Delete feature branch
+git branch -d feature/add-user-profile
+```
 
 Visit the following resources to learn more:
 
-<Tabs defaultValue="article">
+<Tabs defaultValue="official">
 <TabsList>
 <TabsTrigger value="official">Official Docs</TabsTrigger>
 <TabsTrigger value="article">Articles</TabsTrigger>
@@ -13,14 +229,15 @@ Visit the following resources to learn more:
 </TabsList>
 
 <TabsContent value="official">
-- 
+- <Link href="https://docs.github.com/en/get-started/quickstart/github-flow">GitHub Flow Documentation</Link>
+- <Link href="https://guides.github.com/introduction/flow/">Understanding GitHub Flow</Link>
 </TabsContent>
 <TabsContent value="article">
-- 
+- <Link href="https://githubflow.github.io/">GitHub Flow Guide</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Feature Branch Workflow</Link>
 </TabsContent>
 <TabsContent value="video">
-- 
+- <Link href="https://www.youtube.com/watch?v=juLIxo42A_s">GitHub Flow Explained</Link>
+- <Link href="https://www.youtube.com/watch?v=GgjIvUrOpmg">Git Workflow Tutorial</Link>
 </TabsContent>
 </Tabs>
-
-<Outlet path="6-workflows/models/github-flow" />

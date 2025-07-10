@@ -1,0 +1,21 @@
+---
+title: Managing Tags Scripts
+description: Learn about scripts for managing Git tags
+---
+
+# Managing Tags Scripts
+
+Scripts for automating Git tag management operations.
+
+## List Tags Script
+
+```bash
+#!/bin/bash
+# list-tags.sh
+
+echo "All tags:"
+git tag -l
+
+echo "Latest tag:"
+git describe --tags --abbrev=0
+```

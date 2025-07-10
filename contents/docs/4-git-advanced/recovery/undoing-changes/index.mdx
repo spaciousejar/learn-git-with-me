@@ -1,0 +1,170 @@
+---
+title: Undoing Changes
+description: Learn different ways to undo changes in Git
+---
+
+# Undoing Changes
+
+Git provides multiple ways to undo changes depending on where the changes are and what you want to achieve.
+
+## Undoing Working Directory Changes
+
+### Discard Changes in Specific Files
+```bash
+# Discard changes in one file
+git checkout -- filename.js
+
+# Discard changes in multiple files
+git checkout -- file1.js file2.js
+
+# Discard all changes
+git checkout -- .
+```
+
+### Using Git Restore (Git 2.23+)
+```bash
+# Restore specific file
+git restore filename.js
+
+# Restore all files
+git restore .
+```
+
+## Undoing Staged Changes
+
+### Unstage Files
+```bash
+# Unstage specific file
+git reset HEAD filename.js
+
+# Unstage all files
+git reset HEAD
+
+# Using git restore (Git 2.23+)
+git restore --staged filename.js
+```
+
+## Undoing Commits
+
+### Undo Last Commit (Keep Changes)
+```bash
+# Undo commit, keep changes staged
+git reset --soft HEAD~1
+
+# Undo commit, keep changes unstaged
+git reset --mixed HEAD~1
+
+# Undo commit, discard changes
+git reset --hard HEAD~1
+```
+
+### Undo Multiple Commits
+```bash
+# Undo last 3 commits
+git reset --soft HEAD~3
+
+# Reset to specific commit
+git reset --hard commit-hash
+```
+
+### Revert Commits (Safe for Public History)
+```bash
+# Revert last commit
+git revert HEAD
+
+# Revert specific commit
+git revert commit-hash
+
+# Revert merge commit
+git revert -m 1 merge-commit-hash
+```
+
+## Different Reset Types
+
+### Soft Reset
+```bash
+# Move HEAD, keep staging area and working directory
+git reset --soft HEAD~1
+```
+
+### Mixed Reset (Default)
+```bash
+# Move HEAD, reset staging area, keep working directory
+git reset --mixed HEAD~1
+git reset HEAD~1  # Same as above
+```
+
+### Hard Reset
+```bash
+# Move HEAD, reset staging area and working directory
+git reset --hard HEAD~1
+```
+
+## Recovery from Mistakes
+
+### Recover from Hard Reset
+```bash
+# Use reflog to find lost commits
+git reflog
+git reset --hard HEAD@{2}
+```
+
+### Recover Deleted Branch
+```bash
+# Find branch commit in reflog
+git reflog
+git checkout -b recovered-branch HEAD@{5}
+```
+
+## Interactive Tools
+
+### Interactive Reset
+```bash
+# Reset specific files interactively
+git reset -p
+```
+
+### Interactive Checkout
+```bash
+# Checkout specific changes interactively
+git checkout -p
+```
+
+## Best Practices
+
+- Use `git status` to understand current state
+- Always backup important changes
+- Use `--soft` reset when you want to keep changes
+- Use `git revert` for public commits
+- Check `git reflog` before major operations
+
+## Quick Reference
+
+| Command | Working Dir | Staging Area | Commit History |
+|---------|-------------|--------------|----------------|
+| `git checkout -- file` | ✗ | ✓ | ✓ |
+| `git reset HEAD file` | ✓ | ✗ | ✓ |
+| `git reset --soft HEAD~1` | ✓ | ✓ | ✗ |
+| `git reset --mixed HEAD~1` | ✓ | ✗ | ✗ |
+| `git reset --hard HEAD~1` | ✗ | ✗ | ✗ |
+| `git revert HEAD` | ✓ | ✓ | New commit |
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-reset">Git Reset Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/undoing-changes">Atlassian - Undoing Changes</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=RIYrfkZjWmA">Git Undo Changes Tutorial</Link>
+</TabsContent>
+</Tabs>

@@ -1,0 +1,189 @@
+---
+title: Secrets and Environment Variables
+description: Learn about managing secrets and environment variables in CI/CD
+---
+
+# Secrets and Environment Variables in CI/CD
+
+Managing sensitive information like API keys, passwords, and environment-specific configuration is crucial for secure and flexible CI/CD pipelines.
+
+## What are Secrets?
+
+Secrets are sensitive pieces of information that should not be exposed in your code or logs:
+- API keys and tokens
+- Database passwords
+- Private keys and certificates
+- Third-party service credentials
+
+## What are Environment Variables?
+
+Environment variables are configuration values that can change between different environments:
+- Application configuration
+- Feature flags
+- Non-sensitive API endpoints
+- Build-time settings
+
+## GitHub Secrets
+
+### Repository Secrets
+Secrets stored at the repository level:
+
+<Steps>
+1. **Navigate to repository**: Go to your GitHub repository
+2. **Access settings**: Click the "Settings" tab
+3. **Secrets and variables**: Click "Secrets and variables" → "Actions"
+4. **Add secret**: Click "New repository secret"
+5. **Enter details**: Provide name and value
+6. **Save**: Click "Add secret"
+</Steps>
+
+### Organization Secrets
+Secrets shared across multiple repositories in an organization.
+
+### Environment Secrets
+Secrets specific to deployment environments (production, staging, etc.).
+
+## Using Secrets in GitHub Actions
+
+### Accessing Secrets
+```yaml
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          echo "Deploying with API key..."
+          # Your deployment script here
+```
+
+### Environment Variables
+```yaml
+name: Build
+on: [push]
+
+env:
+  NODE_ENV: production
+  BUILD_PATH: ./dist
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CUSTOM_VAR: "job-level-value"
+    steps:
+      - name: Build application
+        env:
+          STEP_VAR: "step-level-value"
+        run: |
+          echo "NODE_ENV: $NODE_ENV"
+          echo "BUILD_PATH: $BUILD_PATH"
+          echo "CUSTOM_VAR: $CUSTOM_VAR"
+          echo "STEP_VAR: $STEP_VAR"
+```
+
+## Environment Protection Rules
+
+For sensitive environments, you can add protection rules:
+
+1. **Require reviewers**: Specify who can approve deployments
+2. **Wait timer**: Add delays before deployment
+3. **Branch filters**: Limit which branches can deploy
+
+## Best Practices
+
+### Secret Management
+- **Use specific secret names**: `PROD_API_KEY` instead of `API_KEY`
+- **Rotate secrets regularly**: Change secrets periodically
+- **Principle of least privilege**: Only grant access where needed
+- **Don't log secrets**: Ensure secrets don't appear in logs
+
+### Environment Variables
+- **Use consistent naming**: Follow a clear naming convention
+- **Document variables**: Keep track of required environment variables
+- **Validate required variables**: Check for required variables at startup
+- **Use defaults wisely**: Provide sensible defaults for non-critical variables
+
+<Aside type="caution">
+Never commit secrets to your repository. Use `.env` files for local development and add them to `.gitignore`.
+</Aside>
+
+## Local Development
+
+### Using .env Files
+```bash
+# .env (add to .gitignore)
+API_KEY=your-local-api-key
+DATABASE_URL=postgres://localhost:5432/myapp
+NODE_ENV=development
+```
+
+### Loading Environment Variables
+```javascript
+// Node.js with dotenv
+require('dotenv').config();
+
+const apiKey = process.env.API_KEY;
+const dbUrl = process.env.DATABASE_URL;
+```
+
+## Security Considerations
+
+### What NOT to do
+- Don't put secrets in code
+- Don't commit `.env` files
+- Don't log sensitive values
+- Don't use secrets in PR titles or descriptions
+
+### What TO do
+- Use secret management systems
+- Rotate credentials regularly
+- Monitor for exposed secrets
+- Use environment-specific secrets
+
+## Tools for Secret Management
+
+### Cloud Providers
+- **AWS Secrets Manager**: AWS secret management service
+- **Azure Key Vault**: Microsoft's secret management
+- **Google Secret Manager**: Google Cloud secret storage
+
+### Third-party Tools
+- **HashiCorp Vault**: Enterprise secret management
+- **1Password Secrets Automation**: Developer-friendly secret management
+- **Doppler**: Modern secret management platform
+
+## Detecting Secret Leaks
+
+### GitHub Features
+- **Secret scanning**: Automatically detects exposed secrets
+- **Push protection**: Prevents accidental secret commits
+- **Security advisories**: Notifications about exposed secrets
+
+### Third-party Tools
+- **GitLeaks**: Detect secrets in git repos
+- **TruffleHog**: Search for secrets in various sources
+- **detect-secrets**: Pre-commit hook for secret detection
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="GitHub Secrets Documentation" 
+    href="https://docs.github.com/en/actions/security-guides/encrypted-secrets"
+    description="Official guide to GitHub Actions secrets" 
+  />
+  <LinkCard 
+    title="Environment Variables Guide" 
+    href="https://docs.github.com/en/actions/learn-github-actions/environment-variables"
+    description="Using environment variables in GitHub Actions" 
+  />
+</CardGrid>

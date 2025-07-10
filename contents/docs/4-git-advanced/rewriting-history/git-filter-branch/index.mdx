@@ -1,0 +1,407 @@
+---
+title: Git Filter Branch
+description: Learn about Git Filter Branch for advanced history rewriting
+---
+
+# Git Filter Branch
+
+Git filter-branch is a powerful command that allows you to rewrite Git history by filtering and modifying commits across entire branches or repositories. It's useful for large-scale history modifications that can't be easily accomplished with interactive rebase.
+
+## What is Git Filter Branch?
+
+Filter-branch walks through your repository's history and allows you to:
+- Remove files from all commits
+- Modify file contents across history
+- Change author information
+- Restructure directories
+- Remove sensitive data
+- Split repositories
+
+## Basic Usage
+
+### Basic Syntax
+```bash
+git filter-branch [options] [revision-range]
+```
+
+### Simple Example
+```bash
+# Remove a file from all commits
+git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
+```
+
+## Common Filter Types
+
+### 1. Tree Filter (`--tree-filter`)
+Modifies the working tree for each commit:
+
+```bash
+# Remove a file from all commits
+git filter-branch --tree-filter 'rm -f secret.txt' HEAD
+
+# Remove a directory from all commits
+git filter-branch --tree-filter 'rm -rf old-directory' HEAD
+
+# Rename files across all commits
+git filter-branch --tree-filter 'find . -name "*.txt" -exec mv {} {}.bak \;' HEAD
+```
+
+### 2. Index Filter (`--index-filter`)
+Modifies the index (staging area) - faster than tree filter:
+
+```bash
+# Remove a file from all commits (faster)
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch secret.txt' HEAD
+
+# Remove multiple files
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch *.log' HEAD
+```
+
+### 3. Environment Filter (`--env-filter`)
+Modifies environment variables like author/committer:
+
+```bash
+# Change author email for all commits
+git filter-branch --env-filter '
+if [ "$GIT_AUTHOR_EMAIL" = "old@example.com" ]; then
+    export GIT_AUTHOR_EMAIL="new@example.com"
+fi
+' HEAD
+
+# Change both author and committer
+git filter-branch --env-filter '
+if [ "$GIT_AUTHOR_NAME" = "Old Name" ]; then
+    export GIT_AUTHOR_NAME="New Name"
+    export GIT_AUTHOR_EMAIL="new@example.com"
+    export GIT_COMMITTER_NAME="New Name"
+    export GIT_COMMITTER_EMAIL="new@example.com"
+fi
+' HEAD
+```
+
+### 4. Message Filter (`--msg-filter`)
+Modifies commit messages:
+
+```bash
+# Add prefix to all commit messages
+git filter-branch --msg-filter 'echo "[MIGRATED] $1"' HEAD
+
+# Remove sensitive information from commit messages
+git filter-branch --msg-filter 'sed "s/password=.*/password=***/"' HEAD
+```
+
+### 5. Subdirectory Filter (`--subdirectory-filter`)
+Extract a subdirectory as the new root:
+
+```bash
+# Make subdirectory the new root
+git filter-branch --subdirectory-filter my-subdirectory HEAD
+```
+
+## Advanced Usage Examples
+
+### Remove Sensitive Data
+```bash
+# Remove file with sensitive data from entire history
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch config/secrets.yml' \
+--prune-empty --tag-name-filter cat -- --all
+```
+
+### Change Author Information
+```bash
+# Change author info for specific email
+git filter-branch --env-filter '
+OLD_EMAIL="old@company.com"
+CORRECT_NAME="Correct Name"
+CORRECT_EMAIL="correct@company.com"
+
+if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]; then
+    export GIT_COMMITTER_NAME="$CORRECT_NAME"
+    export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+fi
+if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]; then
+    export GIT_AUTHOR_NAME="$CORRECT_NAME"
+    export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+fi
+' --tag-name-filter cat -- --branches --tags
+```
+
+### Split Repository
+```bash
+# Extract subdirectory into new repository
+git filter-branch --subdirectory-filter path/to/subdirectory -- --all
+```
+
+### Remove Large Files
+```bash
+# Remove files larger than 10MB
+git filter-branch --tree-filter '
+find . -type f -size +10M -delete
+' HEAD
+```
+
+## Filter-Branch Options
+
+### Important Options
+```bash
+# Force operation (overwrites existing backup)
+--force
+
+# Remove empty commits after filtering
+--prune-empty
+
+# Filter all branches and tags
+-- --all
+
+# Filter specific branches
+-- --branches
+
+# Filter specific tags
+-- --tags
+
+# Original references backup location
+--original refs/original/
+```
+
+### Complete Example
+```bash
+git filter-branch \
+    --force \
+    --index-filter 'git rm --cached --ignore-unmatch large-file.zip' \
+    --prune-empty \
+    --tag-name-filter cat \
+    -- --all
+```
+
+## Common Use Cases
+
+### 1. Remove Sensitive Files
+```bash
+# Remove API keys file from all history
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch api-keys.txt' \
+--prune-empty --tag-name-filter cat -- --all
+
+# Clean up
+rm -rf .git/refs/original/
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+```
+
+### 2. Repository Cleanup
+```bash
+# Remove all .DS_Store files
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch .DS_Store' \
+--prune-empty --tag-name-filter cat -- --all
+
+# Remove all log files
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch --recursive "*.log"' \
+--prune-empty --tag-name-filter cat -- --all
+```
+
+### 3. Directory Restructuring
+```bash
+# Move all files from root to subdirectory
+git filter-branch --tree-filter '
+mkdir -p new-structure
+find . -maxdepth 1 -not -name "new-structure" -not -name ".git" -not -name "." \
+    -exec mv {} new-structure/ \;
+' HEAD
+```
+
+### 4. Author Correction
+```bash
+# Fix author information for multiple authors
+git filter-branch --env-filter '
+case "$GIT_AUTHOR_EMAIL" in
+    "old1@example.com")
+        export GIT_AUTHOR_NAME="New Name 1"
+        export GIT_AUTHOR_EMAIL="new1@example.com"
+        ;;
+    "old2@example.com")
+        export GIT_AUTHOR_NAME="New Name 2"
+        export GIT_AUTHOR_EMAIL="new2@example.com"
+        ;;
+esac
+' HEAD
+```
+
+## Best Practices
+
+### 1. Backup Before Using
+```bash
+# Create a backup branch
+git branch backup-branch
+
+# Or clone the repository
+git clone original-repo backup-repo
+```
+
+### 2. Work on a Copy
+```bash
+# Work on a separate repository
+git clone original-repo temp-repo
+cd temp-repo
+# Perform filter-branch operations
+```
+
+### 3. Clean Up Afterwards
+```bash
+# Remove original refs
+rm -rf .git/refs/original/
+
+# Expire reflog
+git reflog expire --expire=now --all
+
+# Garbage collect
+git gc --prune=now --aggressive
+```
+
+### 4. Force Push Carefully
+```bash
+# Force push to update remote (DANGEROUS!)
+git push --force-with-lease origin --all
+git push --force-with-lease origin --tags
+```
+
+## Performance Tips
+
+### Use Index Filter Instead of Tree Filter
+```bash
+# Slower (checks out each commit)
+git filter-branch --tree-filter 'rm -f file.txt' HEAD
+
+# Faster (works with index only)
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch file.txt' HEAD
+```
+
+### Filter Specific Branches
+```bash
+# Filter only main branch
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch file.txt' main
+
+# Filter specific range
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch file.txt' HEAD~10..HEAD
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### 1. Filter-Branch Refuses to Run
+```bash
+# Error: Cannot create a new backup
+# Solution: Use --force or remove existing backup
+git filter-branch --force --index-filter '...' HEAD
+
+# Or remove backup
+rm -rf .git/refs/original/
+```
+
+#### 2. Empty Repository After Filter
+```bash
+# Check if all commits were pruned
+git log --oneline
+
+# Recovery from backup
+git reset --hard backup-branch
+```
+
+#### 3. Performance Issues
+```bash
+# Use index filter instead of tree filter
+# Work on smaller ranges
+# Use --prune-empty to remove empty commits
+```
+
+### Recovery Options
+```bash
+# Reset to original state
+git reset --hard refs/original/refs/heads/main
+
+# Or use reflog
+git reflog
+git reset --hard HEAD@{5}
+```
+
+## Alternatives to Filter-Branch
+
+### Git Filter-Repo (Recommended)
+```bash
+# Modern replacement for filter-branch
+pip install git-filter-repo
+
+# Remove file
+git filter-repo --path secret.txt --invert-paths
+
+# Change author
+git filter-repo --mailmap mailmap.txt
+```
+
+### BFG Repo-Cleaner
+```bash
+# Fast alternative for removing large files
+java -jar bfg.jar --delete-files secret.txt my-repo.git
+```
+
+## Migration Script Example
+
+```bash
+#!/bin/bash
+# Complete migration script
+
+# 1. Create backup
+git branch backup-original
+
+# 2. Remove sensitive files
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch secrets.txt config/database.yml' \
+--prune-empty --tag-name-filter cat -- --all
+
+# 3. Fix author information
+git filter-branch --force --env-filter '
+if [ "$GIT_AUTHOR_EMAIL" = "old@example.com" ]; then
+    export GIT_AUTHOR_NAME="Correct Name"
+    export GIT_AUTHOR_EMAIL="correct@example.com"
+    export GIT_COMMITTER_NAME="Correct Name"
+    export GIT_COMMITTER_EMAIL="correct@example.com"
+fi
+' -- --all
+
+# 4. Clean up
+rm -rf .git/refs/original/
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+
+# 5. Verify results
+git log --oneline -10
+git show-branch --all
+
+echo "Migration complete. Review changes before force pushing."
+```
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-filter-branch">Git Filter-Branch Documentation</Link>
+- <Link href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">Git Book - Rewriting History</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/git-filter-branch">Atlassian - Git Filter-Branch</Link>
+- <Link href="https://github.com/newren/git-filter-repo">Git Filter-Repo (Modern Alternative)</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=Ew8HQsFyVHo">Git Filter-Branch Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=kP6jv0dLgWs">Removing Sensitive Data from Git</Link>
+</TabsContent>
+</Tabs>

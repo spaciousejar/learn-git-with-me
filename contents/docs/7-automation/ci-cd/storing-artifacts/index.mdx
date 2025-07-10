@@ -1,0 +1,433 @@
+---
+title: Storing Artifacts
+description: Learn how to store and share build artifacts in GitHub Actions
+---
+
+# Storing Artifacts
+
+Artifacts in GitHub Actions allow you to persist data after a job completes and share data between jobs in the same workflow. This is essential for saving build outputs, test reports, and other important files.
+
+## What are Artifacts?
+
+Artifacts are files or collections of files that you want to save and share:
+- **Build outputs**: Compiled binaries, packages
+- **Test results**: Coverage reports, test logs
+- **Documentation**: Generated docs, reports
+- **Deployment packages**: Docker images, release files
+
+## Basic Usage
+
+### Upload Artifacts
+```yaml
+name: Build
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: dist/
+```
+
+### Download Artifacts
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build app
+        run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-build
+          path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: app-build
+          path: ./dist
+      
+      - name: Deploy
+        run: ./deploy.sh
+```
+
+## Advanced Artifact Usage
+
+### Multiple Artifacts
+```yaml
+- name: Upload multiple artifacts
+  uses: actions/upload-artifact@v3
+  with:
+    name: test-results
+    path: |
+      coverage/
+      test-reports/
+      logs/*.log
+```
+
+### Conditional Uploads
+```yaml
+- name: Upload on failure
+  if: failure()
+  uses: actions/upload-artifact@v3
+  with:
+    name: failure-logs
+    path: logs/
+```
+
+### Artifact Retention
+```yaml
+- name: Upload with custom retention
+  uses: actions/upload-artifact@v3
+  with:
+    name: build-outputs
+    path: dist/
+    retention-days: 30  # Default is 90 days
+```
+
+## Common Patterns
+
+### Build Matrix Artifacts
+```yaml
+strategy:
+  matrix:
+    os: [ubuntu-latest, windows-latest, macos-latest]
+    
+steps:
+  - name: Build
+    run: npm run build
+  
+  - name: Upload artifacts
+    uses: actions/upload-artifact@v3
+    with:
+      name: build-${{ matrix.os }}
+      path: dist/
+```
+
+### Test Reports
+```yaml
+- name: Run tests
+  run: npm test -- --coverage --outputFile=test-results.xml
+
+- name: Upload test results
+  if: always()  # Upload even if tests fail
+  uses: actions/upload-artifact@v3
+  with:
+    name: test-results
+    path: |
+      coverage/
+      test-results.xml
+```
+
+### Docker Images
+```yaml
+- name: Build Docker image
+  run: |
+    docker build -t myapp .
+    docker save myapp > myapp.tar
+
+- name: Upload Docker image
+  uses: actions/upload-artifact@v3
+  with:
+    name: docker-image
+    path: myapp.tar
+```
+
+## Cross-Job Communication
+
+### Share Data Between Jobs
+```yaml
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate config
+        run: echo "config data" > config.json
+      
+      - name: Upload config
+        uses: actions/upload-artifact@v3
+        with:
+          name: config
+          path: config.json
+
+  process:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download config
+        uses: actions/download-artifact@v3
+        with:
+          name: config
+      
+      - name: Use config
+        run: cat config.json
+```
+
+### Multiple Downloads
+```yaml
+- name: Download all artifacts
+  uses: actions/download-artifact@v3
+
+- name: Download specific artifact
+  uses: actions/download-artifact@v3
+  with:
+    name: specific-artifact
+    path: ./downloads
+```
+
+## Best Practices
+
+### Naming Conventions
+```yaml
+# Good: Descriptive names
+name: build-${{ github.sha }}-${{ matrix.os }}
+name: test-results-${{ github.run_number }}
+name: coverage-report-${{ github.ref_name }}
+
+# Include metadata in names
+name: app-v${{ steps.version.outputs.version }}-linux
+```
+
+### Size Management
+```yaml
+# Compress large artifacts
+- name: Compress artifacts
+  run: tar -czf logs.tar.gz logs/
+
+- name: Upload compressed logs
+  uses: actions/upload-artifact@v3
+  with:
+    name: logs-compressed
+    path: logs.tar.gz
+```
+
+### Exclude Unnecessary Files
+```yaml
+- name: Upload selective files
+  uses: actions/upload-artifact@v3
+  with:
+    name: build-output
+    path: |
+      dist/
+      !dist/**/*.map
+      !dist/**/test-*
+```
+
+## Security Considerations
+
+### Sensitive Data
+```yaml
+# DON'T upload sensitive information
+# Artifacts are accessible to anyone with read access
+
+# DO filter out sensitive files
+- name: Clean sensitive data
+  run: |
+    rm -f .env
+    rm -f config/secrets.json
+
+- name: Upload clean build
+  uses: actions/upload-artifact@v3
+  with:
+    name: clean-build
+    path: dist/
+```
+
+### Access Control
+```yaml
+# Artifacts inherit repository permissions
+# Private repos: Only collaborators can access
+# Public repos: Anyone can download artifacts
+```
+
+## Troubleshooting
+
+### Common Issues
+```yaml
+# Issue: Artifact not found
+# Solution: Check artifact name and job dependencies
+
+# Issue: Path not found
+# Solution: Verify file paths exist
+- name: Debug paths
+  run: |
+    ls -la
+    find . -name "*.log" -type f
+
+# Issue: Size limits exceeded
+# Solution: Compress or split artifacts
+- name: Check artifact size
+  run: du -sh dist/
+```
+
+### Debugging Downloads
+```yaml
+- name: Debug artifact download
+  uses: actions/download-artifact@v3
+  with:
+    name: my-artifact
+
+- name: List downloaded files
+  run: |
+    ls -la
+    find . -type f -name "*"
+```
+
+## Complete Examples
+
+### Build and Test Pipeline
+```yaml
+name: Build and Test
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ github.sha }}
+          path: dist/
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm test -- --coverage
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ github.sha }}
+          path: |
+            coverage/
+            test-results.xml
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-${{ github.sha }}
+          path: ./dist
+      
+      - name: Deploy to staging
+        run: |
+          echo "Deploying files:"
+          ls -la dist/
+```
+
+### Multi-Platform Build
+```yaml
+name: Multi-Platform Build
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            artifact-name: linux
+          - os: windows-latest
+            artifact-name: windows
+          - os: macos-latest
+            artifact-name: macos
+    
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Upload platform artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-${{ matrix.artifact-name }}
+          path: dist/
+
+  package:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+      
+      - name: Package release
+        run: |
+          mkdir release
+          cp -r app-linux/ release/
+          cp -r app-windows/ release/
+          cp -r app-macos/ release/
+          tar -czf release.tar.gz release/
+      
+      - name: Upload release package
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-package
+          path: release.tar.gz
+```
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts">Storing Workflow Data as Artifacts</Link>
+- <Link href="https://github.com/actions/upload-artifact">Upload Artifact Action</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://github.blog/2020-04-15-github-actions-adds-support-for-ci-cd-artifacts/">Artifacts Support Announcement</Link>
+- <Link href="https://docs.github.com/en/actions/guides">GitHub Actions Guides</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=eB0nUzAI7M8">GitHub Actions Artifacts Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=R8_veQiYBjI">CI/CD with Artifacts</Link>
+</TabsContent>
+</Tabs>

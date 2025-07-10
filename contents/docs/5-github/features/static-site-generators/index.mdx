@@ -1,0 +1,244 @@
+---
+title: Static Site Generators
+description: Learn about using static site generators with GitHub Pages
+---
+
+# Static Site Generators with GitHub Pages
+
+Static site generators allow you to create fast, secure websites from plain text files. GitHub Pages supports several popular static site generators out of the box.
+
+## What are Static Site Generators?
+
+Static site generators (SSGs) are tools that generate a complete static website from source files like Markdown, HTML, and CSS. They combine:
+- Content (usually in Markdown)
+- Templates and layouts
+- Configuration files
+
+To produce a complete website with HTML, CSS, and JavaScript files.
+
+## Supported Generators
+
+### Jekyll (Default)
+GitHub Pages runs Jekyll by default:
+- Written in Ruby
+- Built-in GitHub Pages support
+- Extensive theme ecosystem
+- Liquid templating language
+
+### GitHub Actions Support
+With GitHub Actions, you can use any static site generator:
+- **Next.js**: React-based framework
+- **Gatsby**: React with GraphQL
+- **Hugo**: Fast Go-based generator
+- **Nuxt.js**: Vue.js framework
+- **VuePress**: Vue.js documentation focus
+- **Astro**: Multi-framework support
+
+## Setting Up Jekyll
+
+### Basic Setup
+<Steps>
+1. **Create repository**: Name it `username.github.io`
+2. **Add content**: Create `index.md` or `index.html`
+3. **Configure**: Add `_config.yml` file
+4. **Push changes**: Site automatically builds and deploys
+</Steps>
+
+### Directory Structure
+```
+my-site/
+├── _config.yml
+├── _layouts/
+│   └── default.html
+├── _posts/
+│   └── 2023-01-01-hello-world.md
+├── _sass/
+│   └── main.scss
+├── assets/
+│   └── css/
+└── index.md
+```
+
+### Configuration Example
+```yaml
+# _config.yml
+title: My Blog
+description: A blog about web development
+url: "https://username.github.io"
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /:collection/:name/
+```
+
+## Using Other Generators with Actions
+
+### Next.js Example
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy Next.js to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+```
+
+### Hugo Example
+```yaml
+# .github/workflows/hugo.yml
+name: Deploy Hugo to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+```
+
+## Choosing a Static Site Generator
+
+### Consider These Factors
+- **Programming language**: Choose one you're comfortable with
+- **Learning curve**: Some are simpler than others
+- **Performance**: Build speed and output optimization
+- **Ecosystem**: Themes, plugins, and community support
+- **Features**: Blog support, internationalization, etc.
+
+### Popular Options
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Generator</TableHead>
+      <TableHead>Language</TableHead>
+      <TableHead>Best For</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Jekyll</TableCell>
+      <TableCell>Ruby</TableCell>
+      <TableCell>Blogs, GitHub Pages</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Hugo</TableCell>
+      <TableCell>Go</TableCell>
+      <TableCell>Fast builds, large sites</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Next.js</TableCell>
+      <TableCell>JavaScript</TableCell>
+      <TableCell>React applications</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Gatsby</TableCell>
+      <TableCell>JavaScript</TableCell>
+      <TableCell>React with GraphQL</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>VuePress</TableCell>
+      <TableCell>JavaScript</TableCell>
+      <TableCell>Documentation sites</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Best Practices
+
+### Content Organization
+- Use meaningful file and folder names
+- Organize content logically
+- Use consistent frontmatter
+- Create clear navigation
+
+### Performance
+- Optimize images and assets
+- Use CDNs for external resources
+- Minimize CSS and JavaScript
+- Enable compression
+
+### SEO
+- Use descriptive titles and meta descriptions
+- Create XML sitemaps
+- Implement structured data
+- Ensure mobile responsiveness
+
+<Aside type="tip">
+Many static site generators support live reload during development, making it easy to see changes as you work.
+</Aside>
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="Jekyll Documentation" 
+    href="https://jekyllrb.com/"
+    description="Official Jekyll documentation" 
+  />
+  <LinkCard 
+    title="GitHub Pages with Actions" 
+    href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow"
+    description="Using custom workflows for GitHub Pages" 
+  />
+  <LinkCard 
+    title="Static Site Generators List" 
+    href="https://jamstack.org/generators/"
+    description="Comprehensive list of static site generators" 
+  />
+</CardGrid>

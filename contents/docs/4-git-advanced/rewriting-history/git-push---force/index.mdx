@@ -1,0 +1,114 @@
+---
+title: Git Push --force
+description: Learn about force pushing and when to use it safely
+---
+
+# Git Push --force
+
+Force pushing overwrites the remote branch with your local changes. Use with extreme caution as it can overwrite other people's work.
+
+## Basic Commands
+
+```bash
+# Force push (dangerous)
+git push --force origin branch-name
+
+# Safer force push
+git push --force-with-lease origin branch-name
+```
+
+## When to Use Force Push
+
+### After History Rewriting
+```bash
+# After amending commits
+git commit --amend
+git push --force-with-lease origin feature-branch
+
+# After interactive rebase
+git rebase -i HEAD~3
+git push --force-with-lease origin feature-branch
+```
+
+### Fixing Mistakes
+```bash
+# After squashing commits
+git rebase -i HEAD~5
+git push --force-with-lease origin feature-branch
+```
+
+## Safe Force Push
+
+### Use --force-with-lease
+```bash
+# Safer option - checks if remote has changed
+git push --force-with-lease origin feature-branch
+```
+
+### Best Practices
+- Only force push on feature branches you own
+- Never force push to main/master
+- Communicate with team before force pushing shared branches
+- Use `--force-with-lease` instead of `--force`
+
+## Common Scenarios
+
+### 1. Amended Commit
+```bash
+git commit --amend -m "Better commit message"
+git push --force-with-lease origin feature-branch
+```
+
+### 2. Cleaned Up History
+```bash
+git rebase -i HEAD~3
+git push --force-with-lease origin feature-branch
+```
+
+### 3. Reset to Previous Commit
+```bash
+git reset --hard HEAD~1
+git push --force-with-lease origin feature-branch
+```
+
+## Danger Zones
+
+### Never Do This
+```bash
+# ❌ Force push to main branch
+git push --force origin main
+
+# ❌ Force push without communication
+git push --force origin shared-branch
+```
+
+## Recovery
+
+### If You Force Pushed by Mistake
+```bash
+# Check reflog on remote
+git reflog origin/branch-name
+
+# Reset to previous state
+git reset --hard origin/branch-name@{1}
+```
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-push">Git Push Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/syncing/git-push">Atlassian - Git Push</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=CjcWiCg2P-Y">Git Force Push Explained</Link>
+</TabsContent>
+</Tabs>

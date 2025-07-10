@@ -1,0 +1,264 @@
+---
+title: Pre-commit Hooks
+description: Learn about pre-commit hooks in Git for automated code quality checks
+---
+
+# Pre-commit Hooks
+
+Pre-commit hooks are scripts that run automatically before each commit, allowing you to check your code for issues and enforce coding standards.
+
+## What are Pre-commit Hooks?
+
+Pre-commit hooks are Git hooks that execute before a commit is created. They can:
+- Lint your code
+- Run tests
+- Format code automatically
+- Check for security issues
+- Validate commit messages
+
+## Setting Up Pre-commit Hooks
+
+### Manual Setup
+Create a script in `.git/hooks/pre-commit`:
+
+```bash
+#!/bin/bash
+
+# Make the script executable
+chmod +x .git/hooks/pre-commit
+
+# Run linting
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "Linting failed! Please fix the errors before committing."
+  exit 1
+fi
+
+# Run tests
+npm test
+if [ $? -ne 0 ]; then
+  echo "Tests failed! Please fix the failing tests before committing."
+  exit 1
+fi
+
+echo "Pre-commit checks passed!"
+```
+
+### Using Pre-commit Framework
+The `pre-commit` tool provides a more robust solution:
+
+<Steps>
+1. **Install pre-commit**: `pip install pre-commit` or `brew install pre-commit`
+2. **Create config file**: Create `.pre-commit-config.yaml`
+3. **Install hooks**: Run `pre-commit install`
+4. **Test setup**: Run `pre-commit run --all-files`
+</Steps>
+
+## Pre-commit Configuration
+
+Example `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+
+  - repo: local
+    hooks:
+      - id: tests
+        name: tests
+        entry: npm test
+        language: system
+        pass_filenames: false
+```
+
+## Common Hook Types
+
+### Code Formatting
+- **Prettier**: Format JavaScript, CSS, HTML
+- **Black**: Format Python code
+- **rustfmt**: Format Rust code
+- **gofmt**: Format Go code
+
+### Linting
+- **ESLint**: JavaScript/TypeScript linting
+- **Flake8**: Python linting
+- **Clippy**: Rust linting
+- **golint**: Go linting
+
+### Security
+- **detect-secrets**: Find secrets in code
+- **bandit**: Python security linter
+- **safety**: Check Python dependencies for vulnerabilities
+
+### File Checks
+- **Check file size**: Prevent large files
+- **Check merge conflicts**: Detect unresolved conflicts
+- **Trailing whitespace**: Remove extra whitespace
+- **End of file**: Ensure files end with newline
+
+## JavaScript/Node.js Example
+
+### Package.json Scripts
+```json
+{
+  "scripts": {
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "test": "jest",
+    "pre-commit": "npm run lint && npm run test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
+  }
+}
+```
+
+### Using Husky
+Husky is a popular tool for Git hooks in Node.js projects:
+
+```bash
+# Install Husky
+npm install --save-dev husky
+
+# Initialize Husky
+npx husky install
+
+# Add pre-commit hook
+npx husky add .husky/pre-commit "npm run lint && npm run test"
+```
+
+## Python Example
+
+### Pre-commit Config for Python
+```yaml
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.950
+    hooks:
+      - id: mypy
+```
+
+## Advanced Configurations
+
+### Conditional Hooks
+Run hooks only on specific file types:
+
+```yaml
+- repo: local
+  hooks:
+    - id: typescript-check
+      name: TypeScript Check
+      entry: tsc --noEmit
+      language: system
+      files: \\.tsx?$
+```
+
+### Custom Hooks
+Create custom hooks for project-specific needs:
+
+```yaml
+- repo: local
+  hooks:
+    - id: custom-validation
+      name: Custom Validation
+      entry: ./scripts/validate.sh
+      language: script
+      files: \\.py$
+```
+
+## Best Practices
+
+### Performance
+- **Fast feedback**: Keep hooks fast to avoid slowing down commits
+- **Parallel execution**: Run independent checks in parallel
+- **File-specific**: Only run checks on changed files when possible
+
+### Reliability
+- **Consistent environment**: Use containerized or reproducible environments
+- **Handle failures gracefully**: Provide clear error messages
+- **Exit codes**: Use proper exit codes (0 for success, non-zero for failure)
+
+### Team Adoption
+- **Document setup**: Make it easy for team members to set up hooks
+- **Optional for development**: Allow bypassing hooks for WIP commits
+- **CI/CD backup**: Run the same checks in CI/CD as a backup
+
+<Aside type="tip">
+You can bypass pre-commit hooks with `git commit --no-verify` for emergency situations, but use this sparingly.
+</Aside>
+
+## Troubleshooting
+
+### Common Issues
+- **Permission denied**: Make sure hook scripts are executable
+- **Wrong interpreter**: Check shebang lines in scripts
+- **Path issues**: Ensure all tools are in PATH
+- **Hook not running**: Verify hooks are installed with `pre-commit install`
+
+### Debugging
+```bash
+# Run specific hook
+pre-commit run <hook-id>
+
+# Run all hooks
+pre-commit run --all-files
+
+# Debug mode
+pre-commit run --verbose
+```
+
+## Additional Resources
+
+<CardGrid>
+  <LinkCard 
+    title="Pre-commit Framework" 
+    href="https://pre-commit.com/"
+    description="Official pre-commit framework documentation" 
+  />
+  <LinkCard 
+    title="Git Hooks Documentation" 
+    href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks"
+    description="Official Git documentation on hooks" 
+  />
+  <LinkCard 
+    title="Husky" 
+    href="https://typicode.github.io/husky/"
+    description="Git hooks for Node.js projects" 
+  />
+</CardGrid>

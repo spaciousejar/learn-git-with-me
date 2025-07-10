@@ -54,6 +54,14 @@ const components = {
   CardGrid,
   LinkCard,
   Aside,
+  // Table components for JSX usage
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  // HTML element mappings
   table: Table,
   thead: TableHeader,
   th: TableHead,

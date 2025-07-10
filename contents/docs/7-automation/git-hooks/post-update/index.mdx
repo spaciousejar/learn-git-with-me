@@ -1,0 +1,28 @@
+---
+title: Post-update Hooks
+description: Learn about post-update hooks for server-side Git operations
+---
+
+# Post-update Hooks
+
+Post-update hooks run on the server after refs are updated, commonly used for deployment and notifications.
+
+## Use Cases
+
+- Deploy applications
+- Send notifications
+- Update documentation
+- Trigger CI/CD pipelines
+
+## Example Hook
+
+```bash
+#!/bin/bash
+# .git/hooks/post-update
+
+# Deploy to production
+if [[ $1 == refs/heads/main ]]; then
+    echo "Deploying to production..."
+    ./deploy.sh
+fi
+```

@@ -1,0 +1,325 @@
+---
+title: Squashing Commits
+description: Learn how to combine multiple commits into a single commit
+---
+
+# Squashing Commits
+
+Squashing commits is the process of combining multiple commits into a single commit. This is useful for cleaning up your commit history, especially when you have many small commits that are better represented as one logical change.
+
+## Why Squash Commits?
+
+### Benefits of Squashing
+- **Cleaner History**: Removes unnecessary commits and creates a linear history
+- **Logical Grouping**: Combines related changes into meaningful commits
+- **Easier Reviews**: Makes code reviews more focused and understandable
+- **Simplified Debugging**: Easier to identify when issues were introduced
+- **Professional Appearance**: Shows thoughtful commit organization
+
+### When to Squash
+- Multiple commits that fix the same issue
+- Commits that should have been part of the original change
+- "Work in progress" or "fix typo" commits
+- Commits created during development that aren't meaningful individually
+
+## Methods to Squash Commits
+
+## 1. Interactive Rebase (Most Common)
+
+### Basic Squashing
+```bash
+# Squash the last 3 commits
+git rebase -i HEAD~3
+```
+
+In the editor that opens:
+```bash
+pick 1234567 First commit message
+squash 2345678 Second commit message  
+squash 3456789 Third commit message
+```
+
+### Squash Options
+- **squash (s)**: Combines commit with previous one, keeping both messages
+- **fixup (f)**: Combines commit with previous one, discarding this message
+
+### Example Interactive Rebase
+```bash
+pick a1b2c3d Add user authentication
+fixup b2c3d4e Fix typo in auth
+fixup c3d4e5f Remove debug statements
+squash d4e5f6g Add authentication tests
+```
+
+## 2. Soft Reset Method
+
+### Reset and Recommit
+```bash
+# Reset to 3 commits ago but keep changes staged
+git reset --soft HEAD~3
+
+# Create a new commit with all changes
+git commit -m "Implement user authentication feature"
+```
+
+### Advantages
+- Simple and straightforward
+- Good for beginners
+- Creates a clean single commit
+
+### Disadvantages
+- Loses individual commit messages
+- Can't selectively squash commits
+
+## 3. Squash Merge
+
+### Using GitHub/GitLab
+When merging a pull request, choose "Squash and merge":
+```bash
+# This combines all commits in the PR into one
+git checkout main
+git merge --squash feature-branch
+git commit -m "Add complete user authentication system"
+```
+
+### Manual Squash Merge
+```bash
+# Squash merge a branch
+git checkout main
+git merge --squash feature-branch
+git commit -m "Complete feature implementation"
+```
+
+## Advanced Squashing Techniques
+
+### Selective Squashing
+```bash
+# Squash only specific commits
+git rebase -i HEAD~10
+
+# In the editor, choose which commits to squash
+pick 1111111 Important commit
+squash 2222222 Fix for important commit
+pick 3333333 Another important commit
+fixup 4444444 Typo fix
+pick 5555555 Different feature
+```
+
+### Squash with Custom Messages
+```bash
+# After squashing, Git will open editor for commit message
+# You can craft a comprehensive message combining all changes
+```
+
+### Auto-squash Setup
+```bash
+# Create a fixup commit automatically
+git commit --fixup <commit-hash>
+
+# Later, auto-squash during rebase
+git rebase -i --autosquash HEAD~5
+```
+
+## Best Practices for Squashing
+
+### 1. Good Commit Messages
+```bash
+# Before squashing (poor messages):
+pick 1234567 wip
+pick 2345678 fixed bug
+pick 3456789 more fixes
+pick 4567890 done
+
+# After squashing (good message):
+feat: implement user authentication with JWT tokens
+
+- Add login/logout endpoints
+- Implement JWT token generation and validation
+- Add password hashing with bcrypt
+- Include authentication middleware
+- Add comprehensive test coverage
+```
+
+### 2. Logical Grouping
+```bash
+# Group related commits together
+pick 1111111 Add user model
+squash 2222222 Add user validation
+squash 3333333 Add user tests
+pick 4444444 Add authentication endpoints
+squash 5555555 Add auth middleware
+squash 6666666 Add auth tests
+```
+
+### 3. Preserve Important Commits
+```bash
+# Keep significant milestones
+pick 1111111 Initial user authentication implementation
+pick 2222222 Add OAuth integration
+pick 3333333 Add two-factor authentication
+```
+
+## Common Squashing Scenarios
+
+### 1. Feature Development
+```bash
+# During feature development
+git commit -m "Start user auth feature"
+git commit -m "Add login form"
+git commit -m "Fix form validation"
+git commit -m "Add tests"
+git commit -m "Fix test failures"
+git commit -m "Update documentation"
+
+# Before merging, squash into one commit
+git rebase -i HEAD~6
+# Result: One commit "feat: add user authentication"
+```
+
+### 2. Bug Fix Series
+```bash
+# Multiple commits fixing the same bug
+git commit -m "Fix user login issue"
+git commit -m "Add edge case handling"
+git commit -m "Fix typo in previous commit"
+git commit -m "Add regression test"
+
+# Squash into one comprehensive fix
+git rebase -i HEAD~4
+# Result: One commit "fix: resolve user login authentication issue"
+```
+
+### 3. Code Review Fixes
+```bash
+# After code review feedback
+git commit -m "Initial implementation"
+git commit -m "Address review comment 1"
+git commit -m "Address review comment 2"
+git commit -m "Fix failing tests"
+
+# Squash review fixes into main commit
+git rebase -i HEAD~4
+```
+
+## Squashing Workflow Example
+
+### Complete Feature Development
+```bash
+# 1. Develop feature with multiple commits
+git checkout -b feature/user-auth
+git commit -m "Add user model"
+git commit -m "Add login endpoint"
+git commit -m "Fix validation bug"
+git commit -m "Add tests"
+git commit -m "Fix test edge case"
+git commit -m "Update docs"
+
+# 2. Review your commits
+git log --oneline
+
+# 3. Squash commits before merging
+git rebase -i HEAD~6
+
+# 4. Edit in interactive rebase
+pick a1b2c3d Add user model
+squash b2c3d4e Add login endpoint
+fixup c3d4e5f Fix validation bug
+squash d4e5f6g Add tests
+fixup e5f6g7h Fix test edge case
+fixup f6g7h8i Update docs
+
+# 5. Write comprehensive commit message
+feat: implement user authentication system
+
+- Add User model with validation
+- Implement login/logout endpoints
+- Add comprehensive test coverage
+- Include API documentation
+
+# 6. Merge clean feature
+git checkout main
+git merge feature/user-auth
+```
+
+## Troubleshooting Squashing
+
+### Fixing Squash Mistakes
+```bash
+# If you made a mistake during squashing
+git reflog  # Find the commit before squashing
+git reset --hard HEAD@{3}  # Reset to before squashing
+```
+
+### Handling Conflicts During Squash
+```bash
+# If conflicts occur during interactive rebase
+# 1. Resolve conflicts
+git add resolved-files
+# 2. Continue rebase
+git rebase --continue
+# 3. Or abort if needed
+git rebase --abort
+```
+
+### Squashing Merge Commits
+```bash
+# You can't squash merge commits directly
+# Instead, use --preserve-merges or recreate commits
+git rebase -i --preserve-merges HEAD~5
+```
+
+## Squashing vs Other Methods
+
+### Squashing vs Amending
+- **Squash**: Combines multiple commits
+- **Amend**: Modifies only the last commit
+- **Use squash when**: You have multiple commits to combine
+- **Use amend when**: You need to fix just the last commit
+
+### Squashing vs Merge
+- **Squash**: Creates linear history
+- **Merge**: Preserves branch history
+- **Use squash when**: You want clean linear history
+- **Use merge when**: You want to preserve development context
+
+## Tools for Squashing
+
+### Git Aliases
+```bash
+# Add useful aliases
+git config --global alias.squash 'rebase -i HEAD~'
+git config --global alias.fixup 'commit --fixup'
+
+# Usage
+git squash 3  # Interactive rebase last 3 commits
+git fixup abc123  # Create fixup commit
+```
+
+### GUI Tools
+- **GitKraken**: Visual squashing interface
+- **SourceTree**: Interactive rebase with squash options
+- **VS Code**: Git extensions for squashing
+- **GitHub Desktop**: Squash and merge options
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">Git Tools - Rewriting History</Link>
+- <Link href="https://git-scm.com/docs/git-rebase">Git Rebase Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history">Atlassian - Rewriting History</Link>
+- <Link href="https://thoughtbot.com/blog/git-interactive-rebase-squash-amend-rewriting-history">Interactive Rebase and Squashing</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=V5KrD7CmO4o">Git Squash Tutorial</Link>
+- <Link href="https://www.youtube.com/watch?v=RwvTrSm7zEY">Squashing Commits Explained</Link>
+</TabsContent>
+</Tabs>

@@ -1,0 +1,73 @@
+---
+title: Git Commit --amend
+description: Quick reference for git commit --amend command
+---
+
+# Git Commit --amend
+
+The `git commit --amend` command allows you to modify the most recent commit. It's the quickest way to fix mistakes in your last commit.
+
+## Basic Usage
+
+```bash
+# Change commit message
+git commit --amend -m "New message"
+
+# Add files to last commit
+git add forgotten-file.js
+git commit --amend --no-edit
+
+# Open editor to modify message
+git commit --amend
+```
+
+## Common Use Cases
+
+### Fix Typo in Message
+```bash
+git commit --amend -m "Fix user authentication bug"
+```
+
+### Add Forgotten Files
+```bash
+git add missing-file.js
+git commit --amend --no-edit
+```
+
+### Update Last Commit
+```bash
+git add updated-code.js
+git commit --amend -m "Complete feature implementation"
+```
+
+## Important Notes
+
+- ⚠️ Never amend commits that have been pushed to shared repositories
+- Always test after amending
+- Use `git reflog` to recover if you make mistakes
+
+## Options
+
+- `--no-edit`: Don't change the commit message
+- `--author="Name <email>"`: Change commit author
+- `--date="date"`: Change commit date
+
+Visit the following resources to learn more:
+
+<Tabs defaultValue="official">
+<TabsList>
+<TabsTrigger value="official">Official Docs</TabsTrigger>
+<TabsTrigger value="article">Articles</TabsTrigger>
+<TabsTrigger value="video">Videos</TabsTrigger>
+</TabsList>
+
+<TabsContent value="official">
+- <Link href="https://git-scm.com/docs/git-commit">Git Commit Documentation</Link>
+</TabsContent>
+<TabsContent value="article">
+- <Link href="https://www.atlassian.com/git/tutorials/rewriting-history">Atlassian - Rewriting History</Link>
+</TabsContent>
+<TabsContent value="video">
+- <Link href="https://www.youtube.com/watch?v=q53umU5vMkk">Git Amend Tutorial</Link>
+</TabsContent>
+</Tabs>
