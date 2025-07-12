@@ -6,10 +6,251 @@ description: Install Git on your system and set up your development environment.
 
 #### Select your operating system
 
-<Outlet path="/2-git-basics/installation" />
+
+<Tabs defaultValue="linux">
+<TabsList>
+<TabsTrigger value="linux">linux</TabsTrigger>
+<TabsTrigger value="macos">macOS</TabsTrigger>
+<TabsTrigger value="windows">Windows</TabsTrigger>
+<TabsTrigger value="android">Android</TabsTrigger>
+</TabsList>
+
+<TabsContent value="linux">
+<Note title="Using Linux">
+<Note type="note" title="Note">
+  Most installation commands require root privileges. Make sure you have sudo access or run them as root.
+</Note>
+
+#### Choose your Distro
+
+<Tabs defaultValue="debian">
+<TabsList>
+<TabsTrigger value="debian">Debian</TabsTrigger>
+<TabsTrigger value="fedora">Fedora</TabsTrigger>
+<TabsTrigger value="arch">Arch</TabsTrigger>
+<TabsTrigger value="opensuse">OpenSUSE</TabsTrigger>
+<TabsTrigger value="alpine">Alpine</TabsTrigger>
+<TabsTrigger value="gentoo">Gentoo</TabsTrigger>
+</TabsList>
+
+<TabsContent value="debian">
+<Note title="Debian/Ubuntu-based">
+    ```sh
+    sudo apt-get update
+    sudo apt-get install git
+    ```
+    If you are using Ubuntu 20.04 or later, you can use the following command to install Git:
+    ```sh
+    sudo apt install git
+    ```
+</Note>
+</TabsContent>
+
+<TabsContent value="fedora">
+<Note title="Fedora">
+```sh
+sudo dnf install git
+```
+</Note>
+</TabsContent>
+
+<TabsContent value="arch">
+<Note title="Arch Linux">
+```sh
+sudo pacman -S git
+```
+</Note>
+</TabsContent>
+
+<TabsContent value="opensuse">
+<Note title="OpenSUSE">
+    ```sh
+    sudo zypper install git
+    ```
+</Note>
+</TabsContent>
+
+<TabsContent value="alpine">
+<Note title="Alpine">
+    ```sh
+    apk add git
+    ```   
+</Note>
+</TabsContent>
+
+<TabsContent value="gentoo">
+<Note title="Gentoo">
+    ```sh
+    sudo emerge --ask --verbose dev-vcs/git
+    ```
+</Note>
+</TabsContent>
+</Tabs>
+
+</Note>
+</TabsContent>
+
+<TabsContent value="macos">
+<Note title="macOS">
+<Tabs defaultValue="homebrew">
+<TabsList>
+<TabsTrigger value="homebrew">Homebrew</TabsTrigger>
+<TabsTrigger value="macports">MacPorts</TabsTrigger>
+</TabsList>
+
+<TabsContent value="homebrew">
+<Note title="Using Homebrew">
+
+
+    ```sh
+    brew install git
+    ```
+    If you don't have Homebrew installed, you can install it by running:
+
+    ```sh
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    ```
+</Note>
+
+</TabsContent>
+
+<TabsContent value="macports">
+<Note title="Using MacPorts">
+    ```sh
+    sudo port install git
+    ```
+    If you don't have MacPorts installed,
+
+    Visit <Link href="https://www.macports.org/install.php">MacPorts website</Link> to download and install the package for your macOS version.
+</Note>
+</TabsContent>
+</Tabs>
+</Note>
+</TabsContent>
+
+<TabsContent value="windows">
+<Note title="Windows">
+<Tabs defaultValue="winget">
+<TabsList>
+<TabsTrigger value="winget">Winget</TabsTrigger>
+<TabsTrigger value="scoop">Scoop</TabsTrigger>
+<TabsTrigger value="chocolatey">Chocolatey</TabsTrigger>
+</TabsList>
+
+<TabsContent value="winget">
+<Note title="Using Winget">
+    ```sh
+    winget install git
+    ```
+</Note>
+</TabsContent>
+
+<TabsContent value="scoop">
+<Note title="Using Scoop">
+    ```sh
+    scoop install git
+    ```
+        If you don't have Scoop installed, you can install it by running:
+
+    ```sh
+    iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+
+    ```
+</Note>
+</TabsContent>
+
+<TabsContent value="chocolatey">
+<Note title="Using Chocolatey">
+    ```sh
+    choco install git
+    ```
+    If you don't have Chocolatey installed, you can install it by running:
+    ```sh
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    ```
+    For more information, visit the <Link href="https://chocolatey.org/install">Chocolatey installation guide</Link>.
+</Note>
+</TabsContent>
+</Tabs>
+</Note>
+</TabsContent>
+
+<TabsContent value="android">
+<Note title="Android">
+<Tabs defaultValue="termux">
+<TabsList>
+<TabsTrigger value="termux">Termux</TabsTrigger>
+<TabsTrigger value="apt">APT</TabsTrigger>
+</TabsList>
+
+<TabsContent value="termux">
+<Note title="Using Termux">
+ <Stepper>
+ <StepperItem title="Step 1. Downlod Termux">
+    - Install Termux from the <Link href="https://play.google.com/store/apps/details?id=com.termux">Google Play Store</Link>.
+    <Note type="warning" title="Warning">
+  ⚠️ For security reasons, only install Termux from the official Google Play Store. Avoid third-party sources.
+</Note>
+ </StepperItem>
+ <StepperItem title="Step 2. Open Termux">
+
+    Run the following command to install Git:
+
+    ```sh
+    pkg upgrade
+    pkg install git
+    
+    ```
+    </StepperItem>
+</Stepper>
+
+</Note>
+</TabsContent>
+
+<TabsContent value="apt">
+<Note title="Using APT">
+    - If you are using a Linux distribution on Android, you can use the following command to install Git:
+
+    ```sh
+    apt install git
+    ```   
+</Note>
+</TabsContent>
+</Tabs>
+
+</Note>
+</TabsContent>
+
+</Tabs>
 
 
 #### or directly download from official site 
+<Note title="Recommended" type="success">
 
-link: https://git-scm.com/download
+<Stepper>
+<StepperItem title="Step 1: Download Git">
+    - Download the installer from <Link href="https://git-scm.com/download/">git-scm.com</Link>.
+</StepperItem>
+<StepperItem title="Step 2: Run the Installer">
+    Run the installer and follow the instructions
 
+      Choose whether to add Git to your PATH
+      Select your preferred editor
+      Choose the default branch name
+      Select line ending conversion preferences
+      Choose the terminal emulator
+</StepperItem>
+<StepperItem title="Step 3: Verify the Installation">
+    After installation, you can verify the installation by running:
+    ```sh
+    git --version
+    ```
+    Or
+    ```sh
+    git -v
+    ```
+    If Git is installed, it should show something like `git version X.Y`.
+</StepperItem>
+</Stepper>
+
+</Note>
