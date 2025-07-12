@@ -7,17 +7,16 @@ description: Installation of Git on macOS.
 
 ### On macOS
 
-#### Using Xcode Command Line Tools
-    ```sh
-    xcode-select --install
-    ```
-<Note type="success" title="Recommended">
-  This is the recommended method for most users as it's officially supported by Apple.
-</Note>
+<Tabs defaultValue="homebrew">
+<TabsList>
+<TabsTrigger value="homebrew">Homebrew</TabsTrigger>
+<TabsTrigger value="macports">MacPorts</TabsTrigger>
+</TabsList>
 
-    This command will open a dialog box to install the command line tools. Follow the instructions to install the tools.
+<TabsContent value="homebrew">
+<Note title="Using Homebrew">
 
-#### Using Homebrew
+
     ```sh
     brew install git
     ```
@@ -26,14 +25,22 @@ description: Installation of Git on macOS.
     ```sh
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     ```
+</Note>
 
-#### Using MacPorts
+</TabsContent>
+
+<TabsContent value="macports">
+<Note title="Using MacPorts">
     ```sh
     sudo port install git
     ```
     If you don't have MacPorts installed,
 
-  Visit <Link href="https://www.macports.org/install.php">MacPorts website</Link> to download and install the package for your macOS version.
+    Visit <Link href="https://www.macports.org/install.php">MacPorts website</Link> to download and install the package for your macOS version.
+</Note>
+</TabsContent>
+
+</Tabs>
 
 
 ### Verifying the Installation

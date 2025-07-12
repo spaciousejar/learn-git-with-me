@@ -3,12 +3,24 @@ title: Pushing Tags Scripts
 description: Learn about scripts for pushing Git tags
 ---
 
-# Pushing Tags Scripts
 
-Scripts for automating the process of pushing Git tags to remote repositories.
 
-## Push All Tags Script
+#### Free Resources
 
+
+
+
+
+
+
+<Tabs defaultValue="bash">
+<TabsList>
+<TabsTrigger value="bash">Bash</TabsTrigger>
+<TabsTrigger value="powershell">PowerShell</TabsTrigger>
+</TabsList>
+
+<TabsContent value="bash">
+<Note title="Bash">
 ```bash
 #!/bin/bash
 # push-tags.sh
@@ -16,3 +28,16 @@ Scripts for automating the process of pushing Git tags to remote repositories.
 echo "Pushing all tags to origin..."
 git push origin --tags
 ```
+</Note>
+</TabsContent>
+<TabsContent value="powershell">
+<Note title="PowerShell">
+```powershell
+# push-tags.ps1
+
+Write-Host "Pushing all tags to origin..."
+git push origin --tags
+```   
+</Note>
+</TabsContent>
+</Tabs>

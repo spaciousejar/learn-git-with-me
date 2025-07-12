@@ -15,9 +15,9 @@ export const ROUTES: EachRoute[] = [
 
   items: [
     {title: "What is Git", href: "/what-is-git"},
-    { title: "Version Control Basics", href: "/what-is-version-control" },
+    { title: "Version Control Basics", href: "/version-control-basics" },
     { title: "Why Use Version Control", href: "/why-use-version-control" },
-    { title: "Git vs Other VCS", href: "/git-vs-other-vcs" },
+    { title: "Git vs Other VCS", href: "/git-vs-other" },
   ],
 },
 {

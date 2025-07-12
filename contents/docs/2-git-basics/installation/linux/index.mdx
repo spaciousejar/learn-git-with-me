@@ -9,7 +9,20 @@ description: Installation of Git on Linux.
   Most installation commands require root privileges. Make sure you have sudo access or run them as root.
 </Note>
 
-#### Debian/Ubuntu-based
+#### Choose your Distro
+
+<Tabs defaultValue="debian">
+<TabsList>
+<TabsTrigger value="debian">Debian/Ubuntu</TabsTrigger>
+<TabsTrigger value="fedora">Fedora</TabsTrigger>
+<TabsTrigger value="arch">Arch</TabsTrigger>
+<TabsTrigger value="opensuse">OpenSUSE</TabsTrigger>
+<TabsTrigger value="alpine">Alpine</TabsTrigger>
+<TabsTrigger value="gentoo">Gentoo</TabsTrigger>
+</TabsList>
+
+<TabsContent value="debian">
+<Note title="Debian/Ubuntu-based">
     ```sh
     sudo apt-get update
     sudo apt-get install git
@@ -18,31 +31,49 @@ description: Installation of Git on Linux.
     ```sh
     sudo apt install git
     ```
+</Note>
+</TabsContent>
 
-#### Fedora
-    ```sh
-    sudo dnf install git
-    ```
+<TabsContent value="fedora">
+<Note title="Fedora">
+```sh
+sudo dnf install git
+```
+</Note>
+</TabsContent>
 
-#### Arch Linux
-    ```sh
-    sudo pacman -S git
-    ```
+<TabsContent value="arch">
+<Note title="Arch Linux">
+```sh
+sudo pacman -S git
+```
+</Note>
+</TabsContent>
 
-#### OpenSUSE
+<TabsContent value="opensuse">
+<Note title="OpenSUSE">
     ```sh
     sudo zypper install git
     ```
+</Note>
+</TabsContent>
 
-#### Gentoo
+<TabsContent value="alpine">
+<Note title="Alpine">
+    ```sh
+    apk add git
+    ```   
+</Note>
+</TabsContent>
+
+<TabsContent value="gentoo">
+<Note title="Gentoo">
     ```sh
     sudo emerge --ask --verbose dev-vcs/git
     ```
-
-#### Alpine
-    ```sh
-    apk add git
-    ```
+</Note>
+</TabsContent>
+</Tabs>
 
 ### Verifying the Installation
 

@@ -1,17 +1,24 @@
 ---
 title: Android
-description: Installation of Git on Android using Termux.
+description: Installation of Git on Android.
 ---
 
-#### Using Termux
+<Tabs defaultValue="termux">
+<TabsList>
+<TabsTrigger value="termux">Termux</TabsTrigger>
+<TabsTrigger value="apt">APT</TabsTrigger>
+</TabsList>
+
+<TabsContent value="termux">
+<Note title="Using Termux">
  <Stepper>
- <StepperItem title="Step 1: Downlod Termux">
+ <StepperItem title="Step 1. Downlod Termux">
     - Install Termux from the <Link href="https://play.google.com/store/apps/details?id=com.termux">Google Play Store</Link>.
     <Note type="warning" title="Warning">
   ⚠️ For security reasons, only install Termux from the official Google Play Store. Avoid third-party sources.
 </Note>
  </StepperItem>
- <StepperItem title="Step 2 Open Termux">
+ <StepperItem title="Step 2. Open Termux">
 
     Run the following command to install Git:
 
@@ -21,7 +28,7 @@ description: Installation of Git on Android using Termux.
     
     ```
     </StepperItem>
-    <StepperItem title="Step 3: Verify the Installation">
+    <StepperItem title="Step 3. Verify the Installation">
     After installation, you can verify the installation by running:
     ```sh
     git --version
@@ -35,9 +42,16 @@ description: Installation of Git on Android using Termux.
 
 </Stepper>
 
-#### Using APT
+</Note>
+</TabsContent>
+
+<TabsContent value="apt">
+<Note title="Using APT">
     - If you are using a Linux distribution on Android, you can use the following command to install Git:
 
     ```sh
     apt install git
-    ```
+    ```   
+</Note>
+</TabsContent>
+</Tabs>
