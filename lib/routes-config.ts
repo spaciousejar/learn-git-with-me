@@ -25,16 +25,7 @@ export const ROUTES: EachRoute[] = [
   href: "/2-git-basics",
   noLink: true,
   items: [
-    {
-      title: "Installation",
-      href: "/installation",
-      items: [
-        {title: "Linux", href: "/linux"},
-        {title: "MacOS", href: "/macOS"},
-        {title: "Windows", href: "/windows"},
-        {title: "Android", href: "/android"},
-      ],
-    },
+    { title: "Installation", href: "/installation"},
     {
       title: "Setup",
       href: "/setup",
@@ -186,7 +177,6 @@ export const ROUTES: EachRoute[] = [
       title: "GitHub Basics",
       href: "/basics",
       items: [
-        { title: "Getting Started", href: "/github-essentials" },
         { title: "GitHub Interface", href: "/interface" },
         { title: "Creating an Account", href: "/creating-account" },
         { title: "Setting Up Profile", href: "/setting-up-profile" },
@@ -251,6 +241,7 @@ export const ROUTES: EachRoute[] = [
     {
       title: "Integrations",
       href: "/integrations",
+      noLink: true,
       items: [
         { title: "GitHub Codespaces", href: "/github-codespaces" },
         { title: "GitHub Copilot", href: "/github-copilot" },
@@ -279,7 +270,6 @@ export const ROUTES: EachRoute[] = [
       items: [
         { title: "GitHub Flow", href: "/github-flow" },
         { title: "Git Flow", href: "/git-flow" },
-        { title: "Trunk-Based Development", href: "/trunk-based" },
         { title: "Cherry Picking", href: "/cherry-picking" },
         { title: "Git Rebase", href: "/git-rebase" },
       ],
@@ -287,6 +277,7 @@ export const ROUTES: EachRoute[] = [
     {
       title: "Best Practices",
       href: "/best-practices",
+      noLink: true,
       items: [
         { title: "Commit Messages", href: "/commit-messages" },
         { title: "Branch Naming", href: "/branch-naming" },
@@ -301,16 +292,17 @@ export const ROUTES: EachRoute[] = [
         { title: "YAML Syntax", href: "/yaml-syntax" },
       ],
     },
-    {
-      title: "Team Collaboration",
-      href: "/team-collaboration",
-      items: [
-        { title: "Working in a Team", href: "/working-in-a-team" },
-        { title: "Forking vs Cloning", href: "/forking-vs-cloning" },
-        { title: "Between Branches", href: "/between-branches" },
-        { title: "Between Commits", href: "/between-commits" },
-      ],
-    },
+    // {
+    //   title: "Team Collaboration",
+    //   href: "/team-collaboration",
+    //   noLink: true,
+    //   items: [
+    //     { title: "Working in a Team", href: "/working-in-a-team" },
+    //     { title: "Forking vs Cloning", href: "/forking-vs-cloning" },
+    //     { title: "Between Branches", href: "/between-branches" },
+    //     { title: "Between Commits", href: "/between-commits" },
+    //   ],
+    // },
   ],
 },
 {
@@ -321,6 +313,7 @@ export const ROUTES: EachRoute[] = [
     {
       title: "CI/CD",
       href: "/ci-cd",
+      noLink: true,
       items: [
         { title: "GitHub Actions", href: "/github-actions" },
         { title: "Automations", href: "/automations" },
@@ -338,6 +331,7 @@ export const ROUTES: EachRoute[] = [
     {
       title: "Git Hooks",
       href: "/git-hooks",
+      noLink: true,
       items: [
         { title: "Pre Commit", href: "/pre-commit" },
         { title: "Commit Msg", href: "/commit-msg" },
@@ -351,6 +345,7 @@ export const ROUTES: EachRoute[] = [
     {
       title: "Useful Scripts",
       href: "/scripts",
+      noLink: true,
       items: [
         { title: "Checkout Tags", href: "/checkout-tags" },
         { title: "Managing Tags", href: "/managing-tags" },
