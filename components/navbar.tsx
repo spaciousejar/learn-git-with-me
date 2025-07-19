@@ -1,4 +1,4 @@
-"use client"; // Corrected "clien" to "client"
+"use client"; 
 import { ModeToggle } from "@/components/theme-toggle";
 import { MoveUpRightIcon } from "lucide-react";
 import { StarIcon } from "@heroicons/react/24/solid";

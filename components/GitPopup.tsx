@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import GitTerminal from "@/components/term"
+import GitTerminal from "@/components/terminal"
 import {
   Popover,
   PopoverContent,
