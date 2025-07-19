@@ -4,6 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { BugIcon, LightbulbIcon, PencilIcon } from "lucide-react";
 import Link from "next/link";
 import { getGithubFileUrl, getGitHubIssueUrl } from "@/lib/github";
+import { GitPopup } from "./GitPopup";
 
 
 export default async function Toc({ path }: { path: string }) {
@@ -65,9 +66,17 @@ export default async function Toc({ path }: { path: string }) {
         ))}
       </ul>
     </div>
+    <div className="space-y-2 mt-10">
+      <p className="font-medium">Terminal</p>
+      <GitPopup/>
+    </div>
   </div>
       
 </div>
+
+
+
+ 
   
 );
 }

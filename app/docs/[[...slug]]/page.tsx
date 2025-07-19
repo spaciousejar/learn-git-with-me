@@ -30,6 +30,7 @@ export default async function DocsPage({ params }: PageProps) {
         </Typography>
       </div>
       <Toc path={pathName} />
+      
     </div>
   );
 }
