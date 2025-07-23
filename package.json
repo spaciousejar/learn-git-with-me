@@ -27,7 +27,7 @@
     "caniuse-lite": "^1.0.30001713",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.4.10",
+    "framer-motion": "^12.23.7",
     "geist": "^1.3.1",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.487.0",
