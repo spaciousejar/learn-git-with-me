@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Terminal, GitBranch, FolderGit2, ChevronDown, Minimize2, Maximize2, X } from 'lucide-react';
+import { Terminal, GitBranch, ChevronDown } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -28,14 +28,14 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
   const [stagedFiles, setStagedFiles] = useState<string[]>([]);
   const [modifiedFiles, setModifiedFiles] = useState<string[]>(['src/components/Header.tsx', 'package.json', 'README.md']);
   const [stashList, setStashList] = useState<string[]>([]);
+  // Remove unused state variables  
   const [remoteBranches] = useState(['origin/main', 'origin/develop', 'origin/feature/auth']);
   const [localBranches, setLocalBranches] = useState(['main', 'develop', 'feature/ui-update']);
   const [isScrolledUp, setIsScrolledUp] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [currentDirectory, setCurrentDirectory] = useState('~');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [isOnline, setIsOnline] = useState(true);
+  const [isOnline] = useState(true);
 
   
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -406,7 +406,7 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
       setIsTyping(false);
       setCurrentInput('');
     }, getExecutionTime(command));
-  }, [currentBranch, stagedFiles, modifiedFiles, stashList, localBranches, repositoryName]);
+  }, [simulateGitCommand]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -465,7 +465,7 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
     if (terminalRef.current && !isScrolledUp) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
-  }, [history]);
+  }, [history, isScrolledUp]);
 
   useEffect(() => {
     if (inputRef.current) {
