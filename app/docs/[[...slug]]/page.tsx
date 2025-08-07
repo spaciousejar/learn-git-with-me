@@ -7,11 +7,11 @@ import { getDocsForSlug } from "@/lib/markdown";
 import { Typography } from "@/components/typography";
 
 type PageProps = {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 };
 
 export default async function DocsPage({ params }: PageProps) {
-  const { slug = [] } = params;
+  const { slug = [] } = await params;
   const pathName = slug.join("/");
   const res = await getDocsForSlug(pathName);
 

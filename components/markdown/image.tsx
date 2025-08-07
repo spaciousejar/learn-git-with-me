@@ -4,13 +4,17 @@ import NextImage from "next/image";
 type Height = ComponentProps<typeof NextImage>["height"];
 type Width = ComponentProps<typeof NextImage>["width"];
 
+interface ImageProps extends Omit<ComponentProps<"img">, "src"> {
+  src: string;
+}
+
 export default function Image({
   src,
   alt = "alt",
   width = 800,
   height = 350,
   ...props
-}: ComponentProps<"img">) {
+}: ImageProps) {
   if (!src) return null;
   return (
     <NextImage
