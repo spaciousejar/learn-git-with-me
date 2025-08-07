@@ -1,13 +1,16 @@
-<h1 align="center">Learn Git With Me</h1>
-<p align="center">
-Learn Git with Me is a free, open-source platform for learning Git and GitHub.
-</p>
-<div align="center">
-  <a href="https://github.com/spaciousejar/learn-git-with-me/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/spaciousejar/learn-git-with-me"></a>
-  <a href="https://twitter.com/spaciousejar"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/spaciousejar"></a>
-  <a href="[https://github.com/spaciousejar/learn-git-with-me/blob/main/LICENSE]"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
-</div>
-<img alt="og" src="https://github.com/spaciousejar/learn-git-with-me/blob/main/public/og.png"><img/>
+## 🔗 Quick Links
+
+Get started with our comprehensive learning resources:
+
+- **[Documentation](https://www.gitme.live/docs)** - Complete Git and GitHub tutorials
+- **[GitHub Repository](https://github.com/spaciousejar/learn-git-with-me)** - Source code and contributions
+
+## 🌟 Getting Started
+
+Begin your Git journey with these essential resources:
+
+- **[Live Platform](https://www.gitme.live)** - Interactive learning experience
+- **[Contributing Guide](https://github.com/spaciousejar/learn-git-with-me/blob/main/CONTRIBUTING.md)** - How to contribute to the project
 
 ## ⚡ Live 
 
