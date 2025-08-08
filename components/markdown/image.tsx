@@ -5,7 +5,7 @@ type Height = ComponentProps<typeof NextImage>["height"];
 type Width = ComponentProps<typeof NextImage>["width"];
 
 interface ImageProps extends Omit<ComponentProps<"img">, "src"> {
-  src: string;
+  src?: string;
 }
 
 export default function Image({
@@ -15,7 +15,7 @@ export default function Image({
   height = 350,
   ...props
 }: ImageProps) {
-  if (!src) return null;
+  if (!src) return <div {...props} />;
   return (
     <NextImage
       src={src}
