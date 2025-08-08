@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/table";
 
 // add custom components
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const components = {
   Tabs,
   TabsContent,
@@ -68,7 +69,8 @@ const components = {
   tr: TableRow,
   tbody: TableBody,
   td: TableCell,
-};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+} as any;
 
 // can be used for other pages like blogs, Guides etc
 async function parseMdx<Frontmatter>(rawMdx: string) {

@@ -2,7 +2,7 @@ import NextLink from "next/link";
 import { ComponentProps } from "react";
 
 export default function Link({ href, ...props }: ComponentProps<"a">) {
-  if (!href) return null;
+  if (!href) return <span {...props} />;
   return (
     <NextLink
       href={href}

@@ -1,12 +1,10 @@
 'use client'
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 
 export function DownloadButton() {
-  const [isHovered, setIsHovered] = useState(false)
 
   return (
    <Button

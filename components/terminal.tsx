@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Terminal, GitBranch, FolderGit2, ChevronDown, Minimize2, Maximize2, X } from 'lucide-react';
+import { Terminal, GitBranch, ChevronDown } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -32,10 +32,9 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
   const [localBranches, setLocalBranches] = useState(['main', 'develop', 'feature/ui-update']);
   const [isScrolledUp, setIsScrolledUp] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [currentDirectory, setCurrentDirectory] = useState('~');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [isOnline, setIsOnline] = useState(true);
+  const [isOnline] = useState(true);
 
   
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -44,7 +43,7 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
   const generateCommitHash = () => Math.random().toString(36).substr(2, 7);
   const generateTimestamp = () => new Date().toISOString().substring(0, 19).replace('T', ' ');
 
-  const simulateGitCommand = (command: string): { output: string; success: boolean; newBranch?: string } => {
+  const simulateGitCommand = useCallback((command: string): { output: string; success: boolean; newBranch?: string } => {
     const cmd = command.trim().toLowerCase();
     const parts = cmd.split(' ');
     
@@ -363,7 +362,7 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
       output: `command not found: ${command.split(' ')[0]}`,
       success: false
     };
-  };
+  }, [currentBranch, stagedFiles, modifiedFiles, stashList, localBranches, repositoryName, remoteBranches]);
 
   const handleCommand = useCallback((command: string) => {
     if (!command.trim()) return;
@@ -406,7 +405,7 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
       setIsTyping(false);
       setCurrentInput('');
     }, getExecutionTime(command));
-  }, [currentBranch, stagedFiles, modifiedFiles, stashList, localBranches, repositoryName]);
+  }, [simulateGitCommand]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -465,7 +464,7 @@ const GitTerminal: React.FC<GitTerminalProps> = ({
     if (terminalRef.current && !isScrolledUp) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
-  }, [history]);
+  }, [history, isScrolledUp]);
 
   useEffect(() => {
     if (inputRef.current) {
