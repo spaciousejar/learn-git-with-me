@@ -25,6 +25,8 @@ import LinkCard from "@/components/markdown/link-card";
 import Aside from "@/components/markdown/aside";
 import TabItem from "@/components/markdown/tab-item";
 import Steps from "@/components/markdown/steps";
+import { Mermaid } from "@/components/ui/mermaid";
+import { GitBranchDiagram, GitWorkflowDiagram } from "@/components/ui/git-diagram";
 import {
   Table,
   TableBody,
@@ -55,6 +57,9 @@ const components = {
   CardGrid,
   LinkCard,
   Aside,
+  Mermaid, // Add Mermaid diagram component
+  GitBranchDiagram, // Add Git-specific diagrams
+  GitWorkflowDiagram,
   // Table components for JSX usage
   Table,
   TableHeader,
