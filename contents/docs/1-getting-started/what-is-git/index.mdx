@@ -1,7 +1,306 @@
 ---
-title: What is Version Control?
-description: Version control is a system that manages and tracks changes to files over time, allowing multiple people to collaborate on a project while maintaining a history of all modifications. It records changes to files, such as code, documents, or configuration files, and stores them in a repository. With version control, developers can revert to previous versions, compare differences between versions, and understand the evolution of a project. It supports features like branching, where different lines of development can occur independently, and merging, which combines changes from different branches. Overall, version control ensures that changes are organized, recoverable, and easily managed, making it a critical tool in software development and collaborative projects.
+title: What is Git?
+description: Git is a distributed version control system designed to handle everything from small to very large projects with speed and efficiency. Learn what makes Git special and why it's the most popular version control system in the world.
 ---
+
+## What is Git?
+
+Git is a **distributed version control system** that tracks changes in computer files and coordinates work on those files among multiple people. It was created by Linus Torvalds in 2005 for development of the Linux kernel.
+
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Git Repository"
+        WD[Working Directory<br/>Your current files]
+        SA[Staging Area<br/>Prepared changes]
+        LR[Local Repository<br/>Committed snapshots]
+      end
+      
+      RR[Remote Repository<br/>Shared with team]
+      
+      WD -->|git add| SA
+      SA -->|git commit| LR
+      LR -->|git push| RR
+      RR -->|git pull| WD
+      
+      style WD fill:#e3f2fd
+      style SA fill:#fff3e0
+      style LR fill:#e8f5e8
+      style RR fill:#f3e5f5
+  `}
+/>
+
+## Key Features of Git
+
+### 1. Distributed Architecture
+Unlike centralized systems, every Git repository is a complete backup of all the data.
+
+<Mermaid 
+  chart={`
+    graph LR
+      subgraph "Traditional VCS"
+        CS[(Central Server)]
+        C1[Client 1<br/>Working Copy Only]
+        C2[Client 2<br/>Working Copy Only]
+        C3[Client 3<br/>Working Copy Only]
+        
+        CS --- C1
+        CS --- C2  
+        CS --- C3
+      end
+      
+      subgraph "Git (Distributed)"
+        RS[(Remote Repository)]
+        
+        subgraph "Clone 1"
+          L1[(Full Repository)]
+          W1[Working Directory]
+        end
+        
+        subgraph "Clone 2"
+          L2[(Full Repository)]
+          W2[Working Directory]
+        end
+        
+        subgraph "Clone 3"
+          L3[(Full Repository)]
+          W3[Working Directory]
+        end
+        
+        RS <--> L1
+        RS <--> L2
+        RS <--> L3
+        L1 --- W1
+        L2 --- W2
+        L3 --- W3
+      end
+      
+      style CS fill:#ffcdd2
+      style C1 fill:#ffecb3
+      style C2 fill:#ffecb3
+      style C3 fill:#ffecb3
+      
+      style RS fill:#c8e6c9
+      style L1 fill:#e1f5fe
+      style L2 fill:#e1f5fe
+      style L3 fill:#e1f5fe
+      style W1 fill:#f8f9fa
+      style W2 fill:#f8f9fa
+      style W3 fill:#f8f9fa
+  `}
+/>
+
+### 2. Branching and Merging
+Git's branching model is incredibly lightweight and powerful.
+
+<Mermaid 
+  chart={`
+    gitGraph
+      commit id: "Initial"
+      commit id: "Setup"
+      branch feature-login
+      checkout feature-login
+      commit id: "Add login form"
+      commit id: "Add validation"
+      checkout main
+      commit id: "Update docs"
+      branch feature-api
+      checkout feature-api
+      commit id: "Create API"
+      commit id: "Add tests"
+      checkout main
+      merge feature-login
+      commit id: "Release v1.1"
+      merge feature-api
+      commit id: "Release v1.2"
+  `}
+/>
+
+### 3. Data Integrity
+Git uses SHA-1 hashing to ensure the integrity of your data.
+
+<Mermaid 
+  chart={`
+    graph LR
+      F1[File Content] --> H1[SHA-1 Hash<br/>a94a8fe5ccb19ba61c4c0873d391e987982fbbd3]
+      F2[Commit Info] --> H2[SHA-1 Hash<br/>b1946ac92492d2347c6235b4d2611184]
+      F3[Tree Structure] --> H3[SHA-1 Hash<br/>c3499c2729730a7f807efb8676a92dcb6f8a3f8f]
+      
+      style F1 fill:#e3f2fd
+      style F2 fill:#e8f5e8
+      style F3 fill:#fff3e0
+      style H1 fill:#f3e5f5
+      style H2 fill:#f3e5f5
+      style H3 fill:#f3e5f5
+  `}
+/>
+
+### 4. Speed and Performance
+Git operations are optimized for speed, with most operations being local.
+
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Local Operations (Fast)"
+        LO1[View history]
+        LO2[Create branches]
+        LO3[Switch branches]
+        LO4[Commit changes]
+        LO5[Diff comparisons]
+      end
+      
+      subgraph "Network Operations"
+        NO1[Clone repository]
+        NO2[Push changes]
+        NO3[Pull updates]
+        NO4[Fetch changes]
+      end
+      
+      style LO1 fill:#c8e6c9
+      style LO2 fill:#c8e6c9
+      style LO3 fill:#c8e6c9
+      style LO4 fill:#c8e6c9
+      style LO5 fill:#c8e6c9
+      
+      style NO1 fill:#fff3e0
+      style NO2 fill:#fff3e0
+      style NO3 fill:#fff3e0
+      style NO4 fill:#fff3e0
+  `}
+/>
+
+## Git's Three States
+
+Git has three main states that your files can reside in:
+
+<GitWorkflowDiagram type="basic" />
+
+1. **Working Directory**: Where you modify files
+2. **Staging Area**: Where you prepare changes for commit
+3. **Repository**: Where Git permanently stores snapshots
+
+## How Git Thinks About Data
+
+Unlike other VCS that store differences, Git thinks of data as snapshots.
+
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Other VCS (Delta-based)"
+        V1[Version 1] --> D1[+ Delta 1] --> V2[Version 2]
+        V2 --> D2[+ Delta 2] --> V3[Version 3]
+        V3 --> D3[+ Delta 3] --> V4[Version 4]
+      end
+      
+      subgraph "Git (Snapshot-based)"
+        S1[Snapshot 1<br/>Complete state]
+        S2[Snapshot 2<br/>Complete state]
+        S3[Snapshot 3<br/>Complete state]
+        S4[Snapshot 4<br/>Complete state]
+      end
+      
+      style V1 fill:#ffcdd2
+      style D1 fill:#ffecb3
+      style V2 fill:#ffcdd2
+      style D2 fill:#ffecb3
+      style V3 fill:#ffcdd2
+      style D3 fill:#ffecb3
+      style V4 fill:#ffcdd2
+      
+      style S1 fill:#c8e6c9
+      style S2 fill:#c8e6c9
+      style S3 fill:#c8e6c9
+      style S4 fill:#c8e6c9
+  `}
+/>
+
+## Git vs Other Version Control Systems
+
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Centralized (SVN, Perforce)"
+        CS[Central Server Required]
+        NF[Network for most operations]
+        SP[Single point of failure]
+        LB[Limited branching]
+      end
+      
+      subgraph "Git (Distributed)"
+        FO[Fully offline capable]
+        LH[Complete local history]
+        FB[Fast, lightweight branches]
+        MR[Multiple remotes possible]
+        DW[Distributed workflows]
+      end
+      
+      style CS fill:#ffcdd2
+      style NF fill:#ffcdd2
+      style SP fill:#ffcdd2
+      style LB fill:#ffcdd2
+      
+      style FO fill:#c8e6c9
+      style LH fill:#c8e6c9
+      style FB fill:#c8e6c9
+      style MR fill:#c8e6c9
+      style DW fill:#c8e6c9
+  `}
+/>
+
+## Why Choose Git?
+
+<Mermaid 
+  chart={`
+    mindmap
+      root((Why Git?))
+        Performance
+          Fast operations
+          Local history
+          Efficient storage
+          Quick branching
+        Flexibility
+          Multiple workflows
+          Non-linear development
+          Distributed nature
+          Custom hooks
+        Reliability
+          Data integrity
+          Complete backups
+          Atomic operations
+          Error recovery
+        Community
+          Industry standard
+          Huge ecosystem
+          Extensive tooling
+          Great documentation
+  `}
+/>
+
+## Basic Git Workflow
+
+Here's what a typical Git workflow looks like:
+
+<Mermaid 
+  chart={`
+    graph TD
+      Start([Start Project]) --> Init[git init]
+      Init --> Work[Edit Files]
+      Work --> Add[git add .]
+      Add --> Commit[git commit -m "message"]
+      Commit --> Decision{More changes?}
+      Decision -->|Yes| Work
+      Decision -->|No| Push[git push]
+      Push --> End([Project Updated])
+      
+      style Start fill:#e3f2fd
+      style Init fill:#e8f5e8
+      style Work fill:#fff3e0
+      style Add fill:#f3e5f5
+      style Commit fill:#e1f5fe
+      style Push fill:#e0f2f1
+      style End fill:#f8f9fa
+  `}
+/>
 #### Free Resources
 
 <Tabs defaultValue="official">

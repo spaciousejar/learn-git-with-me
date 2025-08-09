@@ -2,33 +2,279 @@
 title: Version Control Basics
 description: Learn about the fundamentals of version control systems and why they're essential for software development
 ---
+
+## What is Version Control?
+
+Version control is a system that tracks changes to files over time, allowing you to recall specific versions later. Think of it as a "time machine" for your code that lets you:
+
+- See what changed in your files over time
+- Revert files or entire projects to a previous state
+- Compare changes between different versions
+- Collaborate with others without conflicts
+
+<Mermaid 
+  chart={`
+    graph TD
+      A[File v1.0] --> B[File v1.1]
+      B --> C[File v1.2]
+      C --> D[File v2.0]
+      
+      style A fill:#e1f5fe
+      style B fill:#e8f5e8
+      style C fill:#fff3e0
+      style D fill:#f3e5f5
+      
+      A -.-> E[Can revert to any version]
+      B -.-> E
+      C -.-> E
+      D -.-> E
+  `}
+/>
+
 ## Key Concepts of Version Control
 
 ### 1. Repository
 A repository (or "repo") is a storage location where your project and its history are stored. It contains all the files and the complete history of changes.
 
+<Mermaid 
+  chart={`
+    graph LR
+      subgraph "Repository"
+        F1[file1.txt]
+        F2[file2.js]
+        F3[README.md]
+        H[Version History]
+        B[Branches]
+      end
+      
+      style F1 fill:#e3f2fd
+      style F2 fill:#e3f2fd  
+      style F3 fill:#e3f2fd
+      style H fill:#fff3e0
+      style B fill:#e8f5e8
+  `}
+/>
+
 ### 2. Commit
 A commit is a snapshot of your repository at a specific point in time. Each commit has a unique identifier and contains information about what changed, who made the change, and when.
+
+<Mermaid 
+  chart={`
+    gitGraph
+      commit id: "Initial commit"
+      commit id: "Add login feature"
+      commit id: "Fix bug in header"
+      commit id: "Update documentation"
+      commit id: "Release v1.0"
+  `}
+/>
 
 ### 3. Branch
 A branch is a parallel version of the repository that allows you to work on different features or fixes without affecting the main codebase.
 
+<GitBranchDiagram compact={true} />
+
 ### 4. Merge
 Merging is the process of combining changes from different branches into one.
 
+<Mermaid 
+  chart={`
+    gitGraph
+      commit id: "A"
+      commit id: "B"
+      branch feature
+      checkout feature
+      commit id: "C"
+      commit id: "D"
+      checkout main
+      commit id: "E"
+      merge feature
+      commit id: "F"
+  `}
+/>
+
 ### 5. Clone
 Cloning creates a local copy of a repository that exists on a remote server.
+
+<Mermaid 
+  chart={`
+    graph LR
+      RS[Remote Repository<br/>GitHub/GitLab]
+      arrow1[git clone]
+      LC[Local Repository<br/>Your Computer]
+      
+      RS -->|Download complete history| arrow1
+      arrow1 --> LC
+      
+      style RS fill:#e1f5fe
+      style LC fill:#e8f5e8
+      style arrow1 fill:#fff3e0
+  `}
+/>
 
 ## Types of Version Control Systems
 
 ### 1. Local Version Control Systems
 Simple systems that keep track of files on your local computer.
 
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Your Computer"
+        WD[Working Directory]
+        DB[(Local Database)]
+        WD --> DB
+        DB --> WD
+      end
+      
+      style WD fill:#e3f2fd
+      style DB fill:#e8f5e8
+  `}
+/>
+
+**Limitations:**
+- No collaboration capabilities
+- Single point of failure
+- No remote backup
+
 ### 2. Centralized Version Control Systems (CVCS)
 Systems like SVN where a single server contains all versioned files, and users check out files from that central place.
 
+<Mermaid 
+  chart={`
+    graph TB
+      CS[(Central Server<br/>All History)]
+      
+      subgraph "Team"
+        C1[Computer 1<br/>Working Copy]
+        C2[Computer 2<br/>Working Copy]  
+        C3[Computer 3<br/>Working Copy]
+      end
+      
+      CS <--> C1
+      CS <--> C2
+      CS <--> C3
+      
+      style CS fill:#ffcdd2
+      style C1 fill:#e3f2fd
+      style C2 fill:#e3f2fd
+      style C3 fill:#e3f2fd
+  `}
+/>
+
+**Limitations:**
+- Single point of failure (central server)
+- Requires network connection for most operations
+- Limited offline capabilities
+
 ### 3. Distributed Version Control Systems (DVCS)
 Systems like Git where every user has a complete copy of the repository, including its full history.
+
+<Mermaid 
+  chart={`
+    graph TB
+      RS[(Remote Repository<br/>Full History)]
+      
+      subgraph "Team"
+        subgraph "Developer 1"
+          L1[(Local Repo<br/>Full History)]
+          W1[Working Directory]
+        end
+        
+        subgraph "Developer 2"
+          L2[(Local Repo<br/>Full History)]
+          W2[Working Directory]
+        end
+        
+        subgraph "Developer 3"
+          L3[(Local Repo<br/>Full History)]
+          W3[Working Directory]
+        end
+      end
+      
+      RS <--> L1
+      RS <--> L2
+      RS <--> L3
+      
+      L1 <--> W1
+      L2 <--> W2
+      L3 <--> W3
+      
+      style RS fill:#c8e6c9
+      style L1 fill:#e1f5fe
+      style L2 fill:#e1f5fe
+      style L3 fill:#e1f5fe
+      style W1 fill:#f3e5f5
+      style W2 fill:#f3e5f5
+      style W3 fill:#f3e5f5
+  `}
+/>
+
+**Advantages:**
+- ✅ No single point of failure
+- ✅ Full offline capabilities
+- ✅ Multiple backup locations
+- ✅ Flexible workflows
+- ✅ Fast local operations
+
+## Why Use Version Control?
+
+<Mermaid 
+  chart={`
+    mindmap
+      root((Version Control Benefits))
+        Track Changes
+          See what changed
+          When it changed
+          Who changed it
+          Why it changed
+        Collaboration
+          Multiple developers
+          Merge changes safely
+          Resolve conflicts
+          Parallel development
+        Backup & Recovery
+          Never lose work
+          Multiple copies
+          Restore any version
+          Disaster recovery
+        Experimentation
+          Try new features safely
+          Create branches
+          Switch between versions
+          Rollback if needed
+  `}
+/>
+
+## Version Control Workflow Example
+
+Here's how a typical version control workflow looks:
+
+<Mermaid 
+  chart={`
+    graph TD
+      A[1. Clone Repository] --> B[2. Create Branch]
+      B --> C[3. Make Changes]
+      C --> D[4. Stage Changes]
+      D --> E[5. Commit Changes]
+      E --> F[6. Push to Remote]
+      F --> G[7. Create Pull Request]
+      G --> H[8. Code Review]
+      H --> I[9. Merge to Main]
+      
+      I -.-> B
+      
+      style A fill:#e3f2fd
+      style B fill:#e8f5e8
+      style C fill:#fff3e0
+      style D fill:#f3e5f5
+      style E fill:#e1f5fe
+      style F fill:#ffecb3
+      style G fill:#f1f8e9
+      style H fill:#fce4ec
+      style I fill:#e0f2f1
+  `}
+/>
 
 
 #### Free Resources

@@ -18,26 +18,104 @@ Think of Git branches as **parallel universes** for your code. Each branch repre
 
 Here's how branches work conceptually:
 
-```
-Initial Repository:
-main: A---B---C
+<Mermaid 
+  chart={`
+    gitGraph
+      commit id: "A"
+      commit id: "B"
+      commit id: "C"
+      branch feature
+      checkout feature
+      commit id: "D"
+      commit id: "E"
+      checkout main
+      commit id: "F"
+      checkout feature
+      commit id: "G"
+  `}
+/>
 
-After Creating a Feature Branch:
-main:    A---B---C
-         ↘
-feature:   D---E
+**Evolution of a Branch:**
 
-After More Development:
-main:    A---B---C---F
-         ↘         ↗
-feature:   D---E---G
-```
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "1. Initial Repository"
+        A1[A] --> B1[B]
+        B1 --> C1[C]
+        C1 --> HEAD1[HEAD → main]
+      end
+      
+      subgraph "2. Create Feature Branch"
+        A2[A] --> B2[B]
+        B2 --> C2[C]
+        C2 --> F2[feature]
+        C2 --> M2[main]
+        F2 --> HEAD2[HEAD → feature]
+      end
+      
+      subgraph "3. After Development"
+        A3[A] --> B3[B]
+        B3 --> C3[C]
+        C3 --> F3[F - main]
+        C3 --> D3[D]
+        D3 --> E3[E]
+        E3 --> G3[G - feature]
+        G3 --> HEAD3[HEAD → feature]
+      end
+      
+      style A1 fill:#e3f2fd
+      style B1 fill:#e3f2fd
+      style C1 fill:#e3f2fd
+      style A2 fill:#e3f2fd
+      style B2 fill:#e3f2fd
+      style C2 fill:#e3f2fd
+      style A3 fill:#e3f2fd
+      style B3 fill:#e3f2fd
+      style C3 fill:#e3f2fd
+      style F3 fill:#60a5fa
+      style D3 fill:#34d399
+      style E3 fill:#34d399
+      style G3 fill:#34d399
+      style HEAD1 fill:#f59e0b
+      style HEAD2 fill:#f59e0b
+      style HEAD3 fill:#f59e0b
+  `}
+/>
 
 ## Common Branching Scenarios
 
 ### Scenario 1: Feature Development
 
 **Situation**: You need to add a new login system to your website.
+
+<Mermaid 
+  chart={`
+    graph TD
+      Start([Start Feature Development]) --> Update[git checkout main<br/>git pull origin main]
+      Update --> Create[git checkout -b feature/login-system]
+      Create --> Work[Work on Login System]
+      Work --> Commit1[git commit -m "Add login form"]
+      Commit1 --> Commit2[git commit -m "Add validation"]
+      Commit2 --> Commit3[git commit -m "Add styling"]
+      Commit3 --> Push[git push origin feature/login-system]
+      Push --> PR[Create Pull Request]
+      PR --> Review[Code Review]
+      Review --> Merge[Merge to Main]
+      
+      style Start fill:#e3f2fd
+      style Update fill:#fff3e0
+      style Create fill:#e8f5e8
+      style Work fill:#f3e5f5
+      style Commit1 fill:#e1f5fe
+      style Commit2 fill:#e1f5fe
+      style Commit3 fill:#e1f5fe
+      style Push fill:#ffecb3
+      style PR fill:#f1f8e9
+      style Review fill:#fce4ec
+      style Merge fill:#e0f2f1
+  `}
+/>
 
 **Step-by-Step Process**:
 
@@ -72,6 +150,30 @@ feature:   D---E---G
 
 **Situation**: There's a critical bug in production that needs immediate fixing.
 
+<Mermaid 
+  chart={`
+    graph TD
+      Bug([Critical Bug Found!]) --> Urgent[git checkout main]
+      Urgent --> Hotfix[git checkout -b hotfix/fix-payment-error]
+      Hotfix --> Fix[Fix Payment Bug]
+      Fix --> Test[Test the Fix]
+      Test --> CommitFix[git commit -m "Fix payment error"]
+      CommitFix --> PushFix[git push origin hotfix/fix-payment-error]
+      PushFix --> FastReview[Quick Code Review]
+      FastReview --> Deploy[Deploy to Production]
+      
+      style Bug fill:#ffcdd2
+      style Urgent fill:#fff3e0
+      style Hotfix fill:#e8f5e8
+      style Fix fill:#f3e5f5
+      style Test fill:#e1f5fe
+      style CommitFix fill:#ffecb3
+      style PushFix fill:#f1f8e9
+      style FastReview fill:#fce4ec
+      style Deploy fill:#c8e6c9
+  `}
+/>
+
 **Step-by-Step Process**:
 
 1. **Create hotfix branch from main**:
@@ -98,37 +200,124 @@ feature:   D---E---G
 ## Branch States and Visualization
 
 ### Before Creating Branch
-```
-Repository State:
-main: [A] ← [B] ← [C] ← HEAD
 
-Working Directory: Clean
-Current Branch: main
-```
+<Mermaid 
+  chart={`
+    graph LR
+      A[A] --> B[B]
+      B --> C[C]
+      C --> HEAD[HEAD → main]
+      
+      subgraph "Repository Status"
+        WD[Working Directory: Clean]
+        CB[Current Branch: main]
+        LH[Latest Commit: C]
+      end
+      
+      style A fill:#e3f2fd
+      style B fill:#e3f2fd
+      style C fill:#e3f2fd
+      style HEAD fill:#f59e0b
+      style WD fill:#e8f5e8
+      style CB fill:#e8f5e8
+      style LH fill:#e8f5e8
+  `}
+/>
 
 ### After Creating Feature Branch
-```
-Repository State:
-main:    [A] ← [B] ← [C]
-                     ↑
-feature: [A] ← [B] ← [C] ← HEAD
 
-Working Directory: Clean
-Current Branch: feature
-```
+<Mermaid 
+  chart={`
+    graph LR
+      A[A] --> B[B]
+      B --> C[C]
+      C --> MainPtr[main]
+      C --> FeaturePtr[feature]
+      FeaturePtr --> HEAD[HEAD → feature]
+      
+      subgraph "Repository Status"
+        WD[Working Directory: Clean]
+        CB[Current Branch: feature]
+        LH[Latest Commit: C]
+        Note[Same commit as main]
+      end
+      
+      style A fill:#e3f2fd
+      style B fill:#e3f2fd
+      style C fill:#e3f2fd
+      style MainPtr fill:#60a5fa
+      style FeaturePtr fill:#34d399
+      style HEAD fill:#f59e0b
+      style WD fill:#e8f5e8
+      style CB fill:#e8f5e8
+      style LH fill:#e8f5e8
+      style Note fill:#fff3e0
+  `}
+/>
 
 ### After Making Changes on Feature Branch
-```
-Repository State:
-main:    [A] ← [B] ← [C]
-                     ↑
-feature: [A] ← [B] ← [C] ← [D] ← [E] ← HEAD
 
-Working Directory: Clean
-Current Branch: feature
-```
+<Mermaid 
+  chart={`
+    graph LR
+      A[A] --> B[B]
+      B --> C[C]
+      C --> MainPtr[main]
+      C --> D[D]
+      D --> E[E]
+      E --> FeaturePtr[feature]
+      FeaturePtr --> HEAD[HEAD → feature]
+      
+      subgraph "Repository Status"
+        WD[Working Directory: Clean]
+        CB[Current Branch: feature]
+        LH[Latest Commit: E]
+        Ahead[2 commits ahead of main]
+      end
+      
+      style A fill:#e3f2fd
+      style B fill:#e3f2fd
+      style C fill:#e3f2fd
+      style D fill:#34d399
+      style E fill:#34d399
+      style MainPtr fill:#60a5fa
+      style FeaturePtr fill:#34d399
+      style HEAD fill:#f59e0b
+      style WD fill:#e8f5e8
+      style CB fill:#e8f5e8
+      style LH fill:#e8f5e8
+      style Ahead fill:#fff3e0
+  `}
+/>
 
 ## Best Practices for Beginners
+
+<Mermaid 
+  chart={`
+    mindmap
+      root((Branching Best Practices))
+        Branch Creation
+          Always start from updated main
+          Use descriptive names
+          One branch per feature
+          Create from latest code
+        Development
+          Make frequent small commits
+          Keep commits focused
+          Write clear commit messages
+          Test before committing
+        Collaboration
+          Push branches regularly
+          Create pull requests early
+          Review code thoroughly
+          Merge when ready
+        Maintenance
+          Delete merged branches
+          Keep main up to date
+          Resolve conflicts quickly
+          Document important changes
+  `}
+/>
 
 ### 1. Always Start from Updated Main
 ```bash
@@ -137,13 +326,55 @@ git pull origin main
 git checkout -b your-new-branch
 ```
 
+<Mermaid 
+  chart={`
+    graph LR
+      CheckoutMain[git checkout main] --> Pull[git pull origin main]
+      Pull --> CreateBranch[git checkout -b new-feature]
+      CreateBranch --> StartWork[Start working on feature]
+      
+      style CheckoutMain fill:#e3f2fd
+      style Pull fill:#fff3e0
+      style CreateBranch fill:#e8f5e8
+      style StartWork fill:#c8e6c9
+  `}
+/>
+
 ### 2. Use Descriptive Branch Names
-- ✅ Good: `feature/user-authentication`
-- ✅ Good: `bugfix/payment-validation`
-- ✅ Good: `hotfix/security-patch`
-- ❌ Bad: `my-branch`
-- ❌ Bad: `temp`
-- ❌ Bad: `new-stuff`
+
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "✅ Good Branch Names"
+        Good1[feature/user-authentication]
+        Good2[bugfix/payment-validation]
+        Good3[hotfix/security-patch]
+        Good4[chore/update-dependencies]
+      end
+      
+      subgraph "❌ Bad Branch Names"
+        Bad1[my-branch]
+        Bad2[temp]
+        Bad3[new-stuff]
+        Bad4[fix]
+      end
+      
+      style Good1 fill:#c8e6c9
+      style Good2 fill:#c8e6c9
+      style Good3 fill:#c8e6c9
+      style Good4 fill:#c8e6c9
+      style Bad1 fill:#ffcdd2
+      style Bad2 fill:#ffcdd2
+      style Bad3 fill:#ffcdd2
+      style Bad4 fill:#ffcdd2
+  `}
+/>
+
+**Branch Naming Convention:**
+- `feature/` - New features
+- `bugfix/` - Bug fixes
+- `hotfix/` - Critical production fixes
+- `chore/` - Maintenance tasks
 
 ### 3. Keep Branches Focused
 - One branch = One feature or fix
@@ -158,6 +389,39 @@ git commit -m "Add error handling for failed login"
 ```
 
 ## Common Beginner Mistakes and Solutions
+
+<Mermaid 
+  chart={`
+    graph TD
+      subgraph "Common Mistakes"
+        M1[Working directly on main]
+        M2[Forgetting to switch branches]
+        M3[Not updating main first]
+        M4[Large, unfocused commits]
+      end
+      
+      subgraph "Solutions"
+        S1[Always create feature branches]
+        S2[Check current branch frequently]
+        S3[Pull latest changes first]
+        S4[Make small, focused commits]
+      end
+      
+      M1 -.-> S1
+      M2 -.-> S2
+      M3 -.-> S3
+      M4 -.-> S4
+      
+      style M1 fill:#ffcdd2
+      style M2 fill:#ffcdd2
+      style M3 fill:#ffcdd2
+      style M4 fill:#ffcdd2
+      style S1 fill:#c8e6c9
+      style S2 fill:#c8e6c9
+      style S3 fill:#c8e6c9
+      style S4 fill:#c8e6c9
+  `}
+/>
 
 ### Mistake 1: Working Directly on Main
 **Problem**: Making changes directly on the main branch
@@ -188,13 +452,93 @@ git checkout -b new-feature
 
 Let's say you're working on an e-commerce website. Here's how different team members might use branches:
 
-```
-main:     [v1.0] ← [v1.1] ← [v1.2]
-              ↘         ↘         ↘
-feature/cart:   [add-item] ← [remove-item]
-feature/search:       [search-bar] ← [filters]
-hotfix/checkout:                    [fix-payment]
-```
+<Mermaid 
+  chart={`
+    gitGraph
+      commit id: "v1.0"
+      commit id: "v1.1"
+      commit id: "v1.2"
+      
+      branch feature/cart
+      checkout feature/cart
+      commit id: "add-item"
+      commit id: "remove-item"
+      commit id: "calculate-total"
+      
+      checkout main
+      branch feature/search
+      checkout feature/search
+      commit id: "search-bar"
+      commit id: "add-filters"
+      commit id: "sort-results"
+      
+      checkout main
+      branch hotfix/checkout
+      checkout hotfix/checkout
+      commit id: "fix-payment"
+      checkout main
+      merge hotfix/checkout
+      
+      commit id: "v1.3"
+      
+      checkout main
+      merge feature/search
+      commit id: "v1.4"
+      
+      checkout main
+      merge feature/cart
+      commit id: "v1.5"
+  `}
+/>
+
+**Team Collaboration Example:**
+
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Alice - Shopping Cart"
+        A1[feature/shopping-cart]
+        A2[Add items to cart]
+        A3[Remove items from cart]
+        A4[Calculate totals]
+        A1 --> A2 --> A3 --> A4
+      end
+      
+      subgraph "Bob - Product Search"
+        B1[feature/product-search]
+        B2[Implement search bar]
+        B3[Add filters]
+        B4[Add sorting options]
+        B1 --> B2 --> B3 --> B4
+      end
+      
+      subgraph "Carol - Bug Fix"
+        C1[hotfix/payment-processing]
+        C2[Fix payment bug]
+        C3[Test fix]
+        C4[Deploy quickly]
+        C1 --> C2 --> C3 --> C4
+      end
+      
+      Main[main branch] --> A1
+      Main --> B1
+      Main --> C1
+      
+      style A1 fill:#e3f2fd
+      style A2 fill:#e3f2fd
+      style A3 fill:#e3f2fd
+      style A4 fill:#e3f2fd
+      style B1 fill:#e8f5e8
+      style B2 fill:#e8f5e8
+      style B3 fill:#e8f5e8
+      style B4 fill:#e8f5e8
+      style C1 fill:#ffcdd2
+      style C2 fill:#ffcdd2
+      style C3 fill:#ffcdd2
+      style C4 fill:#ffcdd2
+      style Main fill:#fff3e0
+  `}
+/>
 
 **Alice** works on the shopping cart feature:
 - Branch: `feature/shopping-cart`
