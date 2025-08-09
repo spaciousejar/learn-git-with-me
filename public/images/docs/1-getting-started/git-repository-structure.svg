@@ -1,0 +1,102 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .git-icon { fill: #f05032; }
+      .folder-icon { fill: #3b82f6; }
+      .file-icon { fill: #6b7280; }
+      .hidden { fill: #ef4444; }
+      .tracked { fill: #22c55e; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Repository Structure</text>
+  
+  <!-- Project folder structure -->
+  <g>
+    <text x="50" y="70" class="text-light" font-size="16" font-weight="600">Project Directory Structure</text>
+    
+    <g class="text-light" font-size="12" font-family="Courier New, monospace">
+      <!-- Root -->
+      <text x="70" y="100" font-weight="600">my-project/</text>
+      
+      <!-- .git directory (hidden) -->
+      <text x="90" y="120" class="hidden">├── .git/</text>
+      <text x="400" y="120" class="hidden" font-size="10">← Hidden Git repository data</text>
+      
+      <!-- Git subdirectories -->
+      <text x="110" y="135" class="hidden">│   ├── objects/</text>
+      <text x="450" y="135" class="hidden" font-size="10">Git object database</text>
+      <text x="110" y="150" class="hidden">│   ├── refs/</text>
+      <text x="450" y="150" class="hidden" font-size="10">Branch and tag references</text>
+      <text x="110" y="165" class="hidden">│   ├── HEAD</text>
+      <text x="450" y="165" class="hidden" font-size="10">Points to current branch</text>
+      <text x="110" y="180" class="hidden">│   ├── config</text>
+      <text x="450" y="180" class="hidden" font-size="10">Repository configuration</text>
+      <text x="110" y="195" class="hidden">│   └── index</text>
+      <text x="450" y="195" class="hidden" font-size="10">Staging area</text>
+      
+      <!-- Project files -->
+      <text x="90" y="220" class="tracked">├── src/</text>
+      <text x="110" y="235" class="tracked">│   ├── index.js</text>
+      <text x="110" y="250" class="tracked">│   └── utils.js</text>
+      <text x="90" y="265" class="tracked">├── package.json</text>
+      <text x="90" y="280" class="tracked">├── README.md</text>
+      <text x="90" y="295" class="file-icon">├── .gitignore</text>
+      <text x="400" y="295" class="file-icon" font-size="10">← Specifies ignored files</text>
+      <text x="90" y="310" class="file-icon">└── node_modules/</text>
+      <text x="400" y="310" class="file-icon" font-size="10">← Ignored by Git</text>
+    </g>
+  </g>
+  
+  <!-- .gitignore example -->
+  <g>
+    <text x="450" y="70" class="text-light" font-size="16" font-weight="600">.gitignore File Example</text>
+    
+    <rect x="450" y="85" width="300" height="180" class="border-light" fill="#f8f9fa" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <text x="460" y="105"># Dependencies</text>
+      <text x="460" y="120">node_modules/</text>
+      <text x="460" y="135">npm-debug.log*</text>
+      
+      <text x="460" y="160"># Build outputs</text>
+      <text x="460" y="175">dist/</text>
+      <text x="460" y="190">build/</text>
+      
+      <text x="460" y="215"># Environment files</text>
+      <text x="460" y="230">.env</text>
+      <text x="460" y="245">.env.local</text>
+      
+      <text x="460" y="270"># IDE files</text>
+      <text x="460" y="285">.vscode/</text>
+      <text x="460" y="300">*.swp</text>
+    </g>
+  </g>
+  
+  <!-- Git states explanation -->
+  <g>
+    <text x="50" y="350" class="text-light" font-size="14" font-weight="600">File States in Git:</text>
+    
+    <circle cx="70" cy="370" r="5" class="tracked"/>
+    <text x="85" y="375" class="text-light" font-size="12">Tracked - Files under version control</text>
+    
+    <circle cx="300" cy="370" r="5" class="hidden"/>
+    <text x="315" y="375" class="text-light" font-size="12">Hidden - Git internal files</text>
+    
+    <circle cx="520" cy="370" r="5" class="file-icon"/>
+    <text x="535" y="375" class="text-light" font-size="12">Ignored - Excluded by .gitignore</text>
+  </g>
+</svg>

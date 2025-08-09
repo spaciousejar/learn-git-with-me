@@ -1,0 +1,152 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .rebase-branch { stroke: #10b981; fill: #10b981; }
+      .main-branch { stroke: #3b82f6; fill: #3b82f6; }
+      .commit { fill: #ffffff; stroke: #374151; }
+      .rebase-commit { fill: #dcfce7; stroke: #10b981; }
+      .section-bg { fill: #f8f9fa; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .commit { fill: #1a1a1a; }
+        .rebase-commit { fill: #14532d; }
+        .section-bg { fill: #1f2937; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Rebase: Rewriting History</text>
+  
+  <!-- Before Rebase Section -->
+  <g>
+    <text x="200" y="70" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Before Rebase</text>
+    
+    <!-- Main branch -->
+    <line x1="50" y1="110" x2="350" y2="110" class="main-branch" stroke-width="4"/>
+    <text x="40" y="105" class="text-light" font-size="12" font-weight="500">main</text>
+    
+    <!-- Main commits -->
+    <circle cx="100" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="100" y="105" class="text-light" text-anchor="middle" font-size="10">A</text>
+    
+    <circle cx="150" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="150" y="105" class="text-light" text-anchor="middle" font-size="10">B</text>
+    
+    <circle cx="250" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="250" y="105" class="text-light" text-anchor="middle" font-size="10">D</text>
+    
+    <circle cx="300" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="300" y="105" class="text-light" text-anchor="middle" font-size="10">E</text>
+    
+    <!-- Feature branch -->
+    <path d="M 150 110 Q 175 135 200 160" class="rebase-branch" fill="none" stroke-width="4"/>
+    <line x1="200" y1="160" x2="280" y2="160" class="rebase-branch" stroke-width="4"/>
+    
+    <text x="190" y="175" class="text-light" font-size="12" font-weight="500">feature</text>
+    
+    <!-- Feature commits -->
+    <circle cx="200" cy="160" r="8" class="commit" stroke-width="2"/>
+    <text x="200" y="155" class="text-light" text-anchor="middle" font-size="10">C</text>
+    
+    <circle cx="250" cy="160" r="8" class="commit" stroke-width="2"/>
+    <text x="250" y="155" class="text-light" text-anchor="middle" font-size="10">F</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 380 140 L 420 140" class="border-light" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="400" y="130" class="text-light" text-anchor="middle" font-size="12" font-weight="500">git rebase main</text>
+  
+  <!-- After Rebase Section -->
+  <g>
+    <text x="600" y="70" class="text-light" text-anchor="middle" font-size="16" font-weight="600">After Rebase</text>
+    
+    <!-- Main branch -->
+    <line x1="450" y1="110" x2="750" y2="110" class="main-branch" stroke-width="4"/>
+    <text x="440" y="105" class="text-light" font-size="12" font-weight="500">main</text>
+    
+    <!-- Main commits -->
+    <circle cx="500" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="500" y="105" class="text-light" text-anchor="middle" font-size="10">A</text>
+    
+    <circle cx="550" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="550" y="105" class="text-light" text-anchor="middle" font-size="10">B</text>
+    
+    <circle cx="600" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="600" y="105" class="text-light" text-anchor="middle" font-size="10">D</text>
+    
+    <circle cx="650" cy="110" r="8" class="commit" stroke-width="2"/>
+    <text x="650" y="105" class="text-light" text-anchor="middle" font-size="10">E</text>
+    
+    <!-- Rebased feature commits (now linear) -->
+    <circle cx="700" cy="110" r="8" class="rebase-commit" stroke-width="2"/>
+    <text x="700" y="105" class="text-light" text-anchor="middle" font-size="10">C'</text>
+    
+    <circle cx="750" cy="110" r="8" class="rebase-commit" stroke-width="2"/>
+    <text x="750" y="105" class="text-light" text-anchor="middle" font-size="10">F'</text>
+    
+    <text x="725" y="130" class="text-light" text-anchor="middle" font-size="10">feature</text>
+  </g>
+  
+  <!-- Interactive Rebase Section -->
+  <g>
+    <text x="400" y="250" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Interactive Rebase Options</text>
+    
+    <rect x="50" y="270" width="700" height="180" class="section-bg border-light" stroke-width="1" rx="4"/>
+    
+    <!-- Terminal simulation -->
+    <rect x="70" y="290" width="660" height="140" class="bg-light border-light" stroke-width="1" rx="4"/>
+    <rect x="70" y="290" width="660" height="25" fill="#333"/>
+    <text x="80" y="305" fill="white" font-size="12" font-family="monospace">Interactive Rebase Editor</text>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <text x="80" y="335">pick abc1234 Add user authentication</text>
+      <text x="80" y="350">reword def5678 Fix login bug          # Edit commit message</text>
+      <text x="80" y="365">edit ghi9012 Update database schema   # Pause to modify</text>
+      <text x="80" y="380">squash jkl3456 Add tests               # Combine with previous</text>
+      <text x="80" y="395">drop mno7890 Debug code                # Remove this commit</text>
+      <text x="80" y="410">pick pqr2345 Update documentation</text>
+    </g>
+  </g>
+  
+  <!-- Rebase Commands Section -->
+  <g>
+    <text x="50" y="490" class="text-light" font-size="16" font-weight="600">Common Rebase Commands</text>
+    
+    <rect x="50" y="510" width="700" height="80" class="section-bg border-light" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="12">
+      <!-- Left column -->
+      <text x="70" y="535" font-weight="600">Basic Rebase:</text>
+      <text x="70" y="555" font-family="Courier New, monospace">git rebase main              # Rebase current branch onto main</text>
+      <text x="70" y="570" font-family="Courier New, monospace">git rebase --continue        # Continue after resolving conflicts</text>
+      
+      <!-- Right column -->
+      <text x="400" y="535" font-weight="600">Interactive Rebase:</text>
+      <text x="400" y="555" font-family="Courier New, monospace">git rebase -i HEAD~3         # Interactive rebase last 3 commits</text>
+      <text x="400" y="570" font-family="Courier New, monospace">git rebase --abort           # Cancel rebase operation</text>
+    </g>
+  </g>
+  
+  <!-- Benefits and warnings -->
+  <g class="text-light" font-size="11">
+    <text x="50" y="220" font-weight="600" fill="#22c55e">✓ Benefits: Clean linear history, easier to follow</text>
+    <text x="400" y="220" font-weight="600" fill="#ef4444">⚠ Warning: Don't rebase shared/published commits</text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,138 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .working-dir { fill: #fef3c7; stroke: #f59e0b; }
+      .staging-area { fill: #dbeafe; stroke: #3b82f6; }
+      .repository { fill: #dcfce7; stroke: #22c55e; }
+      .file-changed { fill: #fecaca; stroke: #ef4444; }
+      .file-staged { fill: #bfdbfe; stroke: #3b82f6; }
+      .file-committed { fill: #bbf7d0; stroke: #22c55e; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .working-dir { fill: #451a03; stroke: #f59e0b; }
+        .staging-area { fill: #1e3a8a; stroke: #3b82f6; }
+        .repository { fill: #14532d; stroke: #22c55e; }
+        .file-changed { fill: #7f1d1d; stroke: #ef4444; }
+        .file-staged { fill: #1e40af; stroke: #3b82f6; }
+        .file-committed { fill: #166534; stroke: #22c55e; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Three-Stage Workflow</text>
+  
+  <!-- Working Directory -->
+  <g>
+    <rect x="50" y="70" width="200" height="150" class="working-dir" stroke-width="2" rx="8"/>
+    <text x="150" y="95" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Working Directory</text>
+    <text x="150" y="115" class="text-light" text-anchor="middle" font-size="12">(Your local files)</text>
+    
+    <!-- Files in working directory -->
+    <g class="text-light" font-size="11">
+      <rect x="70" y="130" width="60" height="20" class="file-changed" rx="3"/>
+      <text x="100" y="143" text-anchor="middle">file1.txt*</text>
+      
+      <rect x="140" y="130" width="60" height="20" class="file-changed" rx="3"/>
+      <text x="170" y="143" text-anchor="middle">file2.js*</text>
+      
+      <rect x="70" y="160" width="60" height="20" class="border-light" fill="none" rx="3"/>
+      <text x="100" y="173" text-anchor="middle">file3.css</text>
+      
+      <text x="150" y="200" text-anchor="middle" font-size="10">* = modified files</text>
+    </g>
+  </g>
+  
+  <!-- Arrow 1: git add -->
+  <path d="M 260 120 L 310 120" class="border-light" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="285" y="110" class="text-light" text-anchor="middle" font-size="12" font-weight="500">git add</text>
+  <text x="285" y="140" class="text-light" text-anchor="middle" font-size="10">Stages changes</text>
+  
+  <!-- Staging Area -->
+  <g>
+    <rect x="330" y="70" width="200" height="150" class="staging-area" stroke-width="2" rx="8"/>
+    <text x="430" y="95" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Staging Area</text>
+    <text x="430" y="115" class="text-light" text-anchor="middle" font-size="12">(Index)</text>
+    
+    <!-- Files in staging area -->
+    <g class="text-light" font-size="11">
+      <rect x="350" y="130" width="60" height="20" class="file-staged" rx="3"/>
+      <text x="380" y="143" text-anchor="middle">file1.txt</text>
+      
+      <rect x="420" y="130" width="60" height="20" class="file-staged" rx="3"/>
+      <text x="450" y="143" text-anchor="middle">file2.js</text>
+      
+      <text x="430" y="170" text-anchor="middle" font-size="10">Ready to commit</text>
+    </g>
+  </g>
+  
+  <!-- Arrow 2: git commit -->
+  <path d="M 540 120 L 590 120" class="border-light" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="565" y="110" class="text-light" text-anchor="middle" font-size="12" font-weight="500">git commit</text>
+  <text x="565" y="140" class="text-light" text-anchor="middle" font-size="10">Saves snapshot</text>
+  
+  <!-- Repository -->
+  <g>
+    <rect x="610" y="70" width="140" height="150" class="repository" stroke-width="2" rx="8"/>
+    <text x="680" y="95" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Repository</text>
+    <text x="680" y="115" class="text-light" text-anchor="middle" font-size="12">(.git folder)</text>
+    
+    <!-- Commits in repository -->
+    <g class="text-light" font-size="11">
+      <circle cx="680" cy="140" r="15" class="file-committed"/>
+      <text x="680" y="145" text-anchor="middle" font-size="9">v1</text>
+      
+      <circle cx="680" cy="170" r="15" class="file-committed"/>
+      <text x="680" y="175" text-anchor="middle" font-size="9">v2</text>
+      
+      <circle cx="680" cy="200" r="15" class="file-committed"/>
+      <text x="680" y="205" text-anchor="middle" font-size="9">v3</text>
+      
+      <line x1="680" y1="155" x2="680" y2="185" stroke="currentColor" stroke-width="2"/>
+      <line x1="680" y1="185" x2="680" y2="215" stroke="currentColor" stroke-width="2"/>
+    </g>
+  </g>
+  
+  <!-- Command examples -->
+  <g>
+    <text x="50" y="280" class="text-light" font-size="16" font-weight="600">Common Commands</text>
+    
+    <rect x="50" y="300" width="700" height="170" class="border-light" fill="#f8f9fa" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="12" font-family="Courier New, monospace">
+      <!-- Working Directory commands -->
+      <text x="70" y="325" font-weight="600">Working Directory → Staging Area:</text>
+      <text x="70" y="345">git add file.txt          # Add specific file</text>
+      <text x="70" y="360">git add .                 # Add all files</text>
+      <text x="70" y="375">git add -A                # Add all changes</text>
+      
+      <!-- Staging Area commands -->
+      <text x="70" y="405" font-weight="600">Staging Area → Repository:</text>
+      <text x="70" y="425">git commit -m "message"   # Commit staged changes</text>
+      <text x="70" y="440">git commit -am "message"  # Add and commit</text>
+      
+      <!-- Status commands -->
+      <text x="400" y="325" font-weight="600">Check Status:</text>
+      <text x="400" y="345">git status               # See current state</text>
+      <text x="400" y="360">git diff                 # See unstaged changes</text>
+      <text x="400" y="375">git diff --staged        # See staged changes</text>
+      <text x="400" y="390">git log                  # See commit history</text>
+    </g>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>

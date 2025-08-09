@@ -1,7 +1,27 @@
 ---
 title: Handling Conflicts
-description: Learn about Handling Conflicts in Git
+description: Learn how to resolve merge conflicts in Git when different branches have conflicting changes to the same files.
 ---
+
+![Merge Conflicts](/images/docs/3-git-branching/merge-conflicts.svg)
+
+Merge conflicts occur when Git cannot automatically combine changes from different branches. This happens when two branches modify the same lines of code in the same file. Don't worry - conflicts are a normal part of collaborative development!
+
+## When Do Conflicts Happen?
+
+- Two branches modify the same lines in a file
+- One branch deletes a file while another modifies it
+- Both branches add files with the same name but different content
+
+## Resolving Conflicts Step by Step
+
+1. **Identify the conflict**: Git will stop the merge and tell you which files have conflicts
+2. **Open the conflicted files**: Look for conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+3. **Choose your resolution**: Keep one version, combine both, or write something new
+4. **Remove conflict markers**: Clean up all the `<<<<<<<`, `=======`, `>>>>>>>` lines
+5. **Stage the resolved files**: Use `git add` to mark conflicts as resolved
+6. **Complete the merge**: Commit the resolution
+
 #### Free Resources
 
 <Tabs defaultValue="official">

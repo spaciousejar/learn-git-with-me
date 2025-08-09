@@ -1,0 +1,101 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .terminal-bg { fill: #1a1a1a; }
+      .terminal-text { fill: #00ff00; font-family: 'Courier New', monospace; }
+      .accent { fill: #3b82f6; }
+      .accent-light { fill: #dbeafe; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .accent-light { fill: #1e40af; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Repository Initialization Workflow</text>
+  
+  <!-- Step 1: Directory -->
+  <g>
+    <rect x="50" y="60" width="120" height="80" class="accent-light border-light" stroke-width="1" rx="4"/>
+    <text x="110" y="85" class="text-light" text-anchor="middle" font-size="12" font-weight="500">Project Directory</text>
+    <text x="110" y="105" class="text-light" text-anchor="middle" font-size="10">my-project/</text>
+    <text x="110" y="120" class="text-light" text-anchor="middle" font-size="10">├── file1.txt</text>
+    <text x="110" y="130" class="text-light" text-anchor="middle" font-size="10">└── file2.js</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M 180 100 L 220 100" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="200" y="90" class="text-light" text-anchor="middle" font-size="10">git init</text>
+  
+  <!-- Step 2: Git Repository -->
+  <g>
+    <rect x="240" y="60" width="140" height="80" class="accent-light border-light" stroke-width="1" rx="4"/>
+    <text x="310" y="85" class="text-light" text-anchor="middle" font-size="12" font-weight="500">Git Repository</text>
+    <text x="310" y="105" class="text-light" text-anchor="middle" font-size="10">my-project/</text>
+    <text x="310" y="115" class="text-light" text-anchor="middle" font-size="10">├── .git/ (hidden)</text>
+    <text x="310" y="125" class="text-light" text-anchor="middle" font-size="10">├── file1.txt</text>
+    <text x="310" y="135" class="text-light" text-anchor="middle" font-size="10">└── file2.js</text>
+  </g>
+  
+  <!-- Terminal window -->
+  <rect x="450" y="60" width="300" height="120" class="terminal-bg" rx="8"/>
+  <rect x="450" y="60" width="300" height="25" class="border-light" fill="#333" rx="8 8 0 0"/>
+  <circle cx="465" cy="72" r="5" fill="#ff5f57"/>
+  <circle cx="485" cy="72" r="5" fill="#ffbd2e"/>
+  <circle cx="505" cy="72" r="5" fill="#28ca42"/>
+  
+  <g class="terminal-text" font-size="11">
+    <text x="460" y="105">$ cd my-project</text>
+    <text x="460" y="120">$ git init</text>
+    <text x="460" y="135">Initialized empty Git repository in</text>
+    <text x="460" y="150">/path/to/my-project/.git/</text>
+    <text x="460" y="165">$ _</text>
+  </g>
+  
+  <!-- Git workflow steps -->
+  <g>
+    <text x="50" y="220" class="text-light" font-size="16" font-weight="600">What happens when you run 'git init':</text>
+    
+    <g class="text-light" font-size="13">
+      <text x="70" y="250">1. Creates a hidden .git directory</text>
+      <text x="70" y="270">2. Initializes repository metadata</text>
+      <text x="70" y="290">3. Sets up the staging area</text>
+      <text x="70" y="310">4. Creates the initial branch (usually 'main')</text>
+      <text x="70" y="330">5. Your directory is now version controlled!</text>
+    </g>
+  </g>
+  
+  <!-- .git directory structure -->
+  <g>
+    <rect x="450" y="220" width="300" height="150" class="accent-light border-light" stroke-width="1" rx="4"/>
+    <text x="600" y="240" class="text-light" text-anchor="middle" font-size="14" font-weight="500">.git directory structure</text>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <text x="460" y="260">.git/</text>
+      <text x="470" y="275">├── HEAD</text>
+      <text x="470" y="290">├── config</text>
+      <text x="470" y="305">├── objects/</text>
+      <text x="470" y="320">├── refs/</text>
+      <text x="480" y="335">├── heads/</text>
+      <text x="480" y="350">└── tags/</text>
+      <text x="470" y="365">└── index</text>
+    </g>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>

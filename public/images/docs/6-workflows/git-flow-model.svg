@@ -1,0 +1,154 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .gitflow-main { stroke: #3b82f6; fill: #3b82f6; }
+      .gitflow-develop { stroke: #10b981; fill: #10b981; }
+      .gitflow-feature { stroke: #f59e0b; fill: #f59e0b; }
+      .gitflow-release { stroke: #8b5cf6; fill: #8b5cf6; }
+      .gitflow-hotfix { stroke: #ef4444; fill: #ef4444; }
+      .commit { fill: #ffffff; stroke: #374151; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .commit { fill: #1a1a1a; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Flow Workflow Model</text>
+  
+  <!-- Main branch -->
+  <line x1="50" y1="80" x2="750" y2="80" class="gitflow-main" stroke-width="4"/>
+  <text x="30" y="75" class="text-light" font-size="12" font-weight="500">main</text>
+  
+  <!-- Main branch commits -->
+  <circle cx="100" cy="80" r="6" class="commit" stroke-width="2"/>
+  <circle cx="400" cy="80" r="6" class="commit" stroke-width="2"/>
+  <circle cx="650" cy="80" r="6" class="commit" stroke-width="2"/>
+  <text x="100" y="70" class="text-light" text-anchor="middle" font-size="8">v1.0</text>
+  <text x="400" y="70" class="text-light" text-anchor="middle" font-size="8">v2.0</text>
+  <text x="650" y="70" class="text-light" text-anchor="middle" font-size="8">v3.0</text>
+  
+  <!-- Develop branch -->
+  <line x1="50" y1="120" x2="750" y2="120" class="gitflow-develop" stroke-width="4"/>
+  <text x="20" y="115" class="text-light" font-size="12" font-weight="500">develop</text>
+  
+  <!-- Develop branch commits -->
+  <circle cx="120" cy="120" r="6" class="commit" stroke-width="2"/>
+  <circle cx="180" cy="120" r="6" class="commit" stroke-width="2"/>
+  <circle cx="240" cy="120" r="6" class="commit" stroke-width="2"/>
+  <circle cx="320" cy="120" r="6" class="commit" stroke-width="2"/>
+  <circle cx="460" cy="120" r="6" class="commit" stroke-width="2"/>
+  <circle cx="520" cy="120" r="6" class="commit" stroke-width="2"/>
+  <circle cx="580" cy="120" r="6" class="commit" stroke-width="2"/>
+  
+  <!-- Feature branches -->
+  <!-- Feature 1 -->
+  <path d="M 180 120 Q 200 140 220 160" class="gitflow-feature" fill="none" stroke-width="3"/>
+  <line x1="220" y1="160" x2="280" y2="160" class="gitflow-feature" stroke-width="3"/>
+  <path d="M 280 160 Q 300 140 320 120" class="gitflow-feature" fill="none" stroke-width="3"/>
+  <text x="250" y="175" class="text-light" font-size="10" font-weight="500">feature/login</text>
+  <circle cx="250" cy="160" r="4" class="commit" stroke-width="1"/>
+  
+  <!-- Feature 2 -->
+  <path d="M 460 120 Q 480 140 500 160" class="gitflow-feature" fill="none" stroke-width="3"/>
+  <line x1="500" y1="160" x2="560" y2="160" class="gitflow-feature" stroke-width="3"/>
+  <path d="M 560 160 Q 570 140 580 120" class="gitflow-feature" fill="none" stroke-width="3"/>
+  <text x="530" y="175" class="text-light" font-size="10" font-weight="500">feature/api</text>
+  <circle cx="530" cy="160" r="4" class="commit" stroke-width="1"/>
+  
+  <!-- Release branch -->
+  <path d="M 320 120 Q 340 100 360 80" class="gitflow-release" fill="none" stroke-width="3"/>
+  <line x1="360" y1="80" x2="390" y2="80" class="gitflow-release" stroke-width="3"/>
+  <path d="M 360 80 Q 360 100 360 120" class="gitflow-release" fill="none" stroke-width="3"/>
+  <text x="360" y="95" class="text-light" font-size="10" font-weight="500">release/v2.0</text>
+  <circle cx="375" cy="80" r="4" class="commit" stroke-width="1"/>
+  
+  <!-- Hotfix branch -->
+  <path d="M 400 80 Q 420 100 440 120" class="gitflow-hotfix" fill="none" stroke-width="3"/>
+  <line x1="440" y1="120" x2="480" y2="120" class="gitflow-hotfix" stroke-width="3"/>
+  <path d="M 480 120 Q 500 100 520 80" class="gitflow-hotfix" fill="none" stroke-width="3"/>
+  <path d="M 520 80 Q 540 100 560 120" class="gitflow-hotfix" fill="none" stroke-width="3"/>
+  <text x="460" y="135" class="text-light" font-size="10" font-weight="500">hotfix/security</text>
+  <circle cx="460" cy="120" r="4" class="commit" stroke-width="1"/>
+  <circle cx="520" cy="80" r="4" class="commit" stroke-width="1"/>
+  
+  <!-- Legend -->
+  <g>
+    <text x="50" y="220" class="text-light" font-size="16" font-weight="600">Branch Types & Purposes</text>
+    
+    <g class="text-light" font-size="12">
+      <!-- Main -->
+      <line x1="70" y1="245" x2="90" y2="245" class="gitflow-main" stroke-width="4"/>
+      <text x="100" y="250" font-weight="500">main</text>
+      <text x="150" y="250">Production-ready code, tagged releases</text>
+      
+      <!-- Develop -->
+      <line x1="70" y1="265" x2="90" y2="265" class="gitflow-develop" stroke-width="4"/>
+      <text x="100" y="270" font-weight="500">develop</text>
+      <text x="150" y="270">Integration branch for features</text>
+      
+      <!-- Feature -->
+      <line x1="70" y1="285" x2="90" y2="285" class="gitflow-feature" stroke-width="4"/>
+      <text x="100" y="290" font-weight="500">feature/*</text>
+      <text x="150" y="290">New features, branch from develop</text>
+      
+      <!-- Release -->
+      <line x1="70" y1="305" x2="90" y2="305" class="gitflow-release" stroke-width="4"/>
+      <text x="100" y="310" font-weight="500">release/*</text>
+      <text x="150" y="310">Prepare release, bug fixes only</text>
+      
+      <!-- Hotfix -->
+      <line x1="70" y1="325" x2="90" y2="325" class="gitflow-hotfix" stroke-width="4"/>
+      <text x="100" y="330" font-weight="500">hotfix/*</text>
+      <text x="150" y="330">Critical fixes, branch from main</text>
+    </g>
+  </g>
+  
+  <!-- Git Flow Commands -->
+  <g>
+    <text x="400" y="220" class="text-light" font-size="16" font-weight="600">Git Flow Commands</text>
+    
+    <rect x="400" y="235" width="350" height="220" class="border-light" fill="#f8f9fa" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <!-- Initialize -->
+      <text x="410" y="255" font-weight="600">Initialize Git Flow:</text>
+      <text x="410" y="270">git flow init</text>
+      
+      <!-- Feature -->
+      <text x="410" y="295" font-weight="600">Feature Development:</text>
+      <text x="410" y="310">git flow feature start new-feature</text>
+      <text x="410" y="325">git flow feature finish new-feature</text>
+      
+      <!-- Release -->
+      <text x="410" y="350" font-weight="600">Release Management:</text>
+      <text x="410" y="365">git flow release start v2.0</text>
+      <text x="410" y="380">git flow release finish v2.0</text>
+      
+      <!-- Hotfix -->
+      <text x="410" y="405" font-weight="600">Hotfix:</text>
+      <text x="410" y="420">git flow hotfix start security-fix</text>
+      <text x="410" y="435">git flow hotfix finish security-fix</text>
+    </g>
+  </g>
+  
+  <!-- Benefits -->
+  <g class="text-light" font-size="11">
+    <text x="50" y="370" font-weight="600">Benefits:</text>
+    <text x="70" y="390">• Clear separation of concerns</text>
+    <text x="70" y="405">• Structured release process</text>
+    <text x="70" y="420">• Parallel development support</text>
+    <text x="70" y="435">• Emergency hotfix capability</text>
+    <text x="70" y="450">• Suitable for scheduled releases</text>
+  </g>
+</svg>

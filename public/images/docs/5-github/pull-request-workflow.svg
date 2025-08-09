@@ -1,0 +1,145 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .github-bg { fill: #f6f8fa; }
+      .button-bg { fill: #0969da; }
+      .button-text { fill: #ffffff; }
+      .pr-bg { fill: #dbeafe; }
+      .merge-bg { fill: #dcfce7; }
+      .review-bg { fill: #fef3c7; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .github-bg { fill: #0d1117; }
+        .pr-bg { fill: #1e3a8a; }
+        .merge-bg { fill: #14532d; }
+        .review-bg { fill: #451a03; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">GitHub Pull Request Workflow</text>
+  
+  <!-- Step 1: Fork & Clone -->
+  <g>
+    <rect x="50" y="60" width="140" height="80" class="pr-bg border-light" stroke-width="1" rx="4"/>
+    <text x="120" y="85" class="text-light" text-anchor="middle" font-size="14" font-weight="600">1. Fork & Clone</text>
+    <text x="120" y="105" class="text-light" text-anchor="middle" font-size="10">Fork repository</text>
+    <text x="120" y="120" class="text-light" text-anchor="middle" font-size="10">Clone to local</text>
+    <text x="120" y="130" class="text-light" text-anchor="middle" font-size="9">git clone &lt;url&gt;</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M 200 100 L 230 100" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 2: Create Branch -->
+  <g>
+    <rect x="240" y="60" width="140" height="80" class="pr-bg border-light" stroke-width="1" rx="4"/>
+    <text x="310" y="85" class="text-light" text-anchor="middle" font-size="14" font-weight="600">2. Create Branch</text>
+    <text x="310" y="105" class="text-light" text-anchor="middle" font-size="10">Feature branch</text>
+    <text x="310" y="120" class="text-light" text-anchor="middle" font-size="9">git checkout -b</text>
+    <text x="310" y="130" class="text-light" text-anchor="middle" font-size="9">feature-name</text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <path d="M 390 100 L 420 100" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 3: Make Changes -->
+  <g>
+    <rect x="430" y="60" width="140" height="80" class="pr-bg border-light" stroke-width="1" rx="4"/>
+    <text x="500" y="85" class="text-light" text-anchor="middle" font-size="14" font-weight="600">3. Make Changes</text>
+    <text x="500" y="105" class="text-light" text-anchor="middle" font-size="10">Edit code</text>
+    <text x="500" y="115" class="text-light" text-anchor="middle" font-size="9">git add .</text>
+    <text x="500" y="125" class="text-light" text-anchor="middle" font-size="9">git commit -m</text>
+    <text x="500" y="135" class="text-light" text-anchor="middle" font-size="9">"description"</text>
+  </g>
+  
+  <!-- Arrow 3 -->
+  <path d="M 580 100 L 610 100" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 4: Push -->
+  <g>
+    <rect x="620" y="60" width="140" height="80" class="pr-bg border-light" stroke-width="1" rx="4"/>
+    <text x="690" y="85" class="text-light" text-anchor="middle" font-size="14" font-weight="600">4. Push Branch</text>
+    <text x="690" y="105" class="text-light" text-anchor="middle" font-size="10">Push to GitHub</text>
+    <text x="690" y="120" class="text-light" text-anchor="middle" font-size="9">git push origin</text>
+    <text x="690" y="130" class="text-light" text-anchor="middle" font-size="9">feature-name</text>
+  </g>
+  
+  <!-- Step 5: Create PR -->
+  <g>
+    <rect x="430" y="160" width="140" height="80" class="review-bg border-light" stroke-width="1" rx="4"/>
+    <text x="500" y="185" class="text-light" text-anchor="middle" font-size="14" font-weight="600">5. Create PR</text>
+    <text x="500" y="205" class="text-light" text-anchor="middle" font-size="10">Open pull request</text>
+    <text x="500" y="220" class="text-light" text-anchor="middle" font-size="10">Add description</text>
+    <text x="500" y="230" class="text-light" text-anchor="middle" font-size="10">Request reviewers</text>
+  </g>
+  
+  <!-- Arrow from step 4 to step 5 -->
+  <path d="M 690 150 L 690 170 L 580 170 L 580 180" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 6: Code Review -->
+  <g>
+    <rect x="240" y="160" width="140" height="80" class="review-bg border-light" stroke-width="1" rx="4"/>
+    <text x="310" y="185" class="text-light" text-anchor="middle" font-size="14" font-weight="600">6. Code Review</text>
+    <text x="310" y="205" class="text-light" text-anchor="middle" font-size="10">Team reviews</text>
+    <text x="310" y="220" class="text-light" text-anchor="middle" font-size="10">Feedback &amp; changes</text>
+    <text x="310" y="230" class="text-light" text-anchor="middle" font-size="10">Approve/Request</text>
+  </g>
+  
+  <!-- Arrow from step 5 to step 6 -->
+  <path d="M 420 200 L 390 200" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 7: Merge -->
+  <g>
+    <rect x="50" y="160" width="140" height="80" class="merge-bg border-light" stroke-width="1" rx="4"/>
+    <text x="120" y="185" class="text-light" text-anchor="middle" font-size="14" font-weight="600">7. Merge PR</text>
+    <text x="120" y="205" class="text-light" text-anchor="middle" font-size="10">Merge to main</text>
+    <text x="120" y="220" class="text-light" text-anchor="middle" font-size="10">Delete branch</text>
+    <text x="120" y="230" class="text-light" text-anchor="middle" font-size="10">Close PR</text>
+  </g>
+  
+  <!-- Arrow from step 6 to step 7 -->
+  <path d="M 230 200 L 200 200" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- GitHub PR Interface Mockup -->
+  <g>
+    <text x="400" y="290" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Pull Request Interface</text>
+    
+    <rect x="100" y="310" width="600" height="160" class="github-bg border-light" stroke-width="1" rx="8"/>
+    
+    <!-- PR Header -->
+    <rect x="120" y="330" width="560" height="30" class="bg-light border-light" stroke-width="1" rx="4"/>
+    <text x="140" y="350" class="text-light" font-size="14" font-weight="600">Add user authentication feature #123</text>
+    <rect x="580" y="335" width="80" height="20" class="button-bg" rx="4"/>
+    <text x="620" y="348" class="button-text" text-anchor="middle" font-size="11">Merge PR</text>
+    
+    <!-- PR Details -->
+    <g class="text-light" font-size="12">
+      <text x="140" y="380">📝 3 files changed</text>
+      <text x="260" y="380">✅ All checks passed</text>
+      <text x="400" y="380">👥 2 reviewers approved</text>
+      
+      <text x="140" y="405">Commits: Add login form, Add password validation, Update tests</text>
+      
+      <text x="140" y="430">✓ Mergeable: No conflicts with base branch</text>
+      <text x="140" y="450">✓ CI/CD: All tests passing</text>
+    </g>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>

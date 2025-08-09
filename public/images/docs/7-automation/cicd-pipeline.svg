@@ -1,0 +1,150 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .pipeline-bg { fill: #f8f9fa; }
+      .stage-dev { fill: #dbeafe; stroke: #3b82f6; }
+      .stage-test { fill: #fef3c7; stroke: #f59e0b; }
+      .stage-deploy { fill: #dcfce7; stroke: #22c55e; }
+      .stage-error { fill: #fecaca; stroke: #ef4444; }
+      .icon-color { fill: #6b7280; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .pipeline-bg { fill: #1f2937; }
+        .stage-dev { fill: #1e3a8a; }
+        .stage-test { fill: #451a03; }
+        .stage-deploy { fill: #14532d; }
+        .stage-error { fill: #7f1d1d; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">CI/CD Pipeline with GitHub Actions</text>
+  
+  <!-- Pipeline trigger -->
+  <g>
+    <rect x="50" y="70" width="120" height="60" class="stage-dev" stroke-width="2" rx="6"/>
+    <text x="110" y="90" class="text-light" text-anchor="middle" font-size="12" font-weight="600">Trigger</text>
+    <text x="110" y="110" class="text-light" text-anchor="middle" font-size="10">Git Push</text>
+    <text x="110" y="120" class="text-light" text-anchor="middle" font-size="10">Pull Request</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M 180 100 L 210 100" class="border-light" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Build stage -->
+  <g>
+    <rect x="220" y="70" width="120" height="60" class="stage-dev" stroke-width="2" rx="6"/>
+    <text x="280" y="90" class="text-light" text-anchor="middle" font-size="12" font-weight="600">Build</text>
+    <text x="280" y="110" class="text-light" text-anchor="middle" font-size="10">Compile code</text>
+    <text x="280" y="120" class="text-light" text-anchor="middle" font-size="10">Dependencies</text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <path d="M 350 100 L 380 100" class="border-light" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Test stage -->
+  <g>
+    <rect x="390" y="70" width="120" height="60" class="stage-test" stroke-width="2" rx="6"/>
+    <text x="450" y="90" class="text-light" text-anchor="middle" font-size="12" font-weight="600">Test</text>
+    <text x="450" y="110" class="text-light" text-anchor="middle" font-size="10">Unit tests</text>
+    <text x="450" y="120" class="text-light" text-anchor="middle" font-size="10">Integration tests</text>
+  </g>
+  
+  <!-- Arrow 3 -->
+  <path d="M 520 100 L 550 100" class="border-light" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Deploy stage -->
+  <g>
+    <rect x="560" y="70" width="120" height="60" class="stage-deploy" stroke-width="2" rx="6"/>
+    <text x="620" y="90" class="text-light" text-anchor="middle" font-size="12" font-weight="600">Deploy</text>
+    <text x="620" y="110" class="text-light" text-anchor="middle" font-size="10">Staging</text>
+    <text x="620" y="120" class="text-light" text-anchor="middle" font-size="10">Production</text>
+  </g>
+  
+  <!-- GitHub Actions Workflow File -->
+  <g>
+    <text x="50" y="180" class="text-light" font-size="16" font-weight="600">GitHub Actions Workflow (.github/workflows/ci.yml)</text>
+    
+    <rect x="50" y="200" width="700" height="280" class="pipeline-bg border-light" stroke-width="1" rx="6"/>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <text x="70" y="225">name: CI/CD Pipeline</text>
+      <text x="70" y="240">on:</text>
+      <text x="90" y="255">  push:</text>
+      <text x="110" y="270">    branches: [ main, develop ]</text>
+      <text x="90" y="285">  pull_request:</text>
+      <text x="110" y="300">    branches: [ main ]</text>
+      
+      <text x="70" y="325">jobs:</text>
+      <text x="90" y="340">  build:</text>
+      <text x="110" y="355">    runs-on: ubuntu-latest</text>
+      <text x="110" y="370">    steps:</text>
+      <text x="130" y="385">    - uses: actions/checkout@v3</text>
+      <text x="130" y="400">    - name: Setup Node.js</text>
+      <text x="150" y="415">      uses: actions/setup-node@v3</text>
+      <text x="150" y="430">      with:</text>
+      <text x="170" y="445">        node-version: '18'</text>
+      <text x="130" y="460">    - run: npm install</text>
+      <text x="130" y="475">    - run: npm run build</text>
+    </g>
+  </g>
+  
+  <!-- Pipeline Status -->
+  <g>
+    <text x="50" y="520" class="text-light" font-size="16" font-weight="600">Pipeline Status Examples</text>
+    
+    <!-- Success pipeline -->
+    <g>
+      <rect x="50" y="540" width="200" height="30" class="stage-deploy" stroke-width="1" rx="4"/>
+      <text x="150" y="560" class="text-light" text-anchor="middle" font-size="12">✓ Build Successful</text>
+    </g>
+    
+    <!-- Failed pipeline -->
+    <g>
+      <rect x="270" y="540" width="200" height="30" class="stage-error" stroke-width="1" rx="4"/>
+      <text x="370" y="560" class="text-light" text-anchor="middle" font-size="12">✗ Tests Failed</text>
+    </g>
+    
+    <!-- In progress -->
+    <g>
+      <rect x="490" y="540" width="200" height="30" class="stage-test" stroke-width="1" rx="4"/>
+      <text x="590" y="560" class="text-light" text-anchor="middle" font-size="12">⏳ In Progress</text>
+    </g>
+  </g>
+  
+  <!-- Benefits section -->
+  <g class="text-light" font-size="12">
+    <text x="400" y="200" font-weight="600">Benefits of CI/CD:</text>
+    <text x="420" y="220">• Automated testing catches bugs early</text>
+    <text x="420" y="235">• Consistent deployment process</text>
+    <text x="420" y="250">• Faster feedback loop</text>
+    <text x="420" y="265">• Reduced manual errors</text>
+    <text x="420" y="280">• Continuous quality assurance</text>
+    
+    <text x="400" y="310" font-weight="600">Common CI/CD Steps:</text>
+    <text x="420" y="330">1. Code commit triggers pipeline</text>
+    <text x="420" y="345">2. Build and compile application</text>
+    <text x="420" y="360">3. Run automated tests</text>
+    <text x="420" y="375">4. Security scanning</text>
+    <text x="420" y="390">5. Deploy to staging environment</text>
+    <text x="420" y="405">6. Run integration tests</text>
+    <text x="420" y="420">7. Deploy to production</text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,77 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .bg-dark { fill: #1a1a1a; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .text-dark { fill: #ffffff; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .border-dark { stroke: #374151; }
+      .accent { fill: #3b82f6; }
+      .accent-light { fill: #dbeafe; }
+      .accent-dark { fill: #1e40af; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .accent-light { fill: #1e40af; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Version Control: Tracking Changes Over Time</text>
+  
+  <!-- Timeline -->
+  <line x1="50" y1="100" x2="750" y2="100" class="border-light" stroke-width="2"/>
+  
+  <!-- Version markers -->
+  <g>
+    <!-- Version 1 -->
+    <circle cx="150" cy="100" r="8" class="accent"/>
+    <rect x="100" y="120" width="100" height="60" class="accent-light border-light" stroke-width="1" rx="4"/>
+    <text x="150" y="140" class="text-light" text-anchor="middle" font-size="12" font-weight="500">Version 1.0</text>
+    <text x="150" y="155" class="text-light" text-anchor="middle" font-size="10">Initial release</text>
+    <text x="150" y="170" class="text-light" text-anchor="middle" font-size="10">Basic features</text>
+    
+    <!-- Version 2 -->
+    <circle cx="350" cy="100" r="8" class="accent"/>
+    <rect x="300" y="120" width="100" height="60" class="accent-light border-light" stroke-width="1" rx="4"/>
+    <text x="350" y="140" class="text-light" text-anchor="middle" font-size="12" font-weight="500">Version 2.0</text>
+    <text x="350" y="155" class="text-light" text-anchor="middle" font-size="10">Bug fixes</text>
+    <text x="350" y="170" class="text-light" text-anchor="middle" font-size="10">New features</text>
+    
+    <!-- Version 3 -->
+    <circle cx="550" cy="100" r="8" class="accent"/>
+    <rect x="500" y="120" width="100" height="60" class="accent-light border-light" stroke-width="1" rx="4"/>
+    <text x="550" y="140" class="text-light" text-anchor="middle" font-size="12" font-weight="500">Version 3.0</text>
+    <text x="550" y="155" class="text-light" text-anchor="middle" font-size="10">Major update</text>
+    <text x="550" y="170" class="text-light" text-anchor="middle" font-size="10">Performance</text>
+  </g>
+  
+  <!-- Arrows between versions -->
+  <path d="M 210 100 L 280 100" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 410 100 L 480 100" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Benefits section -->
+  <text x="50" y="240" class="text-light" font-size="16" font-weight="600">Benefits of Version Control:</text>
+  
+  <g class="text-light" font-size="14">
+    <text x="70" y="270">• Track all changes and modifications</text>
+    <text x="70" y="295">• Revert to previous versions when needed</text>
+    <text x="70" y="320">• Compare differences between versions</text>
+    <text x="70" y="345">• Collaborate with multiple contributors</text>
+    <text x="70" y="370">• Maintain backup and history of your project</text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,127 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .merge-type { fill: #3b82f6; }
+      .conflict { fill: #ef4444; }
+      .resolution { fill: #22c55e; }
+      .code-bg { fill: #f8f9fa; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .code-bg { fill: #1f2937; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Merge Conflicts and Resolution</text>
+  
+  <!-- Conflict scenario -->
+  <g>
+    <text x="50" y="70" class="text-light" font-size="16" font-weight="600">When Conflicts Occur</text>
+    
+    <!-- Branch diagram -->
+    <!-- Main branch -->
+    <line x1="50" y1="100" x2="200" y2="100" class="merge-type" stroke-width="4"/>
+    <text x="40" y="95" class="text-light" font-size="10">main</text>
+    
+    <!-- Branch commits -->
+    <circle cx="100" cy="100" r="6" fill="white" stroke="#666" stroke-width="2"/>
+    <text x="100" y="85" class="text-light" text-anchor="middle" font-size="8">A</text>
+    
+    <circle cx="200" cy="100" r="6" fill="white" stroke="#666" stroke-width="2"/>
+    <text x="200" y="85" class="text-light" text-anchor="middle" font-size="8">C</text>
+    
+    <!-- Feature branch -->
+    <path d="M 100 100 Q 125 120 150 140" class="merge-type" fill="none" stroke-width="4"/>
+    <line x1="150" y1="140" x2="220" y2="140" class="merge-type" stroke-width="4"/>
+    <text x="140" y="155" class="text-light" font-size="10">feature</text>
+    
+    <circle cx="170" cy="140" r="6" fill="white" stroke="#666" stroke-width="2"/>
+    <text x="170" y="155" class="text-light" text-anchor="middle" font-size="8">B</text>
+    
+    <!-- Conflict indicator -->
+    <text x="250" y="120" class="conflict" font-size="14" font-weight="600">⚠ CONFLICT!</text>
+    <text x="250" y="140" class="text-light" font-size="12">Both branches modified</text>
+    <text x="250" y="155" class="text-light" font-size="12">the same lines</text>
+  </g>
+  
+  <!-- Conflict file example -->
+  <g>
+    <text x="50" y="200" class="text-light" font-size="16" font-weight="600">Conflict Markers in File</text>
+    
+    <rect x="50" y="220" width="350" height="160" class="code-bg border-light" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <text x="60" y="240">function greet(name) {</text>
+      <text x="70" y="255" class="conflict"><<<<<<< HEAD</text>
+      <text x="70" y="270">  return `Hello, ${name}!`;</text>
+      <text x="70" y="285" class="conflict">=======</text>
+      <text x="70" y="300">  return `Hi there, ${name}!`;</text>
+      <text x="70" y="315" class="conflict">>>>>>>> feature-branch</text>
+      <text x="60" y="330">}</text>
+      
+      <!-- Annotations -->
+      <text x="260" y="255" class="conflict" font-size="9">← Current branch (HEAD)</text>
+      <text x="260" y="285" class="conflict" font-size="9">← Separator</text>
+      <text x="260" y="315" class="conflict" font-size="9">← Incoming branch</text>
+    </g>
+  </g>
+  
+  <!-- Resolution steps -->
+  <g>
+    <text x="450" y="200" class="text-light" font-size="16" font-weight="600">Resolution Steps</text>
+    
+    <rect x="450" y="220" width="300" height="160" class="code-bg border-light" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="12">
+      <text x="460" y="240" font-weight="600">1. Identify conflicts:</text>
+      <text x="470" y="255" font-family="monospace" font-size="10">git status</text>
+      
+      <text x="460" y="275" font-weight="600">2. Open conflicted files</text>
+      
+      <text x="460" y="295" font-weight="600">3. Choose resolution:</text>
+      <text x="470" y="310" font-size="10">• Keep current version</text>
+      <text x="470" y="325" font-size="10">• Keep incoming version</text>
+      <text x="470" y="340" font-size="10">• Combine both changes</text>
+      <text x="470" y="355" font-size="10">• Write custom solution</text>
+    </g>
+  </g>
+  
+  <!-- Resolved file -->
+  <g>
+    <text x="50" y="410" class="text-light" font-size="16" font-weight="600">After Resolution</text>
+    
+    <rect x="50" y="430" width="300" height="60" class="code-bg border-light" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <text x="60" y="450">function greet(name) {</text>
+      <text x="70" y="465" class="resolution">  return `Hello there, ${name}!`;</text>
+      <text x="60" y="480">}</text>
+    </g>
+    
+    <!-- Final commands -->
+    <rect x="400" y="430" width="350" height="60" class="code-bg border-light" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="11" font-family="Courier New, monospace">
+      <text x="410" y="450">git add conflicted-file.js</text>
+      <text x="410" y="465">git commit -m "Resolve merge conflict"</text>
+    </g>
+  </g>
+  
+  <!-- Tips -->
+  <g class="text-light" font-size="11">
+    <text x="450" y="410" font-weight="600">💡 Pro Tips:</text>
+    <text x="450" y="450" class="resolution">• Use git mergetool for visual resolution</text>
+    <text x="450" y="465" class="resolution">• Test your resolution before committing</text>
+    <text x="450" y="480" class="resolution">• Remove all conflict markers</text>
+  </g>
+</svg>

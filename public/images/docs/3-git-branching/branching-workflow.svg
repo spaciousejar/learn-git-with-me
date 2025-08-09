@@ -1,0 +1,119 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .main-branch { stroke: #3b82f6; fill: #3b82f6; }
+      .feature-branch { stroke: #10b981; fill: #10b981; }
+      .commit { fill: #ffffff; stroke: #374151; }
+      .merge-commit { fill: #f59e0b; stroke: #f59e0b; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .commit { fill: #1a1a1a; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Branching and Merging Workflow</text>
+  
+  <!-- Main branch line -->
+  <line x1="100" y1="150" x2="700" y2="150" class="main-branch" stroke-width="4"/>
+  <text x="90" y="145" class="text-light" font-size="12" font-weight="500">main</text>
+  
+  <!-- Main branch commits -->
+  <circle cx="150" cy="150" r="8" class="commit" stroke-width="2"/>
+  <text x="150" y="135" class="text-light" text-anchor="middle" font-size="10">A</text>
+  
+  <circle cx="250" cy="150" r="8" class="commit" stroke-width="2"/>
+  <text x="250" y="135" class="text-light" text-anchor="middle" font-size="10">B</text>
+  
+  <circle cx="550" cy="150" r="8" class="merge-commit" stroke-width="2"/>
+  <text x="550" y="135" class="text-light" text-anchor="middle" font-size="10">E</text>
+  <text x="550" y="175" class="text-light" text-anchor="middle" font-size="9">merge</text>
+  
+  <circle cx="650" cy="150" r="8" class="commit" stroke-width="2"/>
+  <text x="650" y="135" class="text-light" text-anchor="middle" font-size="10">F</text>
+  
+  <!-- Feature branch -->
+  <path d="M 250 150 Q 300 120 350 100" class="feature-branch" fill="none" stroke-width="4"/>
+  <line x1="350" y1="100" x2="500" y2="100" class="feature-branch" stroke-width="4"/>
+  <path d="M 500 100 Q 525 125 550 150" class="feature-branch" fill="none" stroke-width="4"/>
+  
+  <text x="340" y="90" class="text-light" font-size="12" font-weight="500">feature</text>
+  
+  <!-- Feature branch commits -->
+  <circle cx="350" cy="100" r="8" class="commit" stroke-width="2"/>
+  <text x="350" y="85" class="text-light" text-anchor="middle" font-size="10">C</text>
+  
+  <circle cx="450" cy="100" r="8" class="commit" stroke-width="2"/>
+  <text x="450" y="85" class="text-light" text-anchor="middle" font-size="10">D</text>
+  
+  <!-- Commands and timeline -->
+  <g class="text-light">
+    <!-- Step 1 -->
+    <text x="150" y="200" text-anchor="middle" font-size="11" font-weight="500">1. Initial commits</text>
+    <text x="150" y="215" text-anchor="middle" font-size="9">git commit -m "A"</text>
+    
+    <!-- Step 2 -->
+    <text x="300" y="250" text-anchor="middle" font-size="11" font-weight="500">2. Create branch</text>
+    <text x="300" y="265" text-anchor="middle" font-size="9">git branch feature</text>
+    <text x="300" y="275" text-anchor="middle" font-size="9">git checkout feature</text>
+    
+    <!-- Step 3 -->
+    <text x="400" y="200" text-anchor="middle" font-size="11" font-weight="500">3. Work on feature</text>
+    <text x="400" y="215" text-anchor="middle" font-size="9">git commit -m "C"</text>
+    <text x="400" y="225" text-anchor="middle" font-size="9">git commit -m "D"</text>
+    
+    <!-- Step 4 -->
+    <text x="550" y="200" text-anchor="middle" font-size="11" font-weight="500">4. Merge back</text>
+    <text x="550" y="215" text-anchor="middle" font-size="9">git checkout main</text>
+    <text x="550" y="225" text-anchor="middle" font-size="9">git merge feature</text>
+  </g>
+  
+  <!-- Timeline arrows -->
+  <path d="M 170 180 L 190 180" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 320 230 L 340 210" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 470 180 L 490 180" class="border-light" fill="none" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Branch operations explanation -->
+  <g>
+    <text x="50" y="320" class="text-light" font-size="16" font-weight="600">Key Branch Operations</text>
+    
+    <rect x="50" y="340" width="700" height="140" class="border-light" fill="#f8f9fa" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="12">
+      <!-- Left column -->
+      <text x="70" y="365" font-weight="600">Creating & Switching:</text>
+      <text x="70" y="385" font-family="Courier New, monospace">git branch &lt;name&gt;           # Create branch</text>
+      <text x="70" y="400" font-family="Courier New, monospace">git checkout &lt;name&gt;        # Switch to branch</text>
+      <text x="70" y="415" font-family="Courier New, monospace">git checkout -b &lt;name&gt;    # Create and switch</text>
+      
+      <text x="70" y="440" font-weight="600">Listing & Deleting:</text>
+      <text x="70" y="460" font-family="Courier New, monospace">git branch               # List branches</text>
+      
+      <!-- Right column -->
+      <text x="400" y="365" font-weight="600">Merging:</text>
+      <text x="400" y="385" font-family="Courier New, monospace">git merge &lt;branch&gt;        # Merge branch into current</text>
+      <text x="400" y="400" font-family="Courier New, monospace">git merge --no-ff &lt;branch&gt; # Force merge commit</text>
+      <text x="400" y="415" font-family="Courier New, monospace">git branch -d &lt;name&gt;     # Delete merged branch</text>
+      
+      <text x="400" y="440" font-weight="600">Branch Benefits:</text>
+      <text x="400" y="460" font-size="11">• Parallel development • Feature isolation • Easy experimentation</text>
+    </g>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>

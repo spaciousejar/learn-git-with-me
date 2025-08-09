@@ -1,0 +1,114 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-light { fill: #ffffff; }
+      .text-light { fill: #1a1a1a; font-family: 'Inter', sans-serif; }
+      .border-light { stroke: #e5e7eb; }
+      .hook-bg { fill: #f8f9fa; }
+      .client-hook { fill: #dbeafe; stroke: #3b82f6; }
+      .server-hook { fill: #dcfce7; stroke: #22c55e; }
+      .trigger { fill: #fef3c7; stroke: #f59e0b; }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-light { fill: #1a1a1a; }
+        .text-light { fill: #ffffff; }
+        .border-light { stroke: #374151; }
+        .hook-bg { fill: #1f2937; }
+        .client-hook { fill: #1e3a8a; }
+        .server-hook { fill: #14532d; }
+        .trigger { fill: #451a03; }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" class="bg-light"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="text-light" text-anchor="middle" font-size="20" font-weight="600">Git Hooks: Automated Scripts</text>
+  
+  <!-- Client-side hooks -->
+  <g>
+    <text x="200" y="70" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Client-side Hooks</text>
+    
+    <!-- Pre-commit hook -->
+    <rect x="50" y="90" width="140" height="60" class="client-hook" stroke-width="2" rx="6"/>
+    <text x="120" y="115" class="text-light" text-anchor="middle" font-size="12" font-weight="600">pre-commit</text>
+    <text x="120" y="130" class="text-light" text-anchor="middle" font-size="10">Code linting</text>
+    <text x="120" y="142" class="text-light" text-anchor="middle" font-size="10">Tests</text>
+    
+    <!-- Commit-msg hook -->
+    <rect x="210" y="90" width="140" height="60" class="client-hook" stroke-width="2" rx="6"/>
+    <text x="280" y="115" class="text-light" text-anchor="middle" font-size="12" font-weight="600">commit-msg</text>
+    <text x="280" y="130" class="text-light" text-anchor="middle" font-size="10">Message format</text>
+    <text x="280" y="142" class="text-light" text-anchor="middle" font-size="10">Validation</text>
+    
+    <!-- Pre-push hook -->
+    <rect x="130" y="170" width="140" height="60" class="client-hook" stroke-width="2" rx="6"/>
+    <text x="200" y="195" class="text-light" text-anchor="middle" font-size="12" font-weight="600">pre-push</text>
+    <text x="200" y="210" class="text-light" text-anchor="middle" font-size="10">Full test suite</text>
+    <text x="200" y="222" class="text-light" text-anchor="middle" font-size="10">Security checks</text>
+  </g>
+  
+  <!-- Server-side hooks -->
+  <g>
+    <text x="600" y="70" class="text-light" text-anchor="middle" font-size="16" font-weight="600">Server-side Hooks</text>
+    
+    <!-- Pre-receive hook -->
+    <rect x="450" y="90" width="140" height="60" class="server-hook" stroke-width="2" rx="6"/>
+    <text x="520" y="115" class="text-light" text-anchor="middle" font-size="12" font-weight="600">pre-receive</text>
+    <text x="520" y="130" class="text-light" text-anchor="middle" font-size="10">Policy checks</text>
+    <text x="520" y="142" class="text-light" text-anchor="middle" font-size="10">Access control</text>
+    
+    <!-- Post-receive hook -->
+    <rect x="610" y="90" width="140" height="60" class="server-hook" stroke-width="2" rx="6"/>
+    <text x="680" y="115" class="text-light" text-anchor="middle" font-size="12" font-weight="600">post-receive</text>
+    <text x="680" y="130" class="text-light" text-anchor="middle" font-size="10">Deploy</text>
+    <text x="680" y="142" class="text-light" text-anchor="middle" font-size="10">Notifications</text>
+    
+    <!-- Update hook -->
+    <rect x="530" y="170" width="140" height="60" class="server-hook" stroke-width="2" rx="6"/>
+    <text x="600" y="195" class="text-light" text-anchor="middle" font-size="12" font-weight="600">update</text>
+    <text x="600" y="210" class="text-light" text-anchor="middle" font-size="10">Branch policies</text>
+    <text x="600" y="222" class="text-light" text-anchor="middle" font-size="10">Per-ref checks</text>
+  </g>
+  
+  <!-- Workflow arrows -->
+  <g class="border-light" stroke-width="2">
+    <!-- Git commit flow -->
+    <path d="M 120 160 L 120 180 L 200 180 L 200 170" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="160" y="175" class="text-light" text-anchor="middle" font-size="9">git commit</text>
+    
+    <!-- Git push flow -->
+    <path d="M 270 200 L 350 200 L 350 120 L 440 120" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="350" y="195" class="text-light" text-anchor="middle" font-size="9">git push</text>
+  </g>
+  
+  <!-- Hook examples -->
+  <g>
+    <text x="50" y="280" class="text-light" font-size="16" font-weight="600">Common Hook Uses</text>
+    
+    <rect x="50" y="300" width="700" height="80" class="hook-bg border-light" stroke-width="1" rx="4"/>
+    
+    <g class="text-light" font-size="12">
+      <!-- Left column -->
+      <text x="70" y="325" font-weight="600">Client-side Examples:</text>
+      <text x="70" y="345" font-size="11">• Run ESLint and format code (pre-commit)</text>
+      <text x="70" y="360" font-size="11">• Validate commit message format (commit-msg)</text>
+      <text x="70" y="375" font-size="11">• Run full test suite before push (pre-push)</text>
+      
+      <!-- Right column -->
+      <text x="400" y="325" font-weight="600">Server-side Examples:</text>
+      <text x="400" y="345" font-size="11">• Check permissions and policies (pre-receive)</text>
+      <text x="400" y="360" font-size="11">• Trigger CI/CD deployment (post-receive)</text>
+      <text x="400" y="375" font-size="11">• Send notifications to team (post-receive)</text>
+    </g>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="border-light" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>
