@@ -1,7 +1,621 @@
 ---
 title: Handling Conflicts
-description: Learn about Handling Conflicts in Git
+description: Master Git merge conflicts with step-by-step resolution guides, practical examples, and prevention strategies for common conflict scenarios.
 ---
+
+## What are Merge Conflicts?
+
+A merge conflict occurs when Git cannot automatically combine changes from different branches because they modify the same lines of code in conflicting ways. Think of it as Git saying, "I found two different changes to the same part of a file, and I need you to decide which one to keep."
+
+## When Do Conflicts Happen?
+
+Conflicts occur when:
+
+1. **Same line modified differently** in both branches
+2. **File deleted in one branch** but modified in another
+3. **File renamed in one branch** but modified in another
+4. **Binary files changed** in both branches
+
+## Visual Understanding of Conflicts
+
+### Before Conflict
+```
+main:    A---B---C (modifies line 5 in file.js)
+         ↘
+feature:   D---E (modifies line 5 in file.js differently)
+```
+
+### During Conflict
+```
+Git tries to merge but finds:
+main branch says:    line 5 = "const color = 'blue';"
+feature branch says: line 5 = "const color = 'red';"
+
+Git response: "CONFLICT! You decide."
+```
+
+## Identifying Conflicts
+
+### Conflict Indicators
+
+When a merge conflict occurs, Git shows:
+
+```bash
+git merge feature/new-design
+```
+
+**Output:**
+```
+Auto-merging styles.css
+CONFLICT (content): Merge conflict in styles.css
+Auto-merging app.js
+CONFLICT (content): Merge conflict in app.js
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+### Checking Conflict Status
+
+```bash
+git status
+```
+
+**Output:**
+```
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   styles.css
+	both modified:   app.js
+
+no changes added to commit (use "git add" to file and "git commit" to commit)
+```
+
+## Understanding Conflict Markers
+
+When Git encounters a conflict, it adds special markers to the file:
+
+### Conflict Marker Format
+
+```javascript
+<<<<<<< HEAD (current branch)
+const backgroundColor = 'white';
+const textColor = 'black';
+=======
+const backgroundColor = 'dark';
+const textColor = 'light';
+>>>>>>> feature/dark-theme (incoming branch)
+```
+
+### Marker Explanation
+
+- `<<<<<<< HEAD`: Start of current branch changes
+- `=======`: Separator between conflicting changes  
+- `>>>>>>> branch-name`: End of incoming branch changes
+- Everything between `<<<<<<<` and `=======`: Current branch version
+- Everything between `=======` and `>>>>>>>`: Incoming branch version
+
+## Step-by-Step Conflict Resolution
+
+### Scenario: Conflicting CSS Changes
+
+Let's resolve a real conflict between main and feature branches.
+
+**Step 1: Encounter the conflict**
+```bash
+git checkout main
+git merge feature/new-styling
+```
+
+**Output:**
+```
+Auto-merging styles.css
+CONFLICT (content): Merge conflict in styles.css
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+**Step 2: Examine the conflicted file**
+```bash
+cat styles.css
+```
+
+**Content:**
+```css
+.header {
+    padding: 20px;
+<<<<<<< HEAD
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #cccccc;
+=======
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+>>>>>>> feature/new-styling
+    margin-bottom: 10px;
+}
+```
+
+**Step 3: Choose resolution strategy**
+
+**Option A: Keep current branch (HEAD) changes**
+```css
+.header {
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #cccccc;
+    margin-bottom: 10px;
+}
+```
+
+**Option B: Keep incoming branch changes**
+```css
+.header {
+    padding: 20px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+```
+
+**Option C: Combine both changes**
+```css
+.header {
+    padding: 20px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+```
+
+**Step 4: Edit the file to resolve conflict**
+
+Remove conflict markers and keep desired content:
+
+```css
+.header {
+    padding: 20px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+```
+
+**Step 5: Mark conflict as resolved**
+```bash
+git add styles.css
+```
+
+**Step 6: Complete the merge**
+```bash
+git commit
+```
+
+Git opens editor with default merge message:
+```
+Merge branch 'feature/new-styling'
+
+# Conflicts:
+#	styles.css
+```
+
+**Step 7: Verify resolution**
+```bash
+git log --oneline -3
+```
+
+**Output:**
+```
+a1b2c3d (HEAD -> main) Merge branch 'feature/new-styling'
+e4f5g6h Fix header styling conflicts
+d7e8f9g Add dark theme support
+```
+
+## Common Conflict Scenarios
+
+### Scenario 1: Different Variable Names
+
+**Conflict:**
+```javascript
+<<<<<<< HEAD
+const userName = document.getElementById('username').value;
+const userEmail = document.getElementById('email').value;
+=======
+const username = document.getElementById('username').value;
+const email = document.getElementById('email').value;
+>>>>>>> feature/variable-naming
+```
+
+**Resolution Strategy:**
+Choose consistent naming convention across the project:
+
+```javascript
+const username = document.getElementById('username').value;
+const email = document.getElementById('email').value;
+```
+
+### Scenario 2: Function Implementation Differences
+
+**Conflict:**
+```javascript
+function calculateTotal(items) {
+<<<<<<< HEAD
+    return items.reduce((sum, item) => sum + item.price, 0);
+=======
+    let total = 0;
+    for (let item of items) {
+        total += item.price;
+    }
+    return total;
+>>>>>>> feature/loop-implementation
+}
+```
+
+**Resolution Strategy:**
+Consider performance, readability, and project standards:
+
+```javascript
+function calculateTotal(items) {
+    return items.reduce((sum, item) => sum + item.price, 0);
+}
+```
+
+### Scenario 3: Import Statement Conflicts
+
+**Conflict:**
+```javascript
+<<<<<<< HEAD
+import React from 'react';
+import { useState } from 'react';
+import Header from './components/Header';
+=======
+import React, { useState } from 'react';
+import Header from './Header';
+import Footer from './Footer';
+>>>>>>> feature/component-imports
+```
+
+**Resolution Strategy:**
+Combine and organize imports logically:
+
+```javascript
+import React, { useState } from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+```
+
+## Advanced Conflict Resolution
+
+### Using Git Mergetool
+
+```bash
+# Configure merge tool (one-time setup)
+git config --global merge.tool vimdiff
+
+# Use merge tool for conflicts
+git mergetool
+```
+
+**Popular merge tools:**
+- **VS Code**: `git config --global merge.tool vscode`
+- **Sublime Merge**: `git config --global merge.tool smerge`
+- **KDiff3**: `git config --global merge.tool kdiff3`
+
+### Three-Way Merge View
+
+Most merge tools show three panels:
+
+```
+LOCAL (HEAD)     |     BASE (common)     |     REMOTE (incoming)
+const color =    |     const color =     |     const color =
+  'blue';        |       'gray';         |       'red';
+```
+
+**Understanding the panels:**
+- **LOCAL**: Your current branch changes
+- **BASE**: Original version before changes
+- **REMOTE**: Incoming branch changes
+
+### Resolving Binary File Conflicts
+
+For binary files (images, videos, etc.):
+
+```bash
+# Keep version from current branch
+git checkout --ours conflicted-image.png
+
+# Keep version from incoming branch  
+git checkout --theirs conflicted-image.png
+
+# Mark as resolved
+git add conflicted-image.png
+```
+
+## Multiple File Conflicts
+
+### Handling Multiple Conflicts
+
+When multiple files have conflicts:
+
+**Step 1: List all conflicts**
+```bash
+git diff --name-only --diff-filter=U
+```
+
+**Output:**
+```
+styles.css
+app.js
+config.json
+```
+
+**Step 2: Resolve each file individually**
+```bash
+# Resolve first file
+vim styles.css
+git add styles.css
+
+# Resolve second file
+vim app.js
+git add app.js
+
+# Resolve third file
+vim config.json
+git add config.json
+```
+
+**Step 3: Verify all conflicts resolved**
+```bash
+git status
+```
+
+**Expected output:**
+```
+On branch main
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+	modified:   app.js
+	modified:   config.json
+	modified:   styles.css
+```
+
+**Step 4: Complete merge**
+```bash
+git commit
+```
+
+## Prevention Strategies
+
+### 1. Regular Synchronization
+
+**Prevent conflicts by keeping branches updated:**
+
+```bash
+# Regular sync pattern
+git checkout feature/my-feature
+git merge main  # Bring main changes into feature
+
+# Or using rebase
+git rebase main
+```
+
+### 2. Small, Focused Commits
+
+**Make smaller, focused changes:**
+
+```bash
+# Instead of one large commit
+git commit -m "Refactor entire authentication system"
+
+# Make several smaller commits  
+git commit -m "Extract login validation function"
+git commit -m "Add password strength checker" 
+git commit -m "Update login form styling"
+```
+
+### 3. Communication and Coordination
+
+**Team coordination strategies:**
+- Assign different files/modules to different developers
+- Communicate about overlapping work areas
+- Use feature flags to avoid conflicting changes
+- Regular team sync meetings
+
+### 4. Use .gitattributes for File-Specific Rules
+
+```bash
+# .gitattributes file
+*.css merge=ours
+package-lock.json merge=ours
+```
+
+## Aborting Merges
+
+### When to Abort
+
+Sometimes it's better to abort and restart:
+
+- Too many complex conflicts
+- Made mistakes during resolution
+- Need to consult with team first
+
+### How to Abort
+
+```bash
+# Abort merge and return to pre-merge state
+git merge --abort
+```
+
+**Before abort:**
+```
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+```
+
+**After abort:**
+```
+On branch main
+nothing to commit, working tree clean
+```
+
+## Conflict Resolution Tools
+
+### VS Code Built-in
+
+VS Code automatically detects conflicts and provides:
+- **Accept Current Change**: Keep HEAD version
+- **Accept Incoming Change**: Keep incoming version  
+- **Accept Both Changes**: Combine both
+- **Compare Changes**: Side-by-side view
+
+### Command Line Tools
+
+```bash
+# View conflicts in diff format
+git diff
+
+# View file status during merge
+git status
+
+# Show merge progress
+git log --merge --oneline
+```
+
+## Real-World Example: Team Conflict Resolution
+
+### Scenario: E-commerce Site Conflict
+
+**Background:** Two developers working on the same shopping cart feature.
+
+**Developer A (Alice):** Added item quantity controls
+**Developer B (Bob):** Added item removal functionality
+
+**Conflict in cart.js:**
+
+```javascript
+function updateCart(itemId, action) {
+<<<<<<< HEAD
+    // Alice's implementation
+    const item = cart.find(item => item.id === itemId);
+    if (action === 'increase') {
+        item.quantity += 1;
+    } else if (action === 'decrease') {
+        item.quantity = Math.max(0, item.quantity - 1);
+    }
+    updateDisplay();
+=======
+    // Bob's implementation  
+    if (action === 'remove') {
+        cart = cart.filter(item => item.id !== itemId);
+        updateDisplay();
+        showNotification('Item removed from cart');
+    }
+>>>>>>> feature/remove-items
+}
+```
+
+**Resolution Process:**
+
+**Step 1: Understand both implementations**
+- Alice: Quantity increase/decrease
+- Bob: Item removal
+
+**Step 2: Combine functionality**
+```javascript
+function updateCart(itemId, action) {
+    const item = cart.find(item => item.id === itemId);
+    
+    if (action === 'increase') {
+        item.quantity += 1;
+    } else if (action === 'decrease') {
+        item.quantity = Math.max(0, item.quantity - 1);
+    } else if (action === 'remove') {
+        cart = cart.filter(item => item.id !== itemId);
+        showNotification('Item removed from cart');
+    }
+    
+    updateDisplay();
+}
+```
+
+**Step 3: Test combined functionality**
+```bash
+# Add resolved file
+git add cart.js
+
+# Complete merge
+git commit -m "Merge cart quantity and removal features"
+
+# Test the combined functionality
+npm test
+```
+
+## Troubleshooting Common Issues
+
+### Issue 1: "No conflicts to resolve"
+
+**Problem:** Git says no conflicts but merge failed.
+
+**Check:**
+```bash
+# Look for other types of issues
+git status
+git diff
+```
+
+### Issue 2: Accidentally committed with conflict markers
+
+**Problem:** Committed file still contains `<<<<<<<` markers.
+
+**Solution:**
+```bash
+# Fix the file by removing markers
+vim problematic-file.js
+
+# Amend the commit
+git add problematic-file.js
+git commit --amend
+```
+
+### Issue 3: Lost changes during resolution
+
+**Problem:** Accidentally deleted important changes.
+
+**Recovery:**
+```bash
+# Check reflog for lost commits
+git reflog
+
+# Reset to before merge
+git reset --hard HEAD@{1}
+
+# Start merge again
+git merge feature/branch-name
+```
+
+## Best Practices Summary
+
+1. **Stay calm**: Conflicts are normal in collaborative development
+2. **Understand both sides**: Read and understand all conflicting changes
+3. **Test after resolution**: Always test the merged code
+4. **Communicate**: Discuss complex conflicts with original authors
+5. **Document decisions**: Note why specific resolutions were chosen
+6. **Practice**: Use practice repositories to get comfortable with conflicts
+
 #### Free Resources
 
 <Tabs defaultValue="official">
@@ -13,17 +627,18 @@ description: Learn about Handling Conflicts in Git
 
 <TabsContent value="official">
 <Note type="note" title="official">
--
+- <Link href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts">Git Book - Basic Merge Conflicts</Link>
+- <Link href="https://git-scm.com/docs/git-merge#_how_conflicts_are_presented">Git Merge Conflicts Documentation</Link>
 </Note>
 </TabsContent>
 <TabsContent value="article">
 <Note type="note" title="article">
--
+- <Link href="https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts">Atlassian - Merge Conflicts Tutorial</Link>
 </Note>
 </TabsContent>
 <TabsContent value="video">
 <Note type="note" title="video">
--
+- <Link href="https://www.youtube.com/results?search_query=git+merge+conflicts+resolution+tutorial">Video Tutorials</Link>
 </Note>
 </TabsContent>
 </Tabs>
