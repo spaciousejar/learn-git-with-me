@@ -40,23 +40,79 @@ G = merge commit combining both branches
 
 ## Types of Merges
 
+Git has different merge strategies depending on the branch history. Understanding these helps you predict what will happen when you merge.
+
 ### 1. Fast-Forward Merge
 
 **When it happens**: When the target branch hasn't changed since the feature branch was created.
 
-**Before Fast-Forward Merge:**
-```
-main:    A---B---C
-         ↘
-feature:   D---E---F (HEAD)
-```
+<Mermaid 
+  chart={`
+    gitGraph
+      commit id: "A"
+      commit id: "B"
+      commit id: "C"
+      branch feature
+      checkout feature
+      commit id: "D"
+      commit id: "E"
+      commit id: "F"
+      checkout main
+      merge feature
+      commit id: "After FF"
+  `}
+/>
 
-**After Fast-Forward Merge:**
-```
-main:    A---B---C---D---E---F (HEAD)
+**Visual Explanation:**
 
-feature branch pointer just moves forward
-```
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Before Fast-Forward Merge"
+        A1[A] --> B1[B]
+        B1 --> C1[C]
+        C1 --> MainPtr1[main]
+        C1 --> D1[D]
+        D1 --> E1[E]
+        E1 --> F1[F]
+        F1 --> FeaturePtr1[feature]
+      end
+      
+      Arrow[git merge feature]
+      
+      subgraph "After Fast-Forward Merge"
+        A2[A] --> B2[B]
+        B2 --> C2[C]
+        C2 --> D2[D]
+        D2 --> E2[E]
+        E2 --> F2[F]
+        F2 --> MainPtr2[main]
+        F2 --> FeaturePtr2[feature]
+      end
+      
+      C1 --> Arrow
+      Arrow --> F2
+      
+      style A1 fill:#e3f2fd
+      style B1 fill:#e3f2fd
+      style C1 fill:#e3f2fd
+      style D1 fill:#34d399
+      style E1 fill:#34d399
+      style F1 fill:#34d399
+      style MainPtr1 fill:#60a5fa
+      style FeaturePtr1 fill:#34d399
+      
+      style A2 fill:#e3f2fd
+      style B2 fill:#e3f2fd
+      style C2 fill:#e3f2fd
+      style D2 fill:#34d399
+      style E2 fill:#34d399
+      style F2 fill:#34d399
+      style MainPtr2 fill:#60a5fa
+      style FeaturePtr2 fill:#34d399
+      style Arrow fill:#f59e0b
+  `}
+/>
 
 **Command:**
 ```bash
@@ -76,19 +132,87 @@ Fast-forward
 
 **When it happens**: When both branches have moved forward independently.
 
-**Before Three-Way Merge:**
-```
-main:    A---B---C---H---I
-         ↘
-feature:   D---E---F---G
-```
+<Mermaid 
+  chart={`
+    gitGraph
+      commit id: "A"
+      commit id: "B"
+      commit id: "C"
+      branch feature
+      checkout feature
+      commit id: "D"
+      commit id: "E"
+      commit id: "F"
+      checkout main
+      commit id: "G"
+      commit id: "H"
+      merge feature
+      commit id: "M"
+  `}
+/>
 
-**After Three-Way Merge:**
-```
-main:    A---B---C---H---I-------M
-         ↘                     ↗
-feature:   D---E---F---G-------
-```
+**Visual Explanation:**
+
+<Mermaid 
+  chart={`
+    graph TB
+      subgraph "Before Three-Way Merge"
+        A1[A] --> B1[B]
+        B1 --> C1[C]
+        C1 --> G1[G]
+        G1 --> H1[H]
+        H1 --> MainPtr1[main]
+        C1 --> D1[D]
+        D1 --> E1[E]
+        E1 --> F1[F]
+        F1 --> FeaturePtr1[feature]
+      end
+      
+      Arrow[git merge feature<br/>Creates merge commit]
+      
+      subgraph "After Three-Way Merge"
+        A2[A] --> B2[B]
+        B2 --> C2[C]
+        C2 --> G2[G]
+        G2 --> H2[H]
+        H2 --> M2[M - Merge Commit]
+        C2 --> D2[D]
+        D2 --> E2[E]
+        E2 --> F2[F]
+        F2 --> M2
+        M2 --> MainPtr2[main]
+        F2 --> FeaturePtr2[feature]
+      end
+      
+      H1 --> Arrow
+      F1 --> Arrow
+      Arrow --> M2
+      
+      style A1 fill:#e3f2fd
+      style B1 fill:#e3f2fd
+      style C1 fill:#e3f2fd
+      style G1 fill:#60a5fa
+      style H1 fill:#60a5fa
+      style D1 fill:#34d399
+      style E1 fill:#34d399
+      style F1 fill:#34d399
+      style MainPtr1 fill:#60a5fa
+      style FeaturePtr1 fill:#34d399
+      
+      style A2 fill:#e3f2fd
+      style B2 fill:#e3f2fd
+      style C2 fill:#e3f2fd
+      style G2 fill:#60a5fa
+      style H2 fill:#60a5fa
+      style D2 fill:#34d399
+      style E2 fill:#34d399
+      style F2 fill:#34d399
+      style M2 fill:#f59e0b
+      style MainPtr2 fill:#60a5fa
+      style FeaturePtr2 fill:#34d399
+      style Arrow fill:#f59e0b
+  `}
+/>
 
 **Command:**
 ```bash
