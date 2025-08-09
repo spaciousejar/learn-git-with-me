@@ -1,8 +1,398 @@
 ---
-title: Merging Basics
-description: Learn about Merging Basics in Git
+title: Git Merging
+description: Master Git merging strategies with comprehensive visual guides, conflict resolution, and best practices for combining branches safely and efficiently.
 ---
-A merge in Git is the process of combining changes from one branch into another. When you want to integrate updates from one branch (the source) into another branch (the target), you need to perform a merge. This involves resolving conflicts between the two branches, if any exist. The goal of merging is to create a new commit that represents the combined changes from both branches, resulting in a single, cohesive history for your project.
+
+## What is Git Merging?
+
+Git merging is the process of **combining changes from different branches** into one unified branch. Think of it as bringing together separate lines of development into a cohesive project state.
+
+### Why Merge Branches?
+
+1. **Feature Integration**: Combine completed features with the main codebase
+2. **Collaboration**: Bring together work from multiple developers
+3. **Release Preparation**: Merge multiple features for a new release
+4. **Synchronization**: Keep branches up to date with latest changes
+
+## Visual Overview of Merging
+
+### The Merging Process
+```
+Before Merge:
+main:    A---B---C
+        ↘
+feature:   D---E---F
+
+After Merge:
+main:    A---B---C-------G
+        ↘             ↗
+feature:   D---E---F---
+
+G = merge commit combining both branches
+```
+
+### Types of Merges
+
+#### 1. Fast-Forward Merge
+```
+Before:
+main:    A---B---C
+        ↘
+feature:   D---E---F
+
+After:
+main:    A---B---C---D---E---F
+```
+**When it happens**: No new commits on main since feature branch was created.
+
+#### 2. Three-Way Merge
+```
+Before:
+main:    A---B---C---H---I
+        ↘
+feature:   D---E---F---G
+
+After:
+main:    A---B---C---H---I-------M
+        ↘                     ↗
+feature:   D---E---F---G-------
+```
+**When it happens**: Both branches have moved forward independently.
+
+## Merging Strategies
+
+### 1. Regular Merge
+```bash
+git checkout main
+git merge feature/my-feature
+```
+- **Preserves history**: Shows the branching structure
+- **Creates merge commit**: Records the merge point
+- **Best for**: Feature branches with meaningful history
+
+### 2. Squash Merge
+```bash
+git merge --squash feature/my-feature
+git commit -m "Add complete feature X"
+```
+- **Combines commits**: All feature commits become one
+- **Clean history**: Linear main branch
+- **Best for**: Cleaning up experimental commits
+
+### 3. Rebase and Merge
+```bash
+git checkout feature/my-feature
+git rebase main
+git checkout main
+git merge feature/my-feature  # Fast-forward
+```
+- **Linear history**: No merge commits
+- **Rewrites history**: Changes commit timestamps
+- **Best for**: Clean, linear project history
+
+## Visual Comparison of Strategies
+
+### Regular Merge Result
+```
+main: A---B---C-------M
+     ↘             ↗
+feature: D---E---F---
+
+Timeline preserved, branching visible
+```
+
+### Squash Merge Result
+```
+main: A---B---C---S
+
+S contains all changes from D, E, F
+Feature branch history lost
+```
+
+### Rebase and Merge Result
+```
+main: A---B---C---D'---E'---F'
+
+D', E', F' are rebased versions of D, E, F
+Appears as if feature was developed on latest main
+```
+
+## Common Merging Scenarios
+
+### Scenario 1: Simple Feature Integration
+**Situation**: Completed login feature ready for main
+
+```bash
+# Check feature is complete
+git checkout feature/login
+git log --oneline
+
+# Switch to main and update
+git checkout main
+git pull origin main
+
+# Merge the feature
+git merge feature/login
+```
+
+**Expected Result**: Feature smoothly integrated into main branch.
+
+### Scenario 2: Multiple Features for Release
+**Situation**: Preparing v2.0 with authentication, payments, and dashboard
+
+```bash
+# Merge authentication
+git checkout main
+git merge feature/authentication
+
+# Merge payments
+git merge feature/payments
+
+# Merge dashboard
+git merge feature/dashboard
+
+# Tag the release
+git tag v2.0.0
+```
+
+### Scenario 3: Hotfix Integration
+**Situation**: Critical bug fix needs immediate deployment
+
+```bash
+# Create hotfix from main
+git checkout main
+git checkout -b hotfix/payment-bug
+
+# Fix and commit
+# ... fix the bug ...
+git commit -m "Fix payment processing timeout"
+
+# Merge back to main
+git checkout main
+git merge hotfix/payment-bug
+
+# Also merge to develop branch
+git checkout develop
+git merge hotfix/payment-bug
+
+# Deploy main and clean up
+git branch -d hotfix/payment-bug
+```
+
+## Merge Conflict Resolution
+
+### Understanding Conflicts
+Conflicts occur when the same lines of code are modified in both branches:
+
+```
+<<<<<<< HEAD (main branch)
+function processPayment() {
+    return validateCard() && chargeAmount();
+}
+=======
+function processPayment() {
+    return validateInput() && processTransaction();
+}
+>>>>>>> feature/payment-update
+```
+
+### Resolving Conflicts Step-by-Step
+
+1. **Identify conflicted files**:
+   ```bash
+   git status
+   # Shows files with conflicts
+   ```
+
+2. **Edit conflicted files**:
+   ```bash
+   # Remove conflict markers and choose the correct code
+   function processPayment() {
+       return validateInput() && chargeAmount();
+   }
+   ```
+
+3. **Stage resolved files**:
+   ```bash
+   git add conflicted-file.js
+   ```
+
+4. **Complete the merge**:
+   ```bash
+   git commit -m "Merge feature/payment-update with conflict resolution"
+   ```
+
+## Best Practices for Merging
+
+### 1. Keep Branches Up to Date
+```bash
+# Before merging, update your feature branch
+git checkout feature/my-feature
+git merge main  # or git rebase main
+```
+
+### 2. Test Before Merging
+```bash
+# On feature branch
+npm test
+npm run build
+npm run lint
+
+# Then merge
+git checkout main
+git merge feature/my-feature
+```
+
+### 3. Use Descriptive Merge Messages
+```bash
+# Good merge commit message
+git merge feature/user-authentication -m "Merge user authentication with OAuth integration
+
+- Add login/logout functionality
+- Implement password reset flow
+- Add user session management
+- Include comprehensive test coverage"
+```
+
+### 4. Clean Up After Merging
+```bash
+# Delete merged feature branch
+git branch -d feature/completed-feature
+
+# Delete remote branch
+git push origin --delete feature/completed-feature
+```
+
+## Advanced Merging Techniques
+
+### Selective Merging (Cherry-Pick)
+```bash
+# Pick specific commits from another branch
+git cherry-pick abc123  # Single commit
+git cherry-pick abc123..def456  # Range of commits
+```
+
+### Merge with Strategy Options
+```bash
+# Favor current branch in conflicts
+git merge -X ours feature/conflicting-branch
+
+# Favor incoming branch in conflicts
+git merge -X theirs feature/conflicting-branch
+```
+
+### Abort a Merge
+```bash
+# If merge goes wrong, abort and return to pre-merge state
+git merge --abort
+```
+
+## Merge Tools and Workflow Integration
+
+### Using Merge Tools
+```bash
+# Configure a visual merge tool
+git config --global merge.tool vimdiff  # or meld, kdiff3, etc.
+
+# Use during conflicts
+git mergetool
+```
+
+### GitHub/GitLab Integration
+- **Pull Requests**: Code review before merging
+- **Protected Branches**: Require reviews and tests
+- **Merge Strategies**: Configurable per repository
+
+## Troubleshooting Common Issues
+
+### Issue 1: "Already up to date"
+**Problem**: Git says no merge needed when you expect changes.
+
+**Solution**: Check branch differences
+```bash
+git log --oneline main..feature/my-branch
+# Shows commits that would be merged
+```
+
+### Issue 2: Merge Creates Unnecessary Conflicts
+**Prevention**: Regular synchronization
+```bash
+# Regularly update feature branch with main
+git checkout feature/my-feature
+git merge main
+```
+
+### Issue 3: Want to Undo a Merge
+**Solutions**:
+```bash
+# If not pushed yet
+git reset --hard HEAD~1
+
+# If already pushed (creates new commit)
+git revert -m 1 HEAD
+```
+
+## Merging Workflows
+
+### Git Flow Model
+```
+main: Production-ready code
+develop: Integration branch for features
+feature/*: Individual feature branches
+hotfix/*: Critical fixes
+release/*: Release preparation
+```
+
+### GitHub Flow Model
+```
+main: Always deployable
+feature/*: All work in feature branches
+Pull requests for code review
+Direct merge to main after approval
+```
+
+### Linear History Workflow
+```
+Always use rebase before merge
+Maintain linear commit history
+Squash small commits
+Clean, readable project timeline
+```
+
+## Detailed Merge Scenarios
+
+### Web Development Team Example
+
+**Team Structure**:
+- Alice: Frontend developer
+- Bob: Backend developer  
+- Carol: DevOps engineer
+
+**Feature Development**:
+```
+main: [Initial Setup]
+      ↘
+alice/ui:     [Header] ← [Navigation] ← [Footer]
+      ↘
+bob/api:      [Database] ← [Auth API] ← [User API]
+      ↘
+carol/deploy: [Docker] ← [CI/CD] ← [Monitoring]
+```
+
+**Integration Process**:
+```bash
+# Week 1: Alice merges UI components
+git checkout main
+git merge alice/ui
+
+# Week 2: Bob integrates API
+git merge bob/api
+
+# Week 3: Carol adds deployment
+git merge carol/deploy
+
+# Result: Complete feature ready for production
+```
 
 #### Free Resources
 
@@ -13,10 +403,20 @@ A merge in Git is the process of combining changes from one branch into another.
 <TabsTrigger value="video">Videos</TabsTrigger>
 </TabsList>
 
+<TabsContent value="official">
+<Note type="note" title="official">
+- <Link href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">Git Branching - Basic Branching and Merging</Link>
+- <Link href="https://git-scm.com/docs/git-merge">Git Merge Documentation</Link>
+</Note>
+</TabsContent>
 <TabsContent value="article">
 <Note type="note" title="article">
-- <Link href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#:~:text=into%20master%20later.-,Basic%20Merging,-Suppose%20you%E2%80%99ve%20decided">@official@Git Branching - Basic Merging</Link>
-- <Link href="https://www.atlassian.com/git/tutorials/using-branches/git-merge">@article@Git merge</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/using-branches/git-merge">Atlassian Git Merge Tutorial</Link>
+</Note>
+</TabsContent>
+<TabsContent value="video">
+<Note type="note" title="video">
+- <Link href="https://www.youtube.com/results?search_query=git+merge+tutorial">Video Tutorials</Link>
 </Note>
 </TabsContent>
 </Tabs>

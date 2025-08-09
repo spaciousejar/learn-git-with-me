@@ -1,35 +1,618 @@
 ---
 title: Git Commit
-description: Learn about Git Commit in Git
+description: Master git commit with comprehensive examples, best practices, and workflows for creating meaningful project history and collaborating effectively.
 ---
-## Commit with a message
-```bash
-git commit -m "commit message"
+
+## What is Git Commit?
+
+A **Git commit** is like taking a **permanent snapshot** of your project at a specific moment in time. Think of it as creating a checkpoint in your development journey that you can always return to.
+
+### Why Commit Changes?
+
+1. **Project History**: Create a timeline of your project's evolution
+2. **Backup Points**: Safe checkpoints you can return to if something breaks
+3. **Collaboration**: Share your changes with team members
+4. **Documentation**: Record what changed and why
+5. **Debugging**: Track down when bugs were introduced
+
+## Visual Understanding of Commits
+
+### Commit as a Snapshot
 ```
-or
-```bash
-git commit --message "commit message"
+Time ──────────────────────────────────>
+
+Commit A        Commit B        Commit C
+   ↓               ↓               ↓
+Project         Project         Project
+State 1         State 2         State 3
+(Initial)     (Added login)   (Fixed bug)
+
+Each commit contains:
+- Complete project snapshot
+- Author information  
+- Timestamp
+- Commit message
+- Reference to parent commit(s)
 ```
 
-Creates a new commit with a message describing the
-changes made. This command creates a new commit with
-the changes you made to your local repository. The commit
-message describes the changes made in this commit.
+### Commit Chain Visualization
+```
+Repository History:
 
+A ← B ← C ← D ← E ← HEAD
+│   │   │   │   │
+│   │   │   │   └── Latest commit (current state)
+│   │   │   └────── Previous commit
+│   │   └────────── Even older commit
+│   └────────────── Initial commit
+└────────────────── Root commit
 
+Each arrow represents "parent relationship"
+HEAD points to the current commit
+```
 
-## git commit --amend
+## Basic Git Commit Commands
 
-`git commit --amend` is a command used to modify the most recent commit in your repository's history by updating its message, adding or removing files, or changing the commit's metadata. This allows you to correct mistakes or improve the commit's description after it has been made. When using --amend, Git will replace the existing commit with a new one that includes any changes made since the last commit, effectively "amending" the previous commit.
+### Simple Commit with Message
+```bash
+git commit -m "Add user authentication system"
+```
 
+**When to use**: For quick, straightforward commits.
+
+**Example Workflow**:
+```bash
+# Stage your changes
+git add login.js login.html
+
+# Commit with descriptive message
+git commit -m "Add login form and validation logic"
+```
+
+**Expected Output**:
+```
+[main a1b2c3d] Add login form and validation logic
+ 2 files changed, 45 insertions(+)
+ create mode 100644 login.html
+ create mode 100644 login.js
+```
+
+### Multi-line Commit Message
+```bash
+git commit -m "Add user authentication system
+
+- Implement login form with email/password
+- Add input validation and error handling  
+- Integrate with backend authentication API
+- Include password strength requirements"
+```
+
+### Interactive Commit (Opens Editor)
+```bash
+git commit
+```
+
+**When to use**: For detailed commit messages or when you want to review changes.
+
+**What happens**: Opens your default text editor (usually vim, nano, or VS Code).
+
+**Example Editor Content**:
+```
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Changes to be committed:
+#       new file:   authentication.js
+#       modified:   app.js
+#       modified:   package.json
+#
+```
+
+## Advanced Commit Options
+
+### Commit with Verbose Information
+```bash
+git commit -v
+```
+
+**What it shows**: Displays the diff of changes being committed in the editor.
+
+### Commit All Modified Files
+```bash
+git commit -a -m "Update all modified tracked files"
+# or shorthand
+git commit -am "Update all modified tracked files"
+```
+
+**⚠️ Caution**: This only commits **modified** tracked files, not new files.
+
+**Example**:
+```bash
+# You have these changes:
+# Modified: app.js, styles.css
+# New file: feature.js (won't be included)
+
+git commit -am "Update existing components"
+# Only app.js and styles.css will be committed
+```
+
+### Amend Last Commit
 ```bash
 git commit --amend
 ```
 
+**When to use**: 
+- Fix typos in the last commit message
+- Add forgotten files to the last commit
+- Modify the last commit before pushing
+
+**Example Scenario 1**: Fix commit message typo
+```bash
+# You made a typo in the last commit
+git log --oneline -1
+# a1b2c3d Add lgoin validation  ← typo!
+
+# Fix the message
+git commit --amend -m "Add login validation"
+```
+
+**Example Scenario 2**: Add forgotten file
+```bash
+# You committed but forgot to include a file
+git commit -m "Add login functionality"
+# Oh no! Forgot login.css
+
+# Stage the forgotten file
+git add login.css
+
+# Add it to the last commit
+git commit --amend --no-edit
+```
+
+### Amend with New Message
+```bash
+git commit --amend -m "New commit message"
+```
+
+### Sign Commits
+```bash
+git commit -S -m "Signed commit message"
+```
+
+**When to use**: When your project requires cryptographically signed commits.
+
+## Real-World Commit Scenarios
+
+### Scenario 1: Feature Development
+
+**Situation**: Building a shopping cart feature step by step.
+
+**Step-by-Step Commits**:
+
+```bash
+# Step 1: Create basic structure
+git add cart.html
+git commit -m "Add shopping cart HTML structure"
+
+# Step 2: Add styling
+git add cart.css
+git commit -m "Add shopping cart styling and layout"
+
+# Step 3: Add functionality
+git add cart.js
+git commit -m "Implement add/remove cart functionality"
+
+# Step 4: Add tests
+git add cart.test.js
+git commit -m "Add unit tests for shopping cart"
+
+# Step 5: Integration
+git add app.js
+git commit -m "Integrate shopping cart with main application"
+```
+
+**Result**: Clean, logical commit history that tells the story of feature development.
+
+### Scenario 2: Bug Fix
+
+**Situation**: Critical payment processing bug needs immediate fix.
+
+```bash
+# Identify and fix the bug
+git add payment-processor.js error-handler.js
+
+# Commit with clear description
+git commit -m "Fix payment processing timeout error
+
+- Increase timeout threshold from 5s to 30s
+- Add proper error handling for network failures
+- Log payment errors for debugging
+
+Fixes: Critical bug causing payment failures
+Tested: All payment scenarios pass"
+```
+
+### Scenario 3: Refactoring
+
+**Situation**: Improving code organization without changing functionality.
+
+```bash
+# Refactor authentication logic
+git add auth/
+git commit -m "Refactor authentication module structure
+
+- Extract validation logic to separate utility functions
+- Move authentication components to dedicated directory
+- Improve code organization for better maintainability
+
+No functional changes - pure refactoring"
+```
+
+## Commit Message Best Practices
+
+### The Anatomy of a Good Commit Message
+
+```
+<type>: <short description> (50 chars or less)
+
+<longer explanation if needed> (wrap at 72 chars)
+
+- Bullet points for multiple changes
+- Explain the "why" not just the "what"
+- Reference issue numbers if applicable
+
+Fixes #123
+Closes #456
+```
+
+### Commit Message Types
+
+| Type | Purpose | Example |
+|------|---------|---------|
+| `feat` | New feature | `feat: add user profile page` |
+| `fix` | Bug fix | `fix: resolve payment processing error` |
+| `docs` | Documentation | `docs: update API documentation` |
+| `style` | Code style changes | `style: format code with prettier` |
+| `refactor` | Code refactoring | `refactor: simplify user validation logic` |
+| `test` | Add/modify tests | `test: add unit tests for login component` |
+| `chore` | Maintenance tasks | `chore: update dependencies` |
+
+### Good vs Bad Commit Messages
+
+#### ✅ Good Commit Messages
+```bash
+git commit -m "Add password strength validation to signup form"
+
+git commit -m "Fix memory leak in image processing component
+
+- Release canvas context after each render
+- Add proper cleanup in useEffect hooks
+- Reduces memory usage by ~40% in testing
+
+Fixes #284"
+
+git commit -m "Refactor database connection handling
+
+Extract connection logic to separate service class for
+better testability and reusability across components"
+```
+
+#### ❌ Bad Commit Messages
+```bash
+git commit -m "stuff"
+git commit -m "fix"
+git commit -m "update"
+git commit -m "WIP"
+git commit -m "asdfgh"
+git commit -m "Fixed the thing"
+```
+
+## Commit Workflows
+
+### Workflow 1: Feature Branch Development
+
+```bash
+# Create feature branch
+git checkout -b feature/user-dashboard
+
+# Develop incrementally with focused commits
+git add dashboard.html
+git commit -m "Add dashboard HTML structure and navigation"
+
+git add dashboard.css  
+git commit -m "Add responsive dashboard styling"
+
+git add dashboard.js
+git commit -m "Implement dashboard data fetching and display"
+
+git add dashboard.test.js
+git commit -m "Add comprehensive dashboard component tests"
+
+# Final integration
+git add app.js routes.js
+git commit -m "Integrate user dashboard with main application"
+```
+
+### Workflow 2: Atomic Commits
+
+**Principle**: Each commit should represent one logical change.
+
+```bash
+# ✅ Good: Each commit has one purpose
+git commit -m "Add user input validation"
+git commit -m "Update error messaging for validation"
+git commit -m "Add unit tests for validation functions"
+
+# ❌ Bad: Mixed purposes in one commit
+git commit -m "Add validation, fix typos, update tests, refactor"
+```
+
+### Workflow 3: Collaborative Development
+
+```bash
+# Before starting work
+git pull origin main
+
+# Make your changes
+git add feature.js
+git commit -m "Implement feature X with error handling"
+
+# Before pushing, sync with remote
+git pull origin main
+
+# Push your changes
+git push origin feature/my-feature
+```
+
+## Understanding Commit Output
+
+### Successful Commit Output
+```bash
+git commit -m "Add shopping cart functionality"
+```
+
+**Output**:
+```
+[feature/shopping-cart a1b2c3d] Add shopping cart functionality
+ 3 files changed, 127 insertions(+), 5 deletions(-)
+ create mode 100644 cart.js
+ create mode 100644 cart.css
+```
+
+**What this means**:
+- `[feature/shopping-cart a1b2c3d]`: Branch name and commit hash
+- `3 files changed`: Number of files modified
+- `127 insertions(+), 5 deletions(-)`: Lines added and removed
+- `create mode 100644`: New files created with permissions
+
+### Commit Hash Explanation
+```
+Commit Hash: a1b2c3d4e5f6789012345678901234567890abcd
+             │
+             └── Short version: a1b2c3d (first 7 characters)
+
+Usage:
+- git show a1b2c3d      # Show commit details
+- git checkout a1b2c3d  # Go to this commit
+- git reset a1b2c3d     # Reset to this commit
+```
+
+## Commit History Visualization
+
+### Linear History
+```bash
+git log --oneline
+```
+
+**Output**:
+```
+a1b2c3d (HEAD -> main) Add shopping cart functionality
+b2c3d4e Fix payment processing bug
+c3d4e5f Add user authentication
+d4e5f6g Initial project setup
+```
+
+### Graph View
+```bash
+git log --oneline --graph
+```
+
+**Output with Branches**:
+```
+* a1b2c3d (HEAD -> main) Merge branch 'feature/shopping-cart'
+|\
+| * b2c3d4e Add cart item removal
+| * c3d4e5f Add cart display logic
+|/
+* d4e5f6g Add user authentication
+* e5f6g7h Initial project setup
+```
+
+## Commit Best Practices
+
+### 1. Make Atomic Commits
+```bash
+# ✅ One logical change per commit
+git commit -m "Add user email validation"
+git commit -m "Add user password validation"
+
+# ❌ Multiple unrelated changes
+git commit -m "Add validation, fix typos, update docs"
+```
+
+### 2. Commit Often, Push Less Frequently
+```bash
+# Local development pattern:
+git commit -m "Add login form structure"
+git commit -m "Add form validation"
+git commit -m "Add error handling"
+git commit -m "Add success messaging"
+
+# Then push all commits together:
+git push origin feature/login
+```
+
+### 3. Write for Your Future Self
+```bash
+# ✅ Clear context
+git commit -m "Fix race condition in payment processing
+
+Added mutex lock to prevent concurrent payment processing
+for the same order, which was causing duplicate charges"
+
+# ❌ Unclear
+git commit -m "Fix bug"
+```
+
+### 4. Use Present Tense
+```bash
+# ✅ Present tense (imperative mood)
+git commit -m "Add user authentication"
+git commit -m "Fix memory leak in image processor"
+
+# ❌ Past tense
+git commit -m "Added user authentication"
+git commit -m "Fixed memory leak"
+```
+
+## Advanced Commit Techniques
+
+### Partial File Commits
+```bash
+# Commit only specific changes within a file
+git add -p app.js
+git commit -m "Add input validation to login form"
+
+# Rest of app.js changes remain unstaged
+```
+
+### Empty Commits (Trigger Builds)
+```bash
+git commit --allow-empty -m "Trigger CI build"
+```
+
+### Signing All Commits by Default
+```bash
+# Configure Git to sign all commits
+git config --global commit.gpgsign true
+```
+
+## Common Commit Mistakes and Solutions
+
+### Mistake 1: Committing Without Staging
+```bash
+# ❌ This won't work
+git commit -m "Add new feature"
+# On branch main, nothing to commit, working tree clean
+
+# ✅ Stage first, then commit
+git add .
+git commit -m "Add new feature"
+```
+
+### Mistake 2: Vague Commit Messages
+```bash
+# ❌ Vague messages
+git commit -m "fix"
+git commit -m "update"
+
+# ✅ Descriptive messages
+git commit -m "Fix null pointer exception in user profile"
+git commit -m "Update dependencies to resolve security vulnerabilities"
+```
+
+### Mistake 3: Committing Debugging Code
+```bash
+# ❌ Don't commit debug statements
+console.log("DEBUG: user data:", userData); // ← Remove this!
+
+# ✅ Review changes before committing
+git diff
+git add app.js
+git commit -m "Add user data processing logic"
+```
+
+### Mistake 4: Forgetting to Amend
+```bash
+# You committed but forgot a file
+git commit -m "Add login functionality"
+# Oh no! Forgot login.css
+
+# ✅ Fix with amend
+git add login.css
+git commit --amend --no-edit
+```
+
+## Git Commit Hooks
+
+### Pre-commit Hook Example
+```bash
+# .git/hooks/pre-commit
+#!/bin/sh
+# Run tests before allowing commit
+npm test
+if [ $? -ne 0 ]; then
+    echo "Tests must pass before commit!"
+    exit 1
+fi
+```
+
+### Commit Message Hook
+```bash
+# .git/hooks/commit-msg
+#!/bin/sh
+# Ensure commit message follows pattern
+if ! grep -qE "^(feat|fix|docs|style|refactor|test|chore):" "$1"; then
+    echo "Commit message must start with type: feat|fix|docs|style|refactor|test|chore"
+    exit 1
+fi
+```
+
+## Troubleshooting Commits
+
+### Issue 1: Can't Commit - Nothing Staged
+```bash
+git commit -m "My changes"
+# On branch main, nothing to commit, working tree clean
+```
+
+**Solution**:
+```bash
+git status  # Check what changes exist
+git add .   # Stage changes
+git commit -m "My changes"
+```
+
+### Issue 2: Want to Undo Last Commit
+```bash
+# Keep changes, undo commit
+git reset --soft HEAD~1
+
+# Remove changes and commit
+git reset --hard HEAD~1
+```
+
+### Issue 3: Commit to Wrong Branch
+```bash
+# Move last commit to correct branch
+git reset --soft HEAD~1  # Undo commit, keep changes staged
+git checkout correct-branch
+git commit -m "Correct commit message"
+```
+
+## Commit Performance Tips
+
+### Large Repository Optimization
+```bash
+# Skip hooks for faster commits (use carefully)
+git commit --no-verify -m "Quick commit"
+
+# Commit only specific paths
+git commit src/ -m "Update source code only"
+```
 
 #### Free Resources
-
-
 
 <Tabs defaultValue="official">
 <TabsList>
@@ -38,10 +621,17 @@ git commit --amend
 <TabsTrigger value="video">Videos</TabsTrigger>
 </TabsList>
 
+<TabsContent value="official">
+<Note type="note" title="official">
+- <Link href="https://git-scm.com/docs/git-commit">Git Commit Official Documentation</Link>
+- <Link href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository">Git Basics - Recording Changes</Link>
+</Note>
+</TabsContent>
 <TabsContent value="article">
 <Note type="note" title="article">
 - <Link href="https://docs.github.com/en/enterprise-cloud@latest/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/changing-a-commit-message">Changing a commit message</Link>
 - <Link href="https://www.atlassian.com/git/tutorials/rewriting-history">Rewriting history</Link>
+- <Link href="https://chris.beams.io/posts/git-commit/">How to Write a Git Commit Message</Link>
 </Note>
 </TabsContent>
 <TabsContent value="video">
