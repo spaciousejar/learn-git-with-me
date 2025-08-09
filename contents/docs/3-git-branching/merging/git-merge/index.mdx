@@ -1,14 +1,545 @@
 ---
 title: Git Merge
-description: Learn about Git Merge in Git
+description: Master the git merge command with comprehensive examples, different merge strategies, and real-world scenarios to effectively combine branches.
 ---
-## Merge branch
-    
-    ```sh
-    git merge branch_name
-    ```
-    
-    This command merges the changes from the `branch_name` branch into the current branch. It combines the changes from the specified branch with the current branch. The merge operation creates a new commit that includes the changes from both branches.
+
+## The Git Merge Command
+
+The `git merge` command is the primary tool for combining changes from different branches. It integrates the commit history from one branch into another.
+
+## Basic Merge Syntax
+
+```bash
+git merge <branch-name>
+```
+
+This merges the specified branch into your **current branch**.
+
+## Understanding Git Merge in Detail
+
+### How Git Merge Works
+
+When you run `git merge`, Git:
+
+1. **Finds the common ancestor** of both branches
+2. **Compares changes** since that point
+3. **Combines the changes** automatically when possible
+4. **Creates a merge commit** (in most cases)
+5. **Updates the branch pointer** to the new commit
+
+### Visual Process
+
+```
+Step 1: Find Common Ancestor
+main:    A---B---C---D
+         ↘
+feature:   E---F---G
+
+Common ancestor: A
+
+Step 2: Compare Changes
+main changes: B, C, D
+feature changes: E, F, G
+
+Step 3: Merge Result
+main:    A---B---C---D-------M
+         ↘                 ↗
+feature:   E---F---G-------
+
+M = merge commit combining both histories
+```
+
+## Different Merge Scenarios
+
+### Scenario 1: Fast-Forward Merge
+
+**When**: The target branch has no new commits since feature branch was created.
+
+**Setup:**
+```bash
+# Create and work on feature
+git checkout main
+git checkout -b feature/header-update
+echo "New header" > header.html
+git add header.html
+git commit -m "Update header design"
+```
+
+**Merge Process:**
+```bash
+# Switch to main and merge
+git checkout main
+git merge feature/header-update
+```
+
+**Expected Output:**
+```
+Updating a1b2c3d..e4f5g6h
+Fast-forward
+ header.html | 1 +
+ 1 file changed, 1 insertion(+)
+```
+
+**Visual Result:**
+```
+Before:
+main:    A---B---C
+         ↘
+feature:   D (New header)
+
+After:
+main:    A---B---C---D
+feature:           D (can be deleted)
+```
+
+### Scenario 2: Three-Way Merge
+
+**When**: Both branches have diverged with new commits.
+
+**Setup:**
+```bash
+# Initial state - both branches have moved forward
+git log --oneline --graph --all
+```
+
+**Expected View:**
+```
+* e4f5g6h (feature/login) Add login validation
+* d3e4f5g Add login form
+| * c2d3e4f (main) Fix navigation bug
+| * b1c2d3e Update footer
+|/
+* a0b1c2d Initial commit
+```
+
+**Merge Process:**
+```bash
+git checkout main
+git merge feature/login
+```
+
+**Expected Output:**
+```
+Merge made by the 'recursive' strategy.
+ login.html | 15 +++++++++++++++
+ login.js   | 20 ++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+```
+
+**Visual Result:**
+```
+After Merge:
+* f5g6h7i (main) Merge branch 'feature/login'
+|\
+| * e4f5g6h Add login validation
+| * d3e4f5g Add login form
+* | c2d3e4f Fix navigation bug
+* | b1c2d3e Update footer
+|/
+* a0b1c2d Initial commit
+```
+
+## Merge Command Options
+
+### 1. Default Merge
+```bash
+git merge feature/my-feature
+```
+Uses Git's default behavior (fast-forward when possible).
+
+### 2. No Fast-Forward Merge
+```bash
+git merge --no-ff feature/my-feature
+```
+**Always creates a merge commit**, even for fast-forward situations.
+
+**Use case**: When you want to preserve the branch structure in history.
+
+**Visual Comparison:**
+
+**Default (Fast-Forward):**
+```
+main: A---B---C---D---E
+```
+
+**No Fast-Forward:**
+```
+main: A---B---C-------M
+      ↘             ↗
+feature: D---E-------
+```
+
+### 3. Squash Merge
+```bash
+git merge --squash feature/my-feature
+git commit -m "Add complete feature implementation"
+```
+**Combines all feature commits into a single commit** without creating a merge commit.
+
+**Before Squash:**
+```
+main:    A---B---C
+         ↘
+feature:   D---E---F---G
+```
+
+**After Squash:**
+```
+main: A---B---C---S
+
+S = single commit containing all changes from D, E, F, G
+```
+
+### 4. Fast-Forward Only
+```bash
+git merge --ff-only feature/my-feature
+```
+**Only merges if fast-forward is possible**, fails otherwise.
+
+**Use case**: When you want to ensure linear history.
+
+## Step-by-Step Merge Examples
+
+### Example 1: Merging a Bug Fix
+
+**Scenario**: You've fixed a critical bug in the payment system.
+
+**Step 1: Prepare the fix**
+```bash
+# Create and switch to bugfix branch
+git checkout main
+git checkout -b bugfix/payment-validation
+
+# Make the fix
+echo "Fixed payment validation" >> payment.js
+git add payment.js
+git commit -m "Fix null pointer in payment validation"
+
+# Push the fix
+git push origin bugfix/payment-validation
+```
+
+**Step 2: Merge the fix**
+```bash
+# Switch to main
+git checkout main
+
+# Get latest changes
+git pull origin main
+
+# Merge the bugfix
+git merge bugfix/payment-validation
+```
+
+**Expected Output:**
+```
+Updating c3d4e5f..f6g7h8i
+Fast-forward
+ payment.js | 3 +++
+ 1 file changed, 3 insertions(+)
+```
+
+**Step 3: Clean up**
+```bash
+# Push merged changes
+git push origin main
+
+# Delete the feature branch
+git branch -d bugfix/payment-validation
+git push origin --delete bugfix/payment-validation
+```
+
+### Example 2: Merging with Conflicts (Preview)
+
+**Scenario**: Two features modify the same file.
+
+**Setup Conflict:**
+```bash
+# On main: modify styles.css
+git checkout main
+echo "body { background: white; }" > styles.css
+git add styles.css
+git commit -m "Set white background"
+
+# On feature: modify same file differently
+git checkout feature/dark-theme
+echo "body { background: black; }" > styles.css
+git add styles.css
+git commit -m "Set dark theme background"
+```
+
+**Merge Attempt:**
+```bash
+git checkout main
+git merge feature/dark-theme
+```
+
+**Expected Output:**
+```
+Auto-merging styles.css
+CONFLICT (content): Merge conflict in styles.css
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+*Note: Conflict resolution is covered in detail in the "Handling Conflicts" section.*
+
+## Merge Strategies in Detail
+
+### Recursive Strategy (Default)
+
+**When used**: For two-branch merges (most common case)
+
+**How it works**:
+- Finds common ancestor
+- Applies changes from both branches
+- Handles simple conflicts automatically
+
+```bash
+# Explicitly specify recursive strategy
+git merge -s recursive feature/my-feature
+```
+
+### Octopus Strategy
+
+**When used**: For merging more than two branches simultaneously
+
+```bash
+# Merge multiple branches at once
+git merge feature/login feature/search feature/cart
+```
+
+**Use case**: Combining multiple features for a release.
+
+### Ours Strategy
+
+**When used**: Keep current branch changes, ignore other branch
+
+```bash
+git merge -s ours feature/experimental
+```
+
+**Result**: Creates merge commit but keeps only current branch content.
+
+### Subtree Strategy
+
+**When used**: Merging projects with complex subdirectory structures
+
+```bash
+git merge -s subtree feature/library-integration
+```
+
+## Real-World Merge Workflow
+
+### Complete Feature Integration Workflow
+
+**Scenario**: Integrating a completed user dashboard feature.
+
+**Step 1: Prepare for integration**
+```bash
+# Ensure feature is complete and tested
+git checkout feature/user-dashboard
+npm test
+npm run build
+
+# Check branch status
+git status
+```
+
+**Step 2: Update feature branch with latest main**
+```bash
+# Get latest main changes
+git checkout main
+git pull origin main
+
+# Update feature branch
+git checkout feature/user-dashboard
+git merge main
+```
+
+**If conflicts occur, resolve them:**
+```bash
+# After resolving conflicts
+git add .
+git commit -m "Merge main into feature/user-dashboard"
+```
+
+**Step 3: Final testing**
+```bash
+# Test again after merging main
+npm test
+npm run build
+```
+
+**Step 4: Merge into main**
+```bash
+# Switch to main
+git checkout main
+
+# Final pull to ensure latest
+git pull origin main
+
+# Merge the feature
+git merge feature/user-dashboard
+```
+
+**Step 5: Push and clean up**
+```bash
+# Push merged changes
+git push origin main
+
+# Delete feature branch
+git branch -d feature/user-dashboard
+git push origin --delete feature/user-dashboard
+```
+
+## Understanding Merge Output
+
+### Successful Fast-Forward
+```
+Updating a1b2c3d..e4f5g6h
+Fast-forward
+ src/dashboard.js   | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ src/dashboard.css  | 23 +++++++++++++++++++++++
+ index.html         |  3 +++
+ 3 files changed, 71 insertions(+)
+```
+
+**Analysis**:
+- **Updating a1b2c3d..e4f5g6h**: Branch pointer moved from commit a1b2c3d to e4f5g6h
+- **Fast-forward**: No merge commit created
+- **3 files changed, 71 insertions(+)**: Summary of all changes added
+
+### Successful Three-Way Merge
+```
+Merge made by the 'recursive' strategy.
+ src/dashboard.js   | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ src/dashboard.css  | 23 +++++++++++++++++++++++
+ index.html         |  3 +++
+ 3 files changed, 71 insertions(+)
+```
+
+**Analysis**:
+- **recursive strategy**: Git's algorithm for two-branch merges
+- A new merge commit was created
+- Files show the combined changes from both branches
+
+## Common Merge Patterns
+
+### Pattern 1: Feature Branch Workflow
+```bash
+# 1. Create feature branch
+git checkout main
+git checkout -b feature/new-feature
+
+# 2. Develop feature
+# ... make commits ...
+
+# 3. Merge back to main
+git checkout main
+git merge feature/new-feature
+
+# 4. Clean up
+git branch -d feature/new-feature
+```
+
+### Pattern 2: Release Branch Workflow
+```bash
+# 1. Create release branch
+git checkout -b release/v1.2.0
+
+# 2. Merge features into release
+git merge feature/user-auth
+git merge feature/payment-system
+git merge feature/notifications
+
+# 3. Test and fix on release branch
+# ... bug fixes ...
+
+# 4. Merge release to main
+git checkout main
+git merge release/v1.2.0
+```
+
+### Pattern 3: Hotfix Workflow
+```bash
+# 1. Create hotfix from main
+git checkout main
+git checkout -b hotfix/critical-bug
+
+# 2. Fix the issue
+# ... make fix ...
+
+# 3. Merge back immediately
+git checkout main
+git merge hotfix/critical-bug
+
+# 4. Deploy and clean up
+git push origin main
+git branch -d hotfix/critical-bug
+```
+
+## Troubleshooting Merge Issues
+
+### Issue 1: "Already up to date"
+
+**Problem**: Git reports no changes to merge.
+
+**Diagnostic:**
+```bash
+# Check if branches are actually different
+git log main..feature/my-feature --oneline
+
+# Check reverse direction
+git log feature/my-feature..main --oneline
+```
+
+**Possible causes**:
+- Feature branch has no new commits
+- Feature branch was already merged
+- Wrong branch names
+
+### Issue 2: Merge creates empty commit
+
+**Problem**: Merge succeeds but adds no changes.
+
+**Check:**
+```bash
+# View the merge commit
+git show HEAD
+
+# Check what was actually merged
+git log --merges -1 --stat
+```
+
+### Issue 3: Want to abort merge
+
+**Solution:**
+```bash
+# If merge is in progress
+git merge --abort
+
+# This returns to state before merge attempt
+```
+
+### Issue 4: Merge deleted my changes
+
+**Recovery:**
+```bash
+# Find your lost commits
+git reflog
+
+# Reset to before merge
+git reset --hard HEAD@{1}
+```
+
+## Merge Best Practices Summary
+
+1. **Always pull before merging**: `git pull origin main`
+2. **Test before merging**: Ensure your feature works
+3. **Use descriptive merge messages**: Explain what's being integrated
+4. **Consider squashing**: For cleaner history on feature branches
+5. **Clean up branches**: Delete merged feature branches
+6. **Document significant merges**: Add notes about important integrations
 
 #### Free Resources
 
@@ -21,17 +552,18 @@ description: Learn about Git Merge in Git
 
 <TabsContent value="official">
 <Note type="note" title="official">
-- <Link href="https://git-scm.com/docs">Git Documentation</Link>
+- <Link href="https://git-scm.com/docs/git-merge">Git Merge Documentation</Link>
+- <Link href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">Git Book - Branching and Merging</Link>
 </Note>
 </TabsContent>
 <TabsContent value="article">
 <Note type="note" title="article">
-- <Link href="https://www.atlassian.com/git/tutorials">Atlassian Git Tutorials</Link>
+- <Link href="https://www.atlassian.com/git/tutorials/using-branches/git-merge">Atlassian Git Merge Tutorial</Link>
 </Note>
 </TabsContent>
 <TabsContent value="video">
 <Note type="note" title="video">
-- <Link href="https://www.youtube.com/results?search_query=git+git-merge+tutorial">Video Tutorials</Link>
+- <Link href="https://www.youtube.com/results?search_query=git+merge+tutorial+detailed">Video Tutorials</Link>
 </Note>
 </TabsContent>
 </Tabs>
