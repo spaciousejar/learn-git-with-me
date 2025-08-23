@@ -5,6 +5,12 @@ import { Video } from "@/components/ui/video";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
 import CanvasCursor from "@/components/CanvasCursor";
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Learn Git With Me - Master Git Version Control',
+  description: 'Learn Git and GitHub with our comprehensive beginner\'s guide. Master version control, branching, collaboration, and workflows through interactive tutorials and real-world examples.',
+}
 
 export default function Home() {
   return (
