@@ -10,14 +10,16 @@ export function GET() {
 
   return (
     <Link
-    href={`/docs${page_routes[0].href}`}
-    onClick={() => {
-      toast({
-        title: "Hey! Welcome",
-        description: "Let’s get started! 🌟",
-      })
-    }}
-  >
+      href={`/docs${page_routes[0].href}`}
+      onClick={() => {
+        toast({
+          title: "Hey! Welcome",
+          description: "Let's get started! 🌟",
+        })
+      }}
+      className="focus:ring-2 focus:ring-primary focus:outline-none rounded-md"
+      aria-label="Get started with learning Git and GitHub"
+    >
      <ShinyButton>Get Started</ShinyButton> 
     
   </Link>

@@ -8,7 +8,8 @@ export function DownloadButton() {
 
   return (
    <Button
-   variant="ghost">
+   variant="ghost"
+   className="focus:ring-2 focus:ring-primary focus:outline-none">
      <a
       className="flex"
       href="git-cheatsheet.pdf"
@@ -19,11 +20,13 @@ export function DownloadButton() {
           description: "You have successfully downloaded the CHEATSHEET.",
         })
       }}
+      aria-label="Download Git cheatsheet PDF"
 
      >
       <span className="inset-0 opacity-20 rounded-md animate-pulse"></span>
       <Download 
         className={`mr-2 h-4 w-4 transition-transform duration-300 ease-in-out`} 
+        aria-hidden="true"
       />
       CHEATSHEET
       

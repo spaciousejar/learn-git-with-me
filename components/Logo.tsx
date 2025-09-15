@@ -13,7 +13,11 @@ export function LogoI() {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={`relative transition-transform duration-300 ease-in-out ${isHovered ? 'rotate-180' : ''}`}>
-        <GitBranch className="h-6 w-6" />
+        <GitBranch 
+          className="h-6 w-6" 
+          aria-label="Gitme.live icon"
+          role="img"
+        />
       </div>
       
       </div>

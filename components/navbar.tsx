@@ -74,18 +74,19 @@ export function Navbar() {
               buttonVariants({
                 variant: "rainbow",
               }),
-              "hidden md:inline-flex",
+              "hidden md:inline-flex focus:ring-2 focus:ring-primary focus:outline-none",
             )}
             target="_blank"
             href="https://github.com/spaciousejar/learn-git-with-me"
+            aria-label={`Star this project on GitHub (${stars} stars)`}
           >
             <div className="flex items-center">
-              <Icons.gitHub className="size-4" />
+              <Icons.gitHub className="size-4" aria-hidden="true" />
               <span className="ml-1 lg:hidden">Star</span>
               <span className="ml-1 hidden lg:inline">Star on GitHub</span>{" "}
             </div>
             <div className="ml-2 flex items-center gap-1 text-sm md:flex">
-              <StarIcon className="size-4 text-gray-500 transition-all duration-200 group-hover:text-yellow-300" />
+              <StarIcon className="size-4 text-gray-500 transition-all duration-200 group-hover:text-yellow-300" aria-hidden="true" />
               <NumberTicker
                 value={stars}
                 className="font-display font-medium text-black dark:text-white"
@@ -97,9 +98,10 @@ export function Navbar() {
             <div className="flex ml-2.5 sm:ml-0">
               <Link
                 href="https://github.com/spaciousejar/learn-git-with-me.git"
-                className={buttonVariants({ variant: "ghost", size: "icon" })}
+                className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "focus:ring-2 focus:ring-primary focus:outline-none")}
+                aria-label="View source code on GitHub"
               >
-                <Icons.gitHub className="size-5" />
+                <Icons.gitHub className="size-5" aria-hidden="true" />
               </Link>
               <ModeToggle />
             </div>
@@ -112,7 +114,11 @@ export function Navbar() {
 
 export function Logo() {
   return (
-    <Link href="/" className="flex items-center gap-2.5">
+    <Link 
+      href="/" 
+      className="flex items-center gap-2.5 focus:ring-2 focus:ring-primary focus:outline-none rounded-md p-1"
+      aria-label="GIT ME - Homepage"
+    >
       <LogoI />
       <h2 className="text-md font-bold">GIT ME</h2>
     </Link>
@@ -128,14 +134,16 @@ export function NavMenu({ isSheet = false }) {
             key={item.title + item.href}
             activeClassName="!text-primary md:font-semibold font-medium"
             absolute
-            className="flex items-center gap-1 dark:text-stone-300/85 text-stone-800"
+            className="flex items-center gap-1 dark:text-stone-300/85 text-stone-800 focus:ring-2 focus:ring-primary focus:outline-none rounded-md px-2 py-1"
             href={item.href}
+            aria-label={item.external ? `${item.title} (opens in new tab)` : item.title}
           >
             {item.title}{" "}
             {item.external && (
               <MoveUpRightIcon
                 className="w-3 h-3 align-super"
                 strokeWidth={3}
+                aria-hidden="true"
               />
             )}
           </Anchor>
