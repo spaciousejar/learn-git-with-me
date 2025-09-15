@@ -15,7 +15,7 @@ export function LogoI() {
       <div className={`relative transition-transform duration-300 ease-in-out ${isHovered ? 'rotate-180' : ''}`}>
         <GitBranch 
           className="h-6 w-6" 
-          aria-label="Git branch icon"
+          aria-label="Gitme.live icon"
           role="img"
         />
       </div>
