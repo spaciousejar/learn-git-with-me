@@ -128,7 +128,10 @@ export function NavMenu({ isSheet = false }) {
             key={item.title + item.href}
             activeClassName="!text-primary md:font-semibold font-medium"
             absolute
-            className="flex items-center gap-1 dark:text-stone-300/85 text-stone-800"
+            className={cn(
+              "flex items-center gap-1 dark:text-stone-300/85 text-stone-800",
+              isSheet && "py-3 px-2 min-h-[44px] w-full rounded-md hover:bg-accent transition-colors"
+            )}
             href={item.href}
           >
             {item.title}{" "}

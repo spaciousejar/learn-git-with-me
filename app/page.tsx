@@ -30,7 +30,7 @@ export default function Home() {
        It is designed to be simple and easy to understand for
         beginners.
       </p>
-      <div className="flex flex-row items-center gap-5">
+      <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-md sm:max-w-none">
          <GET/>
          <CanvasCursor />
          <DownloadButton/>
