@@ -23,6 +23,7 @@ interface HeroVideoProps {
   thumbnailSrc: string;
   thumbnailAlt?: string;
   className?: string;
+  priority?: boolean;
 }
 
 const animationVariants = {
@@ -74,6 +75,7 @@ export default function HeroVideoDialog({
   thumbnailSrc,
   thumbnailAlt = "Video thumbnail",
   className,
+  priority = false,
 }: HeroVideoProps) {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const selectedAnimation = animationVariants[animationStyle];
@@ -89,7 +91,10 @@ export default function HeroVideoDialog({
           alt={thumbnailAlt}
           width={1920}
           height={1080}
+          priority={priority}
           className="w-full transition-all duration-200 group-hover:brightness-[0.8] ease-out rounded-md shadow-lg border"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+          quality={85}
         />
         <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 scale-[0.9] transition-all duration-200 ease-out rounded-2xl">
           <div className="bg-primary/10 flex items-center justify-center rounded-full backdrop-blur-md size-28">
@@ -125,12 +130,17 @@ export default function HeroVideoDialog({
                 <XIcon className="size-5" />
               </motion.button>
               <div className="size-full border-2 border-white rounded-2xl overflow-hidden isolate z-[1] relative">
-                <iframe
-                  src={videoSrc}
+                <video
                   className="size-full rounded-2xl"
-                  allowFullScreen
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                ></iframe>
+                  controls
+                  autoPlay
+                  preload="metadata"
+                  poster={thumbnailSrc}
+                >
+                  <source src="/git_explained_compressed.webm" type="video/webm" />
+                  <source src="/git_explained_compressed.mp4" type="video/mp4" />
+                  <p>Your browser doesn&apos;t support HTML video. Here is a <a href={videoSrc}>link to the video</a> instead.</p>
+                </video>
               </div>
             </motion.div>
           </motion.div>

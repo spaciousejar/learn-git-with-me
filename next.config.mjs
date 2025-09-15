@@ -13,6 +13,7 @@ const nextConfig = {
         hostname: "img.freepik.com/**",
       },
     ],
+    formats: ['image/webp', 'image/avif'],
   },
 };
 
