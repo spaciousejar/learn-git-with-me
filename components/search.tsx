@@ -21,7 +21,8 @@ export default function Search() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "k") {
+      // Check for both Command (Mac) and Control (Windows/Linux)
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
         setIsOpen(true);
       }
