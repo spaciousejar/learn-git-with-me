@@ -40,6 +40,12 @@
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
     --color-5: 90 100% 63%;
+    --scrollbar-thumb: rgba(
+      113,
+      113,
+      122,
+      0.6
+    ); /* Subtle dark gray for light mode thumb */
   }
 
   .dark {
@@ -72,6 +78,12 @@
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
     --color-5: 90 100% 63%;
+    --scrollbar-thumb: rgba(
+      160,
+      160,
+      160,
+      0.4
+    ); /* Softer gray for dark mode thumb */
   }
 }
 
@@ -127,26 +139,6 @@ pre > code {
 
 .highlight-comp > code {
   background-color: transparent !important;
-}
-
-/* Global Custom Scrollbar */
-:root {
-  --scrollbar-thumb: rgba(
-    113,
-    113,
-    122,
-    0.6
-  ); /* Subtle dark gray for light mode thumb */
-}
-
-[data-theme="dark"],
-[class*="dark"] {
-  --scrollbar-thumb: rgba(
-    160,
-    160,
-    160,
-    0.4
-  ); /* Softer gray for dark mode thumb */
 }
 
 /* Apply globally */
