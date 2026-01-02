@@ -1,7 +1,7 @@
 "use client"
 
 import { useToast } from "@/hooks/use-toast"
-import ShinyButton from "./magicui/shiny-button"
+import { ShinyButton } from "@/components/ui/shiny-button"
 import { page_routes } from "@/lib/routes-config"
 import Link from "next/link"
 

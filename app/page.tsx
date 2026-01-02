@@ -1,6 +1,6 @@
 import { DownloadButton } from "@/components/animated-download-button";
 import { GET } from "@/components/get-started";
-import { BorderBeam } from "@/components/magicui/border-beam";
+import { BorderBeam } from "@/components/ui/border-beam";
 import { Video } from "@/components/ui/video";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
