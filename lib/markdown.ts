@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/table";
 
 // add custom components
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const components = {
   Tabs,
   TabsContent,
