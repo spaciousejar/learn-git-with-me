@@ -1,0 +1,14 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["tailwind", "layer", "apply", "config"]
+      }
+    ],
+    "declaration-colon-newline-after": null,
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": null
+  }
+}

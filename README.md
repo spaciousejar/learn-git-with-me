@@ -6,6 +6,7 @@ Learn Git with Me is a free, open-source platform for learning Git and GitHub.
   <a href="https://github.com/spaciousejar/learn-git-with-me/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/spaciousejar/learn-git-with-me"></a>
   <a href="https://twitter.com/spaciousejar"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/spaciousejar"></a>
   <a href="[https://github.com/spaciousejar/learn-git-with-me/blob/main/LICENSE]"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <a href="https://github.com/spaciousejar/learn-git-with-me/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/spaciousejar/learn-git-with-me/actions/workflows/ci.yml/badge.svg"></a>
 </div>
 <img alt="og" src="https://github.com/spaciousejar/learn-git-with-me/blob/main/public/og.png"><img/>
 
@@ -64,4 +65,3 @@ Visit our [contributing guide](https://github.com/spaciousejar/learn-git-with-me
 This project is licensed under the MIT License. For more information, see the [LICENSE](./LICENSE) file.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) 
-

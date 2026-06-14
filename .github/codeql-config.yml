@@ -1,0 +1,9 @@
+name: "CodeQL config"
+
+# Exclude CSS files from JavaScript/TypeScript analysis.
+# The project's CSS (styles/globals.css) uses Tailwind directives (@tailwind, @layer, @apply)
+# and CSS custom properties that CodeQL's built-in CSS linter doesn't understand,
+# producing false-positive code-quality alerts. These files contain no user-input
+# handling or security-sensitive logic, so excluding them is safe.
+paths-ignore:
+  - "**/*.css"

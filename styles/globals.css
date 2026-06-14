@@ -1,5 +1,3 @@
-@import url("./syntax.css");
-
 :root {
   font-variant-ligatures: none;
 }
@@ -142,23 +140,97 @@ pre > code {
 }
 
 /* Apply globally */
-* {
+html {
   scrollbar-width: thin; /* Firefox thin scrollbar */
   scrollbar-color: var(--scrollbar-thumb) transparent; /* Thumb color with transparent track */
 }
 
-*::-webkit-scrollbar {
+html::-webkit-scrollbar {
   width: 8px; /* Vertical scrollbar width */
   height: 8px; /* Horizontal scrollbar height */
 }
 
-*::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb); /* Thumb color */
   border-radius: 9999px; /* Fully rounded thumb */
   border: 2px solid transparent; /* Thin padding effect */
   background-clip: content-box; /* Smooth thumb edges */
 }
 
-*::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track {
   background-color: transparent; /* Transparent track */
+}
+
+/* Syntax highlighting - light mode */
+.keyword {
+  color: #d73a49;
+}
+
+.function {
+  color: #6f42c1;
+}
+
+.punctuation {
+  color: #24292e;
+}
+
+.comment {
+  color: #6a737d;
+}
+
+.string,
+.constant,
+.annotation,
+.boolean,
+.number {
+  color: #005cc5;
+}
+
+.tag {
+  color: #22863a;
+}
+
+.attr-name {
+  color: #6f42c1;
+}
+
+.attr-value {
+  color: #e36209;
+}
+
+/* Syntax highlighting - dark mode */
+.dark .keyword {
+  color: #f97583;
+}
+
+.dark .function {
+  color: #d2a8ff;
+}
+
+.dark .punctuation {
+  color: #c9d1d9;
+}
+
+.dark .comment {
+  color: #8b949e;
+}
+
+.dark .string,
+.dark .constant,
+.dark .annotation,
+.dark .boolean,
+.dark .number {
+  color: #79c0ff;
+}
+
+.dark .tag {
+  color: #a5d6ff;
+}
+
+.dark .attr-name {
+  color: #d2a8ff;
+}
+
+.dark .attr-value {
+  color: #ffa657;
 }
