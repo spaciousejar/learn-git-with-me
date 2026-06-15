@@ -15,12 +15,12 @@
         "purpose": "maskable"
       }
     ],
-    "theme_color": "##09090b",
+    "theme_color": "#09090b",
   "background_color": "#09090b",
   "display": "fullscreen",
   "orientation": "portrait",
   "start_url": "/",
-  "scope": "/",
+  "scope": "/", 
   "description": "Learn Git and Github",
   "dir": "auto",
   "lang": "en-US",
