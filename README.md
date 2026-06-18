@@ -1,3 +1,35 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=spaciousejar&project=learn-git-with-me&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 <h1 align="center">Learn Git With Me</h1>
 <p align="center">
 Learn Git with Me is a free, open-source platform for learning Git and GitHub.
