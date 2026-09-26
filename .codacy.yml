@@ -1,0 +1,10 @@
+---
+# Codacy's CSSLint is deprecated (Oct 2023) and cannot parse Tailwind's
+# @apply/@layer, so every alert it raises on styles/globals.css is parser
+# noise, not a real defect. Stylelint is the supported replacement and this
+# repo already configures it in .stylelintrc.json -- only csslint is scoped
+# out here, so stylelint keeps checking the file.
+engines:
+  csslint:
+    exclude_paths:
+      - "styles/globals.css"
