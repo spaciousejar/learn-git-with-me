@@ -59,6 +59,8 @@ Visit: <https://learn-git-with-me.vercel.app>
 Visit our [contributing guide](https://github.com/spaciousejar/learn-git-with-me/blob/main/CONTRIBUTING.md) to learn how to contribute.
 - your feedback and contributions are welcome!
 
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for how the app is put together and how it is deployed.
+
 
 ## 👥 Contributors
 
