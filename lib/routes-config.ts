@@ -119,7 +119,6 @@ export const ROUTES: EachRoute[] = [
         { title: "Git Revert", href: "/git-revert" },
         { title: "Git vs Other VCS", href: "/git-vs-other-vcs" },
         { title: "Git Worktree", href: "/git-worktree" },
-        { title: "GitHub Essentials", href: "/github-essentials" },
         { title: "Linear vs Non Linear", href: "/linear-vs-non-linear" },
         { title: "List Branches", href: "/list-branches" },
         { title: "Merging Basics", href: "/merging-basics" },
@@ -239,7 +238,7 @@ export const ROUTES: EachRoute[] = [
       ],
     },
     {
-      title: "GitHub Basics",
+      title: "GitHub Essentials",
       href: "/basics",
       items: [
         { title: "Automations", href: "/automations" },
