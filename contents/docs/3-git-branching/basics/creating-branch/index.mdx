@@ -4,6 +4,43 @@ description: "Creating a branch in Git is a fundamental part of working with ver
 ---
 Creating a branch in Git is a fundamental part of working with version control, allowing you to work on different features or fixes without affecting the main codebase. You can create branches either through the terminal or github interface
 
+## From the terminal
+
+```bash
+git branch feature-search     # creates it, staying where you are
+git switch -c feature-search  # creates it and moves you onto it
+```
+
+The two are identical except for where you end up. `git branch` only writes the
+name; `git switch -c` does that and checks it out. Older Git versions use
+`git checkout -b` for the same thing, and you will see that form everywhere.
+
+## What a branch actually is
+
+A branch is a movable label pointing at a commit — 41 bytes of reference, nothing
+more. Creating one does not copy any files, which is why it is instant no matter
+how large the repository is. Committing on a branch moves the label forward.
+
+This is also why deleting a branch is safe: nothing is thrown away, the commits
+just lose one of their names. They remain reachable through the reflog until
+they are garbage collected.
+
+## Branching from somewhere other than HEAD
+
+By default you branch from wherever you are now. To base a branch on another
+branch or commit, name the starting point:
+
+```bash
+git switch -c fix-from-main main
+```
+
+## Naming
+
+Branch names become part of your history and often end up in release notes, so
+name them for the change rather than for you: `fix-login-redirect`,
+`add-pagination`. Avoid `test`, `my-branch` and `asdf`, which convey nothing six
+months later.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

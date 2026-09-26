@@ -4,6 +4,62 @@ description: "Squashing in Git, refers to the process of combining multiple comm
 ---
 Squashing in Git, refers to the process of combining multiple commits into a single commit. This is often done to create a cleaner and more concise commit history, especially before merging a feature branch into the main branch.
 
+## Why bother
+
+A branch built one commit at a time accumulates the small corrections that
+belong to no single idea: a typo fix, a forgotten file, a rebase that got the
+message wrong. Squashed into the commit they belong to, the history reads as one
+change per idea — which is what a reviewer, a `git log`, and `git bisect` all
+want.
+
+## Interactively
+
+```bash
+git rebase -i HEAD~5
+```
+
+Git opens the last five commits in an editor:
+
+```
+pick a1b2c3d add search endpoint
+pick d4e5f6a fix typo in route
+pick g7h8i9j add tests
+pick j1k2l3m wip
+pick m4n5o6p fix typo again
+```
+
+Change `pick` to `squash` (or `s`) on the commits that belong to another, save,
+and Git folds them in, asking you to combine the messages.
+
+```
+pick   a1b2c3d add search endpoint
+squash d4e5f6a fix typo in route
+squash m4n5o6p fix typo again
+```
+
+`fixup` (or `f`) is the same without the message prompt — it discards the
+squashed message and keeps the target's. `drop` removes a commit entirely, and
+reordering the lines reorders the commits.
+
+## Amend the last one
+
+```bash
+git commit --amend
+git commit --fixup <hash>
+git rebase -i --autosquash HEAD~5
+```
+
+`--fixup` stages a correction as its own commit, and `--autosquash` folds those
+in automatically when you start the rebase. If you find yourself making a lot of
+small corrections, that pair is faster than fixing them by hand.
+
+## Once it is shared
+
+Squashing rewrites hashes. Do it on your own unpushed branch, or on a pull
+request nobody has pulled yet. Doing it to a branch other people have already
+fetched makes their history and yours disagree — see
+[Rebase](/docs/3-git-branching/basics/rebase).
+
 #### Free Resources
 
 <Tabs defaultValue="official">

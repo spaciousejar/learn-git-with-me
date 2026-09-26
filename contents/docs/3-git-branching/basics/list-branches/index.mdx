@@ -2,18 +2,67 @@
 title: List Branches
 description: "This command lists all the branches in the current repository. It shows the current branch you're on and highlights it with an asterisk."
 ---
+Listing branches tells you what exists locally and, with the right flags, what
+exists on the remote. It is read-only, and the marker next to each name is the
+part worth learning to read.
+
 ## List branches
 ```bash
 git branch
 ```
 or
-
 ```bash
 git branch --list
 ```
+
 This command lists all the branches in the current
 repository. It shows the current branch you're on and
 highlights it with an asterisk.
+
+## Reading the markers
+
+An asterisk marks the branch you are on. Anything you have not merged yet is
+prefixed with `+`, so the listing tells you which branches are safe to delete
+without ceremony.
+
+```
+  feature-search
+* main
++ experiment
+```
+
+## Remotes too
+
+```bash
+git branch -a          # local and remote-tracking
+git branch -r          # remote-tracking only
+```
+
+Remote-tracking branches are named `origin/feature-search` and record where the
+remote was the last time you fetched. They are not local branches, and you
+cannot check one out without creating a local branch of the same name.
+
+## Finding a branch by name
+
+```bash
+git branch --list "*search*"
+```
+
+Shell globbing works here, which matters once a repository has a hundred
+branches and scrolling is not an option.
+
+## Cleaning up
+
+```bash
+git branch -d merged-branch    # refuses if it is not merged
+git branch -D merged-branch    # deletes regardless
+```
+
+`-d` is the one you want. It refuses to delete a branch whose commits are not
+reachable anywhere else, so you have to go out of your way to lose work, which
+is the correct default. If Git refuses, the branch is either unmerged or its
+commits exist only on it — commit them somewhere first, or find them in the
+reflog. See [Undoing Changes](/docs/4-git-advanced/recovery/undoing-changes).
 
 #### Free Resources
 

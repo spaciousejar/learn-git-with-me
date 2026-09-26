@@ -4,6 +4,60 @@ description: "In Git, to \"checkout\" from a branch means to switch your working
 ---
 In Git, to "checkout" from a branch means to switch your working directory to that branch, making it the active branch. This updates your files to match the state of that branch and allows you to work on it.
 
+## Switching
+
+```bash
+git switch main
+git checkout main          # the older equivalent
+```
+
+Git rewrites the files in your working directory to match the target branch, and
+`HEAD` — the label for "where you are" — moves to point at it. Your commits stay
+where they are; only the pointer moves.
+
+## Uncommitted changes come with you
+
+If you have edits that do not conflict with the branch you are moving to, Git
+carries them across. If a file differs between the two branches and you have
+edited it, Git refuses to switch rather than overwrite your work, which is the
+behaviour you want.
+
+```bash
+git stash        # put the changes away
+git switch main
+git stash pop    # and bring them back
+```
+
+## Starting a branch that does not exist yet
+
+```bash
+git switch -c new-branch
+git checkout -b new-branch
+```
+
+This creates and switches in one step. See
+[Creating Branch](/docs/3-git-branching/basics/creating-branch).
+
+## One file from another branch
+
+To take a single file from somewhere else without switching branches:
+
+```bash
+git restore --source=main -- src/index.ts
+```
+
+That copies the version from `main` into your working directory, leaving your
+current branch checked out. Useful for pulling in a fix someone else made
+without pulling in everything else they did.
+
+## Detached HEAD
+
+Checking out a commit hash rather than a branch name leaves you in a "detached
+HEAD" state: `HEAD` points straight at a commit, with no branch name attached. It
+is a normal state to be in, and the only real risk is committing to it by
+accident, since a new commit there belongs to no branch. Create a branch for it
+with `git switch -c saved` if you want to keep the work.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

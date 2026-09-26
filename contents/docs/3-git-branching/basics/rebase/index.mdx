@@ -4,6 +4,54 @@ description: "Rebasing in Git is a powerful and potentially complex feature used
 ---
 Rebasing in Git is a powerful and potentially complex feature used to reorganize or modify a series of commits. The primary purpose of rebasing is to create a cleaner, more linear project history by moving or combining changes from one branch onto another.
 
+## The basic operation
+
+```bash
+git switch main
+git fetch
+git rebase origin/main
+```
+
+Your commits are taken off your branch one at a time and replayed on top of
+`origin/main`. Because each is a fresh commit, every hash changes — which is
+exactly why you should not rebase a branch other people have already pulled.
+
+## The honest caveat
+
+Rebasing rewrites history. That is safe on a branch only you have, and
+dangerous on one that is shared: the moment you push rewritten commits, everyone
+else's history and yours disagree, and the fix is to reset their branch and pull
+again.
+
+The rule most teams settle on: rebase your own unpushed work freely, and never
+rebase `main`.
+
+## Conflicts
+
+Git stops and hands you the same conflict markers as a merge. Resolve, `git add`
+the file, then `git rebase --continue` to carry on to the next commit.
+
+```bash
+git rebase --abort     # give up and go back to how you started
+```
+
+`--abort` is always safe and always available.
+
+## Squashing while you are there
+
+```bash
+git rebase -i origin/main
+```
+
+Opens your commits in a list where you can squash, reword, drop or reorder them
+before they are replayed. See [Squash](/docs/3-git-branching/basics/squash).
+
+## Merge instead
+
+If you would rather not rewrite anything, `git merge origin/main` does the same
+job and records a merge commit. The result is a history with a join in it rather
+than a straight line, and nothing anyone has already fetched stops matching.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

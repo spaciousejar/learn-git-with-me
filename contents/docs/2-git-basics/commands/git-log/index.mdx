@@ -50,10 +50,24 @@ on, narrowing to the offending commit in about log₂(n) steps.
 
 ```sh
 git bisect start
-git bisect bad                  # the current commit is broken
-git bisect good v2.1.0          # this release was fine
+git bisect bad                       # the commit you are on is broken
+git bisect good HEAD~20               # or a tag/commit you know was fine
 git bisect reset
 ```
+
+Substitute a real reference for `HEAD~20` — a tag such as `v1.4.0`, a release
+branch, or any commit hash you trust. `git log --oneline` is how you find one.
+Git resolves it as a revision, so if the name does not exist you get
+`error: Bad rev input` and nothing else happens.
+
+At each step Git checks out a midpoint and waits. Test it, then mark it:
+
+```sh
+git bisect good     # or: git bisect bad
+```
+
+When it has narrowed far enough, Git prints the culprit commit and tells you to
+run `git bisect reset` to get back to your branch.
 
 This only works because every commit is a complete snapshot — which is the
 design decision described in
