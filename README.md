@@ -5,11 +5,11 @@ Learn Git with Me is a free, open-source platform for learning Git and GitHub.
 <div align="center">
   <a href="https://github.com/spaciousejar/learn-git-with-me/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/spaciousejar/learn-git-with-me"></a>
   <a href="https://twitter.com/spaciousejar"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/spaciousejar"></a>
-  <a href="[https://github.com/spaciousejar/learn-git-with-me/blob/main/LICENSE]"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <a href="https://github.com/spaciousejar/learn-git-with-me/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
   <a href="https://github.com/spaciousejar/learn-git-with-me/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/spaciousejar/learn-git-with-me/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://github.com/spaciousejar/learn-git-with-me/actions/workflows/readme-claims.yml"><img alt="README claims" src="https://github.com/spaciousejar/learn-git-with-me/actions/workflows/readme-claims.yml/badge.svg"></a>
 </div>
-<img alt="og" src="https://github.com/spaciousejar/learn-git-with-me/blob/main/public/og.png"><img/>
+<img alt="Learn Git With Me" src="https://raw.githubusercontent.com/spaciousejar/learn-git-with-me/main/public/og.png" width="100%">
 
 ## ⚡ Live 
 
@@ -48,10 +48,16 @@ Visit: <https://learn-git-with-me.vercel.app>
 
 
 
-## 📦 Apps and Packages
+## 📦 Project layout
 
-- `web`: The main Next.js application
-- `UI`: Shared UI components
+One Next.js app at the repo root — there is no monorepo and no workspace
+packages:
+
+- `app/`: routes (App Router)
+- `contents/`: the docs and blog MDX that the routes render
+- `components/`: UI, markdown components and site chrome
+- `lib/`: the MDX pipeline and the route table
+- `public/`: images, the video and `robots.txt`
 
 
 ## Contributing
