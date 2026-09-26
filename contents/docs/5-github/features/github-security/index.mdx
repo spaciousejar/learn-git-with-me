@@ -2,38 +2,42 @@
 title: GitHub Security
 description: Learn about GitHub's security features to protect your code, detect vulnerabilities,
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub provides a comprehensive set of security features designed to help developers identify and fix vulnerabilities, enforce secure development practices, and protect their code. These tools integrate directly into your GitHub workflow, making security a natural part of your development process.
 
 ## Security Features Overview
 
-<Tabs>
-  <TabItem label="Dependency Security">
+<Tabs defaultValue="Dependency Security">
+<TabsList>
+<TabsTrigger value="Dependency Security">Dependency Security</TabsTrigger>
+<TabsTrigger value="Code Security">Code Security</TabsTrigger>
+<TabsTrigger value="Access Control">Access Control</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Dependency Security">
     - **Dependabot Alerts**: Notifications about vulnerable dependencies
     - **Dependabot Updates**: Automatic pull requests to update dependencies
     - **Dependency Graph**: Visualization of project dependencies
     - **Dependency Review**: Review dependency changes in pull requests
-  </TabItem>
-  <TabItem label="Code Security">
+  
+</TabsContent>
+
+<TabsContent value="Code Security">
     - **Code Scanning**: Static analysis to find security issues
     - **Secret Scanning**: Detection of leaked secrets
     - **Security Advisories**: Create and publish security advisories
     - **Security Policies**: Define security reporting guidelines
-  </TabItem>
-  <TabItem label="Access Control">
+  
+</TabsContent>
+
+<TabsContent value="Access Control">
     - **Branch Protection**: Enforce code review and status checks
     - **Two-factor authentication**: Enhanced login security
     - **SAML SSO**: Enterprise identity management
     - **IP Allow Lists**: Restrict access by IP address
     - **Security Keys**: Support for physical security keys
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Setting Up GitHub Security Features
@@ -176,8 +180,14 @@ We will respond within 48 hours and keep you updated on our progress.
 
 ## Security Best Practices for GitHub Repositories
 
-<Tabs>
-  <TabItem label="Branch Protection">
+<Tabs defaultValue="Branch Protection">
+<TabsList>
+<TabsTrigger value="Branch Protection">Branch Protection</TabsTrigger>
+<TabsTrigger value="Access Control">Access Control</TabsTrigger>
+<TabsTrigger value="Secure Development">Secure Development</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Branch Protection">
     Configure branch protection rules:
     
     1. Go to repository Settings > Branches
@@ -187,21 +197,26 @@ We will respond within 48 hours and keep you updated on our progress.
        - Require status checks to pass before merging
        - Require signed commits
        - Include administrators
-  </TabItem>
-  <TabItem label="Access Control">
+  
+</TabsContent>
+
+<TabsContent value="Access Control">
     - Regularly audit repository access
     - Follow the principle of least privilege
     - Use fine-grained personal access tokens
     - Enable two-factor authentication for all contributors
     - Review and prune inactive collaborators
-  </TabItem>
-  <TabItem label="Secure Development">
+  
+</TabsContent>
+
+<TabsContent value="Secure Development">
     - Use a `.gitignore` file to prevent committing sensitive files
     - Store secrets in GitHub Secrets, not in code
     - Include security testing in CI/CD pipelines
     - Review dependency license compliance
     - Implement codeowners to enforce reviews by security experts
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Security Advisories

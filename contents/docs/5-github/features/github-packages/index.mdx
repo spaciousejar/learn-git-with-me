@@ -2,20 +2,18 @@
 title: GitHub Packages
 description: Learn how to use GitHub Packages to publish and consume packages in your
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub Packages is a package management service that allows you to host and manage packages alongside your code. It integrates seamlessly with GitHub features like Actions to provide a streamlined workflow for software development.
 
 ## Understanding GitHub Packages
 
-<Tabs>
-  <TabItem label="Key Features">
+<Tabs defaultValue="Key Features">
+<TabsList>
+<TabsTrigger value="Key Features">Key Features</TabsTrigger>
+<TabsTrigger value="Supported Package Types">Supported Package Types</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Key Features">
     - Host packages privately or publicly
     - Integrate with GitHub Actions for CI/CD
     - Manage packages alongside your code
@@ -23,8 +21,10 @@ GitHub Packages is a package management service that allows you to host and mana
     - Share packages across your organization
     - View package usage and metrics
     - Support for multiple package types
-  </TabItem>
-  <TabItem label="Supported Package Types">
+  
+</TabsContent>
+
+<TabsContent value="Supported Package Types">
     GitHub Packages supports several package formats:
     
     - npm (JavaScript)
@@ -34,7 +34,8 @@ GitHub Packages is a package management service that allows you to host and mana
     - Docker (Container images)
     - Gradle (Java, Kotlin, etc.)
     - Composer (PHP)
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Getting Started with GitHub Packages
@@ -50,8 +51,13 @@ GitHub Packages is a package management service that allows you to host and mana
 
 To use GitHub Packages, you need to authenticate:
 
-<Tabs>
-  <TabItem label="Using a Personal Access Token">
+<Tabs defaultValue="Using a Personal Access Token">
+<TabsList>
+<TabsTrigger value="Using a Personal Access Token">Using a Personal Access Token</TabsTrigger>
+<TabsTrigger value="Using GITHUB_TOKEN in Actions">Using GITHUB_TOKEN in Actions</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Using a Personal Access Token">
     1. Go to your GitHub Settings > Developer settings > Personal access tokens
     2. Generate a new token with the `write:packages` scope
     3. Use this token to authenticate with your package manager
@@ -61,8 +67,10 @@ To use GitHub Packages, you need to authenticate:
     //npm.pkg.github.com/:_authToken=YOUR_TOKEN
     @YOUR_USERNAME:registry=https://npm.pkg.github.com
     ```
-  </TabItem>
-  <TabItem label="Using GITHUB_TOKEN in Actions">
+  
+</TabsContent>
+
+<TabsContent value="Using GITHUB_TOKEN in Actions">
     In GitHub Actions workflows, you can use the built-in `GITHUB_TOKEN`:
     
     ```yaml
@@ -79,7 +87,8 @@ To use GitHub Packages, you need to authenticate:
             env:
               NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     ```
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 <Aside type="tip">
@@ -135,8 +144,13 @@ To use GitHub Packages, you need to authenticate:
 
 ## Installing Packages from GitHub Packages
 
-<Tabs>
-  <TabItem label="npm">
+<Tabs defaultValue="npm">
+<TabsList>
+<TabsTrigger value="npm">npm</TabsTrigger>
+<TabsTrigger value="Docker">Docker</TabsTrigger>
+</TabsList>
+
+<TabsContent value="npm">
     Update your `.npmrc` file:
     ```
     @OWNER:registry=https://npm.pkg.github.com
@@ -147,8 +161,10 @@ To use GitHub Packages, you need to authenticate:
     ```bash
     npm install @OWNER/PACKAGE-NAME
     ```
-  </TabItem>
-  <TabItem label="Docker">
+  
+</TabsContent>
+
+<TabsContent value="Docker">
     Authenticate to the registry:
     ```bash
     echo $GITHUB_PAT | docker login ghcr.io -u USERNAME --password-stdin
@@ -158,7 +174,8 @@ To use GitHub Packages, you need to authenticate:
     ```bash
     docker pull ghcr.io/OWNER/IMAGE_NAME:TAG
     ```
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Managing Package Access and Visibility

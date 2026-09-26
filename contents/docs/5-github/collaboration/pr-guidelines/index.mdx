@@ -2,12 +2,6 @@
 title: PR Guidelines
 description: Best practices for creating effective pull requests and contribution guidelines for your GitHub projects.
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
 
 # Pull Request Guidelines
 
@@ -17,22 +11,30 @@ Pull Requests (PRs) are essential for collaborative development on GitHub. Well-
 
 Establishing clear PR guidelines for your repository helps contributors understand expectations and streamlines the review process.
 
-<Tabs>
-  <TabItem label="PR Template Components">
+<Tabs defaultValue="PR Template Components">
+<TabsList>
+<TabsTrigger value="PR Template Components">PR Template Components</TabsTrigger>
+<TabsTrigger value="Review Process">Review Process</TabsTrigger>
+</TabsList>
+
+<TabsContent value="PR Template Components">
     - **Purpose/Description**: What does this PR accomplish?
     - **Issue Reference**: Link to related issues
     - **Changes Overview**: Summary of key changes
     - **Testing Details**: How the changes were tested
     - **Screenshots/Videos**: Visual evidence (if applicable)
     - **Checklist**: Standards that should be met
-  </TabItem>
-  <TabItem label="Review Process">
+  
+</TabsContent>
+
+<TabsContent value="Review Process">
     - Define how many reviewers are required
     - Set expectations for review response time
     - Outline criteria for approving PRs
     - Explain how to request changes effectively
     - Document required status checks or tests
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Creating PR Templates
@@ -84,19 +86,27 @@ Fixes #(issue)
 
 ## PR Size Best Practices
 
-<Tabs>
-  <TabItem label="Keep PRs Small">
+<Tabs defaultValue="Keep PRs Small">
+<TabsList>
+<TabsTrigger value="Keep PRs Small">Keep PRs Small</TabsTrigger>
+<TabsTrigger value="Provide Context">Provide Context</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Keep PRs Small">
     - Aim for less than 500 lines of changes when possible
     - Focus on a single logical change per PR
     - Break large features into smaller, sequential PRs
     - Consider using feature flags for incomplete functionality
-  </TabItem>
-  <TabItem label="Provide Context">
+  
+</TabsContent>
+
+<TabsContent value="Provide Context">
     - Explain the reasoning behind implementation choices
     - Link to design documents or discussions
     - Highlight areas that may need special attention
     - Provide context for non-obvious changes
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Additional Resources

@@ -2,28 +2,28 @@
 title: GitHub Projects
 description: Learn how to organize and track your work using GitHub Projects, a flexible
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub Projects is a flexible project management tool that integrates directly with your GitHub issues and pull requests. It allows teams to plan, track, and manage their work efficiently while maintaining a close connection to their code repositories.
 
 ## Understanding GitHub Projects
 
-<Tabs>
-  <TabItem label="Projects (Classic)">
+<Tabs defaultValue="Projects (Classic)">
+<TabsList>
+<TabsTrigger value="Projects (Classic)">Projects (Classic)</TabsTrigger>
+<TabsTrigger value="Projects (New)">Projects (New)</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Projects (Classic)">
     The original project board implementation:
     
     - Simple kanban-style boards
     - Basic automation for card movement
     - Limited customization options
     - Repository or organization level
-  </TabItem>
-  <TabItem label="Projects (New)">
+  
+</TabsContent>
+
+<TabsContent value="Projects (New)">
     The newer, more powerful implementation:
     
     - Spreadsheet and board views
@@ -32,7 +32,8 @@ GitHub Projects is a flexible project management tool that integrates directly w
     - Powerful automations and workflows
     - Enhanced integration with GitHub issues
     - Saved views for different perspectives
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Setting Up GitHub Projects
@@ -56,25 +57,36 @@ GitHub Projects is a flexible project management tool that integrates directly w
 
 GitHub Projects offers multiple ways to visualize your work:
 
-<Tabs>
-  <TabItem label="Table View">
+<Tabs defaultValue="Table View">
+<TabsList>
+<TabsTrigger value="Table View">Table View</TabsTrigger>
+<TabsTrigger value="Board View">Board View</TabsTrigger>
+<TabsTrigger value="Roadmap View">Roadmap View</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Table View">
     - Spreadsheet-like interface
     - See all fields at once
     - Sort and group items
     - Perform bulk actions
-  </TabItem>
-  <TabItem label="Board View">
+  
+</TabsContent>
+
+<TabsContent value="Board View">
     - Kanban-style workflow visualization
     - Drag and drop card management
     - Group by any field (status, assignee, etc.)
     - Visual progress tracking
-  </TabItem>
-  <TabItem label="Roadmap View">
+  
+</TabsContent>
+
+<TabsContent value="Roadmap View">
     - Timeline visualization
     - Date-based planning
     - View work across time periods
     - Identify dependencies and overlaps
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ### Custom Fields
@@ -117,28 +129,39 @@ jobs:
 
 ## Project Management Best Practices
 
-<Tabs>
-  <TabItem label="Agile/Scrum">
+<Tabs defaultValue="Agile/Scrum">
+<TabsList>
+<TabsTrigger value="Agile/Scrum">Agile/Scrum</TabsTrigger>
+<TabsTrigger value="Kanban">Kanban</TabsTrigger>
+<TabsTrigger value="Feature Planning">Feature Planning</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Agile/Scrum">
     - Use iteration fields for sprints
     - Set up statuses for "Backlog", "In Progress", "Review", and "Done"
     - Use number fields for story points
     - Create views filtered by current sprint
     - Group by assignee to see workload distribution
-  </TabItem>
-  <TabItem label="Kanban">
+  
+</TabsContent>
+
+<TabsContent value="Kanban">
     - Focus on board view with status columns
     - Limit work in progress (WIP)
     - Create automations for card movement
     - Use labels for prioritization
     - Add note items for process policies
-  </TabItem>
-  <TabItem label="Feature Planning">
+  
+</TabsContent>
+
+<TabsContent value="Feature Planning">
     - Group issues by feature or epic
     - Use roadmap view to plan release timelines
     - Create custom fields for feature status
     - Track dependencies between features
     - Link to design documents or specifications
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Integration with GitHub Issues and PRs

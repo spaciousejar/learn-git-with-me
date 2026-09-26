@@ -2,20 +2,20 @@
 title: Collaboration on GitHub
 description: Learn how to effectively collaborate with others using GitHub's powerful
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub enhances Git's collaboration capabilities with a suite of powerful features specifically designed to streamline teamwork and facilitate project management. This guide covers GitHub's key collaboration features and how to use them effectively.
 
 ## GitHub's Collaboration Features
 
-<Tabs>
-  <TabItem label="Issues">
+<Tabs defaultValue="Issues">
+<TabsList>
+<TabsTrigger value="Issues">Issues</TabsTrigger>
+<TabsTrigger value="Pull Requests">Pull Requests</TabsTrigger>
+<TabsTrigger value="Discussions">Discussions</TabsTrigger>
+<TabsTrigger value="Projects">Projects</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Issues">
     GitHub Issues provide a way to track tasks, enhancements, and bugs:
     
     - Customizable templates for bug reports, features, etc.
@@ -24,8 +24,10 @@ GitHub enhances Git's collaboration capabilities with a suite of powerful featur
     - Milestones for tracking progress toward goals
     - Project boards integration
     - Markdown support for rich formatting
-  </TabItem>
-  <TabItem label="Pull Requests">
+  
+</TabsContent>
+
+<TabsContent value="Pull Requests">
     Pull Requests (PRs) are the heart of GitHub collaboration:
     
     - Code review tools with inline comments
@@ -34,23 +36,28 @@ GitHub enhances Git's collaboration capabilities with a suite of powerful featur
     - Draft PRs for work-in-progress changes
     - Auto-linking to issues
     - Required reviewers
-  </TabItem>
-  <TabItem label="Discussions">
+  
+</TabsContent>
+
+<TabsContent value="Discussions">
     GitHub Discussions provide a forum-like space for:
     
     - Q&A with accepted answers
     - Announcements
     - Community interactions
     - General conversations outside of specific issues
-  </TabItem>
-  <TabItem label="Projects">
+  
+</TabsContent>
+
+<TabsContent value="Projects">
     GitHub Projects offer flexible project management:
     
     - Kanban boards
     - Customizable fields and views
     - Automation through workflows
     - Integration with issues and PRs
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Effective GitHub Collaboration Workflow
@@ -75,15 +82,22 @@ GitHub enhances Git's collaboration capabilities with a suite of powerful featur
 
 GitHub provides granular permission controls to manage who can do what in your repository:
 
-<Tabs>
-  <TabItem label="Repository Roles">
+<Tabs defaultValue="Repository Roles">
+<TabsList>
+<TabsTrigger value="Repository Roles">Repository Roles</TabsTrigger>
+<TabsTrigger value="Branch Protection">Branch Protection</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Repository Roles">
     - **Read**: View and clone the repository
     - **Triage**: Manage issues and PRs without write access
     - **Write**: Push to the repository and manage issues/PRs
     - **Maintain**: Manage repository without access to sensitive actions
     - **Admin**: Full control including sensitive actions
-  </TabItem>
-  <TabItem label="Branch Protection">
+  
+</TabsContent>
+
+<TabsContent value="Branch Protection">
     Critical settings for collaborative repositories:
     
     - Require pull request reviews before merging
@@ -91,7 +105,8 @@ GitHub provides granular permission controls to manage who can do what in your r
     - Require signed commits
     - Restrict who can push to matching branches
     - Enable force push restrictions
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Effective Code Review Practices on GitHub

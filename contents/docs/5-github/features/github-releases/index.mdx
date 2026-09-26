@@ -2,35 +2,36 @@
 title: GitHub Releases
 description: Learn how to create and manage releases, distribute software, and provide
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub Releases provide a way to package and distribute software, documentation, and other assets associated with specific points in your project's history. They are built on top of Git tags and allow you to share your work with your community in a more structured and user-friendly way.
 
 ## Understanding GitHub Releases
 
-<Tabs>
-  <TabItem label="Key Concepts">
+<Tabs defaultValue="Key Concepts">
+<TabsList>
+<TabsTrigger value="Key Concepts">Key Concepts</TabsTrigger>
+<TabsTrigger value="Benefits">Benefits</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Key Concepts">
     - **Releases**: Deployable snapshots of your project
     - **Tags**: Git references that mark specific points in history
     - **Assets**: Binary files attached to releases (installers, compiled code, etc.)
     - **Release notes**: Documentation of changes and improvements
     - **Draft releases**: Unpublished releases being prepared
     - **Pre-releases**: Releases marked as non-production ready
-  </TabItem>
-  <TabItem label="Benefits">
+  
+</TabsContent>
+
+<TabsContent value="Benefits">
     - Provides a structured way to share software versions
     - Allows attaching binary files that don't belong in Git
     - Creates a changelog of project evolution
     - Integrates with GitHub's notification system
     - Enables users to easily find stable versions
     - Supports semantic versioning
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Creating a GitHub Release
@@ -54,8 +55,13 @@ GitHub Releases provide a way to package and distribute software, documentation,
 
 Effective release notes help users understand what's changed and why they should update:
 
-<Tabs>
-  <TabItem label="Structure">
+<Tabs defaultValue="Structure">
+<TabsList>
+<TabsTrigger value="Structure">Structure</TabsTrigger>
+<TabsTrigger value="Tips">Tips</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Structure">
     ```markdown
     # Release v1.2.0
     
@@ -77,8 +83,10 @@ Effective release notes help users understand what's changed and why they should
     ## Installation
     [Installation instructions]
     ```
-  </TabItem>
-  <TabItem label="Tips">
+  
+</TabsContent>
+
+<TabsContent value="Tips">
     - Start with a summary of the release
     - Categorize changes (features, improvements, fixes)
     - Highlight breaking changes prominently
@@ -87,7 +95,8 @@ Effective release notes help users understand what's changed and why they should
     - Add screenshots for UI changes
     - Credit contributors
     - Use consistent formatting across releases
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Automating Releases with GitHub Actions
@@ -143,8 +152,13 @@ jobs:
 
 You can interact with GitHub Releases using the GitHub API or the GitHub CLI:
 
-<Tabs>
-  <TabItem label="GitHub CLI">
+<Tabs defaultValue="GitHub CLI">
+<TabsList>
+<TabsTrigger value="GitHub CLI">GitHub CLI</TabsTrigger>
+<TabsTrigger value="GitHub API">GitHub API</TabsTrigger>
+</TabsList>
+
+<TabsContent value="GitHub CLI">
     ```bash
     # List releases
     gh release list
@@ -158,8 +172,10 @@ You can interact with GitHub Releases using the GitHub API or the GitHub CLI:
     # Download release assets
     gh release download v1.0.0
     ```
-  </TabItem>
-  <TabItem label="GitHub API">
+  
+</TabsContent>
+
+<TabsContent value="GitHub API">
     ```bash
     # List releases
     curl -s https://api.github.com/repos/owner/repo/releases
@@ -171,7 +187,8 @@ You can interact with GitHub Releases using the GitHub API or the GitHub CLI:
       https://api.github.com/repos/owner/repo/releases \
       -d '{"tag_name":"v1.0.0","name":"Version 1.0.0","body":"Release notes..."}'
     ```
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Semantic Versioning

@@ -2,20 +2,18 @@
 title: GitHub Gists
 description: Learn how to use GitHub Gists to share code snippets, notes, and small
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub Gists are a simple way to share code snippets, notes, and small projects with others. They provide lightweight version control, embedding capabilities, and easy sharing—all without having to create a full repository.
 
 ## Understanding GitHub Gists
 
-<Tabs>
-  <TabItem label="Key Features">
+<Tabs defaultValue="Key Features">
+<TabsList>
+<TabsTrigger value="Key Features">Key Features</TabsTrigger>
+<TabsTrigger value="Use Cases">Use Cases</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Key Features">
     - Version controlled snippets
     - Support for multiple files
     - Markdown rendering
@@ -24,8 +22,10 @@ GitHub Gists are a simple way to share code snippets, notes, and small projects 
     - Forking capability
     - Embeddable in websites
     - Accessible via API
-  </TabItem>
-  <TabItem label="Use Cases">
+  
+</TabsContent>
+
+<TabsContent value="Use Cases">
     - Sharing code snippets during discussions
     - Saving useful configuration files
     - Documenting terminal commands
@@ -34,7 +34,8 @@ GitHub Gists are a simple way to share code snippets, notes, and small projects 
     - Hosting simple web pages
     - Sharing syntax-highlighted code
     - Creating interactive examples
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Creating a Gist
@@ -66,8 +67,14 @@ You can add multiple files to a single Gist:
 
 Example use case: a web component with HTML, CSS, and JavaScript files:
 
-<Tabs>
-  <TabItem label="index.html">
+<Tabs defaultValue="index.html">
+<TabsList>
+<TabsTrigger value="index.html">index.html</TabsTrigger>
+<TabsTrigger value="styles.css">styles.css</TabsTrigger>
+<TabsTrigger value="component.js">component.js</TabsTrigger>
+</TabsList>
+
+<TabsContent value="index.html">
     ```html
     <!DOCTYPE html>
     <html lang="en">
@@ -83,8 +90,10 @@ Example use case: a web component with HTML, CSS, and JavaScript files:
     </body>
     </html>
     ```
-  </TabItem>
-  <TabItem label="styles.css">
+  
+</TabsContent>
+
+<TabsContent value="styles.css">
     ```css
     custom-button {
       display: inline-block;
@@ -100,8 +109,10 @@ Example use case: a web component with HTML, CSS, and JavaScript files:
       background-color: #0247a5;
     }
     ```
-  </TabItem>
-  <TabItem label="component.js">
+  
+</TabsContent>
+
+<TabsContent value="component.js">
     ```javascript
     class CustomButton extends HTMLElement {
       constructor() {
@@ -114,7 +125,8 @@ Example use case: a web component with HTML, CSS, and JavaScript files:
     
     customElements.define('custom-button', CustomButton);
     ```
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Working with Gist Revisions
@@ -155,27 +167,38 @@ The embedded Gist will include proper syntax highlighting, line numbers, and eve
 
 ## Gist Interactions
 
-<Tabs>
-  <TabItem label="Commenting">
+<Tabs defaultValue="Commenting">
+<TabsList>
+<TabsTrigger value="Commenting">Commenting</TabsTrigger>
+<TabsTrigger value="Forking">Forking</TabsTrigger>
+<TabsTrigger value="Starring">Starring</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Commenting">
     - Scroll to the bottom of any public Gist
     - Use the comment box to add comments
     - Markdown formatting is supported
     - Code blocks can be included in comments
     - Comments can be edited or deleted
-  </TabItem>
-  <TabItem label="Forking">
+  
+</TabsContent>
+
+<TabsContent value="Forking">
     - Click the "Fork" button at the top of any Gist
     - This creates a copy in your account
     - Make changes to your fork
     - Each fork tracks its parent
     - Forks can be used to suggest improvements
-  </TabItem>
-  <TabItem label="Starring">
+  
+</TabsContent>
+
+<TabsContent value="Starring">
     - Click the "Star" button to bookmark a Gist
     - Starred Gists appear in your "Starred" section
     - Stars also indicate popularity
     - You can use stars to find your frequently used Gists
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Advanced Gist Features

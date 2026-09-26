@@ -2,34 +2,35 @@
 title: GitHub Pages
 description: Learn how to host and deploy static websites directly from your GitHub
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub Pages is a static site hosting service that takes HTML, CSS, and JavaScript files directly from a repository on GitHub, optionally runs the files through a build process, and publishes a website. It's a powerful way to showcase projects, documentation, or personal websites directly from your GitHub repositories.
 
 ## Getting Started with GitHub Pages
 
-<Tabs>
-  <TabItem label="Key Features">
+<Tabs defaultValue="Key Features">
+<TabsList>
+<TabsTrigger value="Key Features">Key Features</TabsTrigger>
+<TabsTrigger value="Site Types">Site Types</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Key Features">
     - Free hosting for static websites
     - Direct deployment from GitHub repositories
     - Automatic builds for Jekyll sites
     - Support for custom domains
     - HTTPS encryption included
     - Versioning through Git
-  </TabItem>
-  <TabItem label="Site Types">
+  
+</TabsContent>
+
+<TabsContent value="Site Types">
     GitHub Pages supports three types of sites:
     
     - **Project sites**: Hosted from a specific repository
     - **User sites**: Named `username.github.io`, showcases user content
     - **Organization sites**: Named `organization.github.io`, represents an organization
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Setting Up GitHub Pages
@@ -83,15 +84,22 @@ GitHub Pages provides built-in themes for quick setup:
 
 GitHub Pages has built-in support for Jekyll, a static site generator:
 
-<Tabs>
-  <TabItem label="Jekyll Benefits">
+<Tabs defaultValue="Jekyll Benefits">
+<TabsList>
+<TabsTrigger value="Jekyll Benefits">Jekyll Benefits</TabsTrigger>
+<TabsTrigger value="Jekyll Structure">Jekyll Structure</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Jekyll Benefits">
     - Automatic builds on GitHub
     - Templating and layouts
     - Blog-aware features
     - Front matter for metadata
     - Markdown support
-  </TabItem>
-  <TabItem label="Jekyll Structure">
+  
+</TabsContent>
+
+<TabsContent value="Jekyll Structure">
     ```
     repository/
     ├── _config.yml           # Site configuration
@@ -105,7 +113,8 @@ GitHub Pages has built-in support for Jekyll, a static site generator:
     ├── assets/               # Static assets
     └── index.md              # Home page
     ```
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Advanced GitHub Pages Features

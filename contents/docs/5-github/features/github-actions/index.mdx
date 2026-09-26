@@ -2,28 +2,28 @@
 title: GitHub Actions
 description: Learn how to automate workflows with GitHub Actions, a powerful CI/CD
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
-
 
 GitHub Actions is a powerful automation platform that allows you to build, test, and deploy your code directly from your GitHub repository. This feature enables continuous integration and continuous delivery (CI/CD) workflows and can automate virtually any software development process.
 
 ## Understanding GitHub Actions
 
-<Tabs>
-  <TabItem label="Core Concepts">
+<Tabs defaultValue="Core Concepts">
+<TabsList>
+<TabsTrigger value="Core Concepts">Core Concepts</TabsTrigger>
+<TabsTrigger value="Key Features">Key Features</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Core Concepts">
     - **Workflows**: Automated procedures defined in YAML files
     - **Events**: Triggers that start workflows (push, PR, schedule, etc.)
     - **Jobs**: Sets of steps that execute on the same runner
     - **Steps**: Individual tasks that run commands or actions
     - **Actions**: Reusable units of code for common tasks
     - **Runners**: Servers that run your workflows
-  </TabItem>
-  <TabItem label="Key Features">
+  
+</TabsContent>
+
+<TabsContent value="Key Features">
     - Native integration with GitHub repositories
     - Workflow automation for CI/CD
     - Matrix builds across multiple platforms
@@ -31,7 +31,8 @@ GitHub Actions is a powerful automation platform that allows you to build, test,
     - Secret management for secure automation
     - Artifact storage for build outputs
     - Rich marketplace of community actions
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Creating Your First Workflow
@@ -82,28 +83,39 @@ jobs:
 
 ## Common GitHub Actions Use Cases
 
-<Tabs>
-  <TabItem label="Continuous Integration">
+<Tabs defaultValue="Continuous Integration">
+<TabsList>
+<TabsTrigger value="Continuous Integration">Continuous Integration</TabsTrigger>
+<TabsTrigger value="Continuous Deployment">Continuous Deployment</TabsTrigger>
+<TabsTrigger value="Repository Automation">Repository Automation</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Continuous Integration">
     - Run automated tests on every push or PR
     - Lint code for style and quality issues
     - Check for security vulnerabilities
     - Validate build process
     - Generate test coverage reports
-  </TabItem>
-  <TabItem label="Continuous Deployment">
+  
+</TabsContent>
+
+<TabsContent value="Continuous Deployment">
     - Deploy web applications to hosting services
     - Publish packages to registries (npm, PyPI, etc.)
     - Create and publish Docker images
     - Deploy to cloud services (AWS, Azure, GCP)
     - Implement multi-environment deployments
-  </TabItem>
-  <TabItem label="Repository Automation">
+  
+</TabsContent>
+
+<TabsContent value="Repository Automation">
     - Label and triage issues automatically
     - Generate changelogs for releases
     - Schedule periodic maintenance tasks
     - Send notifications to team communication tools
     - Auto-merge dependabot PRs with passing tests
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Advanced GitHub Actions Features

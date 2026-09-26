@@ -2,12 +2,6 @@
 title: Pull Requests from Forks
 description: Learn how to contribute to projects by creating pull requests from forked repositories on GitHub.
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { Icon } from '@astrojs/starlight/components';
 
 # Creating Pull Requests from Forks
 
@@ -15,22 +9,30 @@ Contributing to open-source projects often involves forking a repository and sub
 
 ## The Fork and PR Workflow
 
-<Tabs>
-  <TabItem label="Overview">
+<Tabs defaultValue="Overview">
+<TabsList>
+<TabsTrigger value="Overview">Overview</TabsTrigger>
+<TabsTrigger value="Benefits">Benefits</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Overview">
     - **Fork**: Create a personal copy of someone else's project
     - **Clone**: Download your fork to your local machine
     - **Branch**: Create a new branch for your changes
     - **Commit**: Make and commit your changes
     - **Push**: Upload your changes to your fork
     - **Pull Request**: Propose your changes to the original project
-  </TabItem>
-  <TabItem label="Benefits">
+  
+</TabsContent>
+
+<TabsContent value="Benefits">
     - Allows contributions without direct repository access
     - Provides isolated environment to experiment
     - Enables project maintainers to review changes before merging
     - Creates a permanent record of contribution discussions
     - Helps maintain quality control for projects
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## Creating a Pull Request from a Fork
@@ -71,8 +73,13 @@ Contributing to open-source projects often involves forking a repository and sub
 
 ## Common Challenges and Solutions
 
-<Tabs>
-  <TabItem label="Keeping Forks Updated">
+<Tabs defaultValue="Keeping Forks Updated">
+<TabsList>
+<TabsTrigger value="Keeping Forks Updated">Keeping Forks Updated</TabsTrigger>
+<TabsTrigger value="Handling PR Feedback">Handling PR Feedback</TabsTrigger>
+</TabsList>
+
+<TabsContent value="Keeping Forks Updated">
     To avoid out-of-date forks and potential merge conflicts:
     
     ```bash
@@ -88,8 +95,10 @@ Contributing to open-source projects often involves forking a repository and sub
     # Push changes to your fork
     git push origin main
     ```
-  </TabItem>
-  <TabItem label="Handling PR Feedback">
+  
+</TabsContent>
+
+<TabsContent value="Handling PR Feedback">
     When reviewers request changes:
     
     1. Make the requested changes in your local branch
@@ -98,7 +107,8 @@ Contributing to open-source projects often involves forking a repository and sub
     4. The PR will automatically update
     
     Use `git commit --amend` and `git push --force-with-lease` to clean up commits before final review, but only if you understand the implications.
-  </TabItem>
+  
+</TabsContent>
 </Tabs>
 
 ## PR Etiquette for Forked Repositories

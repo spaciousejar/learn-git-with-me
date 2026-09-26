@@ -23,7 +23,6 @@ import Files from "@/components/markdown/files";
 import CardGrid from "@/components/markdown/card-grid";
 import LinkCard from "@/components/markdown/link-card";
 import Aside from "@/components/markdown/aside";
-import TabItem from "@/components/markdown/tab-item";
 import Steps from "@/components/markdown/steps";
 import {
   Table,
@@ -41,7 +40,6 @@ const components = {
   TabsContent,
   TabsList,
   TabsTrigger,
-  TabItem,
   pre: Pre,
   Note,
   Stepper,
