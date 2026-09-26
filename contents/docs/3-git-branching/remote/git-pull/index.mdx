@@ -2,6 +2,14 @@
 title: Git Pull
 description: "git pull updates your local repository with changes from the remote, fetching and merging in one step."
 ---
+`git pull` is two commands in one: it fetches from the remote, then integrates
+what it fetched into your current branch. Both halves matter, because the second
+one is where conflicts and surprises come from.
+
+Knowing that it is a fetch plus a merge is what lets you choose the other option
+when either half is a bad idea — see
+[Fetch Without Merge](/docs/3-git-branching/remote/fetch-without-merge).
+
 ## Pull changes
     
     ```sh
@@ -16,6 +24,40 @@ description: "git pull updates your local repository with changes from the remot
 Updates the local repository with changes from the remote
 repository. It pulls the changes from the remote repository
 and merges them with the local changes.
+
+## Merge or rebase
+
+Newer Git asks which you want, and the answer matters:
+
+```sh
+git pull --rebase     # replay your unpushed commits on top of theirs
+git pull --no-rebase  # record a merge commit instead
+```
+
+Rebasing keeps the history straight, which is usually what you want on a
+feature branch. Merging preserves the fact that you synced, which matters more
+on a shared or long-lived branch. Whichever you pick, set it once:
+
+```sh
+git config --global pull.rebase true
+```
+
+## Uncommitted changes block a pull
+
+Git refuses to pull when a file it needs to change is one you have edited but
+not committed. Stash, pull, and pop:
+
+```sh
+git stash
+git pull
+git stash pop
+```
+
+## If it goes wrong
+
+A conflicted pull is finished the same way as any other merge: resolve the
+files, `git add` them, and commit. If you would rather not deal with it now,
+`git merge --abort` puts everything back.
 
 #### Free Resources
 

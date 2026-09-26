@@ -2,12 +2,67 @@
 title: Pull Requests
 description: "Managing pull requests from the command line with the GitHub CLI."
 ---
-You can use GitHub CLI to manage pull requests with the following commands:
+A pull request is how you propose a change on GitHub. You push a branch, open a
+pull request from that branch into the one you want it merged into, and the
+server shows the diff, hosts the discussion, and records the decision.
+
+The GitHub CLI handles all of it without leaving the terminal:
 
 - `gh pr create`: Create a new pull request.
 - `gh pr merge`: Merge a pull request into the target branch.
 - `gh pr list`: List all pull requests for a repository.
 - `gh pr view`: View details of a specific pull request.
+
+## Opening one
+
+```bash
+git switch -c fix-login-redirect
+# ...work, committing as usual...
+git push -u origin fix-login-redirect
+gh pr create --fill
+```
+
+`--fill` builds the title and body from your commit messages, then opens the
+page in the browser. Write the description properly anyway: it is the first thing
+a reviewer reads, and a line like `fixes #42` links the issue and closes it on
+merge.
+
+## Reviewing
+
+```sh
+gh pr checkout 412      # get the branch locally so you can run it
+gh pr diff 412         # read the change without leaving the terminal
+gh pr review 412 -c -b  # approve, with a comment
+```
+
+`gh pr checkout` is the one that matters. Reviewing a change you have not run is
+guesswork; checking out the branch and running the tests takes a minute.
+
+## Keeping a branch current
+
+A pull request goes stale when its branch falls behind the base. Update it
+without leaving the pull request:
+
+```sh
+gh pr update-branch 412
+```
+
+That merges the base into your branch, and GitHub can do it automatically on
+every push. It is much less work than a pile of conflicts on the day you finally
+ask for review.
+
+## Merging
+
+```sh
+gh pr merge 412 --squash --delete-branch
+```
+
+`--squash` collapses the branch to one commit in the base, which keeps the
+history readable. `--delete-branch` cleans up locally and remotely.
+
+Branch protection on the base branch is what makes the request mean something:
+require a review, require status checks, disallow force pushes. See
+[Collaboration](/docs/5-github/collaboration).
 
 #### Free Resources
 

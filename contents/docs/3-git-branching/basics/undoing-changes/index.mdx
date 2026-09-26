@@ -7,6 +7,60 @@ If mistakes or unwanted changes have been committed to your Git repository, ther
 - Git Reset: Resets the branch to a previous commit.
 - Git Revert: Creates a new commit that reverts specified changes.
 
+## The question that decides it
+
+**Has anyone else pulled the commit you want to undo?**
+
+If not, `git reset` is the better tool: it moves the branch pointer and the
+mistake leaves no trace. If yes, `git revert`, because rewriting history that
+other people have already fetched leaves their copy and yours disagreeing, and
+the fix is to reset their branch and pull again.
+
+That is the whole rule. Everything below is a variation on it.
+
+## Undo the last commit, keeping the changes
+
+```bash
+git reset --soft HEAD~1     # changes stay staged
+git reset HEAD~1           # changes stay unstaged, still in your files
+```
+
+Use `--soft` when you want to recommit the same work differently, and the
+default mixed reset when you just want the commit to stop existing.
+
+`--hard` discards the changes too, and that is unrecoverable from the working
+tree. It is the one to be careful with — see
+[Undoing Changes](/docs/4-git-advanced/recovery/undoing-changes) for how to recover
+from that.
+
+## Undo a commit that is already shared
+
+```bash
+git revert <hash>
+```
+
+This records a new commit that undoes the old one. The mistake stays in the
+history, visibly corrected, and nobody has to do anything to their repository.
+
+## Undo changes you never committed
+
+```bash
+git restore <file>              # discard edits to a file
+git restore --staged <file>     # unstage, keep the edits
+```
+
+## Recover something that looked lost
+
+```bash
+git reflog
+git switch -c recovered <hash>
+```
+
+The reflog records every position `HEAD` has held — including commits that were
+amended away, reset off a branch, or rebased into nothing. This is why "I lost
+that commit" is nearly always recoverable, and it is worth knowing the command
+before you need it. See [Git Reflog](/docs/2-git-basics/commands/git-reflog).
+
 #### Free Resources
 
 <Tabs defaultValue="official">

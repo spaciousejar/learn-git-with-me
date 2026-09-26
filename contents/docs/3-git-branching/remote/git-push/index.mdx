@@ -2,6 +2,14 @@
 title: Git Push
 description: Learn how to use the Git Push command with remote repositories
 ---
+`git push` sends commits from your local repository to a remote. It is the one
+command here that can lose work, so it is worth knowing what it will refuse to do
+before you need it to.
+
+By default it pushes your current branch to the branch of the same name on the
+upstream. If your branch has no upstream yet, Git tells you and prints the
+command to set one — copy that rather than guessing.
+
 ## Push changes
 ```sh
 git push
@@ -13,6 +21,43 @@ git push origin main
 ```
 
 This command pushes the local changes to the remote
+
+## First push of a branch
+
+A new branch has no upstream, so the first push needs one spelled out. Set it
+once and afterwards plain `git push` is enough.
+
+```bash
+git push -u origin feature-search
+```
+
+## When a push is rejected
+
+"rejected — non-fast-forward" means someone pushed to that branch after you last
+synced. Nothing was lost; Git simply will not overwrite commits you have not
+seen. Fetch and integrate, then push again:
+
+```bash
+git fetch
+git rebase origin/main
+git push
+```
+
+## Pushing tags
+
+Tags are not pushed by a plain `git push`. See
+[Pushing Tags](/docs/2-git-basics/commands/pushing-tags).
+
+## Force, and when not to
+
+`--force` overwrites the remote branch with your version, discarding anything
+that is only there. `--force-with-lease` does the same but refuses if the remote
+has moved since you last looked, which catches the case where a colleague pushed
+in the meantime.
+
+Prefer `--force-with-lease` whenever you are rewriting a branch other people might
+be using. Plain `--force` on a shared branch is how commits get lost. See
+[Git Push --force](/docs/3-git-branching/remote/git-push---force).
 repository. It updates the 'remote' repository with the
 changes you made locally.
 

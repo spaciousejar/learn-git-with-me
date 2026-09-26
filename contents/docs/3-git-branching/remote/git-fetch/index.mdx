@@ -2,11 +2,54 @@
 title: Git Fetch
 description: "This command fetches the changes from the remote repository to the local repository. It updates the remote tracking branches in the local repository."
 ---
+`git fetch` downloads commits from a remote and updates your remote-tracking
+branches. It never touches your working directory and never merges anything, so
+it is always safe to run — which makes it the right default before you start
+work.
+
+That safety is the point. `git pull` is `fetch` followed by a merge, so it can
+conflict; `git fetch` cannot. Teams that prefer to see other people's changes
+before absorbing them fetch, read the log, and merge on purpose.
+
 ## Fetch changes
 ```sh
 git fetch
 ```
 This command fetches the changes from the remote repository to the local repository. It updates the remote tracking branches in the local repository. The changes are not merged with the local branches. To merge the changes, you can use the `git merge` command.
+
+## Where the changes land
+
+Fetched commits go to `origin/main`, not to your `main`. You can see the gap
+without changing anything:
+
+```sh
+git fetch
+git log main..origin/main        # what you are missing
+git log origin/main..main        # what you have not pushed
+```
+
+Reading those two before you merge is how you find out that a colleague has been
+rewriting a shared branch, or that your last push never landed.
+
+## Fetching everything
+
+```sh
+git fetch --all --prune
+```
+
+`--all` covers every remote you have configured. `--prune` deletes
+remote-tracking branches whose remote branch has been deleted, so your list stays
+honest instead of accumulating references to branches that no longer exist.
+
+## Folding it in
+
+```sh
+git merge origin/main    # merge
+git rebase origin/main   # or replay your commits on top
+```
+
+`git pull` does the fetch and the merge in one step. Choosing them separately
+costs one extra command and buys you the chance to look first.
 
 #### Free Resources
 
