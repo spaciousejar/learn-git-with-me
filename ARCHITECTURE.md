@@ -72,8 +72,9 @@ deploy is a build plus a CDN upload — no runtime compute, no cold starts.
 
 Headers live in `next.config.mjs`: CSP, `X-Content-Type-Options`,
 `X-Frame-Options`, `Referrer-Policy` and `Permissions-Policy`. The
-`git_explained_in_100_seconds.mp4` file is excluded from that rule because
-the video modal frames it.
+homepage video is a YouTube embed, so `frame-src` allows
+`https://www.youtube.com` and nothing on this origin is framed by us —
+which is why `frame-ancestors 'none'` applies to every path.
 
 ## Environment variables
 

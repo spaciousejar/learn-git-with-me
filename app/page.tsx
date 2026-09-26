@@ -1,7 +1,7 @@
 import { DownloadButton } from "@/components/animated-download-button";
 import { GET } from "@/components/get-started";
 import { BorderBeam } from "@/components/ui/border-beam";
-import { Video } from "@/components/ui/video";
+import { HeroVideoDialog } from "@/components/ui/hero-video-dialog";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from 'next'
@@ -40,7 +40,12 @@ export default function Home() {
         </span>
       </div>
       <section className="relative flex flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl" aria-label="Featured video content">
-          <Video/>
+          <HeroVideoDialog
+            animationStyle="from-center"
+            videoSrc="https://www.youtube.com/embed/hwP7WQkmECE"
+            thumbnailSrc="/video-thumbnail.webp"
+            thumbnailAlt="Frame from the Git in 100 seconds explainer video"
+          />
             <BorderBeam size={250} duration={12} delay={9} />
       </section>
     </>
