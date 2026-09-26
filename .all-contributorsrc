@@ -1,0 +1,11 @@
+{
+  "projectName": "learn-git-with-me",
+  "projectOwner": "spaciousejar",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
+  "imageSize": 100,
+  "commit": false,
+  "contributorsPerLine": 7,
+  "contributors": []
+}

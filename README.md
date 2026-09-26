@@ -60,6 +60,18 @@ Visit our [contributing guide](https://github.com/spaciousejar/learn-git-with-me
 - your feedback and contributions are welcome!
 
 
+## 👥 Contributors
+
+This project exists thanks to everyone who has contributed to it.
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- If you add a contribution, comment `@all-contributors add` on the PR and the bot fills this in. -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## 📜 License
 
 This project is licensed under the MIT License. For more information, see the [LICENSE](./LICENSE) file.
