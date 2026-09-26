@@ -5,6 +5,61 @@ description: "With this option, both the HEAD pointer and the working directory'
 
 With this option, both the HEAD pointer and the working directory's contents are updated to match the specified commit. Any changes made since then will be lost.
 
+<Note type="warning" title="This discards work">
+  `--hard` is the only common Git command that throws away changes with no undo.
+  Uncommitted edits and untracked-but-staged files are overwritten, not moved
+  anywhere. Everything it deletes that had been committed is still in the
+  reflog, so run `git reflog` before you panic.
+</Note>
+
+## What each part of a reset does
+
+`git reset --hard <commit>` moves three things at once:
+
+- **HEAD** and the branch it points at go to `<commit>`
+- **the index** is rewritten to match
+- **your working tree** is overwritten to match
+
+Nothing is stashed first. That is the difference from `--soft` and `--mixed`,
+which leave the file contents alone and only move the branch and index.
+
+## The everyday use
+
+```bash
+git reset --hard origin/main
+```
+
+Discarding your local commits and matching the remote exactly. Useful when a
+branch has gone wrong and you have decided to start it again from the remote,
+and worth doing before force-pushing so you are not discarding anyone else's work
+either. See [Git Push --force](/docs/3-git-branching/remote/git-push---force).
+
+## The everyday mistake
+
+Running it with the wrong argument, or without checking what you are about to
+throw away. Before you do:
+
+```bash
+git status                    # is anything uncommitted?
+git log --oneline HEAD~5..HEAD  # what would go?
+git stash                      # or just stash, and keep it
+```
+
+`git stash` followed by `git reset --hard` gives you the same result with a way
+back. That is the habit worth building: reach for stash first, and treat
+`--hard` as the thing you do once you have already saved a copy.
+
+## Recovering afterwards
+
+```bash
+git reflog
+git switch -c recovered <hash>
+```
+
+The reflog records every position HEAD has held, including commits that a reset
+moved past. This is the safety net that makes experimenting with `--hard` less
+scary than it looks.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

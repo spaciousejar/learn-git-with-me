@@ -5,6 +5,68 @@ description: "The commit-msg hook is a client-side hook that runs after you've c
 
 The commit-msg hook is a client-side hook that runs after you've committed changes to your repository. It's typically used to validate or modify the commit message before it's recorded in the Git history.
 
+## The mistake it catches
+
+`git commit` without `-m` opens an editor, and the easiest thing to type into an
+empty editor is the wrong thing. Every repository that enforces commit message
+rules does it with this hook.
+
+```bash
+mkdir -p .git/hooks
+cat > .git/hooks/commit-msg <<'EOF'
+#!/bin/sh
+pattern='^(feat|fix|docs|chore|refactor|test): .{5,}'
+if ! head -1 "$1" | grep -Eq "$pattern"; then
+  echo "Commit message must start with feat:, fix:, docs:, chore:, refactor: or test:"
+  echo "and be at least 5 characters long."
+  exit 1
+fi
+EOF
+chmod +x .git/hooks/commit-msg
+```
+
+The first line of the message is what gets checked — a commit subject is the
+part that ends up in `git log --oneline` and in release notes, so that is the
+part worth constraining.
+
+## Other things it does
+
+**Cap the line length**, which keeps `git log` readable:
+
+```sh
+if [ "$(head -1 "$1" | wc -c)" -gt 72 ]; then
+  echo "Keep the first line under 72 characters."
+  exit 1
+fi
+```
+
+**Reject merge commits** on a branch that should stay linear:
+
+```sh
+if head -1 "$1" | grep -qE '^Merge (branch|remote)'; then
+  echo "Merge commits are not allowed on this branch."
+  exit 1
+fi
+```
+
+A non-zero exit aborts the commit, leaving your changes staged and nothing
+written.
+
+## Where hooks live
+
+`.git/hooks` is per-clone and is not committed, so everyone on a team sets up
+their own. To share the rules, keep the script in the repository — under
+`scripts/hooks/` or `.githooks/` — and add a line to the contributing guide
+telling people to run an install script that points `core.hooksPath` at it:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+That version travels with the project. See
+[Pre-commit Hooks](/docs/7-automation/git-hooks/pre-commit) for the hook that
+runs before the commit rather than after.
+
 #### Free Resources
 
 

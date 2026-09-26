@@ -2,6 +2,13 @@
 title: Git Revert
 description: "git revert creates a new commit that undoes the changes an earlier commit introduced."
 ---
+`git revert` records a new commit that undoes an earlier one. The original
+commit stays in the history, and the correction is visible next to it. That is
+the point: it is the safe way to undo something other people already have.
+
+Compare it with `git reset`, which moves the branch pointer and makes the commit
+disappear. Use reset only for commits nobody else has pulled.
+
 ## Revert changes
     
     ```sh
@@ -10,6 +17,45 @@ description: "git revert creates a new commit that undoes the changes an earlier
 Creates a new commit that undoes the changes made in
 the specified commit. It does not delete the specified
 commit, but it creates a new commit that reverts the
+
+changes. This means the history is preserved and the
+mistake stays visible, marked as corrected.
+
+## The difference from reset
+
+`git reset` rewrites the branch. Everyone who has already pulled ends up with a
+history that disagrees with yours, and their fix is to reset their own branch
+and pull again. `git revert` adds to history, so nothing anyone has fetched stops
+matching. If in doubt, revert — it cannot break anyone.
+
+## Reverting more than one commit
+
+```bash
+git revert HEAD~3..HEAD        # the last three commits, oldest first
+git revert --no-commit a1b2c3d # stage the undo without committing it
+```
+
+Reverting a range applies the undos oldest-first, which is the order that
+actually reproduces the original state. `--no-commit` is useful when you want
+to review the result or fold the undo into a commit you are making anyway.
+
+## Merge commits
+
+A merge commit has two parents, so a plain revert cannot tell you which side to
+undo. Tell it:
+
+```bash
+git revert -m 1 <merge-hash>
+```
+
+The `1` means "keep the first parent" — in the usual case, `main` — and revert
+what the merged branch added. `-m 2` undoes the other direction.
+
+## When the commit is already reverted
+
+Reverting a commit whose changes are no longer present fails rather than
+producing nonsense, which is the correct behaviour. `git log` will show the
+original revert for context.
 changes made in that commit.
 
 #### Free Resources

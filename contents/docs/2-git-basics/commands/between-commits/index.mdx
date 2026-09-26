@@ -4,6 +4,59 @@ description: "To compare two specific commits in your Git history, use git diff 
 ---
 To compare two specific commits in your Git history, use git diff followed by the hashes of the commits. This will show you the changes made between those two points, including added, modified, and deleted lines.
 
+## Comparing two commits
+
+```bash
+git diff <older> <newer>
+git diff HEAD~3 HEAD        # the last three commits, combined
+```
+
+Order matters: the first argument is where you are coming from, the second
+where you are going. `git diff A B` and `git diff B A` produce opposite diffs.
+
+## Finding the hashes
+
+`git log --oneline` prints them. The seven-character prefix it shows is enough
+for any Git command.
+
+```bash
+git log --oneline --graph
+```
+
+The graph view is worth learning: it draws the branches as they fork and merge,
+which is the fastest way to find which two commits you actually meant.
+
+## Comparing with a branch instead
+
+```bash
+git diff main...feature-search    # what the feature branch adds
+git diff main..feature-search     # what differs, either direction
+```
+
+Three dots take the merge base as the starting point, so you see only what your
+branch introduced. Two dots compare the tips directly, which includes anything
+that landed on `main` since you branched. The three-dot form is usually what you
+want when reviewing a branch.
+
+## Statistics
+
+```bash
+git diff --stat main
+git diff --shortstat main
+```
+
+Shows how many files and lines changed rather than the content — the quick way
+to see whether a diff is 3 lines or 3000.
+
+## Seeing only filenames
+
+```bash
+git diff --name-only main
+git diff --name-status main
+```
+
+Worth piping into `grep` when you are hunting for where a function moved.
+
 #### Free Resources
 
 

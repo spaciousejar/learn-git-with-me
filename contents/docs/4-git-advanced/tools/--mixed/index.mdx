@@ -5,6 +5,55 @@ description: "When using mixed mode, the HEAD pointer is moved to the specified 
 
 When using mixed mode, the HEAD pointer is moved to the specified commit. However, files in your working directory remain as they were before the reset. The staging area (index) is updated to match the specified commit.
 
+## The default
+
+`--mixed` is what `git reset` does when you give it no mode flag, which makes it
+the one you will use most without thinking about it.
+
+```bash
+git reset HEAD~1
+```
+
+HEAD and the index move back one commit. Your files on disk are untouched, so
+the changes from the discarded commit are still there — they have simply gone
+back to being unstaged, as though you had never staged them.
+
+## Comparing the three modes
+
+| Mode | HEAD | Index | Working tree |
+| --- | --- | --- | --- |
+| `--soft` | moves | keeps | keeps |
+| `--mixed` | moves | resets | keeps |
+| `--hard` | moves | resets | resets |
+
+Read down the columns: the further right a change reaches, the more you lose.
+`--soft` is the most forgiving, `--hard` the least.
+
+## When to use each
+
+**`--soft`** when you want to recommit the same work differently — a commit
+message to fix, or files to split into two commits.
+
+```bash
+git reset --soft HEAD~3
+```
+
+Your three commits become three sets of staged changes, ready to recommit as
+you like.
+
+**`--mixed`** when you want to unstage but keep the work. It is also what you
+want after a messy `git add -A` that swept in files you did not mean to commit.
+
+## Why the default is the safe one
+
+`--hard` overwrites your files. `git reset` does not, and the commonest way
+people lose work is reaching for `--hard` out of habit when plain `git reset`
+would have done what they wanted.
+
+If you are about to use `--hard`, check `git status` first, or `git stash` first.
+See [Hard](/docs/4-git-advanced/tools/--hard) and
+[Undoing Changes](/docs/3-git-branching/basics/undoing-changes).
+
 #### Free Resources
 
 <Tabs defaultValue="official">

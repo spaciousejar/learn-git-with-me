@@ -4,6 +4,60 @@ description: "Pushing tags in Git is the process of sharing your local tags with
 ---
 Pushing tags in Git is the process of sharing your local tags with a remote repository. Tags in Git are used to mark specific points in the repository's history, typically to signify a release or a milestone.
 
+## Tags do not travel with a push
+
+This catches people. `git push` sends commits, not tags, so a tag you created
+stays on your machine until you push it explicitly.
+
+```bash
+git push origin v1.4.0        # one tag
+git push --tags               # all of them
+git push --follow-tags        # the tags reachable from the commits being pushed
+```
+
+`--follow-tags` is usually the right one in a release script: it sends the tags
+for the commits you are pushing and nothing older.
+
+## Annotated or lightweight
+
+```bash
+git tag v1.4.0                          # lightweight: just a name
+git tag -a v1.4.0 -m "Release 1.4.0"    # annotated: has a message and a date
+```
+
+Prefer annotated. A lightweight tag is a single reference with no record of who
+made it or why, and `git describe` ignores lightweight tags entirely — which
+breaks version detection in any build script that relies on it.
+
+## Moving a tag
+
+Tags are meant to be immutable, so replacing one takes an explicit override:
+
+```bash
+git tag -f v1.4.0
+git push --force origin v1.4.0
+```
+
+Only do that for a tag that was never released. Moving a published tag means
+everyone who has it now has two different commits with the same name, and
+anything that pinned to it gets inconsistent results.
+
+## Deleting one
+
+```bash
+git tag -d v1.4.0             # local
+git push origin --delete v1.4.0   # remote
+```
+
+## Which tag am I on?
+
+```bash
+git describe --tags
+```
+
+Prints the nearest tag with the number of commits since it, like `v1.4.0-27`.
+This is what release tooling calls to work out the next version number.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

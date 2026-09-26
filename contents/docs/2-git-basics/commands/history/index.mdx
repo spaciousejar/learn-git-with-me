@@ -4,6 +4,49 @@ description: "The history of a Git repository is a record of all commits made ov
 ---
 The history of a Git repository is a record of all commits made over time, including changes to files, commit messages, and metadata. This history is stored as a series of snapshots, with each commit representing a new version of the codebase.
 
+## Reading it
+
+```bash
+git log                    # full detail, newest first
+git log --oneline           # one line per commit
+git log --oneline --graph   # with branches drawn as they fork and merge
+```
+
+The graph view is the one to learn. On a linear history it is a single column
+of dots; the moment work branches, you can see where a feature left `main`, how
+far it drifted, and where it came back — which is the question `git log` is
+usually being asked to answer.
+
+## Restricting what is shown
+
+```bash
+git log -10                          # the last ten commits
+git log --author="vicky"             # one person
+git log --since="last monday"        # a time window
+git log --grep="login"               # commits whose message matches
+git log -p -- src/index.ts           # one file, with the diffs
+```
+
+The path filter is the most useful of these. `git log -p -- <file>` shows how
+that file reached its current state, which usually answers "why is this written
+this way" without any guessing.
+
+## History is per-branch
+
+`git log` with no arguments shows the branch you are on. To see another branch
+without switching, name it:
+
+```bash
+git log main
+git log main..feature-search    # on the feature branch, not yet on main
+```
+
+## Tags mark points in it
+
+A commit can be tagged, which gives it a name that does not move — a release, a
+milestone, the last version before a change. See
+[Tagging](/docs/2-git-basics/commands/tagging).
+
 #### Free Resources
 
 <Tabs defaultValue="official">
