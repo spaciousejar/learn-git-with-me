@@ -24,7 +24,9 @@ app/blog/[slug]/page.tsx       one route per blog post
 
 Content is addressed by directory name, not by a frontmatter field:
 `contents/docs/2-git-basics/commands/git-add/index.mdx` is served at
-`/docs/2-git-basics/commands/git-add`.
+`/docs/2-git-basics/commands/git-add`. A route listed in `ROUTES` whose
+file is missing renders a 404, not a build error — `getDocsForSlug`
+swallows the `fs` error and the page calls `notFound()`.
 
 ## Adding a docs page
 
@@ -32,10 +34,17 @@ Content is addressed by directory name, not by a frontmatter field:
    `description` frontmatter.
 2. Add the entry to `ROUTES` in `lib/routes-config.ts`.
 
-The sidebar, the prev/next links, the table of contents and
-`/sitemap.xml` all read from that one tree, so a route added there shows up
-everywhere. A page missing from `ROUTES` is unreachable; a route in
-`ROUTES` with no file fails the build.
+Step 2 is what makes the page *findable*. The sidebar, the prev/next links,
+`generateStaticParams` and `/sitemap.xml` all read from that one tree. The
+table of contents does not — it re-reads the MDX file and extracts its
+headings.
+
+Skipping step 2 does not break the build and does not 404.
+`dynamicParams` is left at its default of `true`, so the catch-all route
+still renders the page on first request. What you lose is everything that
+reads the table: no sidebar entry, no prev/next, not in the sitemap, and
+not prerendered. 112 of the 299 docs files are in that state right now, so
+this is the most common way a page here goes missing rather than appears.
 
 ## MDX
 
