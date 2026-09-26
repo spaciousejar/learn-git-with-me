@@ -14,10 +14,10 @@
 #
 # Reports every failure, not just the first.
 #
-# ponytail: tool matching is substring-based, so a claim is satisfied by a
-# *related* package (claim "MDX" passes on next-mdx-remote). Deliberately
-# loose: a false pass is cheaper than a false alarm here, and the allowlist
-# at check_claim() absorbs the known non-npm claims. If a claim ever slips
+# Tool matching is substring-based, so a claim is satisfied by a *related*
+# package (claim "MDX" passes on next-mdx-remote). Deliberately loose: a
+# false pass is cheaper than a false alarm here, and the allowlist at
+# check_claim() absorbs the known non-npm claims. If a claim ever slips
 # through, add a case there -- do not build a README parser.
 
 set -uo pipefail
