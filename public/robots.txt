@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://learn-git-with-me.vercel.app/sitemap.xml
