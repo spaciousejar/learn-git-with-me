@@ -4,6 +4,69 @@ description: "Creating a Git repository means setting up a system to track chang
 ---
 Creating a Git repository means setting up a system to track changes in your project's files over time. This is crucial for version control, allowing you to manage, review, and collaborate on code efficiently.
 
+## Locally
+
+```bash
+mkdir project && cd project
+git init
+```
+
+That is the whole thing. It creates a `.git` directory holding the history, and
+from now on every change in this directory is something Git is watching.
+
+Initialise before the first commit, not after — a repository created after the
+fact cannot record the history that came before.
+
+## The first commit
+
+```bash
+git add .
+git commit -m "Initial commit"
+```
+
+If Git complains about `user.name` or `user.email`, it does not know who you
+are yet. That configuration lives in `.git/config` for this repository and
+`~/.gitconfig` for you, and the global one is worth setting immediately:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+The email here is what GitHub associates with your commits. Use the address you
+signed up to GitHub with, or contributions will not be attributed to you.
+
+## Ignore the right things first
+
+Before the first commit, add a `.gitignore`. Committing `node_modules` or a
+`.env` file is tedious to undo — a secret that reaches a commit stays in the
+history even after you delete it later.
+
+```bash
+node_modules/
+.env
+dist/
+```
+
+See [.gitignore](/docs/2-git-basics/working-with-files/gitignore).
+
+## On GitHub
+
+An empty repository can be created from the browser or the CLI:
+
+```bash
+gh repo create project --private --push
+```
+
+`--private` is worth deciding deliberately: the default for a personal account
+is public, and changing it later does not rewrite anything already published.
+
+## Which branch name
+
+`git init` now defaults to `main`. Older material says `master`; if you see that
+in a tutorial, it is describing Git from before 2020 rather than a different
+system.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

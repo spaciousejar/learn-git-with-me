@@ -4,6 +4,69 @@ description: "GitHub Actions allows you to schedule workflows to run at specific
 ---
 GitHub Actions allows you to schedule workflows to run at specific times or intervals. You can set up workflows to automatically run at predetermined times, such as daily or weekly.
 
+## The trigger
+
+```yaml
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"     # 06:00 UTC, weekdays
+```
+
+Cron has five fields: minute, hour, day of month, month, day of week. Times are
+always UTC, so a "9am" schedule is not 9am where you are. If that matters, work
+out the offset and say so in a comment.
+
+## Schedules are not exact
+
+A scheduled workflow runs "at approximately" that time, and usually later.
+GitHub queues scheduled runs during busy periods, and the queue is prioritised
+— if a repository is over its concurrency limit, scheduled runs are dropped
+rather than delayed indefinitely. A cron job at 06:00 might run at 06:04, or
+might not run at all on a very busy day.
+
+So do not use a schedule for anything with a deadline. It suits maintenance —
+dependency checks, stale-branch cleanup, nightly builds.
+
+## Two things that catch people
+
+**Schedules only run from the default branch.** A workflow file that exists only
+on a feature branch will not run on a schedule. Push it to `main`.
+
+**You cannot schedule from the API.** Creating a schedule means editing the YAML
+and committing it, or using the API to write the file for you — but the trigger
+itself is declarative.
+
+## The workflow
+
+```yaml
+name: Nightly
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:        # lets you run it by hand, which you will want
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci && npm test
+```
+
+`workflow_dispatch` is worth adding to every scheduled workflow. When a run does
+not happen at 03:00, being able to trigger it from the browser beats debugging a
+cron expression you cannot see.
+
+## Manual runs
+
+```bash
+gh workflow run nightly.yml
+gh run list --workflow nightly.yml
+```
+
+See [GitHub Actions](/docs/5-github/features/github-actions) for the rest of the
+trigger types.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

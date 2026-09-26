@@ -4,6 +4,77 @@ description: "GitHub Webhooks allow developers to receive real-time notification
 ---
 GitHub Webhooks allow developers to receive real-time notifications about events happening within their repository, such as commits, pull requests, and issues. These webhooks enable users to automate tasks, integrate with other services, and build custom workflows.
 
+## A webhook is an HTTP POST
+
+When something happens, GitHub sends a POST to a URL you registered, with a JSON
+body describing the event, a delivery id, and a signature header. That is the
+whole mechanism: there is no SDK required to receive one.
+
+```json
+{
+  "action": "opened",
+  "repository": { "full_name": "owner/repo" },
+  "pull_request": { "number": 412, "title": "Fix login redirect" },
+  "sender": { "login": "vicky" }
+}
+```
+
+## Verify the signature, always
+
+The header is `X-Hub-Signature-256`, an HMAC of the raw body keyed by the secret
+you configured. Skipping this check means anyone who learns your URL can forge
+any event.
+
+```python
+import hashlib, hmac
+
+def verify(body: bytes, header: str, secret: str) -> bool:
+    expected = "sha256=" + hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, header)
+```
+
+Compute it over the raw request body, before any JSON parsing — re-serialising
+changes the bytes and the hash will not match.
+
+## Respond quickly
+
+GitHub gives you ten seconds. A handler that does real work in the request will
+time out, and GitHub marks the delivery as failed and retries. Acknowledge first,
+queue the work:
+
+```python
+@app.post("/webhook")
+def webhook():
+    queue.push(request.get_data(), request.headers["X-Hub-Signature-256"])
+    return "", 202
+```
+
+## Retries and the dead letter
+
+Failed deliveries are retried with backoff over roughly a day, then given up on.
+Keep the delivery id and ignore the ones you have already handled, or a retry
+will process the same event twice.
+
+Under Settings → Webhooks → Advanced you can see every delivery attempt with its
+response, and redeliver any of them by hand.
+
+## Webhooks versus GitHub Actions
+
+For a repository you control, prefer Actions. `on: pull_request` is a webhook
+that GitHub hosts for you, with retries, logs and no server to run:
+
+```yaml
+on:
+  pull_request:
+    types: [opened, synchronize]
+```
+
+See [GitHub Actions](/docs/5-github/features/github-actions). Webhooks are the
+tool when the receiving end is not your repository — an external service that
+needs to know something happened. See
+[GitHub Apps](/docs/5-github/basics/github-apps) for the case where you also
+want to act back on GitHub.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

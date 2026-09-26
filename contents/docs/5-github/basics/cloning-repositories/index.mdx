@@ -4,6 +4,72 @@ description: "Cloning a repository in Git and GitHub involves creating a local c
 ---
 Cloning a repository in Git and GitHub involves creating a local copy of a remote repository on your computer. This allows you to work on the project locally, commit changes, and later push those changes back to the remote repository.
 
+## The command
+
+```bash
+git clone https://github.com/spaciousejar/learn-git-with-me.git
+```
+
+Git creates a directory named after the repository and checks out the default
+branch into it. You can rename that directory by adding a second argument.
+
+```bash
+git clone <url> <directory>
+```
+
+The URL is the "Code" button on the repository page, or
+`git@github.com:owner/repo.git` if you use SSH. See
+[Git Remotes](/docs/2-git-basics/commands/git-remotes).
+
+## What a clone actually gives you
+
+Everything: the full history, every branch, and every tag. It is not a download
+of the current files.
+
+```bash
+git log --oneline | wc -l     # how much history came down
+git branch -a                 # every branch, local and remote
+git tag | head                # every tag
+```
+
+That is what makes a clone fast despite carrying the history — Git transfers
+compressed differences, not a copy of every version.
+
+## Shallow clones
+
+```bash
+git clone --depth 1 <url>
+```
+
+Fetches only the most recent commit. Much faster for a large repository you
+only need to read, with two costs: the history is truncated, so `git log` and
+`git blame` have nothing to show, and `git fetch --unshallow` is needed before
+you can do anything else. Fine for CI, usually wrong for development.
+
+## Keeping it current
+
+```bash
+git fetch origin
+git pull
+```
+
+Or, if you want to look before you integrate,
+[Fetch Without Merge](/docs/3-git-branching/remote/fetch-without-merge).
+
+## Cloning your own empty repository
+
+A repository you have not pushed yet has nothing to clone, so initialise it
+locally and add the remote by hand:
+
+```bash
+git init
+git remote add origin https://github.com/you/project.git
+git push -u origin main
+```
+
+The `-u` sets the upstream so later pushes are plain `git push`. See
+[Creating Repositories](/docs/5-github/basics/creating-repositories).
+
 #### Free Resources
 
 <Tabs defaultValue="official">

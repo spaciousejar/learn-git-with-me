@@ -4,6 +4,57 @@ description: "GitHub Roadmaps are a feature that helps you visualize and organiz
 ---
 GitHub Roadmaps are a feature that helps you visualize and organize plans for your projects, allowing you to create a high-level view of milestones and goals, and collaborate on planning and tracking progress with team members.
 
+## What a roadmap is for
+
+A roadmap answers "what are we working towards, and in what order" at a level
+above individual issues. It is a communication tool before it is a planning one:
+the failure mode is a roadmap nobody reads, which usually happens when it lists
+everything rather than the next few things.
+
+## Issues versus Projects
+
+Roadmaps replaced the old Projects columns. The distinction that matters now:
+
+- **Issues** are individual pieces of work. They are in the repository, they can
+  be commented on and closed, and they persist.
+- **Projects** are views over issues. A board, a table, a roadmap — several
+  views of the same issues, not copies of them.
+
+So the work is always an issue, and a project is how you arrange it. Closing an
+issue updates every view it appears in, which is why duplicating tasks into a
+project instead of referencing issues is the thing to avoid.
+
+## Setting one up
+
+Create a project from the Projects tab, then add issues to it from the sidebar
+while working on them. A useful first view is a table with `Status`, `Priority`
+and `Iteration` as fields, filtered to the current iteration.
+
+## The iteration habit
+
+Time-boxed iterations are what stop a board becoming a wishlist.
+
+```yaml
+# .github/ISSUE_TEMPLATE/feature_request.md
+Iteration: 2026-Q4
+```
+
+An iteration is a date range in a project field. Assign issues to one, and the
+roadmap view groups by it. At the end, close or carry over deliberately — an
+unclosed iteration is how a board quietly fills with stale work.
+
+## Keeping it honest
+
+- One project per team, not one per person.
+- Carry unfinished work over explicitly rather than leaving it in the past
+  iteration.
+- Close issues when they are done. A board where 60% of items are open is
+  reporting on nothing.
+
+See [Kanban Boards](/docs/5-github/features/kanban-boards) for the table-driven
+alternative, and [GitHub Projects](/docs/5-github/features/github-projects) for
+the full feature.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

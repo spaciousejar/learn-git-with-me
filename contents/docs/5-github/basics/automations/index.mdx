@@ -4,6 +4,52 @@ description: "Adding automation to a GitHub project with built-in workflows that
 ---
 To add automation to your GitHub project, use built-in workflows that can trigger actions such as setting fields on item changes or archiving items meeting specific criteria, and also configure automatic item addition from repositories based on matching criteria.
 
+## Projects automation
+
+GitHub Projects has its own automations, configured in the project rather than
+in code. A built-in rule can set `Status` to `In progress` when an item is added
+to a column, apply labels when something changes, or archive items that have sat
+untouched for a set number of days.
+
+These are the right tool for keeping a board tidy. They are not a substitute for
+a workflow, because they cannot run code — only change fields.
+
+## Automating issues and pull requests
+
+The older way, still widely used, is to put automation in the issue or pull
+request template as a task list. GitHub closes the linked issue when every box
+is ticked, and closes the parent when its subtasks are all closed.
+
+```markdown
+- [ ] I have read the contributing guide
+- [ ] Tests pass locally
+- [ ] Documentation updated
+```
+
+This needs no configuration at all, which is why it survives in repositories
+that have moved on to Projects.
+
+## Scheduled workflows
+
+Recurring runs are a workflow trigger rather than a Projects automation:
+
+```yaml
+on:
+  schedule:
+    - cron: "0 6 * * 1"    # Mondays at 06:00 UTC
+```
+
+See [Scheduled Workflows](/docs/5-github/basics/scheduled-worfklows).
+
+## What to automate, and what not to
+
+Good candidates are mechanical and frequent: labelling, staleness checks,
+dependency updates, formatting on push.
+
+Poor candidates are judgement calls. An automation that closes issues after 30
+days will eventually close an important one, and nobody will notice. If a rule
+can be wrong in a way that damages work, leave it to a person.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

@@ -4,6 +4,68 @@ description: "A GitHub App is a way to integrate with the GitHub platform progra
 ---
 A GitHub App is a way to integrate with the GitHub platform programmatically, using either the REST API or GraphQL API. It allows developers to create custom integrations that can automate tasks, provide real-time notifications, and build custom workflows.
 
+## Why not a personal access token
+
+Apps and tokens solve different problems, and picking the wrong one causes pain
+later.
+
+A **personal access token** acts as a person: it inherits that person's
+permissions, it is stored wherever you paste it, and revoking it means issuing
+everybody a new one. Good for a script you run yourself.
+
+A **GitHub App** is installed on repositories the way an app is installed on a
+phone. It has its own identity, its own permissions, and it talks to you through
+webhooks rather than by polling. Revoking an installation does not affect anyone
+else.
+
+For anything running on a server for more than one person, an App is the right
+shape.
+
+## The parts
+
+- **The App** — its identity, and the permissions it requests. You choose a
+  deliberately narrow set; a token with `repo` scope is a much larger key.
+- **The installation** — the App installed on one account or organisation. Each
+  one is separate and separately revocable.
+- **The permissions** — read and write, granted per repository by the person
+  installing. Most Apps ask for contents:read and nothing more until they need
+  more.
+
+## Authenticating as the App
+
+Installation gives you an installation ID. Exchange it for a token valid for
+that installation:
+
+```bash
+curl -X POST \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/app/installations/12345678/access_tokens
+```
+
+That token acts as the installation, not as you, and expires. Refresh it as
+needed rather than storing it long-term.
+
+## Receiving events
+
+```yaml
+# .github/workflows/deploy.yml
+on:
+  repository_dispatch:
+    types: [deploy-requested]
+```
+
+Configure the webhook URL under Settings → Developer settings → your App →
+Webhooks, and GitHub will POST a signed payload whenever something happens.
+`repository_dispatch` lets your own code trigger a run as well. Verify the
+signature before trusting a payload.
+
+## Creating one
+
+Settings → Developer settings → GitHub Apps → New GitHub App. The
+[REST API](/docs/5-github/integrations/rest-api) and
+[GraphQL API](/docs/5-github/integrations/graphql-api) are what the App calls
+once it exists.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

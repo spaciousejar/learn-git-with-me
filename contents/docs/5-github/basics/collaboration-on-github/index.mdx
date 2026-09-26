@@ -4,6 +4,50 @@ description: "Collaboration on GitHub is a powerful way for multiple people to w
 ---
 Collaboration on GitHub is a powerful way for multiple people to work together on the same project, using Git as the version control system. GitHub provides various tools and workflows that make collaboration efficient and organized.
 
+## The pieces
+
+**Branches** keep concurrent work from colliding. Everyone works on their own
+branch, named for the change rather than for the person.
+
+**Issues** are where work is recorded. A bug, a feature, a question — anything
+that needs doing or answering is an issue, so the reasoning survives after the
+conversation that produced it.
+
+**Pull requests** are how a change is proposed. The diff, the discussion and the
+decision all live in one place, and the conversation is attached to the code
+rather than to a chat that scrolls away.
+
+**Reviews** are the approval step, and branch protection turns "please review"
+into something the server enforces.
+
+## The workflow
+
+```bash
+git switch -c fix-login-redirect
+# work, committing in small pieces
+git push -u origin fix-login-redirect
+gh pr create --fill
+```
+
+Reviewers comment on specific lines and either request changes or approve. When
+the checks pass and the review lands, merge — usually squashed — and delete the
+branch.
+
+## Forks
+
+Contributing to a repository you cannot push to means forking it: GitHub makes
+your own copy under your account, you push your branch there, and open a pull
+request against the original. See
+[PR from a Fork](/docs/5-github/basics/pr-from-a-fork).
+
+## Keep branches short
+
+A branch that lives for two weeks accumulates conflicts and makes review
+unpleasant. Merge or rebase into the base branch often, and keep `main`
+deployable so it is always safe to branch from and safe to return to. See
+[Best Practices](/docs/6-workflows/best-practices) and
+[Roadmaps](/docs/5-github/basics/roadmaps) for planning that work.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

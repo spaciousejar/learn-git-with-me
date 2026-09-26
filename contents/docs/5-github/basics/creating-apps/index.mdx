@@ -2,7 +2,68 @@
 title: Creating Apps
 description: "GitHub Apps are a way to integrate with the GitHub platform programmatically, using either the REST API or GraphQL API."
 ---
-GitHub Apps are a way to integrate with the GitHub platform programmatically, using either the REST API or GraphQL API. They allow developers to create custom integrations that can automate tasks, provide real-time notifications, and build custom workflows.
+Once you have decided an integration belongs on GitHub rather than in a script
+somebody runs, creating the App is a form in the settings and a private key.
+
+## The settings that matter
+
+Settings → Developer settings → GitHub Apps → New GitHub App.
+
+**Name and description** are shown on every installation request, so write them
+for the person deciding whether to trust it.
+
+**Homepage URL** is where "View on GitHub" points. Use your own domain if you
+have one — a `*.github.io` page is fine for an open-source project.
+
+**Webhook URL** is where events are delivered. It must be publicly reachable
+over HTTPS, and it must respond quickly: GitHub gives you ten seconds, and a
+slow endpoint means missed deliveries. Do the real work in a queue rather than
+in the request.
+
+**Redirect URL** is only needed if your App asks users to authorise it through
+the web flow. It must match exactly, including the trailing slash.
+
+## Permissions: start with the least
+
+The list is long, and it is tempting to tick everything so you do not have to
+come back. Resist it. Request the smallest set that works, ship, and add
+permissions later if you need them.
+
+For an App that reads repository contents and opens pull requests, that is
+roughly:
+
+| Permission | Access | Why |
+| --- | --- | --- |
+| Contents | Read and write | to push a branch and open a PR |
+| Pull requests | Read and write | to comment and review |
+| Metadata | Read-only | granted automatically, always present |
+
+Metadata read-only is unavoidable — GitHub grants it to every App — so do not
+look for it.
+
+## Generate a private key
+
+Finish the form and GitHub generates a private key, downloadable once. Store it
+in a secrets manager, not in the repository. In GitHub Actions, put it in
+repository secrets as `APP_PRIVATE_KEY` and read it in the workflow.
+
+## Events
+
+Subscribe to the specific events you need rather than `*`. A webhook that
+receives every event on a busy repository is mostly noise, and each one costs you
+a request.
+
+Test deliveries from the App's settings page before you trust the integration.
+The "Recent Deliveries" tab shows the payload GitHub actually sent, which is the
+fastest way to find out that you expected a field that does not exist.
+
+## OAuth Apps are the older thing
+
+Settings → Developer settings → OAuth Apps is a different, simpler model: a
+client ID and secret, tokens belonging to individual users, no per-repository
+installation. It suits internal tools where that is enough. For anything
+distributed, use a GitHub App. See
+[OAuth Apps](/docs/5-github/integrations/oauth-apps).
 
 #### Free Resources
 

@@ -4,6 +4,49 @@ description: "Contribution guidelines are essential for collaborative projects o
 ---
 Contribution guidelines are essential for collaborative projects on GitHub as they help streamline collaboration, set expectations for contributions, and maintain the project's quality and consistency.
 
+## Where they live
+
+GitHub looks for these in order: a `CONTRIBUTING.md` in the repository root, a
+`docs/CONTRIBUTING.md`, then `.github/CONTRIBUTING.md`, then the profile one. The
+first file found becomes the link shown on every new issue and pull request, so
+put it where people will find it.
+
+## What belongs in one
+
+A contributor who has never seen the project needs four things answered before
+they can help: how to set it up, how to test it, what the project expects, and
+who to ask.
+
+- **Getting started** — exact clone and install commands, not a link to
+  installation instructions.
+- **How to submit a change** — branch naming, commit message style, whether you
+  sign your commits, and how to open a pull request.
+- **What to expect** — will someone review this, how quickly, and what you should
+  do if nobody has replied.
+- **Code of conduct** — link to it, and mean it.
+
+## Keep it short and true
+
+A guidelines file that contradicts the repository is worse than none, because
+people follow it and then get told they did it wrong. Anything that can be
+checked automatically should be checked automatically — a commit message hook,
+a linter in CI — and left out of the prose, so the document only has to stay
+right about things a machine cannot judge. See
+[Commit Msg](/docs/2-git-basics/commands/commit-msg).
+
+## Templates
+
+Issue and pull request templates ask for the same questions, so nobody has to
+guess. The repository this site lives in has them under `.github/ISSUE_TEMPLATE/`,
+and a blank pull request body is the most reliable way to get a review that
+misses the point.
+
+## A licence
+
+Contributions need a licence to be usable. If the repository has no `LICENSE`,
+that is a gap worth closing before the first outside contribution arrives — see
+the licence section of the README.
+
 #### Free Resources
 
 <Tabs defaultValue="official">
