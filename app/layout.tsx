@@ -16,7 +16,7 @@ const APP_DESCRIPTION = "Master Git and GitHub with our comprehensive, beginner-
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
-  metadataBase: new URL("https://www.gitme.live"),
+  metadataBase: new URL("https://learn-git-with-me.vercel.app"),
   title: {
     default: APP_DEFAULT_TITLE,
     template: APP_TITLE_TEMPLATE,
@@ -79,6 +79,11 @@ export const metadata: Metadata = {
     },
   },
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon-48x48.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -95,7 +100,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    url: "https://www.gitme.live",
+    url: "https://learn-git-with-me.vercel.app",
     images: [
       {
         url: "/og.png",

@@ -14,7 +14,7 @@ Learn Git with Me is a free, open-source platform for learning Git and GitHub.
 
 Try it out for yourself!
 
-Visit: <https://www.gitme.live>
+Visit: <https://learn-git-with-me.vercel.app>
 
 
 ## ⭐ Features
@@ -38,7 +38,6 @@ Visit: <https://www.gitme.live>
 ### 🐴 Code Quality
 
 - **[TypeScript](https://www.typescriptlang.org/)** – Static type checker for end-to-end type safety
-- **[Prettier](https://prettier.io/)** – Opinionated code formatted for consistent code style
 - **[ESLint](https://eslint.org/)** – Pluggable linter for Next.js and TypeScript
 
 
