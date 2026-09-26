@@ -2,6 +2,11 @@
 title: Git Status
 description: "The git status command shows the state of your working tree and staging area, and what is staged."
 ---
+`git status` is the command to run whenever you are unsure what state the
+repository is in. It answers three questions: which branch you are on, what you
+have staged, and what you have changed but not staged. It is read-only, so
+there is no such thing as running it at a bad moment.
+
 ## Check status
 ```sh
 git status
@@ -14,6 +19,33 @@ git status -s
 Shows the current status of the repository. This command
 shows the status of the repository and the changes that are
 currently staged or unstaged.
+
+## Reading the output
+
+Git groups what it finds, and the grouping is the useful part. Under
+"Changes to be committed" are the files your next commit will record. Under
+"Changes not staged for commit" are edits that exist on disk but are not queued.
+Under "Untracked files" are files Git has never seen at all.
+
+A file can appear in both of the first two groups at once. That is not a
+contradiction: you staged an earlier version, then edited the file again, and
+the two versions differ.
+
+## Short format
+
+```sh
+git status -s
+```
+
+One line per file, which is easier to scan in a script or a wide terminal. The
+first column is the staged state, the second the unstaged one, so `MM` means a
+file that is both staged and modified again since.
+
+## Branch tracking
+
+The header also tells you whether your branch is ahead of, behind, or level with
+its upstream. "Your branch is behind" is the signal to fetch and pull before
+you commit anything else.
 
 #### Free Resources
 

@@ -2,11 +2,62 @@
 title: Git Log
 description: "This command shows the commit history of the repository. It displays the commit hash, author, date, and commit message for each commit."
 ---
+`git log` walks the commit history backwards from where you are, showing the
+most recent commit first. It is the command you will run most often for
+answering "when did this change, and who changed it".
+
 ## View commit history
 ```sh
 git log
 ```
 This command shows the commit history of the repository. It displays the commit hash, author, date, and commit message for each commit. The output is displayed in reverse chronological order, with the most recent commit at the top.
+
+## One line per commit
+
+The default output is three or four lines per commit, which is unreadable past
+about twenty commits. `--oneline` gives one line each.
+
+```sh
+git log --oneline
+```
+
+The seven-character prefix it shows is enough to refer to that commit in other
+commands, such as `git show` or `git revert`.
+
+## Limiting what it shows
+
+```sh
+git log -5                      # the last five commits
+git log --since="2 weeks ago"   # everything recently
+git log --author="vicky"        # one person's commits
+git log -- src/index.ts         # only commits touching a path
+```
+
+The path filter at the end is the one to reach for when you want to know why
+some code looks the way it does. `git log -p -- src/index.ts` shows that file's
+history *with the diffs*, which usually answers the question outright.
+
+## Seeing what a commit changed
+
+`git log` only shows messages. To see the contents, use `git show <hash>`, which
+prints one commit in full with its diff.
+
+## Finding the commit that broke something
+
+`git bisect` uses the history to do this for you. Mark one commit as good and
+one as bad, and Git checks out a midpoint each time and asks which side it is
+on, narrowing to the offending commit in about log₂(n) steps.
+
+```sh
+git bisect start
+git bisect bad                  # the current commit is broken
+git bisect good v2.1.0          # this release was fine
+git bisect reset
+```
+
+This only works because every commit is a complete snapshot — which is the
+design decision described in
+[What is Version Control?](/docs/1-getting-started/what-is-git).
 
 #### Free Resources
 

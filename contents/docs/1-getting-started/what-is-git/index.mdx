@@ -2,6 +2,34 @@
 title: What is Version Control?
 description: "Version control tracks changes to files over time, so several people can collaborate on a project while keeping a full history."
 ---
+Version control is a system for recording changes to a codebase over time, so
+that you can see what changed, who changed it, and get back to any earlier
+state. Git is the most widely used implementation, and it is the one this site
+is about.
+
+The idea is not new — version control systems go back to the 1970s — but Git
+differs from its predecessors in one decision that shapes everything else. A
+traditional system like Subversion keeps a full copy of every file for every
+version. Git stores a full copy only for the first commit, and after that only
+the differences between versions, plus a hash identifying each snapshot.
+
+That is why a Git repository of a long-lived project is usually smaller than a
+single checkout of the project, and why cloning one is fast. It is also why
+commits are immutable: changing history means writing new objects rather than
+editing old ones, which is what makes branching cheap and merging the only
+genuinely hard part.
+
+Git is also a distributed system in the original sense. There is no central
+repository that everyone depends on; every clone is complete, and "the
+repository" is just whichever copy you are looking at. Collaboration happens by
+exchanging commits between copies rather than by everyone writing to one
+shared place. GitHub, covered later, is a place to host those copies and add a
+web interface — it is not what makes Git work.
+
+The practical consequence for you as a beginner: commit small and often. The
+cost of a commit is close to zero, and a history of small commits is one you can
+read, bisect and undo. A history of three large commits a day is not.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

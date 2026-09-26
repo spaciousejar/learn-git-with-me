@@ -2,6 +2,15 @@
 title: Git Add
 description: "The git add command stages a file or directory so that its changes are included in the next commit."
 ---
+`git add` does one thing: it copies the current content of a file into the
+staging area, the list of changes your next commit will record. Nothing is
+committed yet, and running it again after further edits picks up the newer
+version rather than adding a second copy.
+
+That is the part worth internalising. `git add` snapshots a file, it does not
+watch it. If you edit a file after staging it, the staged version is now out of
+date and you need to `git add` it again.
+
 ## Add file to staging
 #### for single file
 ```sh
@@ -19,6 +28,37 @@ git add -A
 ```sh
 git add <directory>
 ```
+
+## Staging part of a file
+
+By default `git add` takes the whole file. If you have changed several things in
+one file and only want some of them in this commit, stage it interactively and
+choose hunk by hunk.
+
+```sh
+git add -p src/app.ts
+```
+
+Git walks through each change and asks whether to stage it, so you end up with
+one commit per logical change rather than one commit containing everything you
+happened to be working on.
+
+## Unstaging
+
+To take a change back out of the staging area while keeping it in your working
+directory:
+
+```sh
+git restore --staged src/app.ts
+```
+
+## What not to add
+
+Build output, dependency directories and credentials do not belong in a commit.
+Tell Git to leave them alone with a `.gitignore` rather than remembering to skip
+them — see
+[.gitignore](/docs/2-git-basics/working-with-files/gitignore). A secret that
+reaches a commit stays in the history even after you delete it in a later one.
 Adds a file or directory to the staging area. This command
 prepares the changes for the next commit. It adds the
 specified file or directory to the index.
