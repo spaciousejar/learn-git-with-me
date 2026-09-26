@@ -17,11 +17,6 @@ const eslintConfig = [
       // These files use useEffect to sync with external systems (DOM, localStorage, animation frames)
       // which is the documented use case for effects. Downgrade to warning.
       "react-hooks/set-state-in-effect": "warn",
-      // Complex WebGL cursor animation code with legacy JS patterns
-      "@typescript-eslint/ban-ts-comment": [
-        "warn",
-        { "ts-nocheck": "allow-with-description" },
-      ],
     },
   },
 ];

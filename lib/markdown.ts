@@ -132,9 +132,7 @@ export async function getDocsTocs(slug: string) {
 
 export function getPreviousNext(path: string) {
   const index = page_routes.findIndex(({ href }) => href == `/${path}`);
-  // findIndex returns -1 for a page missing from ROUTES, which would make
-  // page_routes[0] the "next" link -- jumping to the first tutorial in the
-  // tree instead of a neighbour.
+  // findIndex is -1 for a page missing from ROUTES, which would make page_routes[0] the "next" link
   if (index === -1) return { prev: undefined, next: undefined };
   return {
     prev: page_routes[index - 1],
