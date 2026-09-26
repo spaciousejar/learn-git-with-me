@@ -1,0 +1,27 @@
+name: README Claims
+
+# Fails the build when the README promises something the repo does not have.
+# Added after two real instances shipped: a "Prettier" entry with no
+# dependency, and "License: MIT" with no LICENSE file.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  claims:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # check 4 compares against tags and releases, which a shallow clone omits
+          fetch-depth: 0
+
+      - name: Check README claims against the repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./.github/scripts/check-readme-claims.sh
