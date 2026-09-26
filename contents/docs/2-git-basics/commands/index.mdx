@@ -2,3 +2,29 @@
 title: Core Commands
 description: "Git provides a rich set of commands that form the foundation of version control, and learning them is essential."
 ---
+Git is a single command with a few hundred subcommands, but the day-to-day
+work comes down to about ten of them. This section covers those: the ones you
+reach for constantly, and the handful you need when something goes wrong.
+
+They fall into four groups.
+
+**Getting code in and out.** `git init` creates a repository, `git add` stages a
+change, `git commit` records it, and `git push` sends it to a remote. That loop
+is the thing you run dozens of times a day.
+
+**Reading history.** `git log` shows commits, `git diff` shows changes, and
+`git show` pulls out a single commit in full. `git reflog` records where `HEAD`
+has been, which is how you recover work you thought you had lost.
+
+**Moving work around.** `git switch` and `git checkout` move between branches,
+`git merge` brings a branch back, and `git rebase` replays your commits on top
+of another branch so the history reads as a straight line.
+
+**Undoing things.** `git reset` moves the branch pointer, `git revert` records a
+new commit that undoes an earlier one, and `git commit --amend` fixes the
+commit you just made. Which one you want depends on whether the mistake has
+been pushed, and the difference matters.
+
+Start with [Git Init](/docs/2-git-basics/commands/git-init) if you have not set a
+repository up yet, then work through Add, Commit and Status in that order. The
+recovery commands are worth reading before you need them rather than after.

@@ -2,6 +2,33 @@
 title: Collaboration
 description: "Collaborating on GitHub: issues, pull requests, reviews, and the tools that tie them together."
 ---
+Git gives you the mechanics of version control. Collaboration is the set of
+conventions a team layers on top so that several people can work on one
+repository without getting in each other's way.
+
+**Issues** are how work gets recorded and discussed. Anything that needs doing
+is an issue, so the reasoning survives after the conversation.
+
+**Pull requests** are how a change gets proposed. You push a branch, open a
+pull request against the base branch, and ask for it to be merged. The diff,
+the discussion and the decision all live in one place.
+
+**Reviews** are the approval step. Reviewers comment on specific lines, request
+changes, and approve when they are happy. Branch protection rules on the base
+branch can require a review, and status checks, before a merge is allowed at
+all — which turns a convention into something the server enforces.
+
+**CODEOWNERS** assigns reviewers by path, so changes to a given directory
+automatically ask the people who know that code.
+
+The workflow that falls out of this is the standard one: branch from `main`,
+commit in small pieces, open a pull request, respond to review, merge, and
+delete the branch.
+
+Start with [Issues](/docs/5-github/collaboration/issues) and
+[Pull Requests](/docs/5-github/collaboration/pull-requests), then set up branch
+protection on a real repository and see what it blocks.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

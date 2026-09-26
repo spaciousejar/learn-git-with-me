@@ -2,6 +2,36 @@
 title: Integrations
 description: "Connecting GitHub to the rest of your toolchain."
 ---
+Everything here connects GitHub to something else, either for you or for code
+you write.
+
+**GitHub CLI** is the one most worth installing. `gh` handles pull requests,
+issues, releases and workflow runs without leaving the terminal, and it can
+authenticate your `git` commands too, so pushing and fetching over SSH stops
+being a separate setup problem.
+
+**Codespaces** gives you a full development environment in the cloud, defined in
+a file committed to the repository. Everyone opens the same environment, and
+nothing depends on what is installed on a laptop.
+
+**Copilot** suggests code as you type, and can answer questions about the
+repository you have open.
+
+**The APIs** are how you automate any of this yourself. The REST API covers the
+same resources as the web interface, and the GraphQL API lets you ask for
+exactly the fields you need in one request, which matters when you are fetching
+a thousand pull requests and do not want a thousand responses.
+
+**Apps** are the integration model: an installation on a user or organisation,
+authenticated as that user, with its own permissions. **OAuth Apps** are the
+older, user-to-server equivalent.
+
+**GitHub Education** gives students and teachers free tooling through the
+[Student Developer Pack](/docs/5-github/integrations/student-developer-pack) and
+the [Campus Program](/docs/5-github/integrations/campus-program).
+
+Install the CLI first. It makes everything else on this page easier to try.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

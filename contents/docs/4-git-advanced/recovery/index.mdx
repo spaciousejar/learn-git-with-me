@@ -2,6 +2,39 @@
 title: Recovery
 description: "Recovering from mistakes in Git: undoing commits, restoring lost work, and getting out of trouble."
 ---
+Git has no undo button. What it has instead is a set of commands that move
+things back, and a rule for choosing between them: the further back you go, the
+more work you throw away.
+
+**Undo a commit you have not pushed.** `git reset` moves the branch pointer.
+`--soft` keeps your changes staged, `--mixed` unstages them but leaves the files
+alone, and `--hard` discards the changes too. Reach for `--soft` or `--mixed`
+almost every time.
+
+**Undo a commit you have pushed.** `git revert` records a *new* commit that
+undoes the old one. This is the one to use once other people have your history,
+because it does not rewrite anything they have already fetched.
+
+**Recover something that was never committed.** `git reflog` records every
+position `HEAD` has held, including commits that are no longer on any branch.
+
+```bash
+git reflog
+git switch -c recovered abc1234
+```
+
+That last pair is the closest thing Git has to a safety net. A commit that was
+amended away, reset off a branch by mistake, or rebased into oblivion is
+usually still in the reflog, and you can branch from it.
+
+**Get out of a bad rebase.** `git rebase --abort` returns you to where you were
+before it started. `git merge --abort` does the same for a merge. Both are safe
+to run at any point during the operation.
+
+Start with [Undoing Changes](/docs/4-git-advanced/recovery/undoing-changes) for
+the decision, then [Git Reflog](/docs/2-git-basics/commands/git-reflog) for the
+rescue.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

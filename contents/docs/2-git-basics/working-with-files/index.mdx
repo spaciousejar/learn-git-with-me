@@ -2,3 +2,29 @@
 title: Working With Files
 description: Learn how to add, remove, and modify files in your Git repository, as well as how to use Git to track changes to your files.
 ---
+Most Git commands operate on commits, but the interesting decisions happen one
+level below that: between your editor and the repository. This section is about
+that layer.
+
+There are three places a change can be. The **working directory** is the
+checkout on disk, including edits you have not told Git about. The **staging
+area** (also called the index) is the list of changes you have marked for the
+next commit. The **repository** is the committed history itself. A change has to
+pass through all three in that order, and most confusing Git behaviour comes
+from acting on the wrong one.
+
+The commands follow the same shape. `git add` moves a change from the working
+directory into the staging area. `git restore` and `git reset` move it back out.
+`git commit` moves it from the staging area into history.
+
+Two files shape the rest. **.gitignore** tells Git which paths to leave alone,
+so build output, dependencies and secrets never land in a commit by accident.
+**.gitattributes** records how Git should treat particular files, mostly around
+line endings, which is the quiet cause of "it works on my machine" diffs across
+a team.
+
+If a change you made seems to have vanished, read
+[Unstaged Changes](/docs/2-git-basics/working-with-files/unstaged-changes) and
+[Staged Changes](/docs/2-git-basics/working-with-files/staged-changes) first.
+Almost every "Git lost my work" report turns out to be a change that was never
+staged.

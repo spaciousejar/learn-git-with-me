@@ -2,6 +2,38 @@
 title: Working In A Team
 description: "How a team works together in Git: shared branches, review, and keeping the history legible."
 ---
+Most Git conflicts are somebody's, and they are usually the same handful: two
+people changed the same lines, both committed, and now the branches cannot be
+merged automatically. Git stops and shows you the clash rather than guessing.
+
+A conflicted file is marked in three stages. `<<<<<<< HEAD` marks the start of
+yours, `=======` separates the two versions, and `>>>>>>> branch` marks the end.
+Everything between them is the disagreement.
+
+```bash
+git status                  # lists the files that need attention
+git diff                    # shows only the conflicted hunks
+```
+
+Resolve each hunk by editing the file so it contains what you want, delete the
+marker lines, then stage it:
+
+```bash
+git add src/config.ts
+git commit
+```
+
+There is no separate "finish" command for a plain merge. Once every conflicted
+file is staged, the commit completes normally.
+
+If you would rather not deal with it right now, `git merge --abort` returns
+everything to how it was before the merge started. Nothing is lost by
+abandoning a merge.
+
+The habits that prevent most conflicts: pull before you start work so your
+branch is current, keep commits small so there is less to disagree about, and
+merge or rebase often rather than letting a branch drift for weeks.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

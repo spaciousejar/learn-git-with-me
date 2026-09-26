@@ -2,6 +2,34 @@
 title: Remote
 description: "Working with remotes in Git: fetching, pulling and pushing changes between repositories."
 ---
+Everything so far has assumed one repository on one machine. Remotes are how a
+repository talks to its copies elsewhere: the copy on a server, and the copies
+other people have.
+
+`git remote` manages the list. A remote is just a named URL, so adding one does
+not move any data.
+
+```bash
+git remote add origin https://github.com/you/project.git
+git remote -v
+```
+
+Three commands move data, and the difference between them is the part people
+trip over. `git fetch` downloads what the remote has and updates your remote
+branches, touching nothing you are working on. `git pull` is `fetch` followed
+by a merge into your current branch. `git push` sends your commits to the
+remote.
+
+That means `git fetch` is always safe. `git pull` can conflict, and on a long
+lived branch it pulls in other people's work at the same time as you are
+committing your own — which is why many teams prefer to fetch explicitly,
+review, and merge on purpose.
+
+For a first repository, [Cloning Repositories](/docs/3-git-branching/remote/cloning-repositories)
+covers getting one down. After that, read
+[Fetch Without Merge](/docs/3-git-branching/remote/fetch-without-merge) before
+you reach for `git pull` out of habit.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

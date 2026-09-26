@@ -2,6 +2,37 @@
 title: "Fast Forward vs Non-FF"
 description: "A fast-forward merge moves the branch pointer; a non-fast-forward merge creates a merge commit."
 ---
+When you merge one branch into another, Git has to decide what to do with the
+commits that have been added to the branch since the two paths last met. There
+are two outcomes, and which one you get depends on whether your branch has
+diverged from the one you are merging into.
+
+**Fast-forward** happens when the branch you are merging has not moved since you
+branched off. There is nothing to reconcile, so Git simply slides the pointer
+forward and your commits become a straight continuation.
+
+```bash
+git checkout main
+git merge feature
+```
+
+**Non-fast-forward**, also called a true merge, happens when both branches have
+new commits. Git has to combine two histories, and records the join as a merge
+commit with two parents.
+
+```bash
+git checkout main
+git merge --no-ff feature
+```
+
+That merge commit is not optional bookkeeping, by the way. `--no-ff` forces one
+even when a fast-forward would have been possible, which is how teams record
+that a feature branch existed and was integrated, rather than leaving no trace
+of the branch at all.
+
+Whichever you get, the result is the same tree of files. The difference is
+whether the history shows the join.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

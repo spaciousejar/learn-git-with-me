@@ -2,3 +2,34 @@
 title: "GitHub"
 description: "GitHub is a web-based platform for version control and collaboration. It allows you to manage your code and collaborate with others."
 ---
+Git is a command-line tool that runs on your machine. GitHub is a website that
+hosts repositories, puts a web interface on them, and adds a set of
+collaboration tools around the edges. They are separate products that share a
+name and a file format, and confusing the two causes a lot of beginner
+frustration.
+
+Nothing you learned in the earlier sections changes. A repository on GitHub is a
+Git repository, and `git clone`, `git push`, `git pull`, branches and commits all
+behave exactly as they did locally. What GitHub adds sits around that core.
+
+**Collaboration** is the biggest addition. Issues track work, pull requests
+propose changes, and review happens in the browser rather than over a terminal.
+This is what turns a shared repository into a way of working together rather than
+just a place to dump files.
+
+**Features** are GitHub's own additions: Actions for automation, Pages for
+hosting sites, Packages for libraries, Projects for planning, and the security
+tooling around code scanning and dependabot.
+
+**Integrations** connect GitHub to the rest of a toolchain: the `gh` CLI for
+driving GitHub from a terminal, Codespaces for a cloud development environment,
+Copilot for assistance while you write, and the REST and GraphQL APIs for
+building on top of the platform yourself.
+
+**Actions** deserves its own attention. It runs CI/CD natively, on every push
+and pull request, from a YAML file you commit next to your code. If you read
+one GitHub page, make it that one.
+
+Start with [GitHub Essentials](/docs/5-github/basics) for the vocabulary, then
+[Collaboration](/docs/5-github/collaboration), which is where most of the
+day-to-day value sits.

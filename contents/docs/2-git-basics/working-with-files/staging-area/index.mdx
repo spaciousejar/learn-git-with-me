@@ -2,6 +2,32 @@
 title: Staging Area
 description: "The staging area is where Git holds the changes you have marked for the next commit."
 ---
+The staging area is the list of changes you have marked for your next commit. It
+sits between your working directory and your history, and nothing reaches a
+commit without passing through it.
+
+That intermediate step is the part worth understanding, because it is what makes
+`git diff` useful. `git diff` with no arguments shows what changed in your
+working directory since the last commit. `git diff --staged` shows what is
+queued up for the next one. Comparing those two views tells you exactly what a
+`git commit` is about to record.
+
+```bash
+git add src/index.ts
+git diff --staged
+```
+
+Staging is also how you commit part of a change and leave the rest alone. Add
+only the files you are ready for, commit, then deal with the remainder. Most
+Git workflows assume you will do this regularly rather than staging everything
+at the end.
+
+If a staged change turns out to be wrong, `git restore --staged <file>` takes
+it back out of the index and leaves it in your working directory, where you can
+edit it properly. See [Staged Changes](/docs/2-git-basics/working-with-files/staged-changes)
+and [Unstaged Changes](/docs/2-git-basics/working-with-files/unstaged-changes) for
+the two sides of this.
+
 #### Free Resources
 
 
