@@ -4,7 +4,6 @@ import { BorderBeam } from "@/components/ui/border-beam";
 import { Video } from "@/components/ui/video";
 import { MoveUpRightIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
-import CanvasCursor from "@/components/CanvasCursor";
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -34,7 +33,6 @@ export default function Home() {
         </p>
         <div className="flex flex-row items-center gap-5" role="group" aria-label="Action buttons">
            <GET/>
-           <CanvasCursor />
            <DownloadButton/>
         </div>
         <span className="flex flex-row items-center gap-2 text-zinc-400 text-md mt-7 -mb-12 max-[800px]:mb-12" role="status" aria-label="Terminal command example">
