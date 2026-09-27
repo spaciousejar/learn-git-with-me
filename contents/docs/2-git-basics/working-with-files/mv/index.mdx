@@ -1,0 +1,78 @@
+---
+title: Git Mv
+description: "git mv moves or renames a file and stages the change, so Git records it as a rename rather than a delete and an add."
+---
+`git mv` renames or moves a file and stages the result in one step. Because both
+halves are staged together, Git records it as a rename — which keeps the file's
+history attached to it.
+
+<Note type="note" title="A plain mv is nearly as good">
+  `git mv a b` is exactly `mv a b` followed by `git add a b`. Git detects
+  renames when it builds a diff, so using `git mv` is a convenience and a
+  reminder to stage, not a requirement. Use it because it saves a step, not
+  because plain `mv` loses history.
+</Note>
+
+## Renaming
+
+```bash
+git mv old-name.ts new-name.ts
+```
+
+## Moving
+
+```bash
+git mv helpers/util.ts src/lib/util.ts
+```
+
+To a directory that already exists, the filename stays the same. To rename while
+moving, give both the new path and the new name.
+
+## After the fact
+
+Git works out that a file was renamed by comparing content, so renaming outside
+Git and staging the result is equivalent:
+
+```bash
+mv old-name.ts new-name.ts
+git add -A
+git status
+```
+
+`git status` is the check worth doing after any manual rename. It lists the old
+path as deleted and the new one as untracked until both are staged, and
+`git add -A` is what collapses them back into a rename.
+
+## Seeing it as a rename
+
+```bash
+git diff --cached -M
+git log --follow src/lib/util.ts
+```
+
+`-M` tells the diff to detect renames explicitly. `--follow` is the more useful
+one in practice: it makes `git log` follow a file through a rename, which is how
+you see a file's history even though it does not exist under that name
+currently.
+
+## The case git mv gets wrong
+
+Renaming a case-only change on a case-insensitive filesystem — `readme.md` to
+`README.md` — needs two steps, because the second `mv` finds the target already
+there:
+
+```bash
+git mv readme.md tmp.md
+git mv tmp.md README.md
+```
+
+## Undoing it
+
+```bash
+git restore --staged <path>   # unstage, keep the file where it is now
+git mv <path> <old-path>      # or just move it back
+```
+
+See [Restore](/docs/2-git-basics/working-with-files/restore) for the
+unstaging command, and [Adding & Updating Files](/docs/2-git-basics/working-with-files/adding--updating)
+for the rest of the file workflow.

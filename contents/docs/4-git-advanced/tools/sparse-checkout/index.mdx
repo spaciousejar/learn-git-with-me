@@ -1,0 +1,77 @@
+---
+title: Git Sparse Checkout
+description: "git sparse-checkout checks out part of a repository, for monorepos where you only ever need one directory."
+---
+`sparse-checkout` tells Git to populate only part of the working tree. The other
+files are still tracked, still in history, and still on disk in the object
+database — they are just not checked out, so they cost you nothing in disk space,
+build time or editor indexing.
+
+The problem it solves is a monorepo. On a repository where your work touches one
+directory, a full checkout is a lot of files you never open, every tool scanning
+every time, and a working tree that is slow before you have done anything.
+
+## Turning it on
+
+```bash
+git sparse-checkout init --cone
+git sparse-checkout set frontend
+```
+
+`init --cone` switches the repository into sparse mode with cone mode, which is
+the mode you want. Cone mode understands whole directories and always includes
+the files at the top level of the repository, so a `README.md` and a
+`package.json` at the root are always present.
+
+Without `--cone` you get "non-cone" mode, where the patterns are plain
+gitignore-style pathspecs and you are responsible for including everything the
+repository needs to function. It is more precise and considerably easier to get
+wrong.
+
+## Adjusting it
+
+```bash
+git sparse-checkout add shared/ui
+git sparse-checkout set frontend shared/ui      # replace the set
+git sparse-checkout list                        # what is currently included
+git sparse-checkout disable                     # back to a full checkout
+```
+
+Everything already in the set stays; `add` widens it. `disable` removes the
+sparse pattern file and restores a normal checkout, and nothing is lost.
+
+## What is actually on disk
+
+```bash
+git sparse-checkout list
+ls
+```
+
+Files outside the cone are absent from the working tree, so an editor, a build
+tool and `ls` all agree on the same set. They are not deleted from history and
+they are not lost — check them out with `git show HEAD:path/to/file` without
+changing anything.
+
+## Rules that still apply
+
+**Some tools want everything.** A tool that walks the repository root to find
+config, or that shells out to a binary in another package, will not see what is
+not checked out. Monorepo tooling varies in how well it copes, so check that
+your build works before committing to a sparse checkout.
+
+**The index is complete.** `git status`, `git grep` and `git diff` operate on
+the index, not the working tree, so they still see the whole repository. That is
+the feature: your mental model of the codebase does not shrink just because the
+disk usage did.
+
+**It is a local setting.** The patterns live in
+`.git/info/sparse-checkout`, which is not committed. Everybody sets up their own,
+and nothing about a pull request is affected.
+
+## Related
+
+- [Git Worktree](/docs/4-git-advanced/tools/git-worktree) is the other answer to
+  "I need two directories", and it is better when you need two *checkouts* rather
+  than a partial one
+- [Submodules](/docs/2-git-basics/commands/submodules) for dependencies that
+  belong in separate repositories

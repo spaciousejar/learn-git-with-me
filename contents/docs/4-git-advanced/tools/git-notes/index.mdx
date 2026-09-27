@@ -1,0 +1,69 @@
+---
+title: Git Notes
+description: "git notes attaches extra information to a commit without changing it, so the commit keeps its hash."
+---
+`git notes` stores a note against a commit, in its own ref, leaving the commit
+itself untouched. That constraint is the point: the commit keeps its hash, so
+nothing that references it — a branch, a tag, a release, a pull request — has to
+be updated, and nothing has to be pushed again.
+
+## Adding and reading
+
+```bash
+git notes add a1b2c3d              # opens an editor
+git notes add -m "needs review" HEAD
+git notes show a1b2c3d
+git notes show HEAD                 # the note on the current commit
+```
+
+The note is a commit, in `refs/notes/commits`, with the note text as its commit
+message. It is ordinary history, so it diffs and merges like anything else.
+
+## Which notes you are seeing
+
+By default Git only shows notes from your own ref, which quietly means "you will
+not see your colleague's notes" — the most common confusion with this command:
+
+```bash
+git log --show-notes                 # configure the default
+git -c core.notesRef=refs/notes/commits log --show-notes
+```
+
+The second form overrides the ref for one command, which is the safest way to
+look at a shared set without changing your configuration.
+
+## Managing them
+
+```bash
+git notes list                       # every commit that has a note
+git notes copy a1b2c3d b2c3d4e       # copy a note to another commit
+git notes append a1b2c3d             # add to an existing note
+git notes edit a1b2c3d
+git notes remove a1b2c3d
+```
+
+## What it is good for
+
+**Review markers that outlive the review.** A `needs-changes` note stays with
+the commit through rebases, unlike a comment on a pull request that a force-push
+orphans.
+
+**Recording why a commit exists**, where a one-line message cannot carry it.
+
+**Generated annotations**, produced by a script rather than typed by a person.
+`git filter-repo` writes exactly this for its rewritten commits.
+
+## Why it is not more used
+
+The main reason is discoverability. Notes are not shown by `git log` unless
+configured, they are not in the GitHub interface, and they do not travel unless
+someone pushes the notes ref:
+
+```bash
+git push origin refs/notes/commits
+```
+
+That last step is the one people miss, and a note that only exists on your
+machine is not much of a shared facility. If you want annotations that everyone
+sees without extra configuration, a note in the commit message body is the
+better answer.

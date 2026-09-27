@@ -1,0 +1,90 @@
+---
+title: Git Range Diff
+description: "git range-diff compares two series of commits and shows what changed between them, which survives a rebase."
+---
+`git range-diff` compares two ranges of commits and shows what happened to each
+one across the comparison. It is built for the problem that `git log` and
+`git diff` cannot solve: after a rebase, a cherry-pick or a `filter-branch`, the
+hashes are all new, so you have no way to tell whether the change you set out to
+make is the change you ended up with.
+
+It reports each commit of one range against its counterpart in the other, and
+marks it as unchanged, added, removed, or changed — with a diff of the change
+when it differs.
+
+## The shape
+
+```bash
+git range-diff <range1> <range2>
+```
+
+Two ranges means comparing two series, and they are almost always the same
+commits before and after something rewrote them:
+
+```bash
+# what my branch looked like before the rebase
+git range-diff main...topic~5 main...topic
+```
+
+`A...B` is "commits on B since it diverged from A" — the same three-dot form
+`git diff` uses.
+
+## Reading the output
+
+Each line is one commit, prefixed with its status:
+
+```
+ 1:  a1b2c3d = 1:  4f5e6d7  add search endpoint
+ 2:  b2c3d4e ! 2:  5a6b7c8  fix typo in route
+    @@ -12,7 +12,9 @@
+    -old line
+    +new line
+ 3:  c3d4e5f < -:  -------  dropped commit
+ 4:  -:  ------- > 4:  6b7c8d9  new commit
+```
+
+`=` means identical, `!` means changed, `<` exists only in the first range, `>`
+only in the second. The `-`/`+` diff under a `!` line is the point of the whole
+command: it shows precisely what a rebase altered.
+
+## Where it is genuinely useful
+
+**After a rebase**, to confirm nothing was mangled:
+
+```bash
+git rebase -i main       # squash, reorder, drop
+git range-diff main...@{u} main...HEAD
+```
+
+**After a cherry-pick**, to check the port landed correctly against the original.
+
+**Before proposing a rebase**, to preview what it would do:
+
+```bash
+git range-diff main...topic main...feature-refactored
+```
+
+**In review**, to compare someone's branch against the base without caring about
+the hashes:
+
+```bash
+git range-diff main...main@{u} pull/412/head
+```
+
+## The flags
+
+```bash
+git range-diff --no-dual-color main...topic   # plain output for a terminal
+git range-diff -s main...topic                # just the status column
+```
+
+`-s` is the one to reach for when you only want the summary lines.
+
+## Related
+
+- [Cherry Picking Commits](/docs/3-git-branching/basics/cherry-picking-commits)
+  is what you often use this to verify
+- [Rebase](/docs/3-git-branching/basics/rebase) is what produces the rewritten
+  series
+- [Git Cherry](/docs/4-git-advanced/rewriting-history/cherry) answers the
+  related question of which commits still need porting

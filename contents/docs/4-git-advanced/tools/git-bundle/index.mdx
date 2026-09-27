@@ -1,0 +1,68 @@
+---
+title: Git Bundle
+description: "git bundle packs a repository, or part of one, into a single file for offline transfer or incremental replication."
+---
+`git bundle` writes a repository, or a selected range of commits, into one file.
+Unlike `git archive`, which exports a tree with no history at all, a bundle
+contains real commits, and unlike a clone, a bundle does not need a network.
+
+That makes it the tool for three jobs: moving history somewhere with no network,
+replicating a repository incrementally, and archiving the history of a project
+whose server is going away.
+
+## Creating one
+
+```bash
+git bundle create repo.bundle --all              # everything, all branches
+git bundle create feature.bundle main..feature   # commits since main
+git bundle create v1.bundle v1.0.0..v1.4.0       # a release range
+```
+
+A range bundle is the interesting case: it starts from a commit the receiver
+already has, so it carries only what is new.
+
+## Verifying it
+
+```bash
+git bundle verify repo.bundle
+```
+
+`verify` checks the file is a valid bundle and that the prerequisites are
+present. Run it after transferring — a truncated bundle on a USB stick is the
+failure mode you are guarding against.
+
+## Using it
+
+```bash
+git clone repo.bundle recovered-repo            # clone from the file
+git fetch repo.bundle 'refs/heads/*:refs/heads/*'   # into an existing repo
+```
+
+Cloning a bundle is how you get a repository back with its full history when
+there is no server to get it from. A bare repository containing one bundle
+directly is a legitimate remote, and the usual mirror or backup target.
+
+## A bundle is not a backup
+
+This is the mistake worth naming. A bundle contains the objects you named and
+nothing else, and it knows nothing about uncommitted work, stashes, or
+unreachable objects. Two specific consequences:
+
+- `git bundle create --all` does **not** include local branches you have not
+  pushed if you did not name them, and never includes stashes.
+- Losing the repository means losing everything the bundle does not contain.
+
+For actually keeping history safe, a remote you can clone from, or `git clone
+--mirror` to another machine, is a better answer. Bundles are for transport and
+for archive.
+
+## In a mirror
+
+```bash
+git clone --mirror https://github.com/owner/repo.git repo.git
+git -C repo.git bundle create backup.bundle --all
+```
+
+That is a reasonable way to archive a project. Combine it with a fetch
+immediately before the bundle, and the archive reflects the remote at that
+moment.

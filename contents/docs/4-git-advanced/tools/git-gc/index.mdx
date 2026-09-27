@@ -1,0 +1,71 @@
+---
+title: Git Gc
+description: "git gc repacks a repository's objects, and runs automatically -- so the times you need it by hand are rare."
+---
+`git gc` does housekeeping: it packs loose objects into packfiles, prunes objects
+nothing can reach, and expires reflog entries and unreachable objects older than
+a threshold.
+
+It runs automatically — `git gc --auto` is what Git invokes in the background
+after commands like commit and merge — so in normal use you should never need to
+run it. This page exists mostly so you know what it is when you see it in output
+or in a troubleshooting guide.
+
+## Running it
+
+```bash
+git gc                 # the defaults
+git gc --aggressive    # repack everything, much slower
+git gc --auto          # only if something looks like it is needed
+```
+
+## Seeing whether it is needed
+
+```bash
+git count-objects -v
+```
+
+`count` and `size` in loose objects, `in-pack` and `size-pack` for packfiles. A
+repository with tens of thousands of loose objects is one that has not been
+through `git gc`, and packing it will be faster afterwards.
+
+## Why it is safe
+
+Objects are immutable, and packing does not change any commit, hash or
+reference. A packfile is the same objects stored more efficiently. The one
+visible difference is that `git log` over an old, unpacked repository gets
+noticeably faster afterwards, because it stops stat-ing thousands of small
+files.
+
+## What it prunes, and what it cannot
+
+`git gc` removes objects that are unreachable and older than `gc.pruneExpire`,
+90 days by default. Two things protect you:
+
+- **The reflog** keeps a record of where `HEAD` and your branches have been, so
+  a commit you reset away is still reachable. See
+  [Git Reflog](/docs/2-git-basics/commands/git-reflog).
+- **Recent objects are never pruned** regardless of reachability, which is what
+  makes "I lost a commit yesterday" recoverable.
+
+This is why "run `git gc --prune=now`" is bad advice given casually: it deletes
+the window in which a lost commit could be found in the reflog. The safe version
+is to leave the default expiry alone and check the reflog before pruning.
+
+## When you would actually reach for it
+
+**After a history rewrite**, when a repository is noticeably slower than it
+should be — a `filter-repo` run on a long history can leave a lot behind. See
+[Rewriting History](/docs/4-git-advanced/rewriting-history).
+
+**After a lot of failed rebases or amends**, where unreachable objects have
+accumulated and `git count-objects -v` shows a large loose count.
+
+**To check integrity**, which is a different command entirely:
+
+```bash
+git fsck
+```
+
+`git fsck` verifies that objects and their connections are sound. It is the
+diagnostic; `git gc` is the repair.

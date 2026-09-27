@@ -1,0 +1,63 @@
+---
+title: Git Grep
+description: "git grep searches the files Git tracks, so results match what is committed rather than whatever happens to be on disk."
+---
+`git grep` searches tracked files for a pattern. Because it reads from the index
+or a commit rather than the filesystem, the results reflect what Git knows about
+— which matters more than it sounds when you have a build directory, an ignored
+`.env.local`, or a branch checked out somewhere else.
+
+## The basics
+
+```bash
+git grep "TODO"
+git grep -n "TODO"                # with line numbers
+git grep -i "error"               # case-insensitive
+git grep -l "useState"            # filenames only
+git grep -w "commit"              # whole words only
+git grep -c "import"              # match counts per file
+```
+
+## Searching something other than the working tree
+
+This is where it differs usefully from the ordinary `grep`:
+
+```bash
+git grep "handleAuth" main             # as of the main branch
+git grep "handleAuth" v2.1.0           # as of a tag
+git grep "handleAuth" 8a3f1b2          # as of one commit
+git grep "handleAuth" $(git rev-list --all)   # every commit ever
+```
+
+Those last two answer "when did this disappear", which is a question no
+filesystem search can answer, because it is a question about history.
+
+## Finding when a line arrived
+
+```bash
+git log -S "handleAuth" --oneline
+```
+
+That is the reliable form for "when was this added", and it is usually better
+than grepping every commit. `git blame` takes it the other way — which commit
+last touched each line. See [Git Blame](/docs/4-git-advanced/tools/git-blame).
+
+## Useful combinations
+
+```bash
+git grep -l -e "console\.log" -- "*.ts"     # only TypeScript files
+git grep -n "secret" -- ':!*.lock'          # excluding lockfiles
+git grep -c "" -- "*.md"                    # line counts of every doc
+```
+
+Paths after `--` are pathspecs, so they take the same wildcards Git uses
+everywhere else. The `:!` prefix excludes, which is how you skip generated
+files without an ignore rule.
+
+## Tracking vs the filesystem
+
+Plain `grep -r` searches everything on disk, including untracked and ignored
+files. That is occasionally what you want — and occasionally how you end up
+searching a 300MB build directory, or worse, printing a line from a file that
+is not in the commit you are reasoning about. When you are reasoning about
+committed code, `git grep` is the more accurate answer.

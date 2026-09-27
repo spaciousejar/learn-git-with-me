@@ -18,18 +18,30 @@ The default output has three parts: the tag, how many commits since it, and the
 hash of the commit you are on. `--abbrev=0` drops the last two, giving the bare
 tag — the nearest release.
 
-## Why it needs annotated tags
+## Annotated or lightweight — this is the gotcha
 
-`git describe` only considers annotated tags. A lightweight tag is a bare
-reference with no tagger information, so it is skipped entirely. This surprises
-people who created tags with `git tag <name>` and then got `fatal: No names
-found, cannot describe anything`.
+Plain `git describe` considers **only annotated tags**. One created with a bare
+`git tag <name>` has no tagger information, so `git describe` skips it — and if
+that lightweight tag is the only one, the command fails:
 
-```bash
-git tag -a v1.4.0 -m "Release 1.4.0"
+```
+$ git describe
+fatal: No annotated tags can describe 'a1b2c3d'.
+However, there were unannotated tags: try --tags.
 ```
 
-See [Tagging](/docs/2-git-basics/commands/tagging).
+`--tags` is the flag that includes lightweight tags as well as annotated ones.
+The page above uses it throughout for exactly that reason, and this is the single
+most common reason `git describe` fails in a build script.
+
+```bash
+git tag -a v1.4.0 -m "Release 1.4.0"   # annotated, picked up by plain describe
+git tag v1.5.0                         # lightweight, needs --tags
+```
+
+Prefer annotated tags regardless, because `git describe` in a build pipeline
+should not depend on which flag everybody remembered to pass. See
+[Tagging](/docs/2-git-basics/commands/tagging).
 
 ## Deriving a version
 

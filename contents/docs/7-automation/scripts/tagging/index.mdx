@@ -51,9 +51,9 @@ echo "Created $version at $(git rev-parse --short HEAD)"
 `git tag <name>` creates a lightweight tag: a reference and nothing else, with no
 author, no date and no message. `git tag -a` records all three.
 
-Use `-a` in a script even when the message is a default. `git describe` ignores
-lightweight tags entirely, so a build that derives its version from it will
-either fail or fall back to a commit count.
+Use `-a` in a script even when the message is a default. Plain `git describe`
+skips lightweight tags, so a build that derives its version from it without
+`--tags` will fail outright on a repository tagged that way.
 
 ## Deriving the version
 

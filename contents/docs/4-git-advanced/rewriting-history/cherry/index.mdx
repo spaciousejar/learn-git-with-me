@@ -1,0 +1,69 @@
+---
+title: Git Cherry
+description: "git cherry finds the commits in a range that have no equivalent upstream, which is the list you actually need to port."
+---
+`git cherry` compares a range of commits against an upstream and prints only the
+ones that are not already there. It answers a specific question: of the commits
+on my branch, which still need to go somewhere else?
+
+It works by comparing patch ids rather than commit hashes. Two commits that
+produce the same diff get the same patch id, whatever their hashes, so a commit
+you cherry-picked, rebased or reapplied is recognised as already-present. That is
+the part `git log --left-right` cannot do.
+
+## The shape
+
+```bash
+git cherry <upstream> <head>
+```
+
+Usually the upstream is a remote branch:
+
+```bash
+git cherry -v origin/main feature-search
+```
+
+A `-` means no equivalent exists upstream, so the commit is unique to your branch
+and still needs porting. A `+` means an equivalent is already there.
+
+## The use: a patch series against a moved base
+
+Rebase, cherry-pick and `git format-patch` all produce the situation where you
+have a series of patches meant for a branch that has moved on:
+
+```bash
+git cherry -v upstream/v1.4 1.4-backports
+```
+
+Every line with a `-` is a commit that is not upstream. Re-generate only those,
+and your backport contains nothing that was already merged.
+
+## The use: finding unmerged work
+
+```bash
+git cherry -v origin/main HEAD
+```
+
+A quick audit of how far your branch has diverged in substance rather than in
+history. It is also the check to run before opening a pull request that was
+based on a fork that has since moved.
+
+## Why not just diff
+
+`git diff main...topic` compares the trees and shows the aggregate result. If a
+commit was merged upstream and then reverted, or cherry-picked and then
+squashed, the diff is empty while your branch still has commits to integrate.
+`git cherry` compares each commit individually and does not care whether the net
+effect is already present.
+
+## Caveats
+
+Patch identity is a heuristic based on the diff, so two genuinely different
+commits that happen to produce identical diffs are treated as the same, and a
+commit whose message-only change produces an empty diff is always considered
+already applied. It answers "is this change already upstream", not "did this
+commit".
+
+To see the comparison in full — which commit matched which, and what changed
+where it did not — use
+[Git Range Diff](/docs/4-git-advanced/rewriting-history/range-diff).

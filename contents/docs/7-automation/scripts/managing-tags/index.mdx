@@ -38,7 +38,8 @@ git describe --tags v1.4.0..HEAD          # how far HEAD is past a specific tag
 ```
 
 `git describe` is what build scripts use to derive a version number, and it is
-why annotated tags matter — it skips lightweight ones.
+why annotated tags matter — plain `git describe` skips lightweight ones, so
+`--tags` is needed if the repository has any.
 
 ## Finding what is unreleased
 

@@ -1,0 +1,68 @@
+---
+title: Git Archive
+description: "git archive exports a tree as a tarball or zip, with no repository and no history."
+---
+`git archive` writes the files at a commit, a tag or a branch into a tarball or
+zip. The output is an ordinary archive of source files: no `.git`, no history,
+no way to commit to it. That is the difference from `git bundle`, which keeps the
+history and is the right tool for moving a repository.
+
+Use it for release tarballs, for shipping a snapshot to something that should not
+receive a repository, and for extracting one directory of a project.
+
+## The basics
+
+```bash
+git archive --format=tar.gz --output=release.tar.gz v1.4.0
+git archive --format=zip --output=release.zip HEAD
+```
+
+Tarball to stdout, if you would rather pipe it:
+
+```bash
+git archive --format=tar v1.4.0 | gzip > release.tar.gz
+```
+
+## A subdirectory
+
+```bash
+git archive --format=tar.gz --prefix=my-project/ -o release.tar.gz v1.4.0
+```
+
+`--prefix` puts everything inside a top-level directory, which matters more than
+it sounds: a tarball that extracts into a thousand loose files in the current
+directory is a nuisance, and a `prefix` is the usual way release tooling avoids
+that.
+
+## One directory, from the repository root
+
+```bash
+git archive --format=tar.gz -o src.tar.gz HEAD:src
+```
+
+The `HEAD:src` form archives the tree at that path, with the paths relative to
+it. This is the version to reach for when you want the source of a release
+without the tests, the lockfile or the configuration.
+
+## Substituting the commit hash
+
+```bash
+GIT_COMMIT=$(git rev-parse HEAD)
+git archive --format=tar.gz \
+  --output=release.tar.gz \
+  --prefix=my-project/ \
+  v1.4.0
+```
+
+Embedding the version and the commit in the filename is what makes a build
+traceable, and it is the one piece of bookkeeping worth doing by hand. See
+[Git Describe](/docs/2-git-basics/commands/git-describe) for deriving the version
+string to use.
+
+## The limitation
+
+`git archive` does not expand Git LFS pointers, does not include submodule
+contents, and does not run any build. For a LFS repository, a source tarball
+contains the pointer files rather than the files they point at. If you are
+publishing a source release, that is a bug worth knowing about before someone
+downloads it.

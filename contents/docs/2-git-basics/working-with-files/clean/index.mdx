@@ -1,0 +1,80 @@
+---
+title: Git Clean
+description: "git clean removes untracked files and directories, which is how build output and leftovers get out of your way."
+---
+`git clean` deletes files Git does not track. It is the counterpart to
+`git restore`, which fixes tracked files: restore puts your source back, clean
+removes the things you never committed.
+
+That makes it genuinely useful and genuinely dangerous. A file Git has never
+seen is a file it cannot restore, because it was never in a commit.
+
+<Note type="warning" title="There is no undo">
+  Nothing `git clean` deletes can be recovered with `git checkout` or the reflog,
+  because none of it was ever tracked. Always run it with `-n` first.
+</Note>
+
+## Dry run, always
+
+```bash
+git clean -n
+```
+
+`-n` lists what would be deleted without deleting it. This is the habit worth
+building, and it costs nothing.
+
+## What it deletes and what it leaves
+
+```bash
+git clean -n          # untracked files
+git clean -nd         # and untracked directories
+git clean -ndx        # and ignored files too
+```
+
+By default `git clean` removes untracked files but leaves directories alone, and
+never touches anything matched by `.gitignore`. That last part is why it is
+usually the wrong command for cleaning `node_modules` — those files are ignored,
+so you need `-x`.
+
+## The full form
+
+```bash
+git clean -ndx        # show everything that would go
+git clean -fdx        # do it
+```
+
+`-f` is required for directories and for ignored files, so it is a deliberate
+speed bump. `-i` prompts for each one instead.
+
+## What people actually use it for
+
+```bash
+git clean -fd         # throw away scratch files and merged-away branches' leftovers
+git clean -fdx        # a full reset of node_modules, dist, .env.local
+```
+
+A common pair with a checkout, when switching branches has left build output
+from a branch that no longer exists:
+
+```bash
+git clean -fdx && git switch other-branch
+```
+
+## Safer alternatives
+
+If the file is build output, delete it through the tool that made it rather than
+through Git — `rm -rf node_modules` is the same result, and `npm ci` or
+`bun install` is what puts it back. Git is a reasonable place to clean up build
+artefacts, but it is not the only one, and reaching for it out of habit means
+running a command that can eat a file you forgot about.
+
+## Before deleting something you did not expect to be untracked
+
+```bash
+git status --ignored
+```
+
+Files that Git considers ignored still exist and may hold work. `git clean -x`
+removes those too, which is occasionally what you want and occasionally
+surprising. See [.gitignore](/docs/2-git-basics/working-with-files/gitignore) for
+what belongs in it.

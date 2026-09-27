@@ -26,8 +26,8 @@ git tag -a v1.4.0 -m "Release 1.4.0"    # annotated: has a message and a date
 ```
 
 Prefer annotated. A lightweight tag is a single reference with no record of who
-made it or why, and `git describe` ignores lightweight tags entirely — which
-breaks version detection in any build script that relies on it.
+made it or why, and plain `git describe` — the command build scripts use to work
+out the current version — skips lightweight tags unless you pass `--tags`.
 
 ## Moving a tag
 
