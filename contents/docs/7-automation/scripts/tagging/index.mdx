@@ -1,22 +1,86 @@
 ---
 title: Tagging Scripts
-description: Learn about scripts for creating Git tags
+description: "Creating tags in a release script, with the checks that stop a bad version reaching a remote."
 ---
-Scripts for automating the process of creating Git tags.
+Creating a tag looks like a one-liner, and it is — until a release script runs
+it with an empty argument and quietly tags whatever `HEAD` happens to be. The
+useful script is mostly validation.
 
-## Create Tag Script
+## The minimum
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 # create-tag.sh
+#
+# Usage: create-tag.sh <version> [message]
 
-VERSION=$1
-MESSAGE=$2
+set -euo pipefail
 
-if [ -z "$VERSION" ]; then
-    echo "Usage: $0 <version> [message]"
-    exit 1
+version="${1:-}"
+message="${2:-}"
+
+if [ -z "$version" ]; then
+  echo "Usage: $0 <version> [message]" >&2
+  exit 1
 fi
 
-git tag -a "$VERSION" -m "${MESSAGE:-Release $VERSION}"
+# v1.4.0, not 1.4.0 or V1.4.0 -- tools like git describe assume the v
+if ! printf '%s' "$version" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+  echo "Version must look like v1.4.0" >&2
+  exit 1
+fi
+
+# never silently move an existing tag
+if git rev-parse -q --verify "refs/tags/$version" >/dev/null; then
+  echo "Tag $version already exists; refusing to overwrite it." >&2
+  exit 1
+fi
+
+# refuse to tag a working tree with uncommitted changes
+if [ -n "$(git status --porcelain)" ]; then
+  echo "Working tree is not clean. Commit or stash first." >&2
+  exit 1
+fi
+
+git tag -a "$version" -m "${message:-Release $version}"
+echo "Created $version at $(git rev-parse --short HEAD)"
 ```
+
+## Annotated, not lightweight
+
+`git tag <name>` creates a lightweight tag: a reference and nothing else, with no
+author, no date and no message. `git tag -a` records all three.
+
+Use `-a` in a script even when the message is a default. `git describe` ignores
+lightweight tags entirely, so a build that derives its version from it will
+either fail or fall back to a commit count.
+
+## Deriving the version
+
+Hard-coding `v1.4.0` in a script means the script is wrong the moment you cut
+the next release. Derive it instead:
+
+```bash
+# bump the patch component of the latest tag
+latest=$(git describe --tags --abbrev=0)
+version="v$(printf '%s' "${latest#v}" | awk -F. '{printf "%d.%d.%d", $1, $2, $3+1}')"
+```
+
+## Signing
+
+`git tag -s` asks GPG to sign the tag, which is what lets a consumer verify a
+release came from you:
+
+```bash
+git tag -s v1.4.0 -m "Release 1.4.0"
+```
+
+It needs a configured GPG key, and it will fail in CI without one — so either
+provide the key as a secret or make signing conditional on being able to.
+
+## The order that matters
+
+Creating the tag does not move the branch, so the usual sequence is: commit, tag
+the commit, push the branch, push the tag. Pushing the tag before the commit it
+points at gives you a tag on the remote that refers to nothing. See
+[Pushing Tags Scripts](/docs/7-automation/scripts/pushing-tags).

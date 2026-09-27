@@ -1,33 +1,117 @@
 ---
 title: Pushing Tags Scripts
-description: Learn about scripts for pushing Git tags
+description: "Tags are not sent by a plain git push, so a release script has to push them deliberately."
 ---
-<Tabs defaultValue="official">
+Tags are the one thing `git push` does not send. A plain push transfers
+commits; tags stay on your machine until you name them. That is deliberate — a
+tag is a published claim about a point in history, so sending it should be a
+decision rather than a side effect.
+
+This is the step most release scripts forget, and the symptom is always the
+same: CI cannot find the version tag, because it was never pushed.
+
+## What to run
+
+```bash
+git push origin --tags            # every tag
+git push origin v1.4.0            # just one
+git push --follow-tags            # tags for the commits being pushed
+```
+
+`--follow-tags` is usually the right choice in a release script, because it
+sends the tags reachable from the commits being pushed and nothing older.
+
+## Bash
+
+<Tabs defaultValue="bash">
 <TabsList>
-<TabsTrigger value="official">Official Docs</TabsTrigger>
-<TabsTrigger value="article">Articles</TabsTrigger>
-<TabsTrigger value="video">Videos</TabsTrigger>
+<TabsTrigger value="bash">Bash</TabsTrigger>
+<TabsTrigger value="powershell">PowerShell</TabsTrigger>
 </TabsList>
 
 <TabsContent value="bash">
-<Note title="Bash">
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 # push-tags.sh
+#
+# Push a tag to the remote, refusing to overwrite an existing one.
+set -euo pipefail
 
-echo "Pushing all tags to origin..."
-git push origin --tags
+tag="${1:-}"
+remote="${2:-origin}"
+
+if [ -z "$tag" ]; then
+  echo "Usage: $0 <tag> [remote]" >&2
+  exit 1
+fi
+
+if ! git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+  echo "No such tag locally: $tag" >&2
+  exit 1
+fi
+
+if git ls-remote --exit-code --tags "$remote" "refs/tags/$tag" >/dev/null 2>&1; then
+  echo "Tag $tag already exists on $remote; refusing to overwrite it." >&2
+  exit 1
+fi
+
+git push "$remote" "refs/tags/$tag"
+echo "Pushed $tag to $remote"
 ```
-</Note>
+
 </TabsContent>
 <TabsContent value="powershell">
-<Note title="PowerShell">
 ```powershell
 # push-tags.ps1
+#
+# Push a tag to the remote, refusing to overwrite an existing one.
 
-Write-Host "Pushing all tags to origin..."
-git push origin --tags
-```   
-</Note>
+param(
+  [Parameter(Mandatory = $true)][string]$Tag,
+  [string]$Remote = 'origin'
+)
+
+$ErrorActionPreference = 'Stop'
+
+git rev-parse -q --verify "refs/tags/$Tag" | Out-Null
+if ($LASTEXITCODE -ne 0) {
+  Write-Error "No such tag locally: $Tag"
+  exit 1
+}
+
+git ls-remote --exit-code --tags $Remote "refs/tags/$Tag" | Out-Null
+if ($LASTEXITCODE -eq 0) {
+  Write-Error "Tag $Tag already exists on $Remote; refusing to overwrite it."
+  exit 1
+}
+
+git push $Remote "refs/tags/$Tag"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+Write-Host "Pushed $Tag to $Remote"
+```
+
 </TabsContent>
 </Tabs>
+
+## Deleting a tag
+
+Tags are not meant to move, so both sides need telling:
+
+```bash
+git tag -d v1.4.0                  # local
+git push origin --delete v1.4.0    # remote
+```
+
+Doing only the first leaves a tag that exists in one place and not the other,
+which is the more confusing state of the two.
+
+## Verifying afterwards
+
+```bash
+git ls-remote --tags origin
+```
+
+If a CI job reports a missing version, this is almost always why. See
+[Pushing Tags](/docs/2-git-basics/commands/pushing-tags) for the same commands
+without the scripting, and [GitHub Releases](/docs/5-github/features/github-releases)
+for attaching binaries to a tag.

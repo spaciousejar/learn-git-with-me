@@ -1,20 +1,99 @@
 ---
 title: Checkout Tags Scripts
-description: Learn about scripts for checking out Git tags
+description: "Checking out a tag puts you in detached HEAD, which is safe to read from and risky to commit to."
 ---
-Scripts for automating the process of checking out specific Git tags.
+Checking out a tag is how you get the exact tree a release shipped, which makes
+it the first thing to try when a bug is reported against a version. The catch is
+that a tag is not a branch, and Git puts you into a state called detached HEAD
+when you do it.
 
-## Basic Checkout Script
+## The basic script
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 # checkout-tag.sh
+#
+# Usage: checkout-tag.sh <tag> [--branch <name>]
 
-TAG=$1
-if [ -z "$TAG" ]; then
-    echo "Usage: $0 <tag>"
-    exit 1
+set -euo pipefail
+
+tag="${1:-}"
+branch="${3:-}"
+
+if [ -z "$tag" ]; then
+  echo "Usage: $0 <tag> [--branch <name>]" >&2
+  exit 1
 fi
 
-git checkout "tags/$TAG"
+if ! git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+  echo "No such tag: $tag" >&2
+  echo "Known tags:" >&2
+  git tag -l | sed 's/^/  /' >&2
+  exit 1
+fi
+
+# the tags/ prefix disambiguates from a branch of the same name
+if [ -n "$branch" ]; then
+  git checkout -b "$branch" "tags/$tag"
+  echo "Created branch $branch at $tag"
+else
+  git checkout "tags/$tag"
+  cat <<'MSG'
+You are in detached HEAD state. Commits made here belong to no branch.
+
+  git switch -c my-fix    to keep work started here
+  git switch -            to go back to where you were
+MSG
+fi
 ```
+
+## What detached HEAD means
+
+`HEAD` normally points at a branch, and commits move the branch. After a tag
+checkout, `HEAD` points straight at a commit. Nothing moves it forward except a
+new commit, and that commit belongs to no branch — so a week later it is only
+reachable through the reflog, and `git gc` may eventually collect it.
+
+The state is completely safe for reading, building and testing, which is what
+you usually want a tag for. It only becomes a problem if you commit to it.
+
+The fix, if you did:
+
+```bash
+git switch -c my-fix
+```
+
+That attaches a branch at your commit, and it is now kept. Check `git reflog` if
+you have already switched away — see [Git Reflog](/docs/2-git-basics/commands/git-reflog).
+
+## Listing what is available
+
+```bash
+git tag -l --sort=-v:refname | head -5
+```
+
+Sorts by version rather than alphabetically, which is the ordering you want when
+picking which release to reproduce. See
+[Managing Tags Scripts](/docs/7-automation/scripts/managing-tags).
+
+## Getting back
+
+```bash
+git switch -
+```
+
+Returns to wherever you were before, and is the quickest way out of a tag
+checkout you did not mean to make. `git switch -` is the git equivalent of
+`git checkout -`.
+
+## Reproducing a release build
+
+```bash
+./checkout-tag.sh v1.4.0
+npm ci
+npm test
+```
+
+Checking out the tag and then installing from the lockfile as committed is what
+makes a bug report reproducible — and it is worth doing before you file one,
+because it is rarely the code's fault.

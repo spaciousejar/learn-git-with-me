@@ -1,18 +1,73 @@
 ---
 title: Managing Tags Scripts
-description: Learn about scripts for managing Git tags
+description: "Listing, sorting and deleting tags, and finding the nearest one to HEAD."
 ---
-Scripts for automating Git tag management operations.
+A repository accumulates tags, and eventually you need to answer questions about
+them: what is the latest, what came before it, and which ones are safe to delete.
 
-## List Tags Script
+`git tag` on its own lists names in lexicographic order, which is not the order
+they were created in. That matters as soon as versions reach two digits, because
+`v1.10.0` sorts before `v1.9.0`.
+
+## Listing and sorting
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 # list-tags.sh
+#
+# List tags newest-first, with the date each was created.
 
-echo "All tags:"
-git tag -l
+set -euo pipefail
 
-echo "Latest tag:"
-git describe --tags --abbrev=0
+for tag in $(git for-each-ref --sort=-creatordate --format='%(refname:short)' refs/tags); do
+  # an annotated tag carries a tagger date; a lightweight one falls back to the commit
+  when=$(git for-each-ref --format='%(creatordate:short)' "refs/tags/$tag")
+  printf '%-16s %s\n' "$tag" "$when"
+done
 ```
+
+`git tag -l` is the quick version and is fine interactively. The script above is
+for a release checklist or a changelog, where the ordering has to be right.
+
+## The nearest tag
+
+```bash
+git describe --tags --abbrev=0            # the most recent tag reachable from HEAD
+git describe --tags --long                # same, plus the commit count
+git describe --tags v1.4.0..HEAD          # how far HEAD is past a specific tag
+```
+
+`git describe` is what build scripts use to derive a version number, and it is
+why annotated tags matter — it skips lightweight ones.
+
+## Finding what is unreleased
+
+```bash
+git log --oneline "$(git describe --tags --abbrev=0)"..HEAD
+```
+
+Everything since the last tag, which is the list of commits a release would
+contain. Combined with `--oneline` it is the fastest way to write release notes.
+
+## Deleting
+
+```bash
+git tag -d v1.4.0                  # local only
+git push origin --delete v1.4.0    # and remote
+```
+
+Deleting a tag that was already released is worth avoiding: anything pinning to
+it — a dependency, a Docker image, a paper citing a version — loses a reference
+that pointed somewhere real. The tags that are safe to remove are the ones you
+created by mistake, and the script that avoids those is the one in
+[Tagging Scripts](/docs/7-automation/scripts/tagging), which refuses to overwrite
+an existing tag in the first place.
+
+## Pruning by pattern
+
+```bash
+git tag -l 'v1.*' --sort=-v:refname | tail -n +11 | xargs -r git tag -d
+```
+
+Keeps the ten most recent `v1.*` tags and deletes the rest. Dry-run it by dropping
+the `-d` before you run it for real.
