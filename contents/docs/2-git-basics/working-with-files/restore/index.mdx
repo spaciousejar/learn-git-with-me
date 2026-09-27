@@ -1,0 +1,89 @@
+---
+title: Git Restore
+description: "git restore puts a file back the way it was, either undoing your edits or unstaging a change."
+---
+`git restore` throws away changes to a file and puts it back to a known state. It
+is one half of what `git checkout` used to do, and it was split off in Git 2.23
+precisely because `checkout` was doing two unrelated jobs under one name: moving
+between branches, and discarding edits.
+
+Having both verbs makes it obvious which you mean. `git switch` moves you between
+branches, `git restore` moves your files back.
+
+## Discard edits to a file
+
+```bash
+git restore src/index.ts
+```
+
+Takes the content from the index, so the file goes back to what was last staged —
+or, if nothing was staged for it, to the last commit. Any edits you have not
+staged are lost, and this cannot be undone.
+
+<Note type="warning" title="No undo">
+  `git restore` with no `--staged` overwrites your working tree. If you are not
+  sure whether you want to lose the change, use `git diff <file>` first, or
+  `git stash` instead of restoring.
+</Note>
+
+## Unstage a file
+
+```bash
+git restore --staged src/index.ts
+```
+
+Moves the change out of the staging area and leaves it in your working
+directory, so the edit is still there — it is just no longer queued for the next
+commit. This is the modern equivalent of `git reset HEAD <file>`, and unlike
+`git reset` it cannot move the branch, so it cannot lose your work by accident.
+
+## Restoring something you already committed
+
+Point `--source` at the commit you want:
+
+```bash
+git restore --source=HEAD~3 -- src/config.ts
+```
+
+That copies the file as it was three commits ago into your working directory. Add
+`--staged` to stage the result as well. It is the safe way to take one file from
+another branch without switching:
+
+```bash
+git restore --source=main -- src/index.ts
+```
+
+## Which version
+
+```bash
+git restore --source=HEAD src/config.ts   # as of the current commit
+git restore --source=v1.4.0 src/config.ts # as of a tag
+git restore --source=main --staged -- src/index.ts
+```
+
+## Seeing what you would lose
+
+```bash
+git diff src/index.ts              # unstaged edits
+git diff --staged src/index.ts     # staged edits
+```
+
+Both before restoring, not after. There is no `git restore --dry-run`, so the
+diff is your only preview.
+
+## Which should I use
+
+| You want to | Command |
+| --- | --- |
+| Throw away edits to a file | `git restore <file>` |
+| Unstage a file, keep the edits | `git restore --staged <file>` |
+| Go back to another branch | `git switch <branch>` |
+| Go back to another commit | `git switch --detach <commit>` |
+| Undo the last commit | `git reset --soft HEAD~1` |
+
+The last row is the one people get wrong: `git restore` operates on files,
+`git reset` operates on commits, and neither substitutes for the other. See
+[Undoing Changes](/docs/3-git-branching/basics/undoing-changes) for choosing
+between the commit-level commands, and
+[Staging Area](/docs/2-git-basics/working-with-files/staging-area) for what
+staging is in the first place.

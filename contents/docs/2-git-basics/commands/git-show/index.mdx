@@ -1,0 +1,83 @@
+---
+title: Git Show
+description: "git show prints one commit in full, with the diff that commit introduced."
+---
+`git log` shows you commit messages. `git show` shows you a commit: its metadata,
+its diff, and optionally the files it touched without the content. It is the
+command to reach for when you know roughly where something happened and need to
+see what actually changed.
+
+## One commit
+
+```bash
+git show
+```
+
+With no argument it shows the commit `HEAD` points at, which is the last commit
+on your branch.
+
+## A specific commit
+
+```bash
+git show a1b2c3d
+git show HEAD~3
+git show main
+```
+
+Any revision works — a hash, a branch, a tag, `HEAD~5`. The seven-character
+prefix `git log --oneline` prints is enough to identify a commit, and
+`HEAD~3` means "three commits back from here".
+
+## What comes out
+
+The header is the commit metadata: hash, author, date, and message. Below it is
+the diff, with added lines prefixed `+` and removed ones `-`.
+
+## The flags worth knowing
+
+```bash
+git show --stat a1b2c3d          # which files, how many lines -- no content
+git show --name-only a1b2c3d     # just the file names
+git show a1b2c3d -- src/index.ts # only the changes to one file
+git show --format=%H a1b2c3d     # just the full hash, for scripting
+```
+
+`--stat` is the one to reach for first when you are looking at a large commit —
+it tells you whether it is three lines or three thousand before you read any of
+them.
+
+## Merge commits
+
+A merge commit has two parents, so `git show` on one shows a combined diff that
+is often not what you want. Choose a side explicitly:
+
+```bash
+git show -m a1b2c3d          # show the diff against each parent separately
+git show --cc a1b2c3d        # only the parts that differ from all parents
+```
+
+`-m 1` and `-m 2` pick which parent to compare against, and the same `-m` flag
+appears in `git revert` and `git log -m` for the same reason. See
+[Git Revert](/docs/4-git-advanced/recovery/git-revert).
+
+## Not just commits
+
+`git show` works on any object, not just commits:
+
+```bash
+git show v1.4.0:src/index.ts    # a file as it was at a tag
+git show HEAD:package.json       # a file as it is in the last commit
+```
+
+This is the way to read a file at a point in history without checking anything
+out — useful for seeing what a config file contained in a release that
+misbehaved, and it leaves your working directory untouched.
+
+## Related
+
+- `git log -p <path>` for a file's whole history with diffs — see
+  [Git Log](/docs/2-git-basics/commands/git-log)
+- `git diff` to compare two arbitrary points, which is
+  [Between Commits](/docs/2-git-basics/commands/between-commits)
+- `git blame` for who last touched each line, which is
+  [Git Blame](/docs/4-git-advanced/tools/git-blame)

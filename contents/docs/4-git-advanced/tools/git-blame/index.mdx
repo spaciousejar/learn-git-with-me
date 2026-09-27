@@ -1,0 +1,74 @@
+---
+title: Git Blame
+description: "git blame shows who last changed each line of a file, and which commit did it."
+---
+`git blame` annotates a file line by line, telling you which commit last touched
+each line and who wrote it. It answers "why is this here" with a commit hash
+rather than a guess.
+
+## The basic form
+
+```bash
+git blame src/index.ts
+```
+
+Each line is prefixed with the abbreviated commit hash, the author, a timestamp,
+and the line number. The pointer format is configurable, which matters because
+the default is hard to read in a wide line.
+
+## Better output
+
+```bash
+git blame -w src/index.ts            # ignore whitespace-only changes
+git blame -w -C -C -C src/index.ts   # also try moving lines between files
+git blame -L 20,40 src/index.ts      # only lines 20 to 40
+git blame -C src/index.ts            # who last wrote this much of the file
+```
+
+`-w` is the one that makes blame useful. Without it, a file reformatted by a
+formatter appears to be entirely rewritten, and you learn nothing. With it, and
+`-C` to follow lines that moved, blame points at the commit that actually
+introduced the logic.
+
+`git blame -w -C -C -C` is the common incantation, and it is worth having in
+your fingers.
+
+## From a blame to the change
+
+The hash in the margin is a commit, so the next command is usually `git show`:
+
+```bash
+git show a1b2c3d
+```
+
+## Why a line is there
+
+`git blame` answers who last changed a line, not why it exists. A line nobody
+remembers writing is usually a fix for a bug nobody wrote down, which is what
+`git log -S "<string>"` is for — it finds the commits that added or removed a
+literal string:
+
+```bash
+git log -S "retryCount" --oneline
+```
+
+## Only your changes
+
+```bash
+git blame --author="Vicky" src/index.ts
+```
+
+## Interactive: git gui blame
+
+Some terminals have a mode that walks the history of a single line as you move
+through the file. In VS Code, the GitLens extension provides the same thing. Both
+are far quicker than reading hashes and running `git show` on each.
+
+## A caveat
+
+Blame attributes the last commit to touch a line, not the person who wrote the
+original logic. A one-character fix on a line makes the fix's author the blame
+for the whole line, which is why `-w` and `-C` exist — and why reading the commit
+is part of using the output. See
+[Git Show](/docs/2-git-basics/commands/git-show) and
+[History](/docs/2-git-basics/commands/history).

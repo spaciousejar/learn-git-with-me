@@ -1,0 +1,77 @@
+---
+title: Git Describe
+description: "git describe turns the nearest tag into a version string, which is how build scripts derive a version number."
+---
+`git describe` looks backwards from a commit for the most recent tag and prints
+it, with the number of commits since as a suffix. `v1.4.0-27` means "27 commits
+past the tag v1.4.0", which is a version number a build can use without any
+convention of your own.
+
+## The two forms
+
+```bash
+git describe --tags            # v1.4.0-27-g3f8a1b2
+git describe --tags --abbrev=0  # v1.4.0
+```
+
+The default output has three parts: the tag, how many commits since it, and the
+hash of the commit you are on. `--abbrev=0` drops the last two, giving the bare
+tag — the nearest release.
+
+## Why it needs annotated tags
+
+`git describe` only considers annotated tags. A lightweight tag is a bare
+reference with no tagger information, so it is skipped entirely. This surprises
+people who created tags with `git tag <name>` and then got `fatal: No names
+found, cannot describe anything`.
+
+```bash
+git tag -a v1.4.0 -m "Release 1.4.0"
+```
+
+See [Tagging](/docs/2-git-basics/commands/tagging).
+
+## Deriving a version
+
+The usual use is a build script stamping a version into the artefact:
+
+```bash
+VERSION=$(git describe --tags --always --dirty)
+# v1.4.0-27-g3f8a1b2-dirty
+```
+
+`--always` falls back to a bare hash when no tag is reachable, so the command
+does not fail in a shallow clone or a fresh clone with no tags. `--dirty` appends
+that suffix when the working tree has uncommitted changes, which stops a dirty
+build being published under a clean version string.
+
+To get the next version rather than the current one, ask for the nearest tag and
+add one:
+
+```bash
+latest=$(git describe --tags --abbrev=0)
+next="v$(printf '%s' "${latest#v}" | awk -F. '{printf "%d.%d.%d", $1, $2, $3+1}')"
+```
+
+## From a specific tag
+
+```bash
+git describe --tags v1.4.0..HEAD   # commits since v1.4.0
+```
+
+Useful for release notes: it tells you how far the current branch is from a
+release.
+
+## Finding a commit from a version
+
+The other direction, and the one that makes the format worth having:
+
+```bash
+git log v1.4.0..HEAD --oneline
+git rev-list --count v1.4.0..HEAD
+```
+
+Tags as boundary markers are what make "what is in this release" a one-line
+question. See [Pushing Tags](/docs/2-git-basics/commands/pushing-tags) for
+getting the tag to a remote, and [Managing Tags Scripts](/docs/7-automation/scripts/managing-tags)
+for listing them in the right order — which `git describe` already does for you.
