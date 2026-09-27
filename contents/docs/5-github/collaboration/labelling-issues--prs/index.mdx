@@ -12,6 +12,58 @@ On GitHub, labels are a way to categorize issues and pull requests (PRs) by topi
 - `High priority`
 - `Needs feedback`
 
+## Why bother
+
+Labels are the closest thing GitHub has to a query language, and automation is
+where they start paying. A label can drive a workflow, a project view, or a
+saved search, so a consistent vocabulary is what makes any of that work.
+
+They are also how you answer "what is in flight" without reading everything.
+
+## Creating them
+
+On an issue or pull request: Labels → Edit labels. Typing a name that does not
+exist creates one on the spot.
+
+Conventions that hold up:
+
+- **A `status:` prefix for workflow states** — `status: blocked`,
+  `status: needs-review`, `status: ready`. The colon groups them together in the
+  sidebar, which is what makes them usable as a board.
+- **A `type:` prefix for what the thing is** — `type: bug`, `type: feature`.
+- **Colour by meaning, not by category.** Everyone has a different idea of what
+  purple means. Red for blocked and green for done reads at a glance.
+
+## Applying them in bulk
+
+Select several issues and press `L` to apply the same labels to all of them.
+That is the only practical way to triage a backlog.
+
+## Making them do work
+
+A saved search is a query with a URL, so you can bookmark it or use it as a
+project view:
+
+```
+is:open label:"status: blocked"
+is:open no:assignee -label:"status: blocked"
+```
+
+The second is the useful shape: everything open that nobody owns and is not
+waiting on something. Run it regularly and it is a decent answer to "what needs
+attention".
+
+Labels can also trigger Actions, which is how `status: ready` ends up deploying
+something. See [Automations](/docs/5-github/basics/automations) and
+[Kanban Boards](/docs/5-github/features/kanban-boards).
+
+## The trap
+
+Every label nobody filters on is noise, and a repository with sixty of them has
+no vocabulary at all. Start with three or four, add more only when you find
+yourself searching for something they would have covered, and delete the ones
+that have not been applied in a year.
+
 #### Free Resources
 
 <Tabs defaultValue="official">

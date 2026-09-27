@@ -1,26 +1,84 @@
 ---
 title: Pre-push Hooks
-description: Learn about pre-push hooks for validating commits before pushing
+description: "Pre-push hooks run just before git push, and are the last chance to stop something reaching the remote."
 ---
-Pre-push hooks run before git push operations, allowing you to validate the commits being pushed.
+Pre-push hooks run just before `git push`. It is the last point at which you can
+stop something reaching other people's clones, which makes it the right place for
+the checks that are too slow for a commit hook.
+
+## Arguments
+
+```bash
+#!/bin/sh
+# $1 = name of the remote,  e.g. origin
+# $2 = location of the remote URL
+# stdin = one line per ref being pushed:
+#         <local ref> <local sha1> <remote ref> <remote sha1>
+```
+
+Reading stdin is how you know what is actually being pushed, rather than
+guessing. On the first push of a branch the remote sha is all zeros, which means
+"everything up to the local sha is new".
 
 ## Use Cases
 
-- Run full test suite
-- Check for forbidden files
-- Validate branch names
-- Ensure all commits are signed
+- Refuse to push a branch name that breaks a convention
+- Refuse to push commits that fail the test suite
+- Block files that should never leave your machine
+- Require signed commits
+- Run a security scan on the diff
 
 ## Example Hook
 
 ```bash
-#!/bin/bash
+#!/bin/sh
 # .git/hooks/pre-push
+#
+# Block pushes to main, and refuse to push .env files.
 
-# Run tests before pushing
-npm test
-if [ $? -ne 0 ]; then
-    echo "Tests failed! Push aborted."
-    exit 1
+remote_name="$1"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main)
+      echo "Direct pushes to main are not allowed."
+      echo "Open a pull request instead."
+      exit 1
+      ;;
+  esac
+done
+
+if git diff --cached --name-only | grep -q '^\.env$'; then
+  echo "Refusing to push: .env is staged and may contain secrets."
+  exit 1
 fi
 ```
+
+## Do not run the full test suite here
+
+The example above is the common version and the wrong one for most projects. A
+test suite that takes minutes turns every push into a wait, and people start
+using `--no-verify` to get past it — at which point the hook protects nothing.
+
+The division of labour that works:
+
+- **pre-commit** — fast, per-commit: formatting, linting the files you touched.
+- **pre-push** — seconds, not minutes: branch naming, secrets, commit message
+  rules.
+- **CI** — everything slow, on the server, blocking the merge rather than the
+  push.
+
+A developer who cannot push in under a few seconds will route around the hook.
+
+## Sharing them
+
+Hooks in `.git/hooks` are per-clone and untracked. Commit them instead and point
+Git at them:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+See [Post-update Hooks](/docs/7-automation/git-hooks/post-update) for sharing,
+and [Commit Message Hooks](/docs/7-automation/git-hooks/commit-msg) for the hook
+that runs earlier in the same push.

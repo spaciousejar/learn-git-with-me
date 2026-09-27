@@ -1,25 +1,80 @@
 ---
 title: Post-checkout Hooks
-description: Learn about post-checkout hooks for actions after branch changes
+description: "Post-checkout hooks run after git checkout or switch changes which commit is checked out."
 ---
-Post-checkout hooks run after git checkout operations, useful for updating the working directory based on the new branch.
+Post-checkout hooks run after `git checkout` or `git switch` changes which commit
+is checked out. They receive the ref you came from, the ref you went to, and a
+flag saying whether it was a branch checkout or a file checkout.
+
+## Arguments
+
+```bash
+#!/bin/sh
+# $1 = ref of the previous HEAD
+# $2 = ref of the new HEAD
+# $3 = 1 for a branch checkout, 0 for a file checkout
+```
+
+The third argument is the one that matters. `git checkout -- somefile` is a file
+restore, not a branch change, and a hook that runs `npm install` on that will
+make restoring one file unexpectedly slow.
 
 ## Use Cases
 
-- Install/update dependencies
-- Clear cache files
-- Update configuration files
-- Restart development servers
+- Install dependencies when the lockfile changed between branches
+- Rebuild generated code that is not committed
+- Clear a build cache that is only valid for one branch
+- Update configuration files that differ per branch
 
 ## Example Hook
 
 ```bash
-#!/bin/bash
+#!/bin/sh
 # .git/hooks/post-checkout
+#
+# Install dependencies when the lockfile differs between branches.
 
-# Check if package.json changed
-if git diff --name-only HEAD@{1} HEAD | grep -q "package.json"; then
-    echo "package.json changed, running npm install..."
-    npm install
+previous_ref="$1"
+new_ref="$2"
+is_branch_checkout="$3"
+
+# 0 means a file was restored, not a branch checked out
+[ "$is_branch_checkout" = "1" ] || exit 0
+
+# Only bother if something we depend on actually differs
+if git diff --quiet "$previous_ref" "$new_ref" -- package-lock.json bun.lockb 2>/dev/null; then
+  exit 0
 fi
+
+case "$(basename "$new_ref")" in
+  main|master) echo "Installing dependencies for $(basename "$new_ref")..."; npm ci ;;
+esac
 ```
+
+The three guards matter more than the command. Without the branch-checkout
+guard it runs on file restores; without the diff guard it runs on every
+checkout; without the branch name check it runs on branches that do not need it.
+
+## Being careful with the cost
+
+This hook runs on every branch switch, which is dozens of times an hour for
+most people. Anything slow is felt immediately, and a hook that makes switching
+feel heavy gets disabled within a week.
+
+Keep it to a fast test — does a specific file differ? — and only then do
+something expensive. The alternative, which is often better, is to let the
+package manager do this itself: npm and Bun both run a lifecycle script on
+install, so a `postinstall` in `package.json` covers the case without a hook at
+all, and travels with the project.
+
+## Sharing them
+
+Commit hooks under `.githooks/` and set `core.hooksPath` so they are used
+automatically:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+See [Pre-push Hooks](/docs/7-automation/git-hooks/pre-push) for the other hook
+you are likely to want.

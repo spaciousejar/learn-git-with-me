@@ -1,25 +1,71 @@
 ---
 title: Post-update Hooks
-description: Learn about post-update hooks for server-side Git operations
+description: "Post-update hooks run after a fetch or pull updates your remote-tracking references."
 ---
-Post-update hooks run on the server after refs are updated, commonly used for deployment and notifications.
+Post-update hooks run after a fetch or pull updates your remote-tracking
+references. They take no arguments.
+
+<Note type="note" title="This is not a deploy hook">
+  This is the client-side hook in `.git/hooks`, and it runs on your machine after
+  `git fetch` or `git pull`. It has nothing to do with deployment. If you are
+  looking for the server-side hook that fires after a push is received, that is
+  `post-receive`, which lives in the hooks directory on the server.
+</Note>
+
+## When it fires
+
+After Git updates `refs/remotes/*`, and also after `git remote update` and
+`git remote prune`. It does **not** fire on a plain `git push`, because nothing
+remote was updated in that case.
+
+Because it runs after a fetch, it is the right place for anything that depends
+on knowing what the remote now looks like.
 
 ## Use Cases
 
-- Deploy applications
-- Send notifications
-- Update documentation
-- Trigger CI/CD pipelines
+- Prune stale remote-tracking branches and report what moved
+- Update a checked-out copy or a submodule after a fetch
+- Refresh a local cache of remote metadata
 
 ## Example Hook
 
 ```bash
-#!/bin/bash
+#!/bin/sh
 # .git/hooks/post-update
+#
+# Runs after a fetch. Prune branches deleted on the remote and report them.
 
-# Deploy to production
-if [[ $1 == refs/heads/main ]]; then
-    echo "Deploying to production..."
-    ./deploy.sh
+before=$(git for-each-ref --format='%(refname)' refs/remotes | sort)
+git remote prune origin
+after=$(git for-each-ref --format='%(refname)' refs/remotes | sort)
+
+removed=$(comm -23 "$before" "$after" 2>/dev/null)
+if [ -n "$removed" ]; then
+  echo "Remote branches deleted upstream:"
+  echo "$removed" | sed 's/^/  /'
 fi
 ```
+
+## The thing that makes hooks awkward
+
+Hooks live in `.git/hooks`, which is per-clone and not committed, so everybody
+sets up their own and none of it is reviewed. To share them, keep them in the
+repository and point Git at the directory:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+`.githooks/pre-push`, `.githooks/commit-msg` and so on are then used
+automatically by everyone who clones, and reviewed like any other code. Keep
+them fast — a slow pre-push hook is felt every single push.
+
+## Turning them off
+
+```bash
+git config core.hooksPath /dev/null
+```
+
+Useful for isolating whether a hook is causing a problem. See
+[Pre-push Hooks](/docs/7-automation/git-hooks/pre-push) for the hook you meet
+first.

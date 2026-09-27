@@ -4,6 +4,68 @@ description: Learn about CITATION.cff files for academic software
 ---
 Citation files help researchers and developers properly cite your software in academic publications.
 
+## Why it matters
+
+Without a citation file, people writing a paper about work that used your
+software have to guess at the version, guess at the authors, and often cite a
+GitHub URL that will not resolve in five years. A `CITATION.cff` in the
+repository root replaces that guessing with a file a tool can read.
+
+GitHub renders it as a "Cite this repository" button, and the reference formats
+below it, so the most likely reader — someone on the web page — never has to
+open the file at all.
+
+## What it looks like
+
+```yaml
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Learn Git With Me"
+abstract: "A free, open-source platform for learning Git and GitHub."
+type: software
+version: 1.4.0
+date-released: "2026-09-27"
+license: MIT
+repository-code: "https://github.com/spaciousejar/learn-git-with-me"
+authors:
+  - family-names: Jadhav
+    given-names: Vicky
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+keywords:
+  - git
+  - version control
+  - github
+```
+
+`cff-version` is required and pins the format. `message` is what tells a reader
+what to do with the citation, and the reference formats appear in citation
+styles including APA, BibTeX and Chicago.
+
+## Checking it
+
+The format is validated, and a malformed file fails the check rather than
+producing a broken citation:
+
+```bash
+pip install cffconvert
+cffconvert --validate
+cffconvert --informat yaml --format bibtex CITATION.cff
+```
+
+Run it in CI if the file is maintained by hand, so a typo is caught at the pull
+request rather than by a reader.
+
+## Which version
+
+The temptation is to update `version` on every release. That defeats the point —
+a citation that says "latest" cannot identify what a paper actually used. Bump
+it when you cut a release, and leave it alone otherwise, so the file records
+which release a citation refers to.
+
+For a project with no formal releases, `date-released` with a version of
+`0.0.0` and a note is more honest than inventing version numbers. See
+[Pushing Tags](/docs/2-git-basics/commands/pushing-tags) for marking releases.
+
 ## CITATION.cff Format
 
 The Citation File Format (CFF) is a human and machine-readable format for software citation metadata.
